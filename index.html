@@ -37,6 +37,7 @@
   --strong-bg:#10131F;
   --on-strong:#fff;
   --grid-line:rgba(16,19,31,.05);
+  --tabs-h:57px;
   color-scheme:light;
 }
 :root[data-theme="dark"]{
@@ -358,7 +359,7 @@ h1{
 
 /* ===== Secondary bar: view modes + filters ===== */
 .subbar-wrap{
-  position:sticky;top:57px;z-index:19;
+  position:sticky;top:var(--tabs-h);z-index:19;
   background:var(--paper-2);
   border-bottom:1px solid var(--line);
   padding:10px 24px;
@@ -370,6 +371,57 @@ h1{
 .view-tabs{display:flex;gap:6px;flex-wrap:wrap;}
 .bottom-nav{display:none;}
 .more-sheet-overlay{display:none;}
+/* ===== Bottom navigation bar (موبايل) + شيت "المزيد" ===== */
+.bottom-nav{
+  position:fixed; inset-inline:0; bottom:0; z-index:45;
+  align-items:stretch; justify-content:space-between; gap:2px;
+  background:var(--card); border-top:1px solid var(--line);
+  padding:5px 4px calc(5px + env(safe-area-inset-bottom));
+  box-shadow:0 -8px 22px rgba(16,19,31,.08);
+}
+.bn-item{
+  flex:1 1 0; min-width:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  background:none; border:none; color:var(--ink-soft);
+  font-family:'Tajawal',sans-serif; padding:6px 2px; border-radius:12px; cursor:pointer;
+  transition:color .18s ease, background .18s ease, transform .1s ease;
+}
+.bn-item .bn-ic{font-size:18px; line-height:1;}
+.bn-item .bn-lbl{
+  font-size:9.5px; font-weight:700; line-height:1.15; text-align:center;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  max-width:100%;
+}
+.bn-item.active{color:var(--navy);}
+.bn-item.active .bn-ic{transform:translateY(-1px);}
+.bn-item:active{background:var(--navy-soft); transform:scale(.94);}
+.more-sheet-overlay{
+  position:fixed; inset:0; z-index:60;
+  background:rgba(6,8,16,.5);
+  align-items:flex-end; justify-content:center;
+}
+.more-sheet-overlay.show{display:flex;}
+.more-sheet{
+  width:100%; max-width:640px; max-height:74vh; overflow:auto;
+  background:var(--card); border-radius:20px 20px 0 0;
+  padding:10px 16px calc(16px + env(safe-area-inset-bottom));
+  box-shadow:0 -10px 34px rgba(0,0,0,.28);
+  animation:modalPop .22s ease both;
+}
+.more-sheet-handle{width:38px; height:4px; border-radius:99px; background:var(--line); margin:6px auto 12px;}
+.more-sheet-title{font-weight:800; font-size:14.5px; margin-bottom:10px; color:var(--ink);}
+.more-sheet-list{display:grid; grid-template-columns:repeat(3,1fr); gap:8px;}
+.ms-item{
+  display:flex; flex-direction:column; align-items:center; gap:6px; text-align:center;
+  background:var(--paper-2); border:1.5px solid var(--line); border-radius:14px;
+  padding:14px 6px; cursor:pointer; color:var(--ink);
+  font-family:'Tajawal',sans-serif; font-size:11.5px; font-weight:700;
+  transition:border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
+}
+.ms-item .ms-ic{font-size:21px;}
+.ms-item:hover{border-color:var(--navy); color:var(--navy);}
+.ms-item.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+.ms-item:active{transform:scale(.96);}
 .mobile-menu-btn{
   display:none;width:100%;align-items:center;justify-content:space-between;gap:8px;
   background:var(--card);border:1.5px solid var(--line);color:var(--ink);
@@ -711,21 +763,6 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
   font-family:'Tajawal',sans-serif;font-size:13px;border:1.5px solid var(--line);border-radius:6px;padding:5px 8px;
   background:var(--card);color:var(--ink);
 }
-.sem-term-empty{font-size:12.5px;color:var(--ink-soft);}
-.sem-badge{font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--paper-2);padding:2px 7px;border-radius:6px;}
-.planner-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:26px;
-}
-.sem-col{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;min-height:90px;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;}
-.sem-col:hover{transform:translateY(-3px);border-color:var(--navy);box-shadow:0 10px 22px var(--glow-navy);}
-.sem-col h4{margin:0 0 8px;font-size:14px;display:flex;justify-content:space-between;align-items:center;}
-.sem-col .credit-total{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
-.sem-stats-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
-.sem-stat{
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--ink-soft);background:var(--paper-2);
-  border-radius:6px;padding:3px 7px;white-space:nowrap;
-}
-.sem-stat-gpa{color:var(--navy);background:var(--navy-soft);font-weight:700;}
 
 /* ===== Transcript view ("بيان الحالة") ===== */
 .transcript-action-btn{
@@ -864,13 +901,6 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 @media (max-width:640px){
   .sched-grid{min-width:620px;}
 }
-.sem-item{
-  background:var(--paper-2);border-radius:7px;padding:6px 9px;margin-bottom:6px;font-size:12.5px;line-height:1.5;
-  display:flex;justify-content:space-between;gap:6px;align-items:flex-start;
-}
-.sem-item.conflict{background:var(--maroon-soft);}
-.warn-icon{color:var(--maroon);font-weight:700;flex:0 0 auto;}
-.unassigned-note{font-size:12.5px;color:var(--ink-soft);margin-top:6px;}
 
 /* ===== Track badge + profile modal ===== */
 .track-badge-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
@@ -890,15 +920,6 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
   padding:3px 10px;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);white-space:nowrap;
 }
 .track-badge .cgpa-pill-badge{color:var(--teal);border-color:var(--teal);}
-@media(max-width:640px){ .track-badge .hours-pill-badge, .track-badge .cgpa-pill-badge{display:none;} }
-.sem-term-locked{
-  font-size:12.5px;color:var(--teal);font-weight:700;display:flex;align-items:center;gap:6px;
-  background:var(--teal-soft);border-radius:8px;padding:8px 10px;
-}
-.planner-empty-note{
-  background:var(--paper-2);border:1.5px dashed var(--line);border-radius:14px;padding:18px;
-  text-align:center;color:var(--ink-soft);font-size:13.5px;line-height:1.9;margin-bottom:16px;
-}
 .edit-track-btn{
   border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);
   padding:9px 16px;border-radius:999px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;cursor:pointer;
@@ -1396,11 +1417,17 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 .home-card-cgpa{cursor:pointer;}
 .hc-value-cgpa{font-size:28px;}
 @media(max-width:640px){
-  .cgpa-item{grid-template-columns:1fr;gap:6px;}
-  .cgpa-item .ci-hours{order:2;}
-  .cgpa-item .ci-points{order:3;}
-  .ci-grade{order:4;width:100%;}
-  .ci-remove{order:5;justify-self:end;}
+  /* كل مادة + التقدير في صف واحد زي سطح المكتب، بس بأحجام مصغّرة تناسب عرض الموبايل
+     بدل ما تتكسر لـ3-4 أسطر لكل مادة. */
+  .cgpa-item{
+    grid-template-columns:1fr auto auto auto auto;gap:6px;
+    padding:7px 8px;font-size:11.5px;border-radius:8px;
+  }
+  .cgpa-item .ci-name .code{font-size:10.5px;margin-inline-end:4px;}
+  .cgpa-item .ci-hours, .cgpa-item .ci-points{font-size:9.5px;}
+  .ci-ext-tag{font-size:8.5px;padding:1px 5px;}
+  .cgpa-item .ci-grade{width:42px;padding:4px 2px;font-size:11.5px;border-radius:6px;}
+  .cgpa-item .ci-remove{width:24px;height:24px;font-size:12px;}
 }
 
 footer{
@@ -1409,8 +1436,9 @@ footer{
 @media(max-width:640px){
   .search-box input{width:150px;}
   #cyGraph{height:460px;}
-  .subbar-wrap{top:0;position:relative;}
-  .tabs-wrap{position:relative;}
+}
+@media(max-width:760px){
+  footer{padding-bottom:calc(24px + 78px + env(safe-area-inset-bottom));}
 }
 
 /* ===== Mobile nav (hamburger for view tabs) + general small-screen polish ===== */
@@ -1424,27 +1452,45 @@ footer{
   .eyebrow-row .rule{display:none;}
   .brand-sub{display:none;}
 
-  .tabs-wrap, .subbar-wrap{padding:10px 14px;}
-  .tabs{gap:8px;}
-  .track-badge-wrap{width:100%;justify-content:space-between;}
-  .track-badge{flex:1 1 auto;justify-content:space-between;}
-  .search-box{width:100%;}
-  .search-box input{width:100%;box-sizing:border-box;}
+  .tabs-wrap, .subbar-wrap{padding:7px 12px;}
+  .tabs{gap:6px;}
+  /* شريط التاب بتاع "رئيسي/فرعي" بقى ثابت فوق مع السيرش (بدل ما يختفي أول ما تنزل تحت)،
+     فبيتحول لصف واحد بيتمرر أفقي بدل ما يتكسر لأسطر كتيرة ويطوّل الشريط الثابت. */
+  .tab-group{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;}
+  .tab-group::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;}
 
-  .subbar{position:relative;flex-direction:column;align-items:stretch;gap:8px;}
-  .mobile-menu-btn{display:flex;}
-  .subbar-wrap .view-tabs{
-    display:none;
-    position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
-    flex-direction:column;gap:4px;
-    background:var(--card);border:1.5px solid var(--line);border-radius:14px;
-    padding:10px;box-shadow:var(--shadow-soft);max-height:65vh;overflow:auto;
+  /* بادچ التخصص فوق: بقى مضغوط الحجم، وبيعرض عدد الساعات والـCGPA الحالي بدل ما ياخد
+     زرار "تعديل التخصص" مساحة تانية جنبه — التعديل لسه متاح من كارت الرئيسية. */
+  .track-badge-wrap{width:100%;justify-content:space-between;gap:6px;}
+  .track-badge{flex:1 1 auto;justify-content:space-between;gap:5px;padding:4px 5px 4px 9px;min-width:0;}
+  .track-badge .lvl-pill-badge{font-size:10.5px;padding:2px 7px;}
+  .track-badge .track-name-badge{
+    font-size:11.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1 1 auto;
   }
-  .subbar-wrap .view-tabs.open{display:flex;}
-  .subbar-wrap .view-tab{width:100%;justify-content:flex-start;}
-  .filters{width:100%;}
+  .track-badge .hours-pill-badge, .track-badge .cgpa-pill-badge{font-size:10px;padding:2px 6px;}
+  #editProfileBtn{display:none;}
 
-  main{padding:20px 14px;}
+  .search-box{width:100%;}
+  .search-box input{width:100%;box-sizing:border-box;padding:7px 34px 7px 12px;font-size:13px;}
+  .search-box::after{top:7px;}
+
+  .subbar{position:relative;align-items:center;gap:6px;}
+  /* التبديل بين الأقسام بقى شغل الـ bottom nav تحت، فمفيش داعي لزرار "☰ الأقسام" ولا قايمته المنسدلة فوق —
+     ده بيقلل الزحمة في أعلى الشاشة ويسيب مكان الأقسام واحد بس وواضح (الشريط السفلي). */
+  .mobile-menu-btn{display:none;}
+  .subbar-wrap .view-tabs{display:none !important;}
+
+  /* فيلتر المستوى والنوع فوق: بيفضل مثبّت مع البادچ والسيرش، بس بحجم مصغّر عشان الشريط
+     الثابت كله ميشغلش مساحة كبيرة من الشاشة. */
+  .filters{width:100%;gap:6px;}
+  .filters .filter-label{font-size:10.5px;}
+  .filters .lvl-chip{width:26px;height:26px;font-size:11px;border-radius:6px;}
+  .filters .type-select{font-size:11.5px;padding:4px 7px;border-radius:6px;}
+
+  main{padding:20px 14px calc(86px + env(safe-area-inset-bottom));}
+  .bottom-nav{display:flex;}
+  body:has(.more-sheet-overlay.show){overflow:hidden;}
   .home-hero{padding:20px 18px;}
   .grid{grid-template-columns:1fr;}
   .mm-wrap, .home-cards, .gradstat-grid, .grad-subgrid{grid-template-columns:1fr;}
@@ -1470,36 +1516,95 @@ footer{
   .modal:has(.profile-modal) #trackPickList{grid-template-columns:1fr;}
   .track-pick-item{padding:13px 14px;}
   .hours-input-row input{font-size:16px;padding:12px 14px;}
-  .nono-setup input{font-size:16px;}
 
   /* جدول عريض زي بيان الحالة (شكل رسمي/قابل للطباعة) بياخد سكرول أفقي عشان يفضل شكله متطابق مع
-     الترانسكريبت الحقيقي. أما جداول التصفح (مخطط الفصول / حاسبة الهدف) فبتتحول لكروت حقيقية —
-     كل صف بيبقى كارت، وكل خانة بتاخد تسمية واضحة (من data-label) بدل السكرول الأفقي المزعج. */
-  .transcript-print-area{overflow-x:auto;}
-  .transcript-table{display:block;overflow-x:auto;white-space:nowrap;}
+     الترانسكريبت الحقيقي. جدول "أسجل ايه دلوقتي؟" (planner-table) بنفس الفكرة: كل مادة صف واحد
+     زي سطح المكتب بس بخط وحواف مصغّرة، بدل ما تتحول كارت طويل بيلف كل خانة في سطر لوحدها.
+     أما جداول التصفح التانية (مخطط الفصول / حاسبة الهدف) فبتفضل كروت — كل صف كارت، وكل خانة
+     بتاخد تسمية واضحة (من data-label) بدل السكرول الأفقي المزعج. */
+  .transcript-print-area{overflow-x:auto;padding:16px 14px;}
+  .tp-title{font-size:16px;}
+  .tp-sub{font-size:11px;}
+  .tp-meta{font-size:11px;gap:6px 14px;padding:8px 10px;}
+  .transcript-table{display:block;overflow-x:auto;white-space:nowrap;font-size:10.5px;}
+  .transcript-table th, .transcript-table td{padding:5px 6px;}
 
-  .planner-table, .goal-table{
+  .planner-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;border-radius:8px;}
+  .planner-table th, .planner-table td{padding:7px 8px;font-size:11.5px;}
+
+  .goal-table{
     display:block;background:transparent;border:none;border-radius:0;
   }
-  .planner-table thead, .goal-table thead{display:none;}
-  .planner-table tbody, .goal-table tbody{display:block;}
-  .planner-table tr, .goal-table tr{
+  .goal-table thead{display:none;}
+  .goal-table tbody{display:block;}
+  .goal-table tr{
     display:block;background:var(--card);border:1.5px solid var(--line);border-radius:12px;
     padding:4px 12px;margin-bottom:10px;box-shadow:var(--shadow-soft);
   }
-  .planner-table td, .goal-table td{
+  .goal-table td{
     display:grid;grid-template-columns:96px 1fr;align-items:center;gap:10px;
     padding:9px 0;border-bottom:1px dashed var(--line);white-space:normal;text-align:right;
   }
-  .planner-table td:last-child, .goal-table td:last-child{border-bottom:none;}
-  .planner-table td::before, .goal-table td::before{
+  .goal-table td:last-child{border-bottom:none;}
+  .goal-table td::before{
     content:attr(data-label);font-weight:700;color:var(--ink-soft);font-size:11px;text-align:right;
   }
-  .planner-table td.code, .goal-table td.gt-term{font-weight:800;color:var(--navy);}
+  .goal-table td.gt-term{font-weight:800;color:var(--navy);}
   .goal-table td input{width:100%!important;box-sizing:border-box;}
+}
 
-  /* ===== Bottom navigation: اتلغى لصالح مينيو فوق (زرار ☰ الأقسام) بدل شريط ثابت تحت الشاشة ===== */
-  .bottom-nav{display:none;}
+/* ===== تحسينات إضافية للموبايل: كروت الترمات، الجداول، وأحجام الخطوط/العناصر عمومًا ===== */
+@media(max-width:760px){
+  /* كارت الترم في "تسجيل المواد": بدل ما يتزنق كل حاجة في صف واحد (اسم الترم + 3 مربعات
+     إحصائيات + أزرار صيفي/استثناء/حذف) في سطر أفقي واحد بيدوس على بعضه، كل مجموعة بتاخد
+     سطرها الخاص وبأحجام مضغوطة تناسب الشاشة الصغيرة. */
+  .cgpa-term{padding:14px 14px;margin-bottom:14px;}
+  .cgpa-term-head{gap:8px;}
+  .cgpa-term-title-wrap{flex:1 1 100%;}
+  .cgpa-term-name{font-size:14.5px;}
+  .cgpa-term-gpa{flex:1 1 28%;padding:6px 4px;border-radius:8px;}
+  .cgpa-term-gpa .v{font-size:15px;}
+  .cgpa-term-gpa .l{font-size:8.5px;white-space:normal;line-height:1.2;}
+  .cgpa-term-summer, .cgpa-term-grad{height:32px;padding:0 9px;font-size:11.5px;}
+  .cgpa-term-del{width:32px;height:32px;}
+  .cgpa-overall{padding:16px 16px;gap:14px;}
+  .cgpa-overall-ring{width:88px;height:88px;border-width:6px;}
+  .cgpa-overall-ring .v{font-size:21px;}
+
+  /* جدول "التنسيق المتوقع" في صفحة التخصص وتحويل المسار بياخد سكرول أفقي زي بيان الحالة
+     بدل ما تتراكب خاناته على بعض (كل خانة فيها رقمين وخط فاصل). */
+  .fc-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;}
+  .fc-range .fc-input{width:52px;}
+
+  /* تبويبات جداول الترم (🗓️ جدول الترم) بحجم أصغر ومسافات أقل عشان تتلم في سطرين بدل تشغل مساحة كبيرة */
+  .sch-tabs{gap:6px;margin-bottom:12px;}
+  .sch-tab{padding:7px 12px;font-size:12.5px;}
+
+  /* تخفيف مساحات وأحجام خطوط الكروت العامة (الرئيسية / الشجرة / إحصائيات التخرج / أدوات المذاكرة)
+     عشان تفضل مقروءة ومرتاحة من غير ما تاخد مساحة زيادة على الشاشة الصغيرة. */
+  .home-card, .mm-card, .study-card{padding:14px 16px;}
+  .home-card .hc-value{font-size:21px;}
+  .gradstat-card{padding:12px 14px;gap:10px;}
+  .gradstat-card .gs-val, .cgpa-course-search, .type-select{font-size:13px;}
+  .sr-item{padding:12px 14px;}
+
+  /* كروت المقررات (قائمة المقررات / أسجل ايه دلوقتي؟): بدل ما كل مقرر ياخد صف كامل ويطوّل
+     الصفحة قوي، صفين-تلاتة مقررات جنب بعض بحجم مضغوط. عمودين في الموبايل الضيق، وتلاتة
+     في الشاشات الأعرض شوية (فابلت/موبايل بالعرض). */
+  .grid{grid-template-columns:repeat(2,1fr);gap:8px;}
+  .course{padding:10px 10px;}
+  .course .code{font-size:10px;}
+  .course .name-ar{font-size:12px;margin:2px 0 1px;line-height:1.3;}
+  .course .name-en{font-size:9.5px;margin-bottom:5px;}
+  .course .meta{font-size:10px;flex-wrap:wrap;gap:4px;}
+  .course .prereq-tag{padding:1px 5px;font-size:9.5px;}
+  .term-guess-badge{font-size:9px;padding:2px 6px;}
+  .done-check{width:20px;height:20px;top:6px;left:30px;font-size:11px;}
+  .course.done .done-check{left:6px;}
+  .lvl-pill{width:17px;height:17px;font-size:9.5px;top:7px;left:7px;}
+}
+@media(min-width:481px) and (max-width:760px){
+  .grid{grid-template-columns:repeat(3,1fr);}
 }
 @media(max-width:420px){
   .hdr-symbols{display:none;}
@@ -1536,108 +1641,6 @@ button:not(:disabled):active,
 @media (prefers-reduced-motion: reduce){
   .ui-ripple{animation:none; display:none;}
 }
-
-/* ================= نونو: المساعد الذكي ================= */
-:root{ --nono-blue:#2F6FED; --nono-blue-soft:#2F6FED1a; --nono-pink:#E23A8B; --nono-pink-soft:#E23A8B1a; }
-:root[data-theme="dark"]{ --nono-blue:#6FA0FF; --nono-blue-soft:#6FA0FF22; --nono-pink:#ff6fc0; --nono-pink-soft:#ff6fc022; }
-@keyframes nonoFloat{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-10px) rotate(3deg);}}
-@keyframes nonoPulse{0%,100%{box-shadow:0 0 0 0 var(--pulse-c);}70%{box-shadow:0 0 0 14px transparent;}}
-@keyframes nonoBlink{0%,100%{opacity:1;}92%,100%{opacity:1;}94%{opacity:.2;}}
-.nono-view{display:flex;flex-direction:column;gap:16px;}
-.nono-robot{
-  width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:32px;animation:nonoFloat 3.2s ease-in-out infinite;flex-shrink:0;
-}
-.nono-robot.zico{background:linear-gradient(135deg,var(--nono-blue),#5B3FD6);box-shadow:0 8px 22px var(--nono-blue-soft);}
-.nono-robot.farida{background:linear-gradient(135deg,var(--nono-pink),#B3216F);box-shadow:0 8px 22px var(--nono-pink-soft);}
-.nono-robot.sm{width:42px;height:42px;font-size:22px;animation-duration:2.6s;}
-/* ---- شاشة اختيار الشخصية ---- */
-.nono-pick{text-align:center;padding:20px 8px;}
-.nono-pick-title{font-size:19px;font-weight:800;margin-bottom:4px;}
-.nono-pick-sub{color:var(--ink-soft);font-size:13.5px;margin-bottom:20px;}
-.nono-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:520px;margin:0 auto;}
-@media(max-width:520px){.nono-pick-grid{grid-template-columns:1fr;}}
-.nono-pick-card{
-  background:var(--card);border:2px solid var(--line);border-radius:18px;padding:22px 14px;cursor:pointer;
-  display:flex;flex-direction:column;align-items:center;gap:10px;transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
-}
-.nono-pick-card .nono-robot{width:84px;height:84px;font-size:42px;}
-.nono-pick-card.zico:hover{border-color:var(--nono-blue);transform:translateY(-3px);box-shadow:0 12px 26px var(--nono-blue-soft);}
-.nono-pick-card.farida:hover{border-color:var(--nono-pink);transform:translateY(-3px);box-shadow:0 12px 26px var(--nono-pink-soft);}
-.npc-name{font-size:17px;font-weight:800;}
-.npc-sub{font-size:12.5px;color:var(--ink-soft);}
-/* ---- شاشة الإعداد (مادة + لغة) ---- */
-.nono-setup{max-width:460px;margin:0 auto;text-align:center;padding:10px 6px 24px;}
-.nono-setup label{display:block;font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 8px;}
-.nono-setup input{
-  width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--paper-2);
-  color:var(--ink);font-family:'Tajawal',sans-serif;font-size:14.5px;text-align:center;
-}
-.nono-lang-pick{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
-.nono-lang-pick button{
-  border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:999px;
-  font-family:'Tajawal',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;transition:.18s ease;
-}
-.nono-lang-pick button.active.zico-c{border-color:var(--nono-blue);color:var(--nono-blue);background:var(--nono-blue-soft);}
-.nono-lang-pick button.active.farida-c{border-color:var(--nono-pink);color:var(--nono-pink);background:var(--nono-pink-soft);}
-.nono-setup .profile-save-btn{margin-top:20px;width:100%;}
-.nono-setup .edit-track-btn{margin-top:10px;}
-/* ---- شاشة الشات ---- */
-.nono-chat{display:flex;flex-direction:column;height:calc(100vh - 240px);min-height:460px;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;}
-.nono-chat-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);}
-.nono-chat.zico-c .nono-chat-header{background:var(--nono-blue-soft);}
-.nono-chat.farida-c .nono-chat-header{background:var(--nono-pink-soft);}
-.nch-name{font-weight:800;font-size:15px;}
-.nch-sub{font-size:11.5px;color:var(--ink-soft);}
-.nono-chat-header button{margin-inline-start:auto;background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:14px;}
-.nono-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:16px;}
-.nono-msg{display:flex;gap:9px;max-width:88%;}
-.nono-msg.user{align-self:flex-end;flex-direction:row-reverse;}
-.nono-msg.bot{align-self:flex-start;}
-.nono-bubble-wrap{position:relative;display:flex;flex-direction:column;}
-.nono-bubble{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.65;white-space:pre-wrap;word-break:break-word;}
-.nono-msg.user .nono-bubble{background:var(--strong-bg);color:var(--on-strong);border-bottom-left-radius:4px;}
-.nono-msg.bot .nono-bubble{background:var(--paper-2);border:1px solid var(--line);border-bottom-right-radius:4px;}
-.nono-bubble img{max-width:100%;border-radius:10px;margin-top:6px;display:block;}
-.nono-att-chip{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.15);border-radius:999px;padding:3px 10px;font-size:11px;margin:4px 4px 0 0;}
-.nono-msg.bot .nono-att-chip{background:var(--paper);border:1px solid var(--line);}
-.nono-typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ink-soft);margin:0 2px;animation:nonoBlink 1.2s infinite;}
-.nono-typing span:nth-child(2){animation-delay:.2s;} .nono-typing span:nth-child(3){animation-delay:.4s;}
-.nono-react-trigger{position:absolute;bottom:-11px;inset-inline-start:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:11px;line-height:1;padding:3px 7px;cursor:pointer;opacity:0;transition:opacity .15s ease;color:var(--ink-soft);}
-.nono-msg:hover .nono-react-trigger{opacity:1;}
-.nono-reaction-badge{position:absolute;bottom:-12px;inset-inline-start:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-size:13px;line-height:1;padding:2px 7px;cursor:pointer;box-shadow:var(--shadow-soft);}
-.nono-reaction-picker{display:none;position:absolute;bottom:100%;inset-inline-start:0;margin-bottom:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 6px;gap:2px;box-shadow:var(--shadow-soft);z-index:5;}
-.nono-reaction-picker.show{display:flex;}
-.nono-reaction-picker button{background:none;border:none;font-size:16px;cursor:pointer;padding:2px 4px;border-radius:6px;line-height:1;}
-.nono-reaction-picker button:hover{background:var(--paper-2);}
-.nono-attach-preview{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px;}
-.nono-attach-preview .nap-chip{display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:11.5px;}
-.nono-attach-preview .nap-chip button{border:none;background:none;color:var(--maroon);cursor:pointer;font-size:13px;}
-.nono-inputbar{display:flex;align-items:flex-end;gap:8px;padding:12px 14px;border-top:1px solid var(--line);}
-.nono-inputbar textarea{
-  flex:1;resize:none;border:1.5px solid var(--line);background:var(--paper-2);border-radius:14px;padding:10px 14px;
-  font-family:'Tajawal',sans-serif;font-size:14px;color:var(--ink);max-height:110px;min-height:42px;outline:none;
-}
-.nono-inputbar textarea:focus{border-color:var(--navy);}
-.nono-icon-btn{width:40px;height:40px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--line);background:var(--card);cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center;transition:.18s ease;}
-.nono-icon-btn:hover{transform:scale(1.06);}
-.nono-icon-btn.send{color:#fff;}
-.nono-chat.zico-c .nono-icon-btn.send{background:var(--nono-blue);border-color:var(--nono-blue);}
-.nono-chat.farida-c .nono-icon-btn.send{background:var(--nono-pink);border-color:var(--nono-pink);}
-.nono-icon-btn.mic.listening{background:var(--maroon);border-color:var(--maroon);color:#fff;--pulse-c:var(--glow-maroon);animation:nonoPulse 1.4s infinite;}
-.nono-icon-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-/* ---- كويز داخل الشات ---- */
-.nono-quiz{display:flex;flex-direction:column;gap:10px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px;width:100%;}
-.nq-item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
-.nq-q{font-weight:700;font-size:13.5px;margin-bottom:8px;}
-.nq-opt{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid transparent;}
-.nq-opt:hover{background:var(--paper-2);}
-.nq-opt.correct{border-color:var(--teal);background:var(--teal-soft);}
-.nq-opt.wrong{border-color:var(--maroon);background:var(--maroon-soft);}
-.nq-explain{font-size:12px;color:var(--ink-soft);margin-top:6px;display:none;}
-.nq-explain.show{display:block;}
-.nono-quiz-actions{display:flex;gap:8px;flex-wrap:wrap;}
-.nq-opt.selected{border-color:var(--navy);background:var(--navy-soft);}
 
 /* ===== أدوات المذاكرة ===== */
 .study-view{display:flex;flex-direction:column;gap:14px;max-width:640px;}
@@ -1754,18 +1757,48 @@ button:not(:disabled):active,
 .regs-mat-body p{margin:0 0 10px;}
 .regs-mat-body ul{margin:0 0 10px;padding-inline-start:20px;}
 .regs-mat-body li{margin-bottom:6px;}
-.regs-mat-body li b{color:var(--accent-color,var(--navy));}
+.regs-mat-body b{color:var(--accent-color,var(--navy));}
 .regs-note{background:var(--gold-soft);border:1.5px solid var(--gold);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--ink);margin:6px 0 12px;line-height:1.8;}
 .regs-note b{color:var(--gold);}
 .regs-table-wrap{overflow-x:auto;margin:6px 0 14px;}
 .regs-table-wrap .goal-table{min-width:420px;}
-.regs-table-wrap .goal-table th{background:var(--paper-2);}
+.regs-table-wrap .goal-table th{background:var(--accent-soft,var(--paper-2));color:var(--accent-color,var(--ink));}
 .regs-search{
   width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);
   color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13.5px;
 }
 .regs-search:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
 .regs-empty{padding:24px;text-align:center;color:var(--ink-soft);font-size:13.5px;}
+/* --- عناصر بصرية: إحصائيات سريعة / أشرطة موزّعة / مقاييس مناطق --- */
+.regs-stats-row{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 2px;}
+.regs-stat{flex:1 1 140px;background:var(--card);border:1.5px solid var(--line);border-inline-start:5px solid var(--accent-color,var(--navy));border-radius:12px;padding:12px 14px;}
+.regs-stat .rs-num{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:800;color:var(--accent-color,var(--navy));white-space:nowrap;}
+.regs-stat .rs-lbl{font-size:11.5px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+.regs-viz{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px 18px;}
+.regs-viz-title{font-size:13.5px;font-weight:800;margin-bottom:3px;}
+.regs-viz-sub{font-size:11.5px;color:var(--ink-soft);margin-bottom:14px;line-height:1.7;}
+.regs-bar-chart{margin-bottom:16px;}
+.regs-bar-chart:last-child{margin-bottom:0;}
+.regs-bar-chart-title{font-size:12px;font-weight:700;margin-bottom:6px;color:var(--ink);}
+.regs-bar-track{display:flex;width:100%;height:32px;border-radius:9px;overflow:hidden;border:1px solid var(--line);}
+.regs-bar-seg{flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:800;color:#fff;overflow:hidden;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.3);}
+.regs-bar-legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;}
+.regs-bar-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink-soft);}
+.regs-bar-legend-item i{width:9px;height:9px;border-radius:3px;display:inline-block;flex:0 0 auto;}
+.regs-gauge-track{display:flex;width:100%;height:16px;border-radius:999px;overflow:hidden;}
+.regs-gauge-zone{flex:0 0 auto;}
+.regs-gauge-labels{display:flex;width:100%;margin-top:8px;}
+.regs-gauge-label{flex:0 0 auto;font-size:10.5px;color:var(--ink-soft);text-align:center;padding:0 3px;line-height:1.45;}
+.regs-gauge-label b{display:block;color:var(--ink);font-size:11.5px;margin-bottom:1px;}
+.rc-navy{background:var(--navy);}
+.rc-teal{background:var(--teal);}
+.rc-gold{background:var(--gold);}
+.rc-maroon{background:var(--maroon);}
+.rc-grey{background:var(--grey);}
+@media(max-width:640px){
+  .regs-stat{flex:1 1 45%;}
+  .regs-viz{padding:14px;}
+}
 @media(max-width:640px){
   .regs-grid{grid-template-columns:1fr 1fr;}
   .regs-mat summary{font-size:13px;padding:12px 14px;}
@@ -1918,6 +1951,24 @@ button:not(:disabled):active,
 .whack-hole{aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 50% 40%, #6b4a2f, #3c2a1a);border:3px solid #2a1c10;display:flex;align-items:center;justify-content:center;font-size:30px;cursor:pointer;transition:transform .08s ease;}
 .whack-hole.active{transform:scale(1.06);}
 .whack-hole:active{transform:scale(.94);}
+
+/* Billiards */
+.bil-wrap{display:flex;flex-direction:column;gap:12px;}
+.bil-toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;}
+.bil-info{display:flex;gap:12px;flex-wrap:wrap;font-weight:700;font-size:13px;}
+.bil-info span{background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:4px 10px;transition:all .2s ease;}
+.bil-info span.active-turn{background:var(--gold);border-color:var(--gold);color:#3a2a00;box-shadow:0 0 0 3px rgba(201,138,18,.28),0 0 14px rgba(201,138,18,.65);animation:bilTurnPulse 1.1s ease-in-out infinite;}
+@keyframes bilTurnPulse{0%,100%{box-shadow:0 0 0 3px rgba(201,138,18,.28),0 0 10px rgba(201,138,18,.55);}50%{box-shadow:0 0 0 5px rgba(201,138,18,.18),0 0 20px rgba(201,138,18,.9);}}
+.bil-color-row{display:flex;gap:8px;align-items:center;}
+.bil-color-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);cursor:pointer;transition:transform .12s ease;flex-shrink:0;}
+.bil-color-dot.active{border-color:var(--navy);transform:scale(1.18);}
+.bil-canvas-shell{position:relative;max-width:820px;margin:0 auto;width:100%;border-radius:16px;}
+.bil-canvas-shell.shake{animation:bilShake .25s ease;}
+@keyframes bilShake{0%,100%{transform:translate(0,0);}20%{transform:translate(-4px,2px);}40%{transform:translate(4px,-2px);}60%{transform:translate(-3px,1px);}80%{transform:translate(3px,-1px);}}
+.bil-canvas{width:100%;height:auto;display:block;border-radius:14px;cursor:crosshair;touch-action:none;}
+.bil-hint{font-size:12.5px;color:var(--ink-soft);text-align:center;}
+.bil-sound-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:13px;color:var(--ink);}
+.bil-sound-btn.on{border-color:var(--teal);color:var(--teal);}
 </style>
 </head>
 <body>
@@ -2731,7 +2782,6 @@ const VIEWS = [
   {id:"home", label:"🏠 الرئيسية"},
   {id:"list", label:"📋 قائمة المقررات"},
   {id:"graph", label:"🕸 الشجرة التفاعلية"},
-  {id:"planner", label:"🗓 مخطط الفصول"},
   {id:"register", label:"🎓 أسجل ايه دلوقتي؟"},
   {id:"cgpa", label:"🧮 تسجيل المواد"},
   {id:"schedule", label:"🗓️ جدول الترم"},
@@ -2739,7 +2789,6 @@ const VIEWS = [
   {id:"special", label:"🏅 الدرجة الخاصة"},
   {id:"transcript", label:"🧾 بيان الحالة"},
   {id:"regs", label:"📜 مراجعة اللائحة"},
-  {id:"nono", label:"🤖 نونو"},
   {id:"study", label:"📚 أدوات المذاكرة"},
   {id:"games", label:"🎮 الألعاب الترفيهية"}
 ];
@@ -2802,27 +2851,10 @@ const SCHEDULE_DAYS = [
   {id:'thu', label:'الخميس'}
 ];
 const SCHEDULE_COLORS = ['#5B3FD6','#0E8F7E','#C98A12','#B3216F','#2563EB','#D9480F','#0D9488','#9333EA'];
-/* ============ نونو: المساعد الذكي ============ */
-let nonoProfile = { character:null, language:null }; // character: 'zico'|'farida' — language: 'amiya'|'en'|'mix'
-let nonoSubject = null;   // اسم المادة الحالية
-let nonoMessages = [];    // {role:'user'|'assistant', content:[...api blocks...], attNames:[{name,kind}], kind?, quizData?, reaction?}
-const NONO_REACTIONS = ['👍','❤️','😂','😮','👏','🔥'];
-let nonoReactionOutsideBound = false;
-let nonoSetupMode = false;   // true = بيعرض شاشة اختيار المادة/اللغة حتى لو فيه مادة محفوظة
-let nonoPendingAttachments = []; // [{kind:'image'|'pdf', name, block}]
 
-/* ============ أدوات المذاكرة: إنشاء الاختبارات ============ */
-let studyToolActive = null; // null | 'exam'
-let examStep = 'upload'; // upload | config | loading | result | run
-let examFiles = []; // [{name, block:{type:'document', source:{...}}}]
-let examCfg = { lang:'ar', diff:'mix', type:'mcq', count:10, mode:'electronic' };
-let examData = null; // {questions:[...]} من الموديل
-let examLastUsage = null; // {input_tokens, output_tokens, maxTokens} من آخر استدعاء للموديل
-let examError = null;
-let examRun = { answers:{}, graded:{} }; // answers: qi->oi , graded: qi->true (اتصححت فورًا)
-let examHistory = []; // [{id, date, fileNames:[...], fileSig, cfg:{...}, questions:[...], correct, total, pct, level, topicStats}]
+let studyToolActive = null; // null | 'videos' | 'player'
 /* ================= الألعاب الترفيهية ================= */
-let gamesActiveGame = null; // null | 'xo' | 'memory' | 'sudoku' | '2048'
+let gamesActiveGame = null; // null | 'xo' | 'memory' | 'sudoku' | '2048' | 'reaction' | 'click' | 'whack' | 'billiards'
 let xoState = null;
 let memoryState = null;
 let sudokuState = null;
@@ -2834,8 +2866,9 @@ let clickChallengeState = null;
 let clickChallengeBest = 0;
 let whackState = null;
 let whackBest = 0;
-let historyView = 'list'; // list | detail
-let historyDetailId = null;
+let billiardsState = null;
+let billiardsBestTimeChallenge = 0;
+let billiardsTableColor = 'green';
 let videoLibrary = []; // {id, url, videoId, title, thumb, subjectCode, subjectLabel, note, done, addedAt}
 let videoLibFilterSubject = 'all';
 let videoLibFilterStatus = 'all'; // all | done | pending
@@ -2844,9 +2877,6 @@ let videoLibFetching = false;
 let videoPlayerQueue = []; // playlist مرتبة زمنيًا لمجموعة/مادة معينة
 let videoPlayerIndex = 0;
 let videoPlayerGroupLabel = '';
-let nonoBusy = false;
-let nonoRecognizer = null;
-let nonoListening = false;
 let cgpaGoal = { target:'', terms:'', hours:'', termHours:{} }; // goal planner state (termHours: term index -> manual hours override)
 /* بنك المواد اليدوي: مواد متطلب جامعة جديدة (بتتغيّر كل فترة) أو مواد اختيار حر مش موجودة أصلاً
    في قاعدة بيانات القسم (DB). الطالب بيضيفها هنا مرة واحدة (كود + اسم + ساعات + تصنيفها)، وبعدها
@@ -2966,22 +2996,6 @@ async function loadState(){
     }
   }catch(e){ /* no register plan state saved yet */ }
   try{
-    const r = await window.storage.get('nono-profile', false);
-    if(r && r.value) nonoProfile = {...nonoProfile, ...JSON.parse(r.value)};
-  }catch(e){ /* no nono profile saved yet */ }
-  try{
-    const r = await window.storage.get('nono-session', false);
-    if(r && r.value){
-      const s = JSON.parse(r.value);
-      nonoSubject = s.subject || null;
-      nonoMessages = Array.isArray(s.messages) ? s.messages : [];
-    }
-  }catch(e){ /* no nono session saved yet */ }
-  try{
-    const r = await window.storage.get('exam-history', false);
-    if(r && r.value) examHistory = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
-  }catch(e){ examHistory = []; }
-  try{
     const r = await window.storage.get('video-library', false);
     if(r && r.value) videoLibrary = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
   }catch(e){ videoLibrary = []; }
@@ -3002,24 +3016,20 @@ async function loadState(){
     if(r && r.value) whackBest = JSON.parse(r.value) || 0;
   }catch(e){ whackBest = 0; }
   try{
+    const r = await window.storage.get('games-billiards-best', false);
+    if(r && r.value) billiardsBestTimeChallenge = JSON.parse(r.value) || 0;
+  }catch(e){ billiardsBestTimeChallenge = 0; }
+  try{
+    const r = await window.storage.get('games-billiards-color', false);
+    if(r && r.value) billiardsTableColor = JSON.parse(r.value) || 'green';
+  }catch(e){ billiardsTableColor = 'green'; }
+  try{
     const r = await window.storage.get('term-schedules', false);
     if(r && r.value) termSchedules = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
   }catch(e){ termSchedules = []; }
 }
-async function saveExamHistory(){
-  try{ await window.storage.set('exam-history', JSON.stringify(examHistory), false); }
-  catch(e){ console.error('storage save failed', e); }
-}
 async function saveVideoLibrary(){
   try{ await window.storage.set('video-library', JSON.stringify(videoLibrary), false); }
-  catch(e){ console.error('storage save failed', e); }
-}
-async function saveNonoProfile(){
-  try{ await window.storage.set('nono-profile', JSON.stringify(nonoProfile), false); }
-  catch(e){ console.error('storage save failed', e); }
-}
-async function saveNonoSession(){
-  try{ await window.storage.set('nono-session', JSON.stringify({subject:nonoSubject, messages:nonoMessages}), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function saveCustomCourses(){
@@ -3578,7 +3588,7 @@ VIEWS.forEach(v=>{
 });
 
 /* ===== Bottom nav (موبايل): ٤ اختصارات أساسية + "المزيد" بيفتح شيت فيه كل الأقسام ===== */
-const BOTTOM_NAV_IDS = ["home","register","cgpa","transcript"];
+const BOTTOM_NAV_IDS = ["home","list","register","cgpa","transcript"];
 const bottomNav = document.getElementById('bottomNav');
 const moreSheetOverlay = document.getElementById('moreSheetOverlay');
 const moreSheetList = document.getElementById('moreSheetList');
@@ -3605,7 +3615,7 @@ if(bottomNav){
 function renderMoreSheetList(){
   if(!moreSheetList) return;
   moreSheetList.innerHTML = '';
-  VIEWS.forEach(v=>{
+  VIEWS.filter(v=>!BOTTOM_NAV_IDS.includes(v.id)).forEach(v=>{
     const b = document.createElement('button');
     b.className = 'ms-item'+(v.id===currentView?' active':'');
     b.dataset.id = v.id;
@@ -3963,7 +3973,7 @@ function hoursGapRemaining(){
   return Math.max(0, stated - priorHoursEnteredTotal());
 }
 /* الصفحات المسموح استخدامها لسه لو فيه فجوة ساعات — لازم الطالب يقفلها من "حاسبة المعدل" الأول. */
-const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','nono','study','games','regs']);
+const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','study','games','regs']);
 function termStats(term){
   let qp=0, gpaHrs=0, totalHrs=0;
   (term.items||[]).forEach(it=>{
@@ -5271,11 +5281,10 @@ function renderTermAnalysisHtml(){
 function renderCurrentView(){
   document.getElementById('searchResults').classList.remove('show');
   if(cy){ try{ cy.destroy(); }catch(e){} cy=null; }
-  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="nono" && currentView!=="games" && currentView!=="regs"){ currentView="home"; }
+  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs"){ currentView="home"; }
   if(currentView==="home") renderHomeView();
   else if(currentView==="list") renderListView();
   else if(currentView==="graph") renderGraphView();
-  else if(currentView==="planner") renderPlannerView();
   else if(currentView==="register") renderRegisterView();
   else if(currentView==="cgpa") renderCgpaView();
   else if(currentView==="schedule") renderScheduleView();
@@ -5283,7 +5292,6 @@ function renderCurrentView(){
   else if(currentView==="special") renderSpecialDegreeView();
   else if(currentView==="transcript") renderTranscriptView();
   else if(currentView==="regs") renderRegsView();
-  else if(currentView==="nono") renderNonoView();
   else if(currentView==="study") renderStudyToolsView();
   else if(currentView==="games") renderGamesView();
 }
@@ -5702,133 +5710,7 @@ function creditProgressBar(label, done, total){
   </div>`;
 }
 
-/* ================= PLANNER VIEW ================= */
-/* الفصول هنا مش أرقام ثابتة (فصل1، فصل2...) — دي بالظبط الترمات اللي انت مسجلها بنفسك
-   في "حاسبة المعدل"، بترتيب إضافتها (الأقدم أولاً). لو عملت ترم جديد هناك هيظهر هنا أوتوماتيك. */
 function termOrderIndex(termId){ return cgpaTerms.findIndex(t=>t.id===termId); }
-function checkConflict(code, termId){
-  const c = DB[code];
-  if(!c || !c.prereq || !c.prereq.length) return null;
-  const idx = termOrderIndex(termId);
-  const results = c.prereq.map(p=>{
-    const ps = termsContainingCode(p)[0] && termsContainingCode(p)[0].id;
-    if(ps==null || ps==='') return 'unscheduled';
-    const pIdx = termOrderIndex(ps);
-    if(pIdx===-1) return 'unscheduled';
-    return pIdx < idx ? 'ok' : 'conflict';
-  });
-  if(c.prereqOr){
-    if(results.includes('ok')) return null;
-    if(results.includes('conflict')) return 'conflict';
-    return 'unscheduled';
-  }
-  if(results.includes('conflict')) return 'conflict';
-  if(results.includes('unscheduled')) return 'unscheduled';
-  return null;
-}
-
-function renderPlannerView(){
-  const track = TRACKS.find(t=>t.id===currentTrack);
-  const allowedCodes = filteredTrackCodeSet(track);
-  const courses = allTrackCourses(track)
-    .filter(c=>DB[c] && allowedCodes.has(c))
-    .sort((a,b)=> DB[a].level-DB[b].level || a.localeCompare(b));
-
-  if(!cgpaTerms.length){
-    let html = `<div class="track-head"><div><h2>${track.label} — مخطط الفصول الدراسية</h2></div></div>
-    <div class="planner-empty-note">
-      مخطط الفصول دلوقتي بيعتمد على الترمات اللي بتسجلها بنفسك في "🧮 حاسبة المعدل" (مش فصل1، فصل2 تقليدي)،
-      عشان لما تجدول مقرر يبقى مرتبط فعلياً بالترم اللي هتاخده فيه أو اللي أخدته فيه.<br>
-      لسه معملتش أي ترم. روح حاسبة المعدل واعمل أول ترم (حتى من غير تقديرات لو لسه هتاخده)، وهيظهرلك هنا أوتوماتيك.
-    </div>
-    <button class="home-quicklink" id="plannerGotoCgpa">🧮 روح تسجيل المواد</button>`;
-    document.getElementById('trackView').innerHTML = html;
-    document.getElementById('plannerGotoCgpa').onclick = ()=>{ currentView='cgpa'; renderViewTabs(); renderCurrentView(); };
-    return;
-  }
-
-  let rows = courses.map(code=>{
-    const c = DB[code];
-    const sec = track.sections.find(s=>s.list.includes(code));
-    const lockedTerm = termsContainingCode(code)[0];
-    const cell = lockedTerm
-      ? `<span class="sem-term-locked" title="اتحدد أوتوماتيك لأن المقرر ده مضاف في حاسبة المعدل">✅ ${escapeHtml(lockedTerm.name)}</span>`
-      : `<span class="sem-term-empty">— لسه مش مسجل —</span>`;
-    return `<tr>
-      <td class="code" data-label="الكود">${fullCode(code)}</td>
-      <td data-label="المقرر">${c.ar}<div style="font-size:11px;color:var(--ink-soft);font-style:italic">${c.en}</div></td>
-      <td data-label="المستوى"><span class="sem-badge">مستوى ${c.level}</span></td>
-      <td data-label="الساعات">${c.credit[0]}</td>
-      <td data-label="النوع">${sec ? (sec.type==='required'?'إجباري':'اختياري') : '—'}</td>
-      <td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td>
-      <td data-label="الترم">${cell}</td>
-    </tr>`;
-  }).join('');
-
-  let html = `<div class="track-head"><div><h2>${track.label} — مخطط الفصول الدراسية</h2></div></div>
-  <p class="graph-hint">عمود "الترم" بيتحدد أوتوماتيك من "🧮 حاسبة المعدل" — أي مقرر تضيفه هناك في أي ترم هيظهر هنا مربوط بيه على طول، من غير ما تحدده يدوياً. هيتم تنبيهك (⚠) لو حددت مقرراً في ترم يسبق أو يساوي ترتيب ترم متطلبه السابق. عمود "الترم المتوقع" ده مش مؤكد — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) مش معروف بتنزل انهي ترم أصلاً، فبتظهر "حسب تنسيق الكلية" بدل التخمين.</p>
-  <table class="planner-table">
-    <thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>الساعات</th><th>النوع</th><th>الترم المتوقع</th><th>الترم</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <div class="planner-grid" id="plannerGrid"></div>
-  <div class="unassigned-note" id="unassignedNote"></div>`;
-
-  document.getElementById('trackView').innerHTML = html;
-
-  renderPlannerGrid(track, courses);
-}
-
-function renderPlannerGrid(track, courses){
-  const grid = document.getElementById('plannerGrid');
-  let html = '';
-  cgpaTerms.forEach(term=>{
-    const assigned = courses.filter(c=> termsContainingCode(c)[0] && termsContainingCode(c)[0].id===term.id);
-    const assignedSet = new Set(assigned);
-    // مقررات مسجلة فعلياً في الترم ده جوه حاسبة المعدل بس مش ضمن قائمة مقررات هذا التخصص المعروضة هنا
-    // (زي متطلبات كلية/جامعة، أو مواد من بنك يدوي/خارج التخصص، أو مقررات اتفلترت بفلاتر المستوى/النوع فوق) —
-    // لازم برضو تتحسب ضمن إجمالي ساعات الترم عشان الرقم يبقى مطابق فعلاً لحاسبة المعدل.
-    const extraItems = (term.items||[]).filter(it=>{
-      if(it.source==='db') return !assignedSet.has(it.code);
-      return true;
-    });
-    // إجمالي الساعات والمعدل بيتحسبوا من كل مقررات الترم الفعلية المسجلة في حاسبة المعدل (مش بس المفلترة هنا).
-    const stats = termStats(term);
-    const acquiredHours = termAcquiredHours(term);
-    const gpaTxt = stats.gpa!=null ? stats.gpa.toFixed(2) : '—';
-    const assignedHtml = assigned.map(c=>{
-      const conflict = checkConflict(c, term.id);
-      return `<div class="sem-item${conflict==='conflict'?' conflict':''}" title="${conflict==='conflict'?'تعارض: المتطلب السابق غير مكتمل قبل هذا الترم':(conflict==='unscheduled'?'المتطلب السابق غير مجدول بعد':'')}">
-        <span>${DB[c].ar}</span>
-        ${conflict==='conflict' ? '<span class="warn-icon">⚠</span>' : ''}
-      </div>`;
-    }).join('');
-    const extraHtml = extraItems.map(it=>{
-      const label = it.source==='db' ? (DB[it.code]?DB[it.code].ar:it.code)
-        : it.source==='custom' ? ((customCourses[it.code]&&customCourses[it.code].ar) || it.name || it.code)
-        : it.name;
-      return `<div class="sem-item" title="مقرر مسجل فعلياً في هذا الترم من حاسبة المعدل (خارج قائمة مقررات هذا التخصص المعروضة هنا)">
-        <span>${escapeHtml(label||'')}</span>
-      </div>`;
-    }).join('');
-    html += `<div class="sem-col">
-      <h4>${escapeHtml(term.name)}</h4>
-      <div class="sem-stats-row">
-        <span class="sem-stat">مسجّلة: ${stats.totalHours} ساعة</span>
-        <span class="sem-stat">مكتسبة: ${acquiredHours} ساعة</span>
-        <span class="sem-stat sem-stat-gpa">GPA: ${gpaTxt}</span>
-      </div>
-      ${assignedHtml}${extraHtml}
-      ${(!assigned.length && !extraItems.length) ? '<div style="font-size:12px;color:var(--ink-soft)">لا مقررات</div>' : ''}
-    </div>`;
-  });
-  grid.innerHTML = html;
-
-  const unassigned = courses.filter(c=> !termsContainingCode(c).length);
-  document.getElementById('unassignedNote').textContent = unassigned.length
-    ? `${unassigned.length} مقرر لم يُجدول بعد (لسه مش مضاف في أي ترم بحاسبة المعدل).`
-    : 'تم جدولة جميع مقررات هذا التخصص 🎉';
-}
 
 /* ================= PRIORITY REGISTRATION SUGGESTIONS ("ترشيح التسجيل بالأولوية") =================
    الهدف: مش جدول تسجيل جامد، إحنا مش عارفين إيه اللي هينزل فعلياً ترم جاي (فتح جدول المواد بتاع الترم
@@ -7929,9 +7811,7 @@ function renderHomeView(){
     <button class="home-quicklink" data-goto="cgpa">🧮 تسجيل المواد</button>
     <button class="home-quicklink" data-goto="list">📋 حدد مقرراتك المكتملة</button>
     <button class="home-quicklink" data-goto="register">🎓 أسجل ايه دلوقتي؟</button>
-    <button class="home-quicklink" data-goto="planner">🗓 مخطط الفصول</button>
     <button class="home-quicklink" data-goto="graph">🕸 الشجرة التفاعلية</button>
-    <button class="home-quicklink" data-goto="nono">🤖 المساعد الذكي (نونو)</button>
     <button class="home-quicklink" data-goto="study">📚 أدوات المذاكرة</button>
   </div>`;
 
@@ -8174,7 +8054,7 @@ let revealObserver = null;
 function armReveal(){
   if(revealObserver) revealObserver.disconnect();
   const targets = document.querySelectorAll(
-    '#trackView .course, #trackView .home-card, #trackView .mm-card, #trackView .sem-col, ' +
+    '#trackView .course, #trackView .home-card, #trackView .mm-card, ' +
     '#trackView .planner-table tbody tr, #trackView .progress-summary, #trackView .home-hero, ' +
     '#searchResults .sr-item'
   );
@@ -8309,467 +8189,57 @@ document.addEventListener('keydown', (e)=>{
   el.blur();
 }, false);
 
-/* ================= نونو: منطق العرض والذكاء الاصطناعي ================= */
-function nonoCharClass(){ return nonoProfile.character==='zico' ? 'zico-c' : 'farida-c'; }
-function nonoRobotClass(){ return nonoProfile.character==='zico' ? 'zico' : 'farida'; }
-
-function renderNonoView(){
-  const el = document.getElementById('trackView');
-  if(!nonoProfile.character){
-    el.innerHTML = nonoCharacterPickHtml();
-    bindNonoCharacterPick();
-    return;
-  }
-  if(nonoSetupMode || !nonoSubject || !nonoProfile.language){
-    el.innerHTML = nonoSetupHtml();
-    bindNonoSetup();
-    return;
-  }
-  el.innerHTML = nonoChatHtml();
-  bindNonoChat();
-  renderNonoMsgs(true);
-}
-
-function nonoCharacterPickHtml(){
-  return `<div class="nono-view">
-    <div class="nono-pick">
-      <div class="nono-pick-title">🤖 أهلاً بيك مع نونو!</div>
-      <div class="nono-pick-sub">اختار هيتكلم معاك مين النهارده</div>
-      <div class="nono-pick-grid">
-        <div class="nono-pick-card zico" data-c="zico">
-          <div class="nono-robot zico">🤖</div>
-          <div class="npc-name">زيكو</div>
-          <div class="npc-sub">شخصية ولد – هوية زرقاء 💙</div>
-        </div>
-        <div class="nono-pick-card farida" data-c="farida">
-          <div class="nono-robot farida">🤖</div>
-          <div class="npc-name">فريدة</div>
-          <div class="npc-sub">شخصية بنت – هوية بينك 💗</div>
-        </div>
-      </div>
-    </div>
-  </div>`;
-}
-function bindNonoCharacterPick(){
-  document.querySelectorAll('.nono-pick-card').forEach(c=>{
-    c.onclick = ()=>{
-      nonoProfile.character = c.dataset.c;
-      saveNonoProfile();
-      nonoSetupMode = true;
-      renderCurrentView();
-    };
-  });
-}
-
-function nonoSetupHtml(){
-  const cc = nonoCharClass();
-  const rc = nonoRobotClass();
-  const charName = nonoProfile.character==='zico' ? 'زيكو' : 'فريدة';
-  const activeCls = (l)=> nonoProfile.language===l ? `active ${cc}` : '';
-  return `<div class="nono-view">
-    <div class="nono-setup">
-      <div class="nono-robot ${rc}" style="margin:0 auto 10px;">🤖</div>
-      <h3>أنا ${charName} 👋 هنذاكر مع بعض إيه النهارده؟</h3>
-      <label>اسم المادة</label>
-      <input id="nonoSubjectInput" placeholder="مثال: تفاضل وتكامل (1)" value="${escapeHtml(nonoSubject||'')}" maxlength="80">
-      <label>هتكلمني بأنهي لغة؟</label>
-      <div class="nono-lang-pick" id="nonoLangPick">
-        <button type="button" data-l="amiya" class="${activeCls('amiya')}">🇪🇬 عربي عامية</button>
-        <button type="button" data-l="en" class="${activeCls('en')}">🇬🇧 English</button>
-        <button type="button" data-l="mix" class="${activeCls('mix')}">🌐 عامية + إنجليزي</button>
-      </div>
-      <button class="profile-save-btn" id="nonoStartBtn" type="button">🚀 يلا نبدأ</button>
-      <button class="edit-track-btn" id="nonoChangeCharBtn" type="button">🔄 غيّر شخصية نونو</button>
-    </div>
-  </div>`;
-}
-function bindNonoSetup(){
-  let chosenLang = nonoProfile.language;
-  const cc = nonoCharClass();
-  document.querySelectorAll('#nonoLangPick button').forEach(b=>{
-    b.onclick = ()=>{
-      chosenLang = b.dataset.l;
-      document.querySelectorAll('#nonoLangPick button').forEach(x=> x.classList.remove('active','zico-c','farida-c'));
-      b.classList.add('active', cc);
-    };
-  });
-  document.getElementById('nonoStartBtn').onclick = ()=>{
-    const subjEl = document.getElementById('nonoSubjectInput');
-    const subj = subjEl.value.trim();
-    if(!subj){ alert('اكتب اسم المادة الأول 🙂'); subjEl.focus(); return; }
-    if(!chosenLang){ alert('اختار اللغة اللي هتتكلم بيها نونو معاك 🙂'); return; }
-    if(nonoSubject !== subj) nonoMessages = [];
-    nonoSubject = subj;
-    nonoProfile.language = chosenLang;
-    nonoSetupMode = false;
-    saveNonoProfile();
-    saveNonoSession();
-    renderCurrentView();
-  };
-  document.getElementById('nonoChangeCharBtn').onclick = ()=>{
-    nonoProfile.character = null;
-    saveNonoProfile();
-    renderCurrentView();
-  };
-}
-
-function nonoChatHtml(){
-  return `<div class="nono-view">
-  <div class="nono-chat ${nonoCharClass()}">
-    <div class="nono-chat-header">
-      <div class="nono-robot ${nonoRobotClass()} sm">🤖</div>
-      <div>
-        <div class="nch-name">${nonoProfile.character==='zico'?'زيكو':'فريدة'}</div>
-        <div class="nch-sub">بيذاكر معاك: ${escapeHtml(nonoSubject)}</div>
-      </div>
-      <button id="nonoClearBtn" type="button" title="شات جديد">🗑️</button>
-      <button id="nonoSettingsBtn" type="button" title="غيّر المادة أو اللغة">⚙️</button>
-    </div>
-    <div class="nono-msgs" id="nonoMsgs"></div>
-    <div class="nono-attach-preview" id="nonoAttachPreview"></div>
-    <div class="nono-inputbar">
-      <input type="file" id="nonoFileInput" hidden multiple accept="image/*,application/pdf">
-      <button class="nono-icon-btn" id="nonoAttachBtn" type="button" title="ارفق صورة أو ملف PDF">📎</button>
-      <button class="nono-icon-btn mic" id="nonoMicBtn" type="button" title="سجّل سؤالك بصوتك">🎙️</button>
-      <textarea id="nonoTextInput" rows="1" placeholder="اكتب سؤالك في ${escapeHtml(nonoSubject)}..."></textarea>
-      <button class="nono-icon-btn send" id="nonoSendBtn" type="button" title="إرسال">➤</button>
-    </div>
-  </div>
-  </div>`;
-}
-function bindNonoChat(){
-  document.getElementById('nonoSettingsBtn').onclick = ()=>{ nonoSetupMode = true; renderCurrentView(); };
-  document.getElementById('nonoClearBtn').onclick = ()=>{
-    if(confirm('تمسح كل الشات الحالي وتبدأ من جديد مع نفس المادة؟')){ nonoMessages=[]; saveNonoSession(); renderNonoMsgs(true); }
-  };
-  document.getElementById('nonoAttachBtn').onclick = ()=> document.getElementById('nonoFileInput').click();
-  document.getElementById('nonoFileInput').addEventListener('change', nonoHandleFiles);
-  document.getElementById('nonoMicBtn').onclick = nonoToggleMic;
-  document.getElementById('nonoSendBtn').onclick = nonoSend;
-  const ta = document.getElementById('nonoTextInput');
-  ta.addEventListener('keydown', e=>{ if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); nonoSend(); } });
-  ta.addEventListener('input', ()=>{ ta.style.height='auto'; ta.style.height=Math.min(110, ta.scrollHeight)+'px'; });
-  renderNonoAttachPreview();
-}
-
-function nonoFormatText(t){ return escapeHtml(t||'').replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); }
-
-function renderNonoMsgs(scrollBottom){
-  const wrap = document.getElementById('nonoMsgs');
-  if(!wrap) return;
-  if(!nonoMessages.length){
-    wrap.innerHTML = `<div class="nono-msg bot"><div class="nono-robot ${nonoRobotClass()} sm">🤖</div><div class="nono-bubble">أهلاً بيك! 👋 أنا هنا عشان أساعدك في مادة <strong>${escapeHtml(nonoSubject)}</strong>. اسألني أي حاجة، أو ابعتلي صورة سؤال أو PDF.</div></div>`;
-  } else {
-    wrap.innerHTML = nonoMessages.map(nonoRenderMsg).join('');
-  }
-  if(nonoBusy){
-    wrap.innerHTML += `<div class="nono-msg bot"><div class="nono-robot ${nonoRobotClass()} sm">🤖</div><div class="nono-bubble nono-typing"><span></span><span></span><span></span></div></div>`;
-  }
-  nonoBindQuizHandlers();
-  nonoBindReactionHandlers();
-  if(scrollBottom!==false) wrap.scrollTop = wrap.scrollHeight;
-}
-function nonoRenderMsg(m, idx){
-  const isUser = m.role==='user';
-  const avatar = isUser ? '' : `<div class="nono-robot ${nonoRobotClass()} sm">🤖</div>`;
-  let inner = '';
-  (m.content||[]).forEach(b=>{
-    if(b.type==='text' && b.text) inner += `<div>${nonoFormatText(b.text)}</div>`;
-    else if(b.type==='image' && b.source) inner += `<img src="data:${b.source.media_type};base64,${b.source.data}" alt="مرفق">`;
-  });
-  (m.attNames||[]).forEach(a=>{ inner += `<span class="nono-att-chip">${a.kind==='image'?'🖼️':'📄'} ${escapeHtml(a.name)}</span>`; });
-  if(m.kind==='quiz-mcq' || m.kind==='quiz-essay') inner += nonoQuizHtml(m);
-  const pickerHtml = `<div class="nono-reaction-picker" data-midx="${idx}">${NONO_REACTIONS.map(e=>`<button type="button" data-emoji="${e}" data-midx="${idx}">${e}</button>`).join('')}</div>`;
-  const reactionHtml = m.reaction
-    ? `<button type="button" class="nono-reaction-badge" data-midx="${idx}" title="شيل الريأكشن">${m.reaction}</button>`
-    : `<button type="button" class="nono-react-trigger" data-midx="${idx}" title="ضيف ريأكشن">🙂+</button>`;
-  return `<div class="nono-msg ${isUser?'user':'bot'}">${avatar}<div class="nono-bubble-wrap">${pickerHtml}<div class="nono-bubble">${inner||'…'}</div>${reactionHtml}</div></div>`;
-}
-function nonoBindReactionHandlers(){
-  document.querySelectorAll('.nono-react-trigger').forEach(btn=>{
-    btn.onclick = (e)=>{
-      e.stopPropagation();
-      document.querySelectorAll('.nono-reaction-picker.show').forEach(p=>{ if(p.dataset.midx!==btn.dataset.midx) p.classList.remove('show'); });
-      const picker = btn.closest('.nono-bubble-wrap').querySelector('.nono-reaction-picker');
-      if(picker) picker.classList.toggle('show');
-    };
-  });
-  document.querySelectorAll('.nono-reaction-badge').forEach(btn=>{
-    btn.onclick = (e)=>{
-      e.stopPropagation();
-      const msg = nonoMessages[+btn.dataset.midx];
-      if(!msg) return;
-      msg.reaction = null;
-      saveNonoSession();
-      renderNonoMsgs(false);
-    };
-  });
-  document.querySelectorAll('.nono-reaction-picker button[data-emoji]').forEach(btn=>{
-    btn.onclick = (e)=>{
-      e.stopPropagation();
-      const msg = nonoMessages[+btn.dataset.midx];
-      if(!msg) return;
-      msg.reaction = btn.dataset.emoji;
-      saveNonoSession();
-      renderNonoMsgs(false);
-    };
-  });
-  if(!nonoReactionOutsideBound){
-    nonoReactionOutsideBound = true;
-    document.addEventListener('click', ()=>{
-      document.querySelectorAll('.nono-reaction-picker.show').forEach(p=> p.classList.remove('show'));
-    });
-  }
-}
-function nonoQuizHtml(m){
-  const data = m.quizData||{};
-  const qs = data.questions||[];
-  if(m.kind==='quiz-mcq'){
-    const items = qs.map((q,i)=>{
-      const opts = (q.options||[]).map((op,oi)=>`<div class="nq-opt" data-qi="${i}" data-oi="${oi}">${String.fromCharCode(65+oi)}) ${escapeHtml(op)}</div>`).join('');
-      return `<div class="nq-item" data-qidx="${i}">
-        <div class="nq-q">${i+1}. ${escapeHtml(q.q||'')}</div>
-        <div class="nq-opts">${opts}</div>
-        <div class="nq-explain" id="nq-explain-${m.quizId}-${i}">💡 ${escapeHtml(q.explain||'')}</div>
-      </div>`;
-    }).join('');
-    return `<div class="nono-quiz" data-quiz="${m.quizId}">${items}<div class="nono-quiz-actions"><button type="button" class="home-quicklink" data-quiz-word="${m.quizId}">📥 حمّل الاختبار Word</button></div></div>`;
-  }
-  const items = qs.map((q,i)=>`<div class="nq-item"><div class="nq-q">${i+1}. ${escapeHtml(typeof q==='string'?q:(q.q||''))}</div></div>`).join('');
-  return `<div class="nono-quiz" data-quiz="${m.quizId}">${items}<div class="nono-quiz-actions"><button type="button" class="home-quicklink" data-quiz-word="${m.quizId}">📥 حمّل الاختبار Word</button></div></div>`;
-}
-function nonoBindQuizHandlers(){
-  document.querySelectorAll('.nq-opt').forEach(el=>{
-    el.onclick = ()=>{
-      const quizEl = el.closest('.nono-quiz');
-      const quizId = quizEl.dataset.quiz;
-      const msg = nonoMessages.find(m=>m.quizId===quizId);
-      if(!msg) return;
-      const qi = +el.dataset.qi, oi = +el.dataset.oi;
-      const q = msg.quizData.questions[qi];
-      const group = quizEl.querySelector(`.nq-item[data-qidx="${qi}"] .nq-opts`);
-      [...group.children].forEach((o,idx)=>{
-        o.classList.remove('correct','wrong');
-        if(idx===q.answerIndex) o.classList.add('correct');
-        else if(idx===oi && oi!==q.answerIndex) o.classList.add('wrong');
-      });
-      const ex = document.getElementById(`nq-explain-${quizId}-${qi}`);
-      if(ex) ex.classList.add('show');
-    };
-  });
-  document.querySelectorAll('[data-quiz-word]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const msg = nonoMessages.find(m=>m.quizId===btn.dataset.quizWord);
-      if(!msg) return;
-      const qs = msg.quizData.questions||[];
-      const isMcq = msg.kind==='quiz-mcq';
-      const sections = qs.map((q,i)=> isMcq
-        ? {heading:`سؤال ${i+1}`, content:`${q.q}\n${(q.options||[]).map((op,oi)=>`${String.fromCharCode(65+oi)}) ${op}`).join('\n')}\nالإجابة الصحيحة: ${String.fromCharCode(65+(q.answerIndex||0))}${q.explain?'\nالتفسير: '+q.explain:''}`}
-        : {heading:`سؤال ${i+1}`, content: typeof q==='string'?q:(q.q||'')});
-      nonoBuildWordDoc({title:`اختبار ${isMcq?'اختيار من متعدد':'مقالي'} - ${nonoSubject}`, sections});
-    };
-  });
-}
-
-function nonoFileToBase64(file){
-  return new Promise((res,rej)=>{
-    const r = new FileReader();
-    r.onload = ()=> res(r.result.split(',')[1]);
-    r.onerror = ()=> rej(new Error('read failed'));
-    r.readAsDataURL(file);
-  });
-}
-async function nonoHandleFiles(e){
-  const files = [...e.target.files];
-  for(const f of files){
-    if(f.size > 8*1024*1024){ alert(`الملف "${f.name}" كبير أوي، حاول ملف أصغر من 8MB`); continue; }
-    if(f.type.startsWith('image/')){
-      const b64 = await nonoFileToBase64(f);
-      nonoPendingAttachments.push({kind:'image', name:f.name, block:{type:'image', source:{type:'base64', media_type:f.type, data:b64}}});
-    } else if(f.type==='application/pdf'){
-      const b64 = await nonoFileToBase64(f);
-      nonoPendingAttachments.push({kind:'pdf', name:f.name, block:{type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}}});
-    } else if(f.type.startsWith('audio/')){
-      alert('نونو لسه مبيسمعش ملفات صوت مرفوعة مباشرة، بس تقدر تدوس على 🎙️ وتتكلم معاه بصوتك على طول.');
-    } else {
-      alert(`نوع الملف "${f.name}" مش مدعوم دلوقتي — المدعوم حاليًا: صور و PDF.`);
-    }
-  }
-  e.target.value = '';
-  renderNonoAttachPreview();
-}
-function renderNonoAttachPreview(){
-  const wrap = document.getElementById('nonoAttachPreview');
-  if(!wrap) return;
-  wrap.innerHTML = nonoPendingAttachments.map((a,i)=>`<span class="nap-chip">${a.kind==='image'?'🖼️':'📄'} ${escapeHtml(a.name)} <button type="button" data-i="${i}">✕</button></span>`).join('');
-  wrap.querySelectorAll('button').forEach(b=> b.onclick = ()=>{ nonoPendingAttachments.splice(+b.dataset.i,1); renderNonoAttachPreview(); });
-}
-
-function nonoToggleMic(){
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SR){ alert('المتصفح ده مش بيدعم التسجيل الصوتي 😅 جرب Chrome.'); return; }
-  const btn = document.getElementById('nonoMicBtn');
-  if(nonoListening && nonoRecognizer){ nonoRecognizer.stop(); return; }
-  nonoRecognizer = new SR();
-  nonoRecognizer.lang = nonoProfile.language==='en' ? 'en-US' : 'ar-EG';
-  nonoRecognizer.interimResults = false;
-  nonoRecognizer.onresult = (e)=>{
-    const t = e.results[0][0].transcript;
-    const ta = document.getElementById('nonoTextInput');
-    if(ta){ ta.value = (ta.value ? ta.value+' ' : '') + t; ta.dispatchEvent(new Event('input')); }
-  };
-  nonoRecognizer.onend = ()=>{ nonoListening=false; if(btn) btn.classList.remove('listening'); };
-  nonoRecognizer.onerror = ()=>{ nonoListening=false; if(btn) btn.classList.remove('listening'); };
-  try{ nonoRecognizer.start(); nonoListening=true; if(btn) btn.classList.add('listening'); }catch(e){}
-}
-
-function nonoSystemPrompt(){
-  const persona = nonoProfile.character==='zico' ? 'اسمك زيكو، شخصية ولد شقي ومرح وذكي' : 'اسمك فريدة، شخصية بنت لطيفة ومرحة وذكية';
-  const langInstr = {
-    amiya: 'اتكلم بالعربي باللهجة المصرية العامية بس، وابعد عن الفصحى الرسمية والمصطلحات الجامدة.',
-    en: 'Respond only in clear, simple English.',
-    mix: 'اشرح بالعربي العامية المصرية، واستخدم المصطلحات العلمية بالإنجليزي جنب كل مصطلح مهم.'
-  }[nonoProfile.language] || 'اتكلم بالعربي العامية المصرية.';
-  return `انت "نونو" 🤖، مساعد تعليمي ذكي جوه تطبيق خاص بطلبة كلية العلوم - قسم الرياضيات وعلوم الحاسب. ${persona}.
-مهمتك إنك تساعد الطالب في مادة "${nonoSubject}" فقط — زي دكتور المادة بالظبط، وردودك وأمثلتك وحلولك ومصادرك كلها لازم تكون حوالين المادة دي بس. لو الطالب سأل سؤال برّه نطاق المادة، رجّعه بلطف وذكّره إنك متخصص في "${nonoSubject}" بس.
-${langInstr}
-اشرح ببساطة ووضوح، استخدم أمثلة عملية، شجّع الطالب. لو طلب حل مسألة، حلها خطوة بخطوة بالتفصيل. لو مش متأكد من معلومة، قول إنك مش متأكد بدل ما تختلق إجابة.`;
-}
-async function nonoCallAPI(apiMessages, systemPrompt, maxTokens, timeoutMs, onUsage){
-  const controller = new AbortController();
-  const timer = setTimeout(()=> controller.abort(), timeoutMs||55000);
-  let res;
-  try{
-    res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-6', max_tokens: maxTokens||1500, system: systemPrompt, messages: apiMessages }),
-      signal: controller.signal
-    });
-  }catch(err){
-    console.error('nonoCallAPI: fetch failed', err);
-    if(err && err.name==='AbortError') throw new Error('الطلب أخد وقت طويل أوي ومترد، جرب تاني');
-    // فشل على مستوى الشبكة نفسها (Failed to fetch): ده بيحصل لو الملف بيتفتح برّه بيئة أرتيفاكت كلود (لوكال أو استضافة تانية)
-    // لأن الاتصال بـ api.anthropic.com من المتصفح مباشرة بيتمنع (CORS) من غير مفتاح API، مش مجرد بطء نت.
-    const e = new Error('في مشكلة في الاتصال بالسيرفر، اتأكد من النت وجرب تاني');
-    e.networkLevel = true;
-    throw e;
-  }finally{
-    clearTimeout(timer);
-  }
-  let data;
-  try{
-    data = await res.json();
-  }catch(err){
-    console.error('nonoCallAPI: bad response body', err, res.status);
-    throw new Error(`السيرفر رجّع رد غير متوقع (كود ${res.status})، جرب تاني بعد شوية`);
-  }
-  if(!res.ok || data.error){
-    console.error('nonoCallAPI: API error', res.status, data.error);
-    const code = res.status;
-    const apiMsg = (data.error && data.error.message) || '';
-    if(code===429) throw new Error('السيرفر مزحوم دلوقتي (429) وعدد الطلبات كتير، استنى شوية وجرب تاني');
-    if(code===529 || code===503) throw new Error('السيرفر مشغول جدًا دلوقتي، استنى دقيقة وجرب تاني');
-    if(code===401 || code===403) throw new Error('في مشكلة في صلاحية الوصول للسيرفر (كود '+code+')، مش مشكلة نت — جرب افتح الأداة تاني من جوه الشات');
-    throw new Error(apiMsg || `فشل الطلب (كود ${code})`);
-  }
-  if(typeof onUsage==='function' && data.usage) onUsage(data.usage, data.stop_reason);
-  const text = (data.content||[]).map(c=>c.text||'').join('\n');
-  if(!text.trim()) throw new Error('الموديل رجّع رد فاضي، جرب تاني');
-  if(data.stop_reason==='max_tokens'){
-    const e = new Error('الرد اتقطع لأنه وصل للحد الأقصى المسموح به من التوكنز (max_tokens) — قلّل عدد الأسئلة وجرب تاني');
-    e.truncated = true;
-    e.partialText = text;
-    e.usage = data.usage;
-    throw e;
-  }
-  return text;
-}
-function nonoBuildApiHistory(){
-  const all = nonoMessages.filter(m=>!m.kind);
-  const MAX_MSGS = 16; // نبعت آخر عدد رسائل بس عشان الطلب مايكبرش ويسبب تايم آوت
-  const recent = all.slice(-MAX_MSGS);
-  const keepAttachFromIdx = recent.length - 4; // آخر 4 رسايل بس اللي بتتبعت معاها المرفقات كاملة
-  return recent.map((m,i)=>{
-    const hasAttachments = (m.content||[]).some(b=>b.type!=='text');
-    if(!hasAttachments || i>=keepAttachFromIdx) return {role:m.role, content:m.content};
-    const textBlocks = (m.content||[]).filter(b=>b.type==='text');
-    const names = (m.attNames||[]).map(a=>a.name).join('، ');
-    return {role:m.role, content:[...textBlocks, {type:'text', text: names?`[مرفقات سابقة اتبعتت قبل كده: ${names}]`:'[مرفق سابق]'}]};
-  });
-}
-function nonoFriendlyErrorMsg(e){
-  const msg = (e && e.message) || '';
-  if(msg.includes('وقت طويل')) return '⏱️ الطلب أخد وقت طويل أوي ومترد — غالبًا بسبب حجم المرفقات أو طول الشات، جرب تبعت رسالة أقصر أو ابدأ شات جديد 🗑️.';
-  if(msg.includes('الاتصال بالسيرفر')) return '📡 في مشكلة في الاتصال بالنت، اتأكد من الاتصال وجرب تبعت تاني.';
-  if(msg.includes('رجّع رد فاضي')) return 'الموديل رجّع رد فاضي، جرب تبعت السؤال تاني بصياغة مختلفة.';
-  if(msg.includes('max_tokens')) return '✂️ الرد اتقطع لأنه طويل أوي، جرب تسأل بشكل أقصر أو تقسّم السؤال لأجزاء.';
-  if(msg) return `حصل خطأ: ${msg} 😅`;
-  return 'حصل خطأ وأنا بحاول أجاوب 😅 جرب تبعت السؤال تاني.';
-}
-async function nonoSend(){
-  if(nonoBusy) return;
-  const ta = document.getElementById('nonoTextInput');
-  const text = ta.value.trim();
-  if(!text && nonoPendingAttachments.length===0) return;
-  const content = [];
-  nonoPendingAttachments.forEach(a=> content.push(a.block));
-  content.push({type:'text', text: text || 'شوف المرفق ده وساعدني فيه.'});
-  const attNames = nonoPendingAttachments.map(a=>({name:a.name, kind:a.kind}));
-  nonoMessages.push({role:'user', content, attNames});
-  ta.value=''; ta.style.height='auto';
-  nonoPendingAttachments = [];
-  renderNonoAttachPreview();
-  nonoBusy = true;
-  renderNonoMsgs(true);
-  try{
-    const apiMessages = nonoBuildApiHistory();
-    const reply = await nonoCallAPI(apiMessages, nonoSystemPrompt(), 1500, 60000);
-    nonoMessages.push({role:'assistant', content:[{type:'text', text: reply || 'معلش، مش قادر أجاوب دلوقتي، جرب تاني 🙏'}]});
-  }catch(e){
-    nonoMessages.push({role:'assistant', content:[{type:'text', text: nonoFriendlyErrorMsg(e)}]});
-  }
-  nonoBusy = false;
-  saveNonoSession();
-  renderNonoMsgs(true);
-}
-function nonoParseJsonLoose(raw){
-  let s = (raw||'').trim();
-  s = s.replace(/^```json\s*/i,'').replace(/^```\s*/,'').replace(/```\s*$/,'');
-  const start = s.indexOf('{');
-  const end = s.lastIndexOf('}');
-  if(start>=0 && end>start) s = s.slice(start, end+1);
-  return JSON.parse(s);
-}
-function nonoBuildWordDoc(data){
-  const themeColor = nonoProfile.character==='zico' ? '2F6FED' : 'E23A8B';
-  let body = `<h1 style="color:#${themeColor};font-family:Arial;">${escapeHtml(data.title||nonoSubject)}</h1>`;
-  (data.sections||[]).forEach(sec=>{
-    body += `<h2 style="font-family:Arial;color:#222;">${escapeHtml(sec.heading||'')}</h2><p style="font-family:Arial;font-size:14px;line-height:1.7;">${escapeHtml(sec.content||'').replace(/\n/g,'<br>')}</p>`;
-  });
-  const full = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
-<head><meta charset="utf-8"><title>${escapeHtml(data.title||nonoSubject)}</title></head>
-<body dir="rtl" style="font-family:Arial;">${body}<p style="color:#888;font-size:11px;margin-top:30px;">تم إعداد الملف بواسطة نونو 🤖</p></body></html>`;
-  const blob = new Blob(['\ufeff', full], {type:'application/msword'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${(data.title||nonoSubject).replace(/[\\/:*?"<>|]/g,'')}.doc`;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(url), 4000);
-}
-
-/* ============ أدوات المذاكرة: إنشاء الاختبارات ============ */
 /* ============================================================
    ===== مراجعة اللائحة (لائحة كلية العلوم - جامعة الإسكندرية) =====
    بيانات ملخّصة من لائحة الدراسة بنظام الساعات المعتمدة 2017/2018،
    مقسّمة لفئات يسهل الوصول لها بدل قراءة اللائحة كاملة نص متصل.
    ============================================================ */
+/* --- بناء عناصر بصرية (إحصائيات سريعة / أشرطة موزّعة / مقاييس مناطق) --- */
+function regsStatsRow(items){
+  return `<div class="regs-stats-row">${items.map(it=>`
+    <div class="regs-stat"><div class="rs-num">${escapeHtml(it.num)}</div><div class="rs-lbl">${escapeHtml(it.lbl)}</div></div>`).join('')}</div>`;
+}
+function regsBarChart(title, sub, charts){
+  // charts: [{label, segments:[{label, value(%), color, short?}]}]
+  const legendSeen = {};
+  const chartsHtml = charts.map(ch=>{
+    const segsHtml = ch.segments.map(s=>{
+      legendSeen[s.label] = s.color;
+      const txt = s.value>=11 ? escapeHtml(s.short!=null?s.short:(s.value+'%')) : '';
+      return `<div class="regs-bar-seg rc-${s.color}" style="width:${s.value}%;" title="${escapeHtml(s.label)} — ${s.value}%">${txt}</div>`;
+    }).join('');
+    return `<div class="regs-bar-chart"><div class="regs-bar-chart-title">${escapeHtml(ch.label)}</div><div class="regs-bar-track">${segsHtml}</div></div>`;
+  }).join('');
+  const legendHtml = Object.keys(legendSeen).map(l=>`<span class="regs-bar-legend-item"><i class="rc-${legendSeen[l]}"></i>${escapeHtml(l)}</span>`).join('');
+  return `<div class="regs-viz">
+    <div class="regs-viz-title">${escapeHtml(title)}</div>
+    ${sub?`<div class="regs-viz-sub">${escapeHtml(sub)}</div>`:''}
+    ${chartsHtml}
+    <div class="regs-bar-legend">${legendHtml}</div>
+  </div>`;
+}
+function regsGauge(title, sub, zones){
+  // zones: [{label, width(%), color, sub?}]
+  const trackHtml = zones.map(z=>`<div class="regs-gauge-zone rc-${z.color}" style="width:${z.width}%;" title="${escapeHtml(z.label)}"></div>`).join('');
+  const labelsHtml = zones.map(z=>`<div class="regs-gauge-label" style="width:${z.width}%;"><b>${escapeHtml(z.label)}</b>${z.sub?escapeHtml(z.sub):''}</div>`).join('');
+  return `<div class="regs-viz">
+    <div class="regs-viz-title">${escapeHtml(title)}</div>
+    ${sub?`<div class="regs-viz-sub">${escapeHtml(sub)}</div>`:''}
+    <div class="regs-gauge-track">${trackHtml}</div>
+    <div class="regs-gauge-labels">${labelsHtml}</div>
+  </div>`;
+}
+
 const REGS_CATEGORIES = [
   {
     id:'admission', icon:'🎓', accent:'navy',
     title:'الالتحاق والأقسام العلمية',
     desc:'مين يقدر يلتحق بالكلية، والشعب والأقسام المتاحة.',
+    visual: regsStatsRow([
+      {num:'3', lbl:'شُعب الالتحاق بالمستوى الأول'},
+      {num:'9', lbl:'أقسام علمية بالكلية'},
+      {num:'5', lbl:'برامج بقسم الرياضيات وعلوم الحاسب'}
+    ]),
     materials:[
       {num:'م 2', title:'شروط الالتحاق بالكلية', body:`
         <p>تقبل كلية العلوم الطلاب الحاصلين على الثانوية العامة (شعبتي الرياضيات والعلوم) والشهادات المعادلة لها من العرب والأجانب، وفقًا لما يحدده المكتب التنسيقي وحسب الحدود التي يقررها المجلس الأعلى للجامعات.</p>
@@ -8797,6 +8267,17 @@ const REGS_CATEGORIES = [
     id:'system', icon:'🗓️', accent:'teal',
     title:'نظام الدراسة والفصول',
     desc:'الساعات المعتمدة، الفصول الدراسية، والصيفي، ومستويات الدراسة.',
+    visual: regsStatsRow([
+      {num:'0–32', lbl:'المستوى الأول Freshman'},
+      {num:'33–66', lbl:'المستوى الثاني Sophomore'},
+      {num:'67–99', lbl:'المستوى الثالث Junior'},
+      {num:'100+', lbl:'المستوى الرابع Senior'}
+    ]) + regsGauge('مستويات الدراسة حسب الساعات المكتسبة', 'كل ما ساعاتك المعتمدة تزيد كل ما تتقدم في المستوى — والمنطقة دي بتوريك حدود كل مستوى بصريًا.', [
+      {label:'الأول', width:22.9, color:'navy', sub:'حتى 32 س'},
+      {label:'الثاني', width:24.3, color:'teal', sub:'33–66 س'},
+      {label:'الثالث', width:23.6, color:'gold', sub:'67–99 س'},
+      {label:'الرابع', width:29.2, color:'maroon', sub:'100 س فأكثر'}
+    ]),
     materials:[
       {num:'م 1', title:'نظام الساعات المعتمدة', body:`
         <p>النظام المتبع في الكلية هو نظام الساعات المعتمدة (Credit Hours System) في إطار الفصل الدراسي، وهو نظام يشترط للتخرج اجتياز الطالب عددًا من المقررات الدراسية بنجاح، طبقًا للحد الأدنى من الدرجات والساعات المعتمدة التي تحددها الكلية.</p>
@@ -8847,6 +8328,11 @@ const REGS_CATEGORIES = [
     id:'registration', icon:'📝', accent:'gold',
     title:'التسجيل والحذف والإضافة والانسحاب',
     desc:'مواعيد التسجيل، وإزاي تحذف أو تضيف أو تنسحب من مقرر.',
+    visual: regsStatsRow([
+      {num:'أسبوعين', lbl:'آخر ميعاد للحذف/الإضافة'},
+      {num:'أسبوع 12', lbl:'آخر ميعاد للانسحاب (W)'},
+      {num:'8 مرات', lbl:'الحد الأقصى للانسحاب طول الدراسة'}
+    ]),
     materials:[
       {num:'م 16', title:'التسجيل', body:`
         <p>تعلن إدارة شؤون التعليم والطلاب عن مواعيد التسجيل لكل فصل دراسي بالوسائل المناسبة، والتي تكون غالبًا خلال الأسبوع الأول من بدء الدراسة.</p>
@@ -8866,6 +8352,17 @@ const REGS_CATEGORIES = [
     id:'load', icon:'⚖️', accent:'maroon',
     title:'العبء الدراسي',
     desc:'أقل وأكتر عدد ساعات تقدر تسجله كل فصل، والحالات الخاصة.',
+    visual: regsStatsRow([
+      {num:'12–13', lbl:'الحد الأدنى للساعات'},
+      {num:'17', lbl:'الحد الأقصى العادي'},
+      {num:'19', lbl:'لو معدلك 3+ وعندك 33 س فأكثر'},
+      {num:'21', lbl:'حالة التخرج بموافقة اللجنة'}
+    ]) + regsGauge('نطاق العبء الدراسي المسموح به', 'كل منطقة لونها بتفرق حسب الحالة اللي بتسمح فيها اللائحة بعدد الساعات ده.', [
+      {label:'أقل من المسموح', width:57.1, color:'grey', sub:'أقل من 12 س'},
+      {label:'العبء العادي', width:23.8, color:'teal', sub:'12–17 س'},
+      {label:'لأصحاب معدل 3+', width:9.5, color:'gold', sub:'حتى 19 س'},
+      {label:'حالة التخرج فقط', width:9.5, color:'maroon', sub:'حتى 21 س'}
+    ]),
     materials:[
       {num:'م 13', title:'العبء الدراسي', body:`
         <p>العبء الدراسي هو عدد الساعات المعتمدة التي يُسمح للطالب بتسجيلها في الفصل الدراسي الواحد، ويتراوح بين <b>12–13 ساعة</b> (الحد الأدنى) و<b>17 ساعة</b> (الحد الأقصى) معتمدة، مع مراعاة الآتي:</p>
@@ -8883,6 +8380,27 @@ const REGS_CATEGORIES = [
     id:'grading', icon:'💯', accent:'navy',
     title:'تقييم المقررات وتوزيع الدرجات',
     desc:'إزاي بتتوزع الـ100 درجة على أجزاء كل مقرر.',
+    visual: regsBarChart('توزيع الـ100 درجة حسب نوع المقرر', 'كل شريط بيمثل مقرر بنسبة 100%، والألوان بتوضح نصيب كل جزء من التقييم.', [
+      {label:'مقرر نظري فقط', segments:[
+        {label:'الامتحان التحريري النهائي', value:60, color:'navy'},
+        {label:'امتحان منتصف الفصل', value:20, color:'teal'},
+        {label:'Quiz/أعمال فصلية', value:10, color:'maroon'},
+        {label:'الامتحان الشفوي', value:10, color:'gold'}
+      ]},
+      {label:'مقرر نظري + عملي', segments:[
+        {label:'الامتحان التحريري النهائي', value:50, color:'navy'},
+        {label:'الامتحان العملي/التمارين النهائي', value:20, color:'grey'},
+        {label:'امتحان منتصف الفصل', value:10, color:'teal'},
+        {label:'Quiz/أعمال فصلية', value:10, color:'maroon'},
+        {label:'الامتحان الشفوي', value:10, color:'gold'}
+      ]},
+      {label:'مقرر عملي فقط', segments:[
+        {label:'الامتحان العملي/التمارين النهائي', value:50, color:'grey'},
+        {label:'عملي منتصف الفصل', value:20, color:'teal'},
+        {label:'Quiz/أعمال فصلية', value:20, color:'maroon'},
+        {label:'الامتحان الشفوي', value:10, color:'gold'}
+      ]}
+    ]),
     materials:[
       {num:'م 10', title:'توزيع درجات المقررات', body:`
         <p>النهاية العظمى لكل مقرر هي 100 (مائة) درجة، ويتم تقييم الطالب في المقررات النظرية والعملية بناءً على الأسس التالية:</p>
@@ -8905,6 +8423,21 @@ const REGS_CATEGORIES = [
     id:'gpa', icon:'🧮', accent:'teal',
     title:'المعدل الفصلي والتراكمي',
     desc:'جدول التقديرات، وإزاي تتحسب GPA وCGPA.',
+    visual: regsBarChart('مسطرة الدرجات (من 0 إلى 100)', 'شوف بصريًا مكان تقديرك على مقياس الدرجة الكاملة.', [
+      {label:'توزيع التقديرات على مقياس 0–100', segments:[
+        {label:'ضعيف F (أقل من 50)', value:50, color:'maroon', short:'F'},
+        {label:'مقبول D/D+/C-/C (50–65)', value:15, color:'grey', short:'مقبول'},
+        {label:'جيد C+/B- (65–75)', value:10, color:'gold', short:'جيد'},
+        {label:'جيد جدًا B/B+ (75–85)', value:10, color:'navy', short:'ج.جدًا'},
+        {label:'ممتاز A-/A (85–100)', value:15, color:'teal', short:'ممتاز'}
+      ]}
+    ]) + regsGauge('التقدير النهائي حسب المعدل التراكمي العام', 'المقياس من صفر لـ4 نقاط، وبيوضح إنت واقف فين بالنسبة للتقدير النهائي.', [
+      {label:'أقل من 50%', width:50, color:'maroon', sub:'أقل من 2.000'},
+      {label:'50–60%', width:7.5, color:'grey', sub:'2.000–2.299'},
+      {label:'60–75%', width:17.5, color:'gold', sub:'2.300–2.999'},
+      {label:'75–85%', width:10, color:'navy', sub:'3.000–3.399'},
+      {label:'85%+', width:15, color:'teal', sub:'3.400–4.000'}
+    ]),
     materials:[
       {num:'م 11-1', title:'جدول الدلائل الرقمية والرمزية للتقديرات', body:`
         <div class="regs-table-wrap"><table class="goal-table">
@@ -8948,6 +8481,11 @@ const REGS_CATEGORIES = [
     id:'warning', icon:'🚨', accent:'maroon',
     title:'الإنذار الأكاديمي ووقف وإلغاء القيد',
     desc:'إمتى بتتحط تحت إنذار، وإمتى ممكن تتفصل من الكلية.',
+    visual: regsGauge('مناطق الخطر على مقياس المعدل التراكمي (CGPA)', 'المقياس من صفر لـ4 نقاط — راقب مكانك بالنسبة لخط الإنذار (1.67) وخط الأمان (2.0).', [
+      {label:'إنذار / خطر الفصل', width:41.75, color:'maroon', sub:'أقل من 1.67'},
+      {label:'إنذار أول', width:8.25, color:'gold', sub:'1.67–2.0'},
+      {label:'آمن', width:50, color:'teal', sub:'2.0 فأكثر'}
+    ]),
     materials:[
       {num:'م 14', title:'الإنذار الأكاديمي', body:`
         <p>إذا حصل الطالب على معدل تراكمي CGPA أقل من <b>1.67</b> بعد نهاية الفصل الدراسي الثاني من التحاقه بالكلية، يوجه له إنذار (ملاحظ أكاديميًا) ويوضع على قائمة الإنذار، وعلى الطالب أن يرفع معدله العام التراكمي إلى المعدل المطلوب <b>2.0</b> وذلك بإعادة التسجيل في المقررات التي رسب فيها أو تحسين تقديرات المقررات التي اجتازها بتقدير C- أو أقل.</p>
@@ -8965,6 +8503,12 @@ const REGS_CATEGORIES = [
     id:'major', icon:'🎯', accent:'gold',
     title:'التخصص الرئيسي والفرعي وتحويل المسار',
     desc:'الدرجة العامة والخاصة، وشروط تحويل تخصصك.',
+    visual: regsStatsRow([
+      {num:'ترم 3', lbl:'آخر ميعاد لاختيار التخصص الرئيسي'},
+      {num:'ترم 5', lbl:'آخر ميعاد لاختيار التخصص الفرعي'},
+      {num:'66 س', lbl:'متطلبات التخصص الرئيسي'},
+      {num:'22 س', lbl:'متطلبات التخصص الفرعي'}
+    ]),
     materials:[
       {num:'م 4', title:'درجات البكالوريوس', body:`
         <p>تمنح جامعة الإسكندرية بناءً على طلب مجلس كلية العلوم الدرجات العلمية التالية:</p>
@@ -8988,6 +8532,12 @@ const REGS_CATEGORIES = [
     id:'honors', icon:'🏅', accent:'teal',
     title:'الدرجة الخاصة ومرتبة الشرف',
     desc:'شروط الالتحاق بالدرجة الخاصة، وشروط التخرج بمرتبة الشرف.',
+    visual: regsStatsRow([
+      {num:'3.33', lbl:'الحد الأدنى للمعدل — الدرجة الخاصة'},
+      {num:'3.666', lbl:'الحد الأدنى للمعدل — مرتبة الشرف'},
+      {num:'7–9', lbl:'فصول — المدة الاعتيادية للتخرج'},
+      {num:'88 س', lbl:'إجمالي ساعات الدرجة الخاصة'}
+    ]),
     materials:[
       {num:'م 12', title:'الدرجة الخاصة', body:`
         <p>الدرجة الخاصة هي امتداد للتخصص الفرعي بدلًا من التخصص الرئيسي، بحيث يصبح عدد الساعات المعتمدة للدرجة الخاصة 88 ساعة معتمدة، منها 62 ساعة إجبارية و26 ساعة اختيارية.</p>
@@ -9011,6 +8561,19 @@ const REGS_CATEGORIES = [
     id:'graduation', icon:'🎓', accent:'navy',
     title:'متطلبات التخرج والمواظبة وإعادة المواد',
     desc:'الـ132 ساعة، التدريب الصيفي، الغياب المسموح، وإعادة المقررات.',
+    visual: regsBarChart('توزيع الـ132 ساعة معتمدة للتخرج', 'الشريط ده بيوضح نصيب كل نوع متطلب من إجمالي ساعات التخرج.', [
+      {label:'إجمالي ساعات التخرج = 132 ساعة', segments:[
+        {label:'التخصص الرئيسي (66 س)', value:50, color:'gold'},
+        {label:'التخصص الفرعي (22 س)', value:16.7, color:'maroon'},
+        {label:'متطلبات الكلية (26 س)', value:19.7, color:'teal'},
+        {label:'متطلبات الجامعة (10 س)', value:7.6, color:'navy'},
+        {label:'الاختيار الحر (8 س)', value:6.1, color:'grey'}
+      ]}
+    ]) + regsGauge('نسب الغياب المسموح بها في المقرر', 'المقياس من صفر لـ30% من ساعات المقرر — راقب مكانك بالنسبة لخطوط الإنذار.', [
+      {label:'مسموح بدون عذر', width:50, color:'teal', sub:'حتى 15%'},
+      {label:'إنذار أول وتاني', width:16.7, color:'gold', sub:'15%–20%'},
+      {label:'خطر الحرمان (FW)', width:33.3, color:'maroon', sub:'20%–25%+'}
+    ]),
     materials:[
       {num:'م 8', title:'متطلبات التخرج (132 ساعة)', body:`
         <p>متطلبات التخرج لنيل درجة البكالوريوس في العلوم هي 132 ساعة معتمدة على الأقل وفق الخطة الدراسية للبرنامج، وبمعدل تراكمي كلي لا يقل عن نقطتين (2). تتوزع الساعات كالتالي:</p>
@@ -9111,6 +8674,7 @@ function regsCategoryHtml(cat){
         <p class="regs-sub">${escapeHtml(cat.desc)}</p>
       </div>
     </div>
+    ${cat.visual ? `<div style="${accentStyle}">${cat.visual}</div>` : ''}
     <div>
       ${cat.materials.map((m,i)=>`
         <details class="regs-mat" style="${accentStyle}" ${i===0?'open':''}>
@@ -9132,23 +8696,13 @@ function renderStudyToolsView(){
     bindStudyToolsHome();
     return;
   }
-  if(studyToolActive==='history'){
-    el.innerHTML = historyToolHtml();
-    bindHistoryTool();
-    return;
-  }
   if(studyToolActive==='videos'){
     el.innerHTML = videoLibraryHtml();
     bindVideoLibrary();
     return;
   }
-  if(studyToolActive==='player'){
-    el.innerHTML = videoPlayerHtml();
-    bindVideoPlayer();
-    return;
-  }
-  el.innerHTML = examToolHtml();
-  bindExamTool();
+  el.innerHTML = videoPlayerHtml();
+  bindVideoPlayer();
 }
 function studyToolsHomeHtml(){
   return `<div class="study-view">
@@ -9157,16 +8711,6 @@ function studyToolsHomeHtml(){
       <p class="study-sub">أدوات بتساعدك تذاكر أسرع وأذكى، وهنضيف عليها أكتر مع الوقت.</p>
     </div>
     <div class="study-grid">
-      <div class="study-card" id="studyOpenExam">
-        <div class="study-card-ic">📝</div>
-        <div class="study-card-title">إنشاء الاختبارات</div>
-        <div class="study-card-desc">ارفع الماتريال بتاعك (PDF)، واختار مواصفات الامتحان، ونجهزلك أسئلة عليه — امتحان إلكتروني بيصحح لك ويحللك، أو نسخة مكتوبة تاخدها كوبي.</div>
-      </div>
-      <div class="study-card" id="studyOpenHistory">
-        <div class="study-card-ic">📜</div>
-        <div class="study-card-title">سجل الدرجات</div>
-        <div class="study-card-desc">شوف كل الامتحانات اللي عملتها، تاريخ كل واحد ودرجته وعلى أنهي ملف، وتابع تطورك في نفس الملف، وأعد أي امتحان تاني.</div>
-      </div>
       <div class="study-card" id="studyOpenVideos">
         <div class="study-card-ic">🎬</div>
         <div class="study-card-title">مكتبة فيديوهات الكورس</div>
@@ -9186,10 +8730,6 @@ function studyToolsHomeHtml(){
   </div>`;
 }
 function bindStudyToolsHome(){
-  const b = document.getElementById('studyOpenExam');
-  if(b) b.onclick = ()=>{ studyToolActive='exam'; examStep='upload'; renderCurrentView(); };
-  const h = document.getElementById('studyOpenHistory');
-  if(h) h.onclick = ()=>{ studyToolActive='history'; historyView='list'; historyDetailId=null; renderCurrentView(); };
   const v = document.getElementById('studyOpenVideos');
   if(v) v.onclick = ()=>{ studyToolActive='videos'; videoLibAddOpen=false; renderCurrentView(); };
 }
@@ -9623,607 +9163,6 @@ function bindVideoPlayer(){
   });
 }
 
-/* --- سجل الدرجات --- */
-function historyToolHtml(){
-  if(historyView==='detail' && historyDetailId){
-    const record = examHistory.find(r=>r.id===historyDetailId);
-    if(record) return historyDetailHtml(record);
-  }
-  return historyListHtml();
-}
-function historyTypeLabel(cfg){
-  return cfg.type==='mcq' ? 'اختيار من متعدد' : (cfg.type==='tf' ? 'صح وغلط' : 'مقالي');
-}
-function historyFmtDate(iso){
-  try{
-    const d = new Date(iso);
-    return d.toLocaleDateString('ar-EG', {year:'numeric', month:'short', day:'numeric'}) + ' — ' + d.toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'});
-  }catch(e){ return iso; }
-}
-function historyPrevFor(record){
-  return examHistory
-    .filter(r=> r.fileSig===record.fileSig && r.id!==record.id && new Date(r.date) < new Date(record.date))
-    .sort((a,b)=> new Date(b.date)-new Date(a.date))[0] || null;
-}
-function historyListHtml(){
-  if(!examHistory.length){
-    return `<div class="study-view">
-      <button class="study-back" id="historyBackHome" type="button">→ رجوع لأدوات المذاكرة</button>
-      <h3>📜 سجل الدرجات</h3>
-      <div class="study-history-empty">لسه معملتش أي امتحان إلكتروني. اعمل امتحان من "📝 إنشاء الاختبارات" وهيبان سجله هنا.</div>
-    </div>`;
-  }
-  const sorted = [...examHistory].sort((a,b)=> new Date(b.date)-new Date(a.date));
-  const itemsHtml = sorted.map(r=>{
-    const prev = historyPrevFor(r);
-    let badgeHtml = `<span class="study-history-badge flat">أول محاولة على الملف ده</span>`;
-    if(prev){
-      const diff = r.pct - prev.pct;
-      const cls = diff>0?'up':(diff<0?'down':'flat');
-      const arrow = diff>0?'⬆️':(diff<0?'⬇️':'➖');
-      badgeHtml = `<span class="study-history-badge ${cls}">${arrow} ${diff>0?'+':''}${diff}% عن آخر محاولة</span>`;
-    }
-    return `<div class="study-history-item" data-id="${r.id}">
-      <div class="study-history-top">
-        <span class="study-history-files">📄 ${escapeHtml((r.fileNames||[]).join('، ')||'—')}</span>
-        <span class="study-history-score">${r.correct}/${r.total} (${r.pct}%)</span>
-      </div>
-      <div class="study-history-meta">${historyFmtDate(r.date)} • ${historyTypeLabel(r.cfg)} • ${escapeHtml(r.level)}</div>
-      <div style="margin-top:6px;">${badgeHtml}</div>
-    </div>`;
-  }).join('');
-  return `<div class="study-view">
-    <button class="study-back" id="historyBackHome" type="button">→ رجوع لأدوات المذاكرة</button>
-    <h3>📜 سجل الدرجات</h3>
-    <p class="study-sub">كل امتحاناتك الإلكترونية، مرتبة من الأحدث للأقدم.</p>
-    <div class="study-history-list">${itemsHtml}</div>
-  </div>`;
-}
-function historyDetailHtml(record){
-  const topicsHtml = Object.entries(record.topicStats||{}).map(([topic,s])=>{
-    const p = s.total ? Math.round((s.correct/s.total)*100) : 0;
-    return `<div class="study-topic-row"><span>${escapeHtml(topic)}</span><span class="study-topic-score ${p<60?'weak':''}">${s.correct}/${s.total} (${p}%)</span></div>`;
-  }).join('');
-  const prev = historyPrevFor(record);
-  let progressHtml = '';
-  if(prev){
-    const diff = record.pct - prev.pct;
-    const cls = diff>0?'up':(diff<0?'down':'');
-    const arrow = diff>0?'⬆️':(diff<0?'⬇️':'➖');
-    const msg = diff>0 ? `تطوّرت ${diff}% عن محاولتك يوم ${historyFmtDate(prev.date)} (كانت ${prev.pct}%).`
-      : diff<0 ? `درجتك نزلت ${Math.abs(diff)}% عن محاولتك يوم ${historyFmtDate(prev.date)} (كانت ${prev.pct}%).`
-      : `نفس درجة محاولتك يوم ${historyFmtDate(prev.date)} (${prev.pct}%).`;
-    progressHtml = `<div class="study-progress-note ${cls}">${arrow} ${msg}</div>`;
-  }
-  return `<div class="study-view">
-    <button class="study-back" id="historyBackList" type="button">→ رجوع للسجل</button>
-    <h3>📄 تفاصيل الامتحان</h3>
-    <div class="study-history-detail-row"><span>الملفات</span><span>${escapeHtml((record.fileNames||[]).join('، ')||'—')}</span></div>
-    <div class="study-history-detail-row"><span>التاريخ</span><span>${historyFmtDate(record.date)}</span></div>
-    <div class="study-history-detail-row"><span>نوع الأسئلة</span><span>${historyTypeLabel(record.cfg)}</span></div>
-    <div class="study-history-detail-row"><span>الدرجة</span><span>${record.correct}/${record.total} (${record.pct}%)</span></div>
-    <div class="study-history-detail-row"><span>المستوى</span><span>${escapeHtml(record.level)}</span></div>
-    ${progressHtml}
-    <div class="study-topics">${topicsHtml}</div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="profile-save-btn" id="historyRetakeBtn" type="button">🔁 امتحن نفس الامتحان ده تاني</button>
-      <button class="profile-save-btn secondary" id="historyDeleteBtn" type="button">🗑️ احذف السجل ده</button>
-    </div>
-  </div>`;
-}
-function bindHistoryTool(){
-  if(historyView==='detail' && historyDetailId){
-    const record = examHistory.find(r=>r.id===historyDetailId);
-    if(record){ bindHistoryDetail(record); return; }
-  }
-  bindHistoryList();
-}
-function bindHistoryList(){
-  const backBtn = document.getElementById('historyBackHome');
-  if(backBtn) backBtn.onclick = ()=>{ studyToolActive=null; renderCurrentView(); };
-  document.querySelectorAll('.study-history-item').forEach(el=>{
-    el.onclick = ()=>{ historyDetailId = el.dataset.id; historyView='detail'; renderCurrentView(); };
-  });
-}
-function bindHistoryDetail(record){
-  document.getElementById('historyBackList').onclick = ()=>{ historyView='list'; historyDetailId=null; renderCurrentView(); };
-  document.getElementById('historyRetakeBtn').onclick = ()=>{
-    examData = { questions: record.questions, fileSig: record.fileSig, fileNames: record.fileNames };
-    examCfg = {...record.cfg};
-    examFiles = [];
-    examRun = { answers:{}, graded:{} };
-    studyToolActive = 'exam';
-    examStep = 'run';
-    renderCurrentView();
-  };
-  document.getElementById('historyDeleteBtn').onclick = async ()=>{
-    if(!confirm('متأكد عايز تمسح سجل الامتحان ده؟')) return;
-    examHistory = examHistory.filter(r=>r.id!==record.id);
-    await saveExamHistory();
-    historyView = 'list'; historyDetailId = null;
-    renderCurrentView();
-  };
-}
-
-/* شريط توكنز واحد ثابت فوق أداة الامتحان، جنب إيموجي عملة، بيتغيّر لايف حسب الحالة:
-   - قبل أي توليد: بيوري الحد الأقصى المتوقع حسب مواصفات الامتحان الحالية.
-   - بعد التوليد: بيوري الاستهلاك الفعلي (مدخل/مخرج) من آخر طلب. */
-function examTokenBarHtml(){
-  const est = examMaxTokensFor(examCfg);
-  if(examLastUsage){
-    const inTok = examLastUsage.input_tokens, outTok = examLastUsage.output_tokens, maxTok = examLastUsage.maxTokens;
-    const nearLimit = !!(maxTok && outTok!=null && outTok >= maxTok*0.9);
-    return `<div class="coin-bar${nearLimit?' warn':''}" id="examTokenBar">
-      <span class="coin-ic">🪙</span>
-      <span class="coin-main"><b>${outTok}</b> / ${maxTok} توكن (آخر توليد)</span>
-      <span class="coin-sub">مدخل ${inTok} توكن</span>
-      ${nearLimit?'<span class="coin-flag">⚠️ قريب من الحد — لو الأسئلة ناقصة قلّل العدد</span>':''}
-    </div>`;
-  }
-  return `<div class="coin-bar" id="examTokenBar">
-    <span class="coin-ic">🪙</span>
-    <span class="coin-main">الحد الأقصى المتوقع: <b>${est}</b> توكن</span>
-    <span class="coin-sub">بيزيد مع عدد الأسئلة (سقفه 8000)</span>
-  </div>`;
-}
-
-/* --- أداة "إنشاء الاختبارات" --- */
-function examToolHtml(){
-  let inner;
-  if(examStep==='upload') inner = examUploadHtml();
-  else if(examStep==='config') inner = examConfigHtml();
-  else if(examStep==='loading') inner = `<div class="study-view"><div class="study-loading">⏳ بنجهزلك الامتحان دلوقتي، اللحظة دي ممكن تاخد شوية وقت حسب حجم الماتريال...</div></div>`;
-  else if(examStep==='result') inner = examResultHtml();
-  else if(examStep==='run') inner = examRunHtml();
-  else inner = '';
-  return examTokenBarHtml() + inner;
-}
-function bindExamTool(){
-  if(examStep==='upload') bindExamUpload();
-  else if(examStep==='config') bindExamConfig();
-  else if(examStep==='result') bindExamResult();
-  else if(examStep==='run') bindExamRun();
-}
-
-function examUploadHtml(){
-  const filesHtml = examFiles.map((f,i)=>`<span class="nap-chip">📄 ${escapeHtml(f.name)} <button type="button" data-i="${i}">✕</button></span>`).join('');
-  return `<div class="study-view">
-    <button class="study-back" id="examBackHome" type="button">→ رجوع لأدوات المذاكرة</button>
-    <h3>📝 إنشاء الاختبارات</h3>
-    <p class="study-sub">ارفع ملف أو أكتر بصيغة PDF فيه الماتريال اللي عايز الامتحان يتبني عليه — هنحلله بالتفصيل ونجهزلك الأسئلة منه بس.</p>
-    <input type="file" id="examFileInput" hidden multiple accept="application/pdf">
-    <div class="study-dropzone" id="examDropzone">
-      <div class="sdz-ic">📥</div>
-      <div class="sdz-main">اسحب وسيب ملفات الـPDF هنا</div>
-      <div class="sdz-sub">أو دوس هنا عشان تختارها من جهازك (حتى 15MB لكل ملف)</div>
-    </div>
-    <div class="nono-attach-preview" id="examFileList">${filesHtml}</div>
-    ${examError?`<div class="study-error">${escapeHtml(examError)}</div>`:''}
-    <button class="profile-save-btn" id="examNextBtn" type="button" ${examFiles.length?'':'disabled'}>التالي: مواصفات الامتحان ⬅</button>
-  </div>`;
-}
-async function examProcessFileList(fileList){
-  const files = [...fileList];
-  for(const f of files){
-    if(f.type!=='application/pdf'){ alert(`الملف "${f.name}" لازم يكون PDF`); continue; }
-    if(f.size > 15*1024*1024){ alert(`الملف "${f.name}" كبير أوي، حاول ملف أصغر من 15MB`); continue; }
-    try{
-      const b64 = await nonoFileToBase64(f);
-      examFiles.push({name:f.name, size:f.size, block:{type:'document', source:{type:'base64', media_type:'application/pdf', data:b64}}});
-    }catch(err){ alert(`حصلت مشكلة في قراءة "${f.name}"`); }
-  }
-  examError = null;
-  renderCurrentView();
-}
-function bindExamUpload(){
-  document.getElementById('examBackHome').onclick = ()=>{ studyToolActive=null; renderCurrentView(); };
-  const dz = document.getElementById('examDropzone');
-  const fileInput = document.getElementById('examFileInput');
-  dz.onclick = ()=> fileInput.click();
-  fileInput.addEventListener('change', (e)=>{
-    examProcessFileList(e.target.files);
-    e.target.value = '';
-  });
-  ['dragenter','dragover'].forEach(evt=>{
-    dz.addEventListener(evt, (e)=>{ e.preventDefault(); e.stopPropagation(); dz.classList.add('dragover'); });
-  });
-  ['dragleave','dragend'].forEach(evt=>{
-    dz.addEventListener(evt, (e)=>{ e.preventDefault(); e.stopPropagation(); dz.classList.remove('dragover'); });
-  });
-  dz.addEventListener('drop', (e)=>{
-    e.preventDefault(); e.stopPropagation();
-    dz.classList.remove('dragover');
-    if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
-      examProcessFileList(e.dataTransfer.files);
-    }
-  });
-  document.querySelectorAll('#examFileList button').forEach(b=>{
-    b.onclick = (e)=>{ e.stopPropagation(); examFiles.splice(+b.dataset.i,1); renderCurrentView(); };
-  });
-  const nextBtn = document.getElementById('examNextBtn');
-  if(nextBtn) nextBtn.onclick = ()=>{
-    if(!examFiles.length){ examError = 'لازم ترفع ملف واحد على الأقل الأول'; renderCurrentView(); return; }
-    examStep = 'config';
-    renderCurrentView();
-  };
-}
-
-function examConfigHtml(){
-  const showMode = (examCfg.type==='mcq' || examCfg.type==='tf');
-  return `<div class="study-view">
-    <button class="study-back" id="examBackUpload" type="button">→ رجوع لرفع الملفات</button>
-    <h3>⚙️ مواصفات الامتحان</h3>
-    <div class="study-field">
-      <label>اللغة</label>
-      <div class="pill-list" id="examLangPick">
-        <button type="button" class="pill ${examCfg.lang==='ar'?'active':''}" data-v="ar">اللغة العربية</button>
-        <button type="button" class="pill ${examCfg.lang==='en'?'active':''}" data-v="en">اللغة الإنجليزية</button>
-      </div>
-    </div>
-    <div class="study-field">
-      <label>مستوى الأسئلة</label>
-      <div class="pill-list" id="examDiffPick">
-        <button type="button" class="pill ${examCfg.diff==='easy'?'active':''}" data-v="easy">سهلة</button>
-        <button type="button" class="pill ${examCfg.diff==='medium'?'active':''}" data-v="medium">متوسطة</button>
-        <button type="button" class="pill ${examCfg.diff==='hard'?'active':''}" data-v="hard">صعبة</button>
-        <button type="button" class="pill ${examCfg.diff==='mix'?'active':''}" data-v="mix">ميكس</button>
-      </div>
-    </div>
-    <div class="study-field">
-      <label>نوع الأسئلة</label>
-      <div class="pill-list" id="examTypePick">
-        <button type="button" class="pill ${examCfg.type==='mcq'?'active':''}" data-v="mcq">اختيار من متعدد (MCQ)</button>
-        <button type="button" class="pill ${examCfg.type==='tf'?'active':''}" data-v="tf">صح وغلط</button>
-        <button type="button" class="pill ${examCfg.type==='essay'?'active':''}" data-v="essay">مقالي</button>
-      </div>
-    </div>
-    <div class="study-field">
-      <label>عدد الأسئلة (اللي المفروض يحضرها)</label>
-      <input type="number" id="examCountInput" min="1" max="50" value="${examCfg.count}">
-    </div>
-    ${showMode?`<div class="study-field" id="examModeField">
-      <label>هتمتحن الامتحان ده إزاي؟</label>
-      <div class="pill-list" id="examModePick">
-        <button type="button" class="pill ${examCfg.mode==='electronic'?'active':''}" data-v="electronic">💻 إلكتروني (يديني الأسئلة وأختار، ويصحح ويحللي)</button>
-        <button type="button" class="pill ${examCfg.mode==='textual'?'active':''}" data-v="textual">📄 مكتوب (كوبي بس)</button>
-      </div>
-    </div>`:''}
-    ${examError?`<div class="study-error">${escapeHtml(examError)}</div>`:''}
-    <button class="profile-save-btn" id="examGenerateBtn" type="button">✨ جهّز الامتحان</button>
-  </div>`;
-}
-function examSyncCountFromInput(){
-  const inp = document.getElementById('examCountInput');
-  if(inp) examCfg.count = Math.max(1, Math.min(50, +inp.value||examCfg.count||10));
-}
-function bindExamConfig(){
-  document.getElementById('examBackUpload').onclick = ()=>{ examStep='upload'; renderCurrentView(); };
-  document.querySelectorAll('#examLangPick .pill').forEach(b=> b.onclick = ()=>{ examSyncCountFromInput(); examCfg.lang=b.dataset.v; renderCurrentView(); });
-  document.querySelectorAll('#examDiffPick .pill').forEach(b=> b.onclick = ()=>{ examSyncCountFromInput(); examCfg.diff=b.dataset.v; renderCurrentView(); });
-  document.querySelectorAll('#examTypePick .pill').forEach(b=> b.onclick = ()=>{ examSyncCountFromInput(); examCfg.type=b.dataset.v; renderCurrentView(); });
-  const modePick = document.getElementById('examModePick');
-  if(modePick) modePick.querySelectorAll('.pill').forEach(b=> b.onclick = ()=>{ examSyncCountFromInput(); examCfg.mode=b.dataset.v; renderCurrentView(); });
-  const countInp = document.getElementById('examCountInput');
-  if(countInp) countInp.addEventListener('change', examSyncCountFromInput);
-  document.getElementById('examGenerateBtn').onclick = ()=>{
-    examSyncCountFromInput();
-    if(!examFiles.length){ examError='لازم ترفع ملف واحد على الأقل الأول'; examStep='upload'; renderCurrentView(); return; }
-    generateExam();
-  };
-}
-
-function examMaxTokensFor(cfg){
-  const perQ = cfg.type==='mcq' ? 240 : (cfg.type==='tf' ? 140 : 260);
-  return Math.min(8000, Math.max(1800, 700 + cfg.count*perQ));
-}
-async function generateExam(){
-  examStep = 'loading';
-  examError = null;
-  renderCurrentView();
-  const langWord = examCfg.lang==='ar' ? 'اكتب كل حاجة بالعربي الفصحى الواضحة' : 'Write everything in clear English';
-  const diffWord = {easy:'سهلة', medium:'متوسطة', hard:'صعبة', mix:'متنوعة (توزيع بين سهلة ومتوسطة وصعبة)'}[examCfg.diff] || 'متنوعة';
-  const typeSchemas = {
-    mcq: `رجّع JSON فقط (من غير أي نص أو Markdown fences قبله أو بعده) بالشكل ده بالظبط:
-{"questions":[{"topic":"اسم الجزئية أو الموضوع الفرعي جوه الماتريال اللي السؤال ده منها","q":"نص السؤال","options":["اختيار 1","اختيار 2","اختيار 3","اختيار 4"],"answerIndex":0,"explain":"شرح مختصر للإجابة الصح"}]}
-answerIndex هو رقم الاختيار الصح (0 لحد 3).`,
-    tf: `رجّع JSON فقط (من غير أي نص أو Markdown fences قبله أو بعده) بالشكل ده بالظبط:
-{"questions":[{"topic":"اسم الجزئية أو الموضوع الفرعي جوه الماتريال اللي السؤال ده منها","q":"نص العبارة","answer":true,"explain":"شرح مختصر ليه العبارة صح أو غلط"}]}
-answer لازم تكون true لو العبارة صحيحة، أو false لو غلط.`,
-    essay: `رجّع JSON فقط (من غير أي نص أو Markdown fences قبله أو بعده) بالشكل ده بالظبط:
-{"questions":[{"topic":"اسم الجزئية أو الموضوع الفرعي جوه الماتريال اللي السؤال ده منها","q":"نص السؤال المقالي"}]}`
-  };
-  const typeLabel = examCfg.type==='mcq' ? 'اختيار من متعدد' : (examCfg.type==='tf' ? 'صح وغلط' : 'مقالي');
-  const sys = `انت مُعِد امتحانات محترف. هتستقبل ملف أو أكتر بصيغة PDF فيهم ماتريال دراسي، ومهمتك إنك تحلل محتواهم بالتفصيل وتبني منه امتحان اعتمادًا على الماتريال المرفق بس، من غير ما تضيف أي معلومة مش موجودة فيه. ${langWord}. خلي مستوى صعوبة الأسئلة ${diffWord}. لازم ردّك يكون نص JSON صالح فقط، بدون أي مقدمة أو خاتمة أو علامات Markdown زي \`\`\`json.`;
-  const content = [...examFiles.map(f=>f.block), {type:'text', text:`حلل الماتريال المرفق بالتفصيل وجهزلي منه امتحان فيه بالظبط ${examCfg.count} سؤال من نوع "${typeLabel}".\n${typeSchemas[examCfg.type]}`}];
-  const maxTok = examMaxTokensFor(examCfg);
-  let lastErr = null;
-  const MAX_ATTEMPTS = 3;
-  for(let attempt=1; attempt<=MAX_ATTEMPTS; attempt++){
-    try{
-      if(attempt>1){
-        examError = `⏳ محاولة رقم ${attempt} من ${MAX_ATTEMPTS}...`;
-        renderCurrentView();
-      }
-      const raw = await nonoCallAPI([{role:'user', content}], sys, maxTok, 90000, (usage)=>{
-        examLastUsage = { input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, maxTokens: maxTok };
-        renderCurrentView();
-      });
-      const parsed = nonoParseJsonLoose(raw);
-      if(!parsed || !Array.isArray(parsed.questions) || !parsed.questions.length) throw new Error('الرد ماكانش فيه أسئلة صالحة');
-      examData = parsed;
-      examRun = { answers:{}, graded:{} };
-      examStep = 'result';
-      examError = null;
-      renderCurrentView();
-      return;
-    }catch(e){
-      console.error(`generateExam: attempt ${attempt} failed`, e);
-      lastErr = e;
-      if(attempt<MAX_ATTEMPTS){ await new Promise(r=>setTimeout(r, 1200*attempt)); }
-    }
-  }
-  const isNetworkLevel = !!(lastErr && lastErr.networkLevel);
-  const extraHint = isNetworkLevel
-    ? ' ملحوظة: الأداة دي بتحتاج إنها تتفتح كـ Artifact حي جوه شات كلود عشان تقدر تتصل بالسيرفر — لو بتفتح الملف كملف مستقل على جهازك أو من استضافة تانية، الاتصال هيفشل دايمًا بغض النظر عن سرعة النت عندك.'
-    : ' لو المشكلة استمرت، جرب تقلّل عدد الأسئلة أو حجم الملفات.';
-  examError = 'حصلت مشكلة في تجهيز الامتحان بعد '+MAX_ATTEMPTS+' محاولات: '+(lastErr&&lastErr.message?lastErr.message:'خطأ غير معروف')+'.'+extraHint;
-  examStep = 'config';
-  renderCurrentView();
-}
-
-function examResultHtml(){
-  if(examCfg.type==='essay' || examCfg.mode==='textual') return examTextualHtml();
-  return `<div class="study-view">
-    <button class="study-back" id="examBackConfig" type="button">→ رجوع لمواصفات الامتحان</button>
-    <h3>✅ الامتحان جاهز</h3>
-    <p class="study-sub">فيه ${examData.questions.length} سؤال. لما تكون جاهز دوس ابدأ الامتحان الإلكتروني.</p>
-    <button class="profile-save-btn" id="examStartRunBtn" type="button">▶️ ابدأ الامتحان الإلكتروني</button>
-  </div>`;
-}
-function examBuildTextualString(){
-  const qs = examData.questions;
-  const isEssay = examCfg.type==='essay';
-  const typeLabel = examCfg.type==='mcq' ? 'اختيار من متعدد' : (examCfg.type==='tf' ? 'صح وغلط' : 'مقالي');
-  let out = `امتحان (${typeLabel})\n\n`;
-  qs.forEach((q,i)=>{
-    out += `${i+1}. ${q.q}\n`;
-    if(examCfg.type==='mcq'){
-      (q.options||[]).forEach((op,oi)=>{ out += `   ${String.fromCharCode(65+oi)}) ${op}\n`; });
-    } else if(examCfg.type==='tf'){
-      out += examCfg.lang==='en' ? `   ( ) True     ( ) False\n` : `   (   ) صح      (   ) غلط\n`;
-    }
-    out += `\n`;
-  });
-  if(!isEssay){
-    out += `\n---- الإجابات ----\n`;
-    qs.forEach((q,i)=>{
-      if(examCfg.type==='mcq') out += `${i+1}. ${String.fromCharCode(65+(q.answerIndex||0))}${q.explain?' — '+q.explain:''}\n`;
-      else out += `${i+1}. ${q.answer ? (examCfg.lang==='en'?'True':'صح') : (examCfg.lang==='en'?'False':'غلط')}${q.explain?' — '+q.explain:''}\n`;
-    });
-  }
-  return out;
-}
-function examTextualHtml(){
-  const text = examBuildTextualString();
-  return `<div class="study-view">
-    <button class="study-back" id="examBackConfig" type="button">→ رجوع لمواصفات الامتحان</button>
-    <h3>📄 نسخة الامتحان المكتوبة</h3>
-    <p class="study-sub">انسخ النص ده واستخدمه زي ما انت عايز.</p>
-    <textarea class="study-textarea" id="examTextArea" readonly>${escapeHtml(text)}</textarea>
-    <button class="profile-save-btn" id="examCopyBtn" type="button">📋 نسخ النص</button>
-  </div>`;
-}
-function bindExamResult(){
-  document.getElementById('examBackConfig').onclick = ()=>{ examStep='config'; renderCurrentView(); };
-  if(examCfg.type==='essay' || examCfg.mode==='textual'){
-    const copyBtn = document.getElementById('examCopyBtn');
-    if(copyBtn) copyBtn.onclick = ()=>{
-      const ta = document.getElementById('examTextArea');
-      ta.select();
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(ta.value).then(()=> alert('اتنسخ! ✅')).catch(()=>{ try{ document.execCommand('copy'); alert('اتنسخ! ✅'); }catch(e){} });
-      } else {
-        try{ document.execCommand('copy'); alert('اتنسخ! ✅'); }catch(e){}
-      }
-    };
-  } else {
-    const startBtn = document.getElementById('examStartRunBtn');
-    if(startBtn) startBtn.onclick = ()=>{
-      examData.fileSig = examFileSig();
-      examData.fileNames = examFiles.map(f=>f.name);
-      examRun = { answers:{}, graded:{} };
-      examStep='run'; renderCurrentView();
-    };
-  }
-}
-
-function examOptionLabels(q){
-  if(examCfg.type==='mcq') return q.options||[];
-  return examCfg.lang==='en' ? ['True','False'] : ['صح','غلط'];
-}
-function examCorrectIdx(q){
-  return examCfg.type==='mcq' ? q.answerIndex : (q.answer ? 0 : 1);
-}
-function examFileSig(){
-  return examFiles.map(f=>`${f.name}:${f.size||0}`).sort().join('|') || 'no-file';
-}
-function examLevelLabel(pct){
-  if(pct>=90) return 'ممتاز 🌟';
-  if(pct>=80) return 'جيد جدًا 👏';
-  if(pct>=65) return 'جيد 🙂';
-  if(pct>=50) return 'مقبول 😐';
-  return 'ضعيف، محتاج مذاكرة أكتر 📚';
-}
-function examRunHtml(){
-  const qs = examData.questions;
-  const items = qs.map((q,i)=>{
-    const labels = examOptionLabels(q);
-    const optsHtml = labels.map((op,oi)=>`<div class="nq-opt" data-qi="${i}" data-oi="${oi}">${examCfg.type==='mcq'?String.fromCharCode(65+oi)+') ':''}${escapeHtml(op)}</div>`).join('');
-    return `<div class="nq-item" data-qidx="${i}">
-      <div class="nq-q">${i+1}. ${escapeHtml(q.q||'')}</div>
-      <div class="nq-opts">${optsHtml}</div>
-      <div class="nq-feedback" id="examFeedback${i}"></div>
-    </div>`;
-  }).join('');
-  return `<div class="study-view">
-    <button class="study-back" id="examBackResult" type="button">→ رجوع</button>
-    <h3>💻 الامتحان الإلكتروني</h3>
-    <p class="study-sub" id="examProgressText">دوس على إجابتك وهتعرف على طول صح ولا غلط. جاوبت 0 من ${qs.length}.</p>
-    <div class="nono-quiz" id="examQuizWrap">${items}</div>
-    <button class="profile-save-btn" id="examGradeBtn" type="button">✅ أنهي الامتحان وشوف نتيجتي ومستوايا</button>
-  </div>`;
-}
-function computeExamAnalysis(){
-  const qs = examData.questions;
-  let correct = 0;
-  const topicStats = {};
-  qs.forEach((q,i)=>{
-    const topic = q.topic || 'عام';
-    if(!topicStats[topic]) topicStats[topic] = {correct:0, total:0};
-    topicStats[topic].total++;
-    const userAns = examRun.answers[i];
-    const isCorrect = userAns===examCorrectIdx(q);
-    if(isCorrect){ correct++; topicStats[topic].correct++; }
-  });
-  return { correct, total: qs.length, topicStats };
-}
-function buildHistoryRecord(stats){
-  const pct = stats.total ? Math.round((stats.correct/stats.total)*100) : 0;
-  return {
-    id: genId(),
-    date: new Date().toISOString(),
-    fileNames: (examData.fileNames && examData.fileNames.length) ? examData.fileNames : examFiles.map(f=>f.name),
-    fileSig: examData.fileSig || examFileSig(),
-    cfg: {...examCfg},
-    questions: examData.questions,
-    answers: {...examRun.answers},
-    correct: stats.correct,
-    total: stats.total,
-    pct,
-    level: examLevelLabel(pct),
-    topicStats: stats.topicStats
-  };
-}
-function renderExamAnalysisBlock(stats, record, prevRecord){
-  const pct = record.pct;
-  const topicsHtml = Object.entries(stats.topicStats).map(([topic,s])=>{
-    const p = s.total ? Math.round((s.correct/s.total)*100) : 0;
-    return `<div class="study-topic-row"><span>${escapeHtml(topic)}</span><span class="study-topic-score ${p<60?'weak':''}">${s.correct}/${s.total} (${p}%)</span></div>`;
-  }).join('');
-  const weakTopics = Object.entries(stats.topicStats).filter(([,s])=> s.total && (s.correct/s.total) < 0.6).map(([t])=>t);
-  let progressHtml = '';
-  if(prevRecord){
-    const diff = pct - prevRecord.pct;
-    const cls = diff>0?'up':(diff<0?'down':'');
-    const arrow = diff>0?'⬆️':(diff<0?'⬇️':'➖');
-    const msg = diff>0 ? `فيه تطوّر! درجتك زادت ${diff}% عن آخر محاولة ليك على نفس الملف ده (كانت ${prevRecord.pct}%).`
-      : diff<0 ? `درجتك نزلت ${Math.abs(diff)}% عن آخر محاولة ليك على نفس الملف ده (كانت ${prevRecord.pct}%) — راجع اللي غلطت فيه.`
-      : `درجتك زي آخر محاولة ليك بالظبط على نفس الملف ده (${prevRecord.pct}%).`;
-    progressHtml = `<div class="study-progress-note ${cls}">${arrow} ${msg}</div>`;
-  }
-  const el = document.createElement('div');
-  el.className = 'study-analysis';
-  el.innerHTML = `<h3>📊 نتيجتك ومستوايا<span class="study-level-badge">${escapeHtml(record.level)}</span></h3>
-    <div class="study-score-big">${stats.correct} / ${stats.total} <span>(${pct}%)</span></div>
-    ${progressHtml}
-    <div class="study-topics">${topicsHtml}</div>
-    ${weakTopics.length ? `<p class="study-focus">🎯 ركّز في مذاكرتك على: <strong>${weakTopics.map(t=>escapeHtml(t)).join('، ')}</strong></p>` : `<p class="study-focus good">👏 مستواك متوازن في كل أجزاء الماتريال!</p>`}
-    <div style="display:flex;gap:10px;flex-wrap:wrap;">
-      <button class="profile-save-btn secondary" id="examRetakeSameBtn" type="button">🔁 أعد نفس الامتحان</button>
-      <button class="profile-save-btn secondary" id="examHistoryBtn" type="button">📜 سجل الدرجات</button>
-      <button class="profile-save-btn" id="examRestartBtn" type="button">✨ اعمل امتحان جديد</button>
-    </div>`;
-  document.querySelector('.study-view').appendChild(el);
-  document.getElementById('examRestartBtn').onclick = ()=>{
-    studyToolActive = null; examStep = 'upload'; examFiles = []; examData = null; examRun = {answers:{}, graded:{}}; examError = null;
-    renderCurrentView();
-  };
-  document.getElementById('examRetakeSameBtn').onclick = ()=>{
-    examRun = { answers:{}, graded:{} };
-    examStep = 'run';
-    renderCurrentView();
-  };
-  document.getElementById('examHistoryBtn').onclick = ()=>{
-    studyToolActive = 'history'; historyView = 'list'; historyDetailId = null;
-    renderCurrentView();
-  };
-  el.scrollIntoView({behavior:'smooth', block:'start'});
-}
-function examUpdateProgressText(){
-  const t = document.getElementById('examProgressText');
-  if(t) t.textContent = `دوس على إجابتك وهتعرف على طول صح ولا غلط. جاوبت ${Object.keys(examRun.graded).length} من ${examData.questions.length}.`;
-}
-function examMarkQuestion(qi, chosenOi){
-  const q = examData.questions[qi];
-  const correctIdx = examCorrectIdx(q);
-  const labels = examOptionLabels(q);
-  const group = document.querySelector(`#examQuizWrap .nq-item[data-qidx="${qi}"] .nq-opts`);
-  const item = document.querySelector(`#examQuizWrap .nq-item[data-qidx="${qi}"]`);
-  if(item) item.classList.add('graded');
-  if(group){
-    [...group.children].forEach((o,idx)=>{
-      o.classList.remove('selected','correct','wrong');
-      const oldMark = o.querySelector('.nq-mark');
-      if(oldMark) oldMark.remove();
-      if(idx===correctIdx){
-        o.classList.add('correct');
-        const m = document.createElement('span'); m.className='nq-mark'; m.textContent='✓'; o.appendChild(m);
-      } else if(chosenOi!=null && idx===chosenOi){
-        o.classList.add('wrong');
-        const m = document.createElement('span'); m.className='nq-mark'; m.textContent='✗'; o.appendChild(m);
-      }
-    });
-  }
-  const fb = document.getElementById('examFeedback'+qi);
-  if(fb){
-    let pickHtml;
-    if(chosenOi==null){
-      pickHtml = `<div class="nq-your-pick">⏺ ماجاوبتش على السؤال ده — الإجابة الصح: "${escapeHtml(labels[correctIdx]||'')}"</div>`;
-    } else if(chosenOi===correctIdx){
-      pickHtml = `<div class="nq-your-pick">✅ إجابة صح!</div>`;
-    } else {
-      pickHtml = `<div class="nq-your-pick">❌ غلط — اخترت: "${escapeHtml(labels[chosenOi]||'')}"، والإجابة الصح: "${escapeHtml(labels[correctIdx]||'')}"</div>`;
-    }
-    fb.innerHTML = pickHtml + (q.explain?`<div class="nq-explain show">💡 ${escapeHtml(q.explain)}</div>`:'');
-  }
-}
-async function examFinishAndShowResults(){
-  const gradeBtn = document.getElementById('examGradeBtn');
-  if(gradeBtn){ gradeBtn.disabled = true; gradeBtn.textContent = '⏳ بنحسب نتيجتك...'; }
-  examData.questions.forEach((q,i)=>{
-    if(examRun.graded[i]) return;
-    examMarkQuestion(i, examRun.answers[i]!==undefined ? examRun.answers[i] : null);
-    examRun.graded[i] = true;
-  });
-  const stats = computeExamAnalysis();
-  const record = buildHistoryRecord(stats);
-  const prevRecord = examHistory
-    .filter(r=> r.fileSig===record.fileSig)
-    .sort((a,b)=> new Date(b.date)-new Date(a.date))[0] || null;
-  examHistory.unshift(record);
-  await saveExamHistory();
-  renderExamAnalysisBlock(stats, record, prevRecord);
-  if(gradeBtn) gradeBtn.remove();
-}
-function bindExamRun(){
-  document.getElementById('examBackResult').onclick = ()=>{ examStep='result'; renderCurrentView(); };
-  document.querySelectorAll('#examQuizWrap .nq-opt').forEach(el=>{
-    el.onclick = ()=>{
-      const qi = +el.dataset.qi, oi = +el.dataset.oi;
-      if(examRun.graded[qi]) return;
-      examRun.answers[qi] = oi;
-      examRun.graded[qi] = true;
-      examMarkQuestion(qi, oi);
-      examUpdateProgressText();
-    };
-  });
-  document.getElementById('examGradeBtn').onclick = ()=>{
-    const answeredCount = Object.keys(examRun.graded).length;
-    if(answeredCount < examData.questions.length && !confirm('لسه فيه أسئلة متجاوبتش، عايز تنهي الامتحان كده؟')) return;
-    examFinishAndShowResults();
-  };
-}
-
 /* ================= الألعاب الترفيهية — DISPATCH ================= */
 function renderGamesView(){
   const el = document.getElementById('trackView');
@@ -10235,6 +9174,7 @@ function renderGamesView(){
   if(gamesActiveGame==='reaction'){ el.innerHTML = reactionHtml(); bindReaction(); return; }
   if(gamesActiveGame==='click'){ el.innerHTML = clickChallengeHtml(); bindClickChallenge(); return; }
   if(gamesActiveGame==='whack'){ el.innerHTML = whackHtml(); bindWhack(); return; }
+  if(gamesActiveGame==='billiards'){ el.innerHTML = billiardsHtml(); bindBilliards(); return; }
 }
 function gamesHomeHtml(){
   return `<div class="study-view">
@@ -10283,6 +9223,14 @@ function gamesHomeHtml(){
         <div class="study-card-desc">اضغط على الهدف قبل ما يختفي — كل ما تزيد السرعة كل ما الاختفاء أسرع.</div>
       </div>
     </div>
+    <h3 class="games-cat-title">🎱 بلياردو</h3>
+    <div class="study-grid">
+      <div class="study-card" id="gameOpenBilliards">
+        <div class="study-card-ic">🎱</div>
+        <div class="study-card-title">بلياردو 8 Ball</div>
+        <div class="study-card-desc">اسحب الماوس لتحديد الاتجاه والقوة — تدريب، ضد الكمبيوتر، لاعبان، أو تحدي وقت.</div>
+      </div>
+    </div>
   </div>`;
 }
 function bindGamesHome(){
@@ -10300,6 +9248,8 @@ function bindGamesHome(){
   if(cc) cc.onclick = ()=>{ gamesActiveGame='click'; clickChallengeState=null; renderCurrentView(); };
   const wk = document.getElementById('gameOpenWhack');
   if(wk) wk.onclick = ()=>{ gamesActiveGame='whack'; whackState=null; renderCurrentView(); };
+  const bil = document.getElementById('gameOpenBilliards');
+  if(bil) bil.onclick = ()=>{ gamesActiveGame='billiards'; billiardsState=null; renderCurrentView(); };
 }
 function gamesBackHome(){ gamesActiveGame=null; renderCurrentView(); }
 function transposeGrid(g){ return g[0].map((_,c)=> g.map(row=>row[c])); }
@@ -10940,6 +9890,704 @@ async function saveWhackBest(){
   try{ await window.storage.set('games-whack-best', JSON.stringify(whackBest), false); }
   catch(e){ console.error('storage save failed', e); }
 }
+
+/* ================= Billiards 8 Ball ================= */
+const BIL_W = 900, BIL_H = 450, BIL_RAIL = 30, BIL_BALL_R = 11;
+const BIL_FRICTION = 0.985;
+const BIL_STOP_EPS = 0.045;
+const BIL_MAX_DRAG = 160;
+const BIL_MAX_POWER = 13;
+const BIL_POCKETS = [
+  {x:BIL_RAIL+8, y:BIL_RAIL+8, r:22},
+  {x:BIL_W/2, y:BIL_RAIL-2, r:18},
+  {x:BIL_W-BIL_RAIL-8, y:BIL_RAIL+8, r:22},
+  {x:BIL_RAIL+8, y:BIL_H-BIL_RAIL-8, r:22},
+  {x:BIL_W/2, y:BIL_H-BIL_RAIL+2, r:18},
+  {x:BIL_W-BIL_RAIL-8, y:BIL_H-BIL_RAIL-8, r:22},
+];
+const BIL_COLORS = {
+  green:{light:'#238a57', dark:'#0c4a2c'},
+  blue:{light:'#2467a8', dark:'#0d3357'},
+  red:{light:'#a8323d', dark:'#5a1119'},
+  purple:{light:'#71449e', dark:'#3a2058'},
+};
+const BIL_BALL_DEF = [
+  {n:1,color:'#dfb515',stripe:false},{n:2,color:'#1b4f9c',stripe:false},
+  {n:3,color:'#c0272d',stripe:false},{n:4,color:'#5b2d8e',stripe:false},
+  {n:5,color:'#d9691e',stripe:false},{n:6,color:'#1e6b3a',stripe:false},
+  {n:7,color:'#6e1f22',stripe:false},{n:8,color:'#181818',stripe:false},
+  {n:9,color:'#dfb515',stripe:true},{n:10,color:'#1b4f9c',stripe:true},
+  {n:11,color:'#c0272d',stripe:true},{n:12,color:'#5b2d8e',stripe:true},
+  {n:13,color:'#d9691e',stripe:true},{n:14,color:'#1e6b3a',stripe:true},
+  {n:15,color:'#6e1f22',stripe:true},
+];
+let bilLoopRunning = false;
+let bilAudioCtx = null;
+
+function bilRackOrder(){ return [1,9,2,3,8,10,11,4,12,5,13,6,14,7,15]; }
+function bilNewRack(){
+  const r = BIL_BALL_R;
+  const order = bilRackOrder();
+  const footX = BIL_W*0.72, footY = BIL_H/2;
+  const dx = r*Math.sqrt(3);
+  const positions = [];
+  for(let row=0; row<5; row++){
+    const count = row+1;
+    const rowX = footX + row*dx;
+    const startY = footY - (count-1)*r;
+    for(let i=0;i<count;i++) positions.push({x:rowX, y:startY+i*2*r});
+  }
+  const balls = [{n:0, x:BIL_W*0.26, y:BIL_H/2, vx:0, vy:0, potted:false, color:'#f5f5ef', stripe:false}];
+  order.forEach((num, idx)=>{
+    const def = BIL_BALL_DEF.find(d=>d.n===num);
+    const pos = positions[idx];
+    balls.push({n:num, x:pos.x, y:pos.y, vx:0, vy:0, potted:false, color:def.color, stripe:def.stripe});
+  });
+  return balls;
+}
+function bilStartGame(mode, aiLevel){
+  if(billiardsState && billiardsState.tickId) clearInterval(billiardsState.tickId);
+  billiardsState = {
+    mode, aiLevel: aiLevel||null,
+    balls: bilNewRack(),
+    currentPlayer:1,
+    playerGroups:{1:null,2:null},
+    playerScore:{1:0,2:0},
+    groupsAssigned:false,
+    simulating:false,
+    aiming:false,
+    dragCurrent:null,
+    pottedThisShot:[],
+    cueScratchedThisShot:false,
+    firstContactBallThisShot:null,
+    timeLeft:60,
+    score:0,
+    tickId:null,
+    over:false,
+    winner:null,
+    message:null,
+    soundOn:true,
+    aiPending:false,
+    tableColor: billiardsTableColor,
+  };
+  renderCurrentView();
+}
+function bilResetShotTrackers(){
+  const s = billiardsState;
+  s.pottedThisShot = [];
+  s.cueScratchedThisShot = false;
+  s.firstContactBallThisShot = null;
+}
+function bilRespotCueBall(){
+  const s = billiardsState;
+  const cue = s.balls.find(b=>b.n===0);
+  cue.potted = false; cue.vx=0; cue.vy=0;
+  cue.x = BIL_W*0.26; cue.y = BIL_H/2;
+}
+function bilRerack(){
+  const s = billiardsState;
+  const cueOld = s.balls.find(b=>b.n===0);
+  const fresh = bilNewRack();
+  if(!cueOld.potted){
+    const cueFresh = fresh.find(b=>b.n===0);
+    cueFresh.x = cueOld.x; cueFresh.y = cueOld.y;
+  }
+  s.balls = fresh;
+}
+function bilGetAudioCtx(){
+  if(!bilAudioCtx){
+    try{ bilAudioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ bilAudioCtx=null; }
+  }
+  return bilAudioCtx;
+}
+function bilPlaySound(type, intensity){
+  const s = billiardsState;
+  if(!s || !s.soundOn) return;
+  const ctx = bilGetAudioCtx();
+  if(!ctx) return;
+  try{
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    let freq=300, dur=0.06, wave='triangle';
+    if(type==='hit'){ freq = 260+(intensity||0.5)*520; dur=0.05; wave='triangle'; }
+    else if(type==='cushion'){ freq=170; dur=0.07; wave='sine'; }
+    else if(type==='pocket'){ freq=130; dur=0.2; wave='sine'; }
+    osc.type=wave; osc.frequency.value=freq;
+    gain.gain.setValueAtTime(Math.min(0.32,(intensity||0.4)*0.35+0.05), now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now+dur);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(now); osc.stop(now+dur);
+  }catch(e){ /* audio not available */ }
+}
+function bilShakeTable(){
+  const shell = document.getElementById('bilShell');
+  if(!shell) return;
+  shell.classList.remove('shake');
+  void shell.offsetWidth;
+  shell.classList.add('shake');
+}
+function bilPotBall(b){
+  b.potted = true; b.vx=0; b.vy=0;
+  bilPlaySound('pocket', 1);
+  const s = billiardsState;
+  if(b.n===0) s.cueScratchedThisShot = true;
+  else s.pottedThisShot.push(b.n);
+}
+function bilResolveCollision(a,b){
+  const dx=b.x-a.x, dy=b.y-a.y;
+  const dist=Math.hypot(dx,dy);
+  const minDist = BIL_BALL_R*2;
+  if(dist===0 || dist>=minDist) return;
+  const nx=dx/dist, ny=dy/dist;
+  const overlap = minDist-dist;
+  a.x -= nx*overlap/2; a.y -= ny*overlap/2;
+  b.x += nx*overlap/2; b.y += ny*overlap/2;
+  const rvx=b.vx-a.vx, rvy=b.vy-a.vy;
+  const velAlongNormal = rvx*nx+rvy*ny;
+  if(velAlongNormal>0) return;
+  const restitution=0.95;
+  const j = -(1+restitution)*velAlongNormal/2;
+  a.vx -= j*nx; a.vy -= j*ny;
+  b.vx += j*nx; b.vy += j*ny;
+  const speed = Math.abs(velAlongNormal);
+  bilPlaySound('hit', Math.min(1,speed/BIL_MAX_POWER));
+  if(speed > BIL_MAX_POWER*0.6) bilShakeTable();
+  const s = billiardsState;
+  if(s.firstContactBallThisShot==null){
+    if(a.n===0) s.firstContactBallThisShot = b.n;
+    else if(b.n===0) s.firstContactBallThisShot = a.n;
+  }
+}
+function bilStep(){
+  const s = billiardsState;
+  let moving = false;
+  const balls = s.balls;
+  const minX = BIL_RAIL+BIL_BALL_R, maxX = BIL_W-BIL_RAIL-BIL_BALL_R;
+  const minY = BIL_RAIL+BIL_BALL_R, maxY = BIL_H-BIL_RAIL-BIL_BALL_R;
+  for(const b of balls){
+    if(b.potted) continue;
+    b.x += b.vx; b.y += b.vy;
+    b.vx *= BIL_FRICTION; b.vy *= BIL_FRICTION;
+    if(Math.hypot(b.vx,b.vy) < BIL_STOP_EPS){ b.vx=0; b.vy=0; } else moving = true;
+    let potted=false;
+    for(const p of BIL_POCKETS){
+      if(Math.hypot(b.x-p.x, b.y-p.y) < p.r*0.72){ bilPotBall(b); potted=true; break; }
+    }
+    if(potted) continue;
+    if(b.x<minX){ b.x=minX; b.vx=-b.vx*0.9; if(Math.abs(b.vx)>0.3) bilPlaySound('cushion', Math.abs(b.vx)/BIL_MAX_POWER); }
+    if(b.x>maxX){ b.x=maxX; b.vx=-b.vx*0.9; if(Math.abs(b.vx)>0.3) bilPlaySound('cushion', Math.abs(b.vx)/BIL_MAX_POWER); }
+    if(b.y<minY){ b.y=minY; b.vy=-b.vy*0.9; if(Math.abs(b.vy)>0.3) bilPlaySound('cushion', Math.abs(b.vy)/BIL_MAX_POWER); }
+    if(b.y>maxY){ b.y=maxY; b.vy=-b.vy*0.9; if(Math.abs(b.vy)>0.3) bilPlaySound('cushion', Math.abs(b.vy)/BIL_MAX_POWER); }
+  }
+  for(let i=0;i<balls.length;i++){
+    if(balls[i].potted) continue;
+    for(let j=i+1;j<balls.length;j++){
+      if(balls[j].potted) continue;
+      bilResolveCollision(balls[i], balls[j]);
+    }
+  }
+  return moving;
+}
+function bilEndGame(winner, reason){
+  const s = billiardsState;
+  s.over = true; s.winner = winner; s.message = reason;
+  renderCurrentView();
+}
+function bilResolveShotEnd(){
+  const s = billiardsState;
+  if(s.mode==='practice'){
+    if(s.cueScratchedThisShot) bilRespotCueBall();
+    renderCurrentView();
+    return;
+  }
+  if(s.mode==='time'){
+    const legalPots = s.pottedThisShot.filter(n=>n!==8);
+    s.score += legalPots.length;
+    if(s.pottedThisShot.includes(8)) s.score += 3;
+    if(s.cueScratchedThisShot) bilRespotCueBall();
+    const remainingObj = s.balls.filter(b=>b.n!==0 && !b.potted);
+    if(remainingObj.length===0) bilRerack();
+    renderCurrentView();
+    return;
+  }
+  // ai / 2p turn-based logic
+  let turnContinues = false;
+  if(!s.groupsAssigned){
+    if(s.pottedThisShot.includes(8)){ bilEndGame(s.currentPlayer===1?2:1, 'lost8early'); return; }
+    const nonEight = s.pottedThisShot.filter(n=>n!==8);
+    if(nonEight.length){
+      const g = nonEight[0] <= 7 ? 'solid' : 'stripe';
+      s.groupsAssigned = true;
+      s.playerGroups[s.currentPlayer] = g;
+      s.playerGroups[s.currentPlayer===1?2:1] = g==='solid'?'stripe':'solid';
+      s.playerScore[s.currentPlayer] += nonEight.length;
+      turnContinues = true;
+    }
+  } else {
+    const myGroup = s.playerGroups[s.currentPlayer];
+    const groupCleared = s.balls.filter(b=>!b.potted && b.n!==0 && b.n!==8 && ((myGroup==='solid'&&b.n<8)||(myGroup==='stripe'&&b.n>8))).length===0;
+    if(s.pottedThisShot.includes(8)){
+      if(groupCleared && !s.cueScratchedThisShot){ bilEndGame(s.currentPlayer, 'win8'); return; }
+      bilEndGame(s.currentPlayer===1?2:1, 'lost8'); return;
+    }
+    const legalPots = s.pottedThisShot.filter(n=> myGroup==='solid'? n<8 : n>8);
+    s.playerScore[s.currentPlayer] += legalPots.length;
+    const fh = s.firstContactBallThisShot;
+    let hitOwnFirst = false;
+    if(fh!=null){
+      if(myGroup==='solid' && fh<8) hitOwnFirst=true;
+      if(myGroup==='stripe' && fh>8) hitOwnFirst=true;
+    }
+    if(legalPots.length>0 && hitOwnFirst) turnContinues = true;
+  }
+  if(s.cueScratchedThisShot) turnContinues = false;
+  if(!turnContinues) s.currentPlayer = s.currentPlayer===1?2:1;
+  if(s.cueScratchedThisShot) bilRespotCueBall();
+  renderCurrentView();
+}
+function bilAiTakeShot(){
+  const s = billiardsState;
+  if(!s || s.mode!=='ai' || s.currentPlayer!==2 || s.over || s.simulating) return;
+  const cue = s.balls.find(b=>b.n===0);
+  const myGroup = s.playerGroups[2];
+  let candidates = s.balls.filter(b=>!b.potted && b.n!==0 && b.n!==8 && (!myGroup || (myGroup==='solid'?b.n<8:b.n>8)));
+  if(candidates.length===0) candidates = s.balls.filter(b=>!b.potted && b.n===8);
+  let best=null;
+  for(const t of candidates){
+    for(const p of BIL_POCKETS){
+      const toPocketAngle = Math.atan2(p.y-t.y, p.x-t.x);
+      const ghostX = t.x - Math.cos(toPocketAngle)*BIL_BALL_R*2;
+      const ghostY = t.y - Math.sin(toPocketAngle)*BIL_BALL_R*2;
+      const cueAngle = Math.atan2(ghostY-cue.y, ghostX-cue.x);
+      let diff = Math.abs(cueAngle-toPocketAngle);
+      if(diff>Math.PI) diff = 2*Math.PI-diff;
+      const dist = Math.hypot(ghostX-cue.x, ghostY-cue.y);
+      const score = diff*3 + dist*0.006;
+      if(!best || score<best.score) best = {t,p,ghostX,ghostY,score,cueAngle};
+    }
+  }
+  bilResetShotTrackers();
+  if(!best){ s.currentPlayer=1; renderCurrentView(); return; }
+  const noise = s.aiLevel==='easy'?0.30:(s.aiLevel==='medium'?0.14:0.05);
+  const angle = best.cueAngle + (Math.random()*2-1)*noise;
+  const powerBase = s.aiLevel==='easy'?0.55:(s.aiLevel==='medium'?0.7:0.8);
+  const power = BIL_MAX_POWER*(powerBase + Math.random()*0.2);
+  cue.vx = Math.cos(angle)*power;
+  cue.vy = Math.sin(angle)*power;
+  s.simulating = true;
+  bilPlaySound('hit', power/BIL_MAX_POWER);
+  if(power>BIL_MAX_POWER*0.7) bilShakeTable();
+  const statusEl = document.getElementById('bilStatus');
+  if(statusEl) statusEl.textContent = '🤖 الكمبيوتر بيلعب...';
+}
+function bilCanvasPoint(e, canvas){
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width/rect.width;
+  const scaleY = canvas.height/rect.height;
+  return { x:(e.clientX-rect.left)*scaleX, y:(e.clientY-rect.top)*scaleY };
+}
+function bilPointerDown(e, canvas){
+  const s = billiardsState;
+  if(!s || s.over || s.simulating) return;
+  if(s.mode==='ai' && s.currentPlayer===2) return;
+  s.aiming = true;
+  s.dragCurrent = bilCanvasPoint(e, canvas);
+  try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+}
+function bilPointerMove(e, canvas){
+  const s = billiardsState;
+  if(!s || !s.aiming) return;
+  s.dragCurrent = bilCanvasPoint(e, canvas);
+}
+function bilPointerUp(e, canvas){
+  const s = billiardsState;
+  if(!s || !s.aiming) return;
+  s.aiming = false;
+  if(!s.dragCurrent) return;
+  const cue = s.balls.find(b=>b.n===0);
+  const dx = cue.x - s.dragCurrent.x;
+  const dy = cue.y - s.dragCurrent.y;
+  const dist = Math.hypot(dx,dy);
+  if(dist<8) return;
+  const power = Math.min(dist,BIL_MAX_DRAG)/BIL_MAX_DRAG*BIL_MAX_POWER;
+  const angle = Math.atan2(dy,dx);
+  bilResetShotTrackers();
+  cue.vx = Math.cos(angle)*power;
+  cue.vy = Math.sin(angle)*power;
+  s.simulating = true;
+  bilPlaySound('hit', power/BIL_MAX_POWER);
+  if(power>BIL_MAX_POWER*0.7) bilShakeTable();
+  const statusEl = document.getElementById('bilStatus');
+  if(statusEl) statusEl.textContent = 'الكرات بتتحرك...';
+}
+function bilAttachPointerEvents(canvas){
+  canvas.onpointerdown = (e)=> bilPointerDown(e, canvas);
+  canvas.onpointermove = (e)=> bilPointerMove(e, canvas);
+  canvas.onpointerup = (e)=> bilPointerUp(e, canvas);
+  canvas.onpointerleave = (e)=> bilPointerUp(e, canvas);
+}
+function bilRoundRectPath(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function bilDrawBall(ctx,b,status){
+  ctx.save();
+  ctx.shadowColor='rgba(0,0,0,.45)';
+  ctx.shadowBlur=6; ctx.shadowOffsetX=2; ctx.shadowOffsetY=3;
+  ctx.beginPath();
+  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+  ctx.fillStyle = (b.n===0 || b.stripe) ? '#f5f5ef' : b.color;
+  ctx.fill();
+  ctx.restore();
+  if(b.stripe){
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+    ctx.clip();
+    ctx.fillStyle=b.color;
+    ctx.fillRect(b.x-BIL_BALL_R, b.y-BIL_BALL_R*0.55, BIL_BALL_R*2, BIL_BALL_R*1.1);
+    ctx.restore();
+  }
+  if(b.n!==0){
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,BIL_BALL_R*0.55,0,Math.PI*2);
+    ctx.fillStyle='#f5f5ef';
+    ctx.fill();
+    ctx.fillStyle='#111';
+    ctx.font='bold 9px sans-serif';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(String(b.n), b.x, b.y+0.5);
+  }
+  const grad = ctx.createRadialGradient(b.x-4,b.y-4,1, b.x, b.y, BIL_BALL_R);
+  grad.addColorStop(0,'rgba(255,255,255,.85)');
+  grad.addColorStop(0.3,'rgba(255,255,255,.15)');
+  grad.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.beginPath();
+  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+  ctx.fillStyle=grad;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,0,0,.25)';
+  ctx.lineWidth=1;
+  ctx.stroke();
+  if(status){
+    const ringColor = (status==='own'||status==='open'||status==='legal') ? 'rgba(60,220,110,.95)' : 'rgba(240,70,70,.9)';
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,BIL_BALL_R+3,0,Math.PI*2);
+    ctx.strokeStyle = ringColor;
+    ctx.lineWidth = 2.4;
+    ctx.shadowColor = ringColor;
+    ctx.shadowBlur = 7;
+    ctx.stroke();
+    ctx.restore();
+  }
+}
+function bilBallStatus(b){
+  const s = billiardsState;
+  if(!s || s.over || b.n===0) return null;
+  if(s.mode!=='ai' && s.mode!=='2p') return null;
+  const myGroup = s.playerGroups[s.currentPlayer];
+  if(b.n===8){
+    if(!myGroup) return 'illegal';
+    const groupCleared = s.balls.filter(x=>!x.potted && x.n!==0 && x.n!==8 && ((myGroup==='solid'&&x.n<8)||(myGroup==='stripe'&&x.n>8))).length===0;
+    return groupCleared ? 'legal' : 'illegal';
+  }
+  if(!myGroup) return 'open';
+  const ballGroup = b.n<8 ? 'solid':'stripe';
+  return ballGroup===myGroup ? 'own' : 'opponent';
+}
+function bilDrawPrediction(ctx, cue, angle){
+  const s = billiardsState;
+  let dirX=Math.cos(angle), dirY=Math.sin(angle);
+  let x=cue.x, y=cue.y;
+  const minX=BIL_RAIL+BIL_BALL_R, maxX=BIL_W-BIL_RAIL-BIL_BALL_R;
+  const minY=BIL_RAIL+BIL_BALL_R, maxY=BIL_H-BIL_RAIL-BIL_BALL_R;
+  const step=4, maxLen=1400;
+  let len=0, bounces=0, hitTarget=null, hitBall=null;
+  ctx.save();
+  ctx.strokeStyle='rgba(255,214,90,.95)';
+  ctx.lineWidth=2.5;
+  ctx.setLineDash([7,6]);
+  ctx.shadowColor='rgba(255,214,90,.6)';
+  ctx.shadowBlur=4;
+  ctx.beginPath();
+  ctx.moveTo(x,y);
+  while(len<maxLen && bounces<=2){
+    x+=dirX*step; y+=dirY*step; len+=step;
+    let bounced=false;
+    if(x<minX){ x=minX; dirX=-dirX; bounced=true; }
+    if(x>maxX){ x=maxX; dirX=-dirX; bounced=true; }
+    if(y<minY){ y=minY; dirY=-dirY; bounced=true; }
+    if(y>maxY){ y=maxY; dirY=-dirY; bounced=true; }
+    if(bounced){ ctx.lineTo(x,y); bounces++; if(bounces<=2){ ctx.moveTo(x,y); } }
+    for(const b of s.balls){ if(b.potted||b.n===0) continue; if(Math.hypot(b.x-x,b.y-y) < BIL_BALL_R*2){ hitTarget={x,y}; hitBall=b; break; } }
+    if(hitTarget) break;
+  }
+  ctx.lineTo(x,y);
+  ctx.stroke();
+  ctx.restore();
+  // dot marking where the line currently ends (impact point)
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(x,y,4,0,Math.PI*2);
+  ctx.fillStyle = hitTarget ? 'rgba(255,90,90,.95)' : 'rgba(255,214,90,.95)';
+  ctx.fill();
+  ctx.restore();
+  // second line: predicted direction of the object ball being hit
+  if(hitBall){
+    const objAngle = Math.atan2(hitBall.y-y, hitBall.x-x);
+    let ox=hitBall.x, oy=hitBall.y;
+    let odx=Math.cos(objAngle), ody=Math.sin(objAngle);
+    ctx.save();
+    ctx.strokeStyle='rgba(120,220,255,.95)';
+    ctx.lineWidth=2.5;
+    ctx.setLineDash([7,6]);
+    ctx.shadowColor='rgba(120,220,255,.6)';
+    ctx.shadowBlur=4;
+    ctx.beginPath();
+    ctx.moveTo(ox,oy);
+    let olen=0, obounces=0;
+    while(olen<500 && obounces<=1){
+      ox+=odx*step; oy+=ody*step; olen+=step;
+      let obounced=false;
+      if(ox<minX){ ox=minX; odx=-odx; obounced=true; }
+      if(ox>maxX){ ox=maxX; odx=-odx; obounced=true; }
+      if(oy<minY){ oy=minY; ody=-ody; obounced=true; }
+      if(oy>maxY){ oy=maxY; ody=-ody; obounced=true; }
+      if(obounced){ ctx.lineTo(ox,oy); obounces++; if(obounces<=1){ ctx.moveTo(ox,oy); } }
+    }
+    ctx.lineTo(ox,oy);
+    ctx.stroke();
+    ctx.restore();
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(ox,oy,4,0,Math.PI*2);
+    ctx.fillStyle='rgba(120,220,255,.95)';
+    ctx.fill();
+    ctx.restore();
+  }
+}
+function bilDraw(ctx, canvas){
+  const s = billiardsState;
+  if(!s) return;
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#5b3a24';
+  ctx.fillRect(0,0,W,H);
+  const felt = BIL_COLORS[s.tableColor] || BIL_COLORS.green;
+  const feltGrad = ctx.createRadialGradient(W/2,H/2,50,W/2,H/2,W*0.7);
+  feltGrad.addColorStop(0, felt.light);
+  feltGrad.addColorStop(1, felt.dark);
+  ctx.fillStyle = feltGrad;
+  bilRoundRectPath(ctx, BIL_RAIL, BIL_RAIL, W-2*BIL_RAIL, H-2*BIL_RAIL, 6);
+  ctx.fill();
+  for(const p of BIL_POCKETS){
+    ctx.beginPath();
+    ctx.arc(p.x,p.y, p.r, 0, Math.PI*2);
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fill();
+  }
+  for(const b of s.balls){
+    if(b.potted) continue;
+    bilDrawBall(ctx, b, bilBallStatus(b));
+  }
+  if(s.aiming && s.dragCurrent && !s.simulating){
+    const cue = s.balls.find(b=>b.n===0);
+    const dx = cue.x - s.dragCurrent.x, dy = cue.y - s.dragCurrent.y;
+    const dist = Math.hypot(dx,dy);
+    if(dist>6){
+      const angle = Math.atan2(dy,dx);
+      bilDrawPrediction(ctx, cue, angle);
+      const pull = Math.min(dist, BIL_MAX_DRAG);
+      const stickBackX = cue.x - Math.cos(angle)*(BIL_BALL_R + 10 + pull);
+      const stickBackY = cue.y - Math.sin(angle)*(BIL_BALL_R + 10 + pull);
+      const stickTipX = cue.x - Math.cos(angle)*(BIL_BALL_R+6);
+      const stickTipY = cue.y - Math.sin(angle)*(BIL_BALL_R+6);
+      ctx.strokeStyle = '#d8b98a';
+      ctx.lineWidth = 6;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(stickBackX, stickBackY);
+      ctx.lineTo(stickTipX, stickTipY);
+      ctx.stroke();
+      const pct = pull/BIL_MAX_DRAG;
+      ctx.fillStyle = pct>0.75?'#e0435b':(pct>0.4?'#e2a83b':'#3bb273');
+      ctx.fillRect(BIL_RAIL, H-14, (W-2*BIL_RAIL)*pct, 8);
+    }
+  }
+}
+function bilLoop(){
+  if(currentView!=='games' || gamesActiveGame!=='billiards' || !billiardsState){ bilLoopRunning=false; return; }
+  const s = billiardsState;
+  const canvas = document.getElementById('bilCanvas');
+  if(canvas && s.mode){
+    if(s.simulating){
+      const moving = bilStep();
+      if(!moving){ s.simulating=false; bilResolveShotEnd(); }
+    }
+    const ctx = canvas.getContext('2d');
+    bilDraw(ctx, canvas);
+  }
+  requestAnimationFrame(bilLoop);
+}
+function bilColorSwatches(){
+  const list = [['green','#238a57'],['blue','#2467a8'],['red','#a8323d'],['purple','#71449e']];
+  return list.map(([key,hex])=>`<div class="bil-color-dot${billiardsTableColor===key?' active':''}" data-color="${key}" style="background:${hex}" title="لون الطاولة"></div>`).join('');
+}
+async function bilSaveColor(){
+  try{ await window.storage.set('games-billiards-color', JSON.stringify(billiardsTableColor), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function bilSaveBest(){
+  try{ await window.storage.set('games-billiards-best', JSON.stringify(billiardsBestTimeChallenge), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+function billiardsHtml(){
+  const s = billiardsState;
+  if(!s || !s.mode){
+    return `<div class="study-view">
+      <button class="study-back" id="gamesBackHome">→ رجوع للألعاب</button>
+      <h3>🎱 بلياردو 8 Ball</h3>
+      <p class="study-sub">اختار وضع اللعب:</p>
+      <div class="study-grid">
+        <div class="study-card" id="bilModePractice">
+          <div class="study-card-ic">🎮</div>
+          <div class="study-card-title">تدريب (Practice)</div>
+          <div class="study-card-desc">العب بحرية من غير قوانين.</div>
+        </div>
+        <div class="study-card" id="bilModeAiEasy">
+          <div class="study-card-ic">🤖</div>
+          <div class="study-card-title">ضد الكمبيوتر (سهل)</div>
+        </div>
+        <div class="study-card" id="bilModeAiMedium">
+          <div class="study-card-ic">🤖</div>
+          <div class="study-card-title">ضد الكمبيوتر (متوسط)</div>
+        </div>
+        <div class="study-card" id="bilModeAiHard">
+          <div class="study-card-ic">🤖</div>
+          <div class="study-card-title">ضد الكمبيوتر (صعب)</div>
+        </div>
+        <div class="study-card" id="bilMode2p">
+          <div class="study-card-ic">👥</div>
+          <div class="study-card-title">لاعبان على نفس الجهاز</div>
+        </div>
+        <div class="study-card" id="bilModeTime">
+          <div class="study-card-ic">⏱️</div>
+          <div class="study-card-title">تحدي الوقت</div>
+          <div class="study-card-desc">أفضل نتيجة سابقة: ${billiardsBestTimeChallenge} كرة</div>
+        </div>
+      </div>
+      <p class="study-sub">لون الطاولة:</p>
+      <div class="bil-color-row">${bilColorSwatches()}</div>
+    </div>`;
+  }
+  const remaining = s.balls.filter(b=>b.n!==0 && !b.potted).length;
+  let statusText='';
+  if(s.over){
+    if(s.mode==='ai'||s.mode==='2p'){
+      statusText = s.winner===1 ? '🎉 اللاعب 1 فاز!' : (s.mode==='ai' ? '🤖 الكمبيوتر فاز!' : '🎉 اللاعب 2 فاز!');
+    } else if(s.mode==='time'){
+      statusText = `⏱️ خلص الوقت! نتيجتك: ${s.score} كرة`;
+    }
+  } else if(s.mode==='time'){
+    statusText = 'العب واحصد أكبر عدد من الكرات!';
+  } else if(s.mode==='ai'){
+    statusText = s.currentPlayer===1 ? 'دورك 🎯' : (s.simulating?'🤖 الكمبيوتر بيلعب...':'🤖 الكمبيوتر بيفكر...');
+  } else if(s.mode==='2p'){
+    statusText = `دور اللاعب ${s.currentPlayer}`;
+  } else {
+    statusText = 'تدريب حر — اضرب أي كرة';
+  }
+  const infoBits = [];
+  if(s.mode==='time'){
+    infoBits.push(`<span>النقط: ${s.score}</span>`);
+    infoBits.push(`<span id="bilTimeLeft2">⏱️ ${s.timeLeft}s</span>`);
+    infoBits.push(`<span>أفضل نتيجة: ${billiardsBestTimeChallenge}</span>`);
+  }
+  if(s.mode==='ai'||s.mode==='2p'){
+    const g1 = s.playerGroups[1] ? (' — '+(s.playerGroups[1]==='solid'?'صحيحة 1-7':'مخططة 9-15')) : '';
+    const g2 = s.playerGroups[2] ? (' — '+(s.playerGroups[2]==='solid'?'صحيحة 1-7':'مخططة 9-15')) : '';
+    const p1Active = (!s.over && s.currentPlayer===1) ? ' active-turn' : '';
+    const p2Active = (!s.over && s.currentPlayer===2) ? ' active-turn' : '';
+    infoBits.push(`<span class="${p1Active.trim()}">${s.currentPlayer===1 && !s.over?'🎯 ':''}اللاعب 1: ${s.playerScore[1]}${g1}</span>`);
+    infoBits.push(`<span class="${p2Active.trim()}">${s.currentPlayer===2 && !s.over?'🎯 ':''}${s.mode==='ai'?'الكمبيوتر':'اللاعب 2'}: ${s.playerScore[2]}${g2}</span>`);
+  }
+  infoBits.push(`<span>الكرات المتبقية: ${remaining}</span>`);
+  return `<div class="study-view bil-wrap">
+    <div class="bil-toolbar">
+      <button class="study-back" id="gamesBackHome">→ رجوع للألعاب</button>
+      <div class="bil-color-row">${bilColorSwatches()}<button class="bil-sound-btn${s.soundOn?' on':''}" id="bilSoundToggle">${s.soundOn?'🔊':'🔇'}</button></div>
+    </div>
+    <h3>🎱 بلياردو 8 Ball</h3>
+    <p class="study-sub game-status-line" id="bilStatus">${statusText}</p>
+    <div class="bil-info">${infoBits.join('')}</div>
+    <div class="bil-canvas-shell" id="bilShell">
+      <canvas class="bil-canvas" id="bilCanvas" width="${BIL_W}" height="${BIL_H}"></canvas>
+    </div>
+    <p class="bil-hint">اسحب من على الكرة البيضاء لتحديد الاتجاه والقوة، وسيب الماوس عشان تضرب 🎯</p>
+    ${(s.mode==='ai'||s.mode==='2p') ? '<p class="bil-hint">🟢 حلقة خضرا = كورتك (تقدر تضربها) — 🔴 حلقة حمرا = كورة الخصم أو الكورة السودا لسه ما تجيش دورها</p>' : ''}
+    <button class="profile-save-btn secondary" id="bilRestart">🔁 ${s.over?'لعبة جديدة':'إعادة الطاولة'}</button>
+  </div>`;
+}
+function bindBilliards(){
+  const back = document.getElementById('gamesBackHome');
+  if(back) back.onclick = ()=>{ if(billiardsState && billiardsState.tickId) clearInterval(billiardsState.tickId); gamesBackHome(); };
+  const s = billiardsState;
+  document.querySelectorAll('.bil-color-dot').forEach(d=>{
+    d.onclick = ()=>{ billiardsTableColor = d.dataset.color; if(billiardsState) billiardsState.tableColor = billiardsTableColor; bilSaveColor(); renderCurrentView(); };
+  });
+  if(!s || !s.mode){
+    const map = {bilModePractice:['practice',null], bilModeAiEasy:['ai','easy'], bilModeAiMedium:['ai','medium'], bilModeAiHard:['ai','hard'], bilMode2p:['2p',null], bilModeTime:['time',null]};
+    Object.keys(map).forEach(id=>{
+      const el = document.getElementById(id);
+      if(el) el.onclick = ()=> bilStartGame(map[id][0], map[id][1]);
+    });
+    return;
+  }
+  const soundBtn = document.getElementById('bilSoundToggle');
+  if(soundBtn) soundBtn.onclick = ()=>{ s.soundOn = !s.soundOn; renderCurrentView(); };
+  const restart = document.getElementById('bilRestart');
+  if(restart) restart.onclick = ()=> bilStartGame(s.mode, s.aiLevel);
+  const canvas = document.getElementById('bilCanvas');
+  if(canvas) bilAttachPointerEvents(canvas);
+  if(!bilLoopRunning){ bilLoopRunning = true; requestAnimationFrame(bilLoop); }
+  if(s.mode==='time' && !s.tickId && !s.over){
+    s.tickId = setInterval(()=>{
+      if(currentView!=='games' || gamesActiveGame!=='billiards' || !billiardsState || billiardsState.over){ clearInterval(billiardsState && billiardsState.tickId); return; }
+      billiardsState.timeLeft--;
+      const el2 = document.getElementById('bilTimeLeft2');
+      if(el2) el2.textContent = `⏱️ ${billiardsState.timeLeft}s`;
+      if(billiardsState.timeLeft<=0){
+        billiardsState.timeLeft = 0;
+        billiardsState.over = true;
+        clearInterval(billiardsState.tickId);
+        if(billiardsState.score > billiardsBestTimeChallenge){ billiardsBestTimeChallenge = billiardsState.score; bilSaveBest(); }
+        renderCurrentView();
+      }
+    }, 1000);
+  }
+  if(s.mode==='ai' && s.currentPlayer===2 && !s.over && !s.simulating && !s.aiPending){
+    s.aiPending = true;
+    setTimeout(()=>{ if(billiardsState) billiardsState.aiPending=false; bilAiTakeShot(); }, 900);
+  }
+}
+
+(function syncTabsHeight(){
+  const tw = document.querySelector('.tabs-wrap');
+  if(!tw) return;
+  const setH = ()=> document.documentElement.style.setProperty('--tabs-h', tw.offsetHeight + 'px');
+  if(window.ResizeObserver){ new ResizeObserver(setH).observe(tw); }
+  window.addEventListener('resize', setH);
+  setH();
+})();
 
 (async function init(){
   await loadTheme();
