@@ -772,6 +772,98 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
   .transcript-table{font-size:10.5px;}
   .transcript-table th, .transcript-table td{padding:4px 6px;}
 }
+/* ===== جدول الترم ===== */
+.sch-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.sch-tab{
+  position:relative;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;
+  border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;
+  padding:8px 30px 8px 14px;cursor:pointer;transition:border-color .2s ease, box-shadow .2s ease, transform .15s ease;
+}
+.sch-tab:hover{border-color:var(--navy);transform:translateY(-1px);}
+.sch-tab.active{border-color:var(--navy);background:var(--navy-soft);box-shadow:0 0 10px var(--glow-navy);}
+.sch-tab-del{
+  position:absolute;left:8px;top:50%;transform:translateY(-50%);
+  font-size:11px;color:var(--ink-soft);border-radius:50%;width:18px;height:18px;
+  display:flex;align-items:center;justify-content:center;
+}
+.sch-tab-del:hover{color:var(--maroon);background:var(--maroon-soft);}
+.sch-tab-add{border-style:dashed;color:var(--ink-soft);padding:8px 14px;}
+.sch-tab-add:hover{color:var(--teal);border-color:var(--teal);}
+.sch-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+.schedule-print-area{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px;}
+.sp-title{display:none;font-size:18px;font-weight:800;text-align:center;margin-bottom:10px;}
+.sched-grid-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.sched-grid{
+  display:grid;grid-template-columns:56px repeat(6,minmax(96px,1fr));
+  min-width:700px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--card);
+}
+.sched-corner{grid-column:1;grid-row:1;background:var(--strong-bg);}
+.sched-daycol-head{
+  grid-row:1;background:var(--strong-bg);color:var(--on-strong);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12.5px;
+  border-inline-start:1px solid rgba(255,255,255,.12);
+}
+.sched-hour-label{
+  grid-column:1;display:flex;align-items:flex-start;justify-content:center;
+  font-size:10px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;padding-top:2px;
+  border-top:1px solid var(--line);
+}
+.sched-daycol-bg{
+  border-inline-start:1px solid var(--line);
+  background-image:repeating-linear-gradient(to bottom, var(--grid-line) 0, var(--grid-line) 1px, transparent 1px, transparent 44px);
+}
+.sched-block{
+  margin:1px 2px;border-radius:6px;color:#fff;padding:3px 5px;font-size:10px;line-height:1.3;
+  overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.2);display:flex;flex-direction:column;gap:1px;position:relative;z-index:2;
+}
+.sched-block .sb-name{font-weight:800;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sched-block .sb-tag{font-size:9px;opacity:.92;}
+.sched-block .sb-time{font-family:'IBM Plex Mono',monospace;font-size:9px;opacity:.95;}
+.sched-block .sb-hall{font-size:9px;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.sched-legend{display:flex;gap:10px 16px;flex-wrap:wrap;margin-top:12px;}
+.sch-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft);}
+.sch-legend-dot, .sch-course-dot{width:11px;height:11px;border-radius:4px;flex:0 0 auto;}
+.sch-course-row{
+  display:flex;align-items:flex-start;gap:10px;background:var(--paper-2);border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;margin-bottom:8px;
+}
+.sch-course-dot{margin-top:5px;}
+.sch-course-info{flex:1;min-width:0;}
+.sch-course-name{font-weight:800;font-size:14px;margin-bottom:3px;}
+.sch-course-meta{font-size:12px;color:var(--ink-soft);line-height:1.6;}
+.sch-edit-btn{
+  flex:0 0 auto;font-family:'Tajawal',sans-serif;font-weight:700;font-size:12px;border:none;border-radius:9px;
+  padding:8px 12px;cursor:pointer;color:#fff;background:var(--navy);box-shadow:0 4px 10px var(--glow-navy);
+  transition:transform .15s ease;white-space:nowrap;
+}
+.sch-edit-btn:hover{transform:translateY(-2px);}
+.sched-form-row{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 4px;}
+.sched-field{display:flex;flex-direction:column;gap:6px;flex:1 1 130px;min-width:120px;}
+.sched-field label{font-size:12px;font-weight:700;color:var(--ink-soft);}
+.sched-field input, .sched-field select{
+  font-family:'IBM Plex Mono',monospace;font-size:14px;padding:8px 10px;
+  border:1.5px solid var(--line);border-radius:9px;background:var(--paper-2);color:var(--ink);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.sched-field input:focus, .sched-field select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+@media print{
+  @page{ size:A4 landscape; margin:8mm; }
+  body *{ visibility:hidden !important; }
+  #schedulePrintArea, #schedulePrintArea *{ visibility:visible !important; }
+  #schedulePrintArea{
+    position:absolute; inset:0; width:100%; margin:0; border:none; box-shadow:none; padding:0;
+    background:#fff; color:#111319;
+  }
+  .sp-title{display:block;}
+  .sched-grid{background:#fff;border-color:#c9cede;}
+  .sched-daycol-head, .sched-corner{background:#10131f !important;color:#fff !important;}
+  .sched-hour-label{color:#565e76 !important;border-color:#c9cede;}
+  .sched-daycol-bg{border-color:#c9cede;}
+  .sch-legend-item{color:#282c3d;}
+}
+@media (max-width:640px){
+  .sched-grid{min-width:620px;}
+}
 .sem-item{
   background:var(--paper-2);border-radius:7px;padding:6px 9px;margin-bottom:6px;font-size:12.5px;line-height:1.5;
   display:flex;justify-content:space-between;gap:6px;align-items:flex-start;
@@ -1110,6 +1202,25 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 .repeat-fail-banner ul{margin:0;padding-inline-start:20px;}
 .repeat-fail-banner li b{color:var(--maroon);}
 
+.wizard-banner{
+  display:flex;flex-direction:column;gap:10px;background:var(--navy-soft);border:1.5px solid var(--navy);color:var(--ink);
+  border-radius:12px;padding:16px 18px;margin:12px 0 18px;font-size:13.5px;line-height:1.85;
+}
+.wizard-banner .wb-title{font-weight:800;color:var(--navy);font-size:14.5px;}
+.wizard-banner ol{margin:0;padding-inline-start:20px;}
+.wizard-banner ol li{margin-bottom:2px;}
+.wizard-banner .wb-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px;}
+.wizard-banner .wb-actions button{
+  border:none;font-weight:700;font-size:13px;padding:9px 18px;border-radius:999px;cursor:pointer;transition:transform .15s ease;
+}
+.wizard-banner .wb-cta{background:var(--navy);color:#fff;}
+.wizard-banner .wb-cta:hover{transform:translateY(-1px);}
+.wizard-banner .wb-skip{background:transparent;color:var(--ink-soft);text-decoration:underline;padding:9px 4px;}
+.wizard-success-banner{
+  display:flex;gap:8px;align-items:center;background:var(--teal-soft);border:1.5px solid var(--teal);color:var(--ink);
+  border-radius:12px;padding:12px 16px;margin:12px 0 18px;font-size:13.5px;line-height:1.8;font-weight:700;
+}
+
 .cbank-list{display:flex;flex-direction:column;gap:6px;margin-top:8px;max-height:260px;overflow-y:auto;}
 .cbank-row{
   display:grid;grid-template-columns:auto 1fr auto auto auto;gap:10px;align-items:center;
@@ -1321,10 +1432,19 @@ footer{
   .search-box input{width:100%;box-sizing:border-box;}
 
   .subbar{position:relative;flex-direction:column;align-items:stretch;gap:8px;}
-  .mobile-menu-btn, .subbar-wrap .view-tabs{display:none !important;}
+  .mobile-menu-btn{display:flex;}
+  .subbar-wrap .view-tabs{
+    display:none;
+    position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:30;
+    flex-direction:column;gap:4px;
+    background:var(--card);border:1.5px solid var(--line);border-radius:14px;
+    padding:10px;box-shadow:var(--shadow-soft);max-height:65vh;overflow:auto;
+  }
+  .subbar-wrap .view-tabs.open{display:flex;}
+  .subbar-wrap .view-tab{width:100%;justify-content:flex-start;}
   .filters{width:100%;}
 
-  main{padding:20px 14px calc(84px + env(safe-area-inset-bottom));}
+  main{padding:20px 14px;}
   .home-hero{padding:20px 18px;}
   .grid{grid-template-columns:1fr;}
   .mm-wrap, .home-cards, .gradstat-grid, .grad-subgrid{grid-template-columns:1fr;}
@@ -1378,50 +1498,8 @@ footer{
   .planner-table td.code, .goal-table td.gt-term{font-weight:800;color:var(--navy);}
   .goal-table td input{width:100%!important;box-sizing:border-box;}
 
-  /* ===== Bottom navigation (تطبيق موبايل حقيقي بدل قائمة همبرجر) ===== */
-  .bottom-nav{
-    display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;
-    background:var(--card);border-top:1px solid var(--line);
-    padding:5px 4px calc(5px + env(safe-area-inset-bottom));
-    box-shadow:0 -10px 26px rgba(16,19,31,.10);
-    gap:2px;
-  }
-  .bn-item{
-    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-    background:none;border:none;color:var(--ink-soft);font-family:'Tajawal',sans-serif;
-    font-size:10.5px;font-weight:700;padding:7px 2px 6px;border-radius:13px;cursor:pointer;
-    transition:color .15s ease, background .15s ease, transform .1s ease;
-    min-width:0;
-  }
-  .bn-item .bn-ic{font-size:19px;line-height:1;transition:transform .15s ease;}
-  .bn-item .bn-lbl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}
-  .bn-item.active{color:var(--navy);background:var(--navy-soft);}
-  .bn-item.active .bn-ic{transform:translateY(-1px) scale(1.08);}
-
-  .more-sheet-overlay{
-    position:fixed;inset:0;z-index:50;background:rgba(6,8,16,.5);
-    display:flex;align-items:flex-end;justify-content:center;
-    opacity:0;pointer-events:none;transition:opacity .25s ease;
-  }
-  .more-sheet-overlay.show{opacity:1;pointer-events:auto;}
-  .more-sheet{
-    width:100%;max-width:640px;background:var(--card);border-radius:20px 20px 0 0;
-    padding:10px 14px calc(16px + env(safe-area-inset-bottom));
-    transform:translateY(102%);transition:transform .32s cubic-bezier(.2,.8,.25,1);
-    max-height:72vh;overflow:auto;
-  }
-  .more-sheet-overlay.show .more-sheet{transform:translateY(0);}
-  .more-sheet-handle{width:36px;height:4px;border-radius:99px;background:var(--line);margin:2px auto 12px;}
-  .more-sheet-title{font-weight:800;font-size:13px;color:var(--ink-soft);margin:0 4px 8px;}
-  .more-sheet-list{display:flex;flex-direction:column;gap:2px;}
-  .ms-item{
-    display:flex;align-items:center;gap:12px;padding:13px 10px;border-radius:13px;border:none;
-    background:none;font-family:'Tajawal',sans-serif;font-size:14.5px;font-weight:700;color:var(--ink);
-    text-align:right;cursor:pointer;width:100%;
-  }
-  .ms-item.active{background:var(--navy-soft);color:var(--navy);}
-  .ms-ic{font-size:17px;flex:0 0 auto;}
-  @media (prefers-reduced-motion: reduce){ .more-sheet{transition:none;} }
+  /* ===== Bottom navigation: اتلغى لصالح مينيو فوق (زرار ☰ الأقسام) بدل شريط ثابت تحت الشاشة ===== */
+  .bottom-nav{display:none;}
 }
 @media(max-width:420px){
   .hdr-symbols{display:none;}
@@ -1639,6 +1717,63 @@ button:not(:disabled):active,
 .study-history-badge.flat{color:var(--ink-soft);background:var(--paper-2);}
 .study-history-empty{padding:24px;text-align:center;color:var(--ink-soft);font-size:13.5px;}
 .study-history-detail-row{display:flex;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;}
+
+/* ===== مراجعة اللائحة ===== */
+.regs-view{display:flex;flex-direction:column;gap:16px;max-width:900px;}
+.regs-head h2{margin:0 0 4px;}
+.regs-sub{color:var(--ink-soft);font-size:13.5px;margin:0;line-height:1.7;}
+.regs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:6px;}
+.regs-card{
+  background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px;
+  cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  position:relative;overflow:hidden;padding-inline-start:22px;
+}
+.regs-card::before{content:"";position:absolute;inset-inline-start:0;top:0;bottom:0;width:5px;background:var(--accent-color,var(--navy));}
+.regs-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-soft);border-color:var(--accent-color,var(--navy));}
+.regs-card-ic{font-size:25px;margin-bottom:8px;}
+.regs-card-title{font-weight:800;font-size:14.5px;margin-bottom:5px;line-height:1.4;}
+.regs-card-desc{font-size:12px;color:var(--ink-soft);line-height:1.65;}
+.regs-card-tag{display:inline-block;margin-top:10px;font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--accent-soft,var(--navy-soft));color:var(--accent-color,var(--navy));}
+.regs-detail-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.regs-detail-ic{
+  width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex:0 0 auto;background:var(--accent-soft,var(--navy-soft));
+}
+.regs-detail-titles h2{margin:0 0 2px;font-size:19px;}
+.regs-mat{border:1.5px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden;}
+.regs-mat + .regs-mat{margin-top:10px;}
+.regs-mat summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:14px;user-select:none;}
+.regs-mat summary::-webkit-details-marker{display:none;}
+.regs-mat summary::after{content:"›";margin-inline-start:auto;font-size:22px;color:var(--ink-soft);transform:rotate(90deg);transition:transform .2s ease;line-height:1;}
+.regs-mat[open] summary::after{transform:rotate(-90deg);}
+.regs-mat-num{
+  flex:0 0 auto;min-width:34px;height:34px;padding:0 6px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+  font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:800;background:var(--accent-soft,var(--navy-soft));color:var(--accent-color,var(--navy));
+}
+.regs-mat-body{padding:0 16px 16px;font-size:13.5px;line-height:1.95;color:var(--ink);border-top:1px solid var(--line);margin-top:0;padding-top:12px;}
+.regs-mat-body p{margin:0 0 10px;}
+.regs-mat-body ul{margin:0 0 10px;padding-inline-start:20px;}
+.regs-mat-body li{margin-bottom:6px;}
+.regs-mat-body li b{color:var(--accent-color,var(--navy));}
+.regs-note{background:var(--gold-soft);border:1.5px solid var(--gold);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--ink);margin:6px 0 12px;line-height:1.8;}
+.regs-note b{color:var(--gold);}
+.regs-table-wrap{overflow-x:auto;margin:6px 0 14px;}
+.regs-table-wrap .goal-table{min-width:420px;}
+.regs-table-wrap .goal-table th{background:var(--paper-2);}
+.regs-search{
+  width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);
+  color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13.5px;
+}
+.regs-search:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.regs-empty{padding:24px;text-align:center;color:var(--ink-soft);font-size:13.5px;}
+@media(max-width:640px){
+  .regs-grid{grid-template-columns:1fr 1fr;}
+  .regs-mat summary{font-size:13px;padding:12px 14px;}
+  .regs-mat-body{font-size:13px;padding:0 14px 14px;}
+}
+@media(max-width:420px){
+  .regs-grid{grid-template-columns:1fr;}
+}
 
 /* ===== مكتبة فيديوهات الكورس ===== */
 .vid-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
@@ -1927,15 +2062,18 @@ const DB = {
 
 "040000001":{ar:"لغة عربية",en:"Arabic Language",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري (مقرر على مستوى كل كليات جامعة الإسكندرية) — مش بيتحسب ضمن ساعات التخصص."},
 "040000002":{ar:"لغة انجليزية",en:"English Language",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري (مقرر على مستوى كل كليات جامعة الإسكندرية) — مش بيتحسب ضمن ساعات التخصص."},
-"040000052":{ar:"الإنسان والبيئة",en:"Man and Environment",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة العشرة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
-"040000056":{ar:"مقدمة في علم النفس",en:"Introduction to Psychology",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة العشرة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
-"049900011":{ar:"اخلاقيات مهنة",en:"Professional Ethics",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة العشرة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
-"040000058":{ar:"مقدمة في علم الاثار",en:"Introduction to Archaeology",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة العشرة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
+"040000052":{ar:"الإنسان والبيئة",en:"Man and Environment",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
+"040000056":{ar:"مقدمة في علم النفس",en:"Introduction to Psychology",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
+"049900011":{ar:"اخلاقيات مهنة",en:"Professional Ethics",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر (مش متطلب جامعة). محسوبة ضمن ساعات الاختيار الحر."},
+"040000058":{ar:"مقدمة في علم الاثار",en:"Introduction to Archaeology",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
 "049900019":{ar:"الابتكار وريادة الأعمال",en:"Innovation and Entrepreneurship",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري (مقرر على مستوى كل كليات جامعة الإسكندرية) — مش بيتحسب ضمن ساعات التخصص."},
-"040000061":{ar:"تاريخ العلوم",en:"History of Science",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة العشرة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
-"049900020":{ar:"مهارات حياتية",en:"Life Skills",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر (مش من ضمن قائمة متطلبات الجامعة). لو سجّلتها، ضيفها كـ«اختيار حر» من بنك المواد اليدوي في حاسبة المعدل."},
-"049900001":{ar:"مهارات العرض",en:"Presentation Skills",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر (مش من ضمن قائمة متطلبات الجامعة). لو سجّلتها، ضيفها كـ«اختيار حر» من بنك المواد اليدوي في حاسبة المعدل."},
-"049900016":{ar:"سياحة بيئية",en:"Eco-Tourism",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر (مش من ضمن قائمة متطلبات الجامعة). لو سجّلتها، ضيفها كـ«اختيار حر» من بنك المواد اليدوي في حاسبة المعدل."},
+"040000061":{ar:"تاريخ العلوم",en:"History of Science",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
+"049900020":{ar:"مهارات حياتية",en:"Life Skills",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر."},
+"049900001":{ar:"مهارات العرض",en:"Presentation Skills",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر."},
+"049900016":{ar:"سياحة بيئية",en:"Eco-Tourism",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر."},
+"049900017":{ar:"الجيولوجيا الأثرية",en:"Archaeological Geology",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر. (كود مؤقت من عندنا — قوللي الكود الرسمي من كشف الدرجات لو مختلف عشان نظبطه.)"},
+"049900002":{ar:"فارما (1)",en:"Pharma (1)",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر. (كود مؤقت من عندنا — قوللي الكود الرسمي من كشف الدرجات لو مختلف عشان نظبطه.)"},
+"049900003":{ar:"فارما (2)",en:"Pharma (2)",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر. محسوبة ضمن ساعات الاختيار الحر. (كود مؤقت من عندنا — قوللي الكود الرسمي من كشف الدرجات لو مختلف عشان نظبطه.)"},
 
 "101103":{ar:"هندسة تحليلية فراغية",en:"Analytical Solid Geometry",credit:[2,0,1,2],level:1,prereq:["101101"],note:"مقرر مستوى أول، ومحسوب ضمن الـ46 ساعة الإجبارية لتخصص الرياضيات الرئيسي (جدول 1-1)، وهو أيضاً متطلب سابق لبعض مقررات المستوى الثاني."},
 "101201":{ar:"تحليل رياضي (1)",en:"Mathematical Analysis (1)",credit:[3,0,1,3],level:2,prereq:["101102"]},
@@ -2077,7 +2215,11 @@ function setMinus(a,b){return a.filter(x=>!b.includes(x));}
    through the CGPA/hours calculator like any other course). */
 const ALL_COLLEGE_REQ = ["101101","101102","101151","101152","103102","204101","204102","306101","306102","306103","306104","306106"];
 const UNIV_REQ_MANDATORY = ["040000001","040000002","049900019"];
-const UNIV_REQ_ELECTIVE = ["040000052","040000056","049900011","040000058","040000061"];
+const UNIV_REQ_ELECTIVE = ["040000052","040000056","040000058","040000061"];
+/* مواد "اختيار حر" عامة (مش متطلب جامعة ولا جزء من أي تخصص) — بتتعرض في كل تخصص عشان الطالب
+   يقدر يدوّر عليها ويسجّلها من بنك القسم زي أي مادة تانية، وبتتحسب تلقائي ضمن ساعات الاختيار
+   الحر (freeElectiveCreditHours) لأنها sections بـ scope:"freeElective". */
+const GENERAL_FREE_ELECTIVES = ["049900001","049900020","049900016","049900011","049900002","049900003","049900017"];
 
 /* ================= TRACKS ================= */
 const TRACKS = [
@@ -2227,8 +2369,10 @@ TRACKS.forEach(track=>{
       note:"26 ساعة إجبارية للكلية، مش بتتحسب ضمن ساعات التخصص خالص. بعضها بيفتح مواد في القسم (تفاضل وتكامل، ميكانيكا، برمجة)، والباقي (فيزياء عامة وكيمياء عامة) ملهوش علاقة بالقسم لكنه إجباري عشان تتخصص."},
     {key:"univRequired", title:"متطلبات الجامعة — إجباري (6 ساعات)", type:"required", scope:"university", list: UNIV_REQ_MANDATORY, credit:null,
       note:"مقررات على مستوى كل كليات جامعة الإسكندرية، كل مادة بساعتين. مش بتتحسب ضمن ساعات التخصص."},
-    {key:"univElective", title:"متطلبات الجامعة — اختياري (6 ساعات من أصل 5 مواد متاحة، بأي توليفة)", type:"elective", scope:"university", list: UNIV_REQ_ELECTIVE, credit:null,
-      note:"مقررات على مستوى كل كليات جامعة الإسكندرية، كل مادة بساعتين — اختَر 3 مواد بس من العشرة دول. مش بتتحسب ضمن ساعات التخصص."}
+    {key:"univElective", title:"متطلبات الجامعة — اختياري (6 ساعات من أصل 4 مواد متاحة، بأي توليفة)", type:"elective", scope:"university", list: UNIV_REQ_ELECTIVE, credit:null,
+      note:"مقررات على مستوى كل كليات جامعة الإسكندرية، كل مادة بساعتين — اختَر 3 مواد بس من الأربعة دول. مش بتتحسب ضمن ساعات التخصص."},
+    {key:"genFreeElective", title:"اختيار حر — مواد عامة (بحد أقصى 8 ساعات إجمالاً)", type:"elective", scope:"freeElective", list: GENERAL_FREE_ELECTIVES, credit:null,
+      note:"مواد مش من متطلبات الجامعة ولا من تخصصك، ومحسوبة بالكامل ضمن سقف الاختيار الحر (8 ساعات إجمالاً مع أي اختيار حر تاني سجّلته)."}
   );
 });
 
@@ -2590,9 +2734,11 @@ const VIEWS = [
   {id:"planner", label:"🗓 مخطط الفصول"},
   {id:"register", label:"🎓 أسجل ايه دلوقتي؟"},
   {id:"cgpa", label:"🧮 تسجيل المواد"},
+  {id:"schedule", label:"🗓️ جدول الترم"},
   {id:"forecast", label:"🎯 التخصص وتحويل المسار"},
   {id:"special", label:"🏅 الدرجة الخاصة"},
   {id:"transcript", label:"🧾 بيان الحالة"},
+  {id:"regs", label:"📜 مراجعة اللائحة"},
   {id:"nono", label:"🤖 نونو"},
   {id:"study", label:"📚 أدوات المذاكرة"},
   {id:"games", label:"🎮 الألعاب الترفيهية"}
@@ -2607,6 +2753,9 @@ let highlightCode = null;
 let levelFilter = new Set();
 let typeFilter = "all";
 let completedSet = new Set();
+/* ============ مراجعة اللائحة ============ */
+let regsActiveCat = null;   // id الفئة المفتوحة حاليًا في صفحة "مراجعة اللائحة" (null = صفحة القائمة الرئيسية)
+let regsSearchQuery = "";   // نص البحث في صفحة القائمة الرئيسية لمراجعة اللائحة
 /* فلتر محلي خاص بجدول "مقررات متاحة للدراسة" في صفحة "سجل ايه؟" فقط */
 let registerTypeFilter = "all";   // all | required | elective
 let registerScopeFilter = "all";  // all | major | minor
@@ -2638,6 +2787,21 @@ let cgpaTerms = []; // [{id, name, year, termType, isSummer, isEquivalency, isPr
 //   false = ترم جديد فعلاً بعد استخدام الموقع — بيزوّد على طول فوق الساعات المعلنة، بغض النظر عن حالة الفجوة.
 function isPriorTerm(term){ return term.isPriorTerm !== false; }
 let cgpaAddMode = {}; // termId -> 'db' | 'external' | 'custom'
+let wizardActive = false; // وضع "خلّينا نسجل ترماتك القديمة" الإرشادي لأول مرة يدخل الطالب فيها ساعات في البروفايل
+/* ============ جدول الترم ============ */
+/* كل عنصر في termSchedules هو "جدول" مربوط بترم من الترمات المسجلة في تسجيل المواد (cgpaTerms).
+   courses: خريطة itemId (من term.items) -> {lecture:{day,from,to,hall}, section:{type:'none'|'section'|'lab', day,from,to,hall}} */
+let termSchedules = []; // [{id, termId, courses:{}}]
+let scheduleActiveId = null;
+const SCHEDULE_DAYS = [
+  {id:'sat', label:'السبت'},
+  {id:'sun', label:'الأحد'},
+  {id:'mon', label:'الاثنين'},
+  {id:'tue', label:'الثلاثاء'},
+  {id:'wed', label:'الأربعاء'},
+  {id:'thu', label:'الخميس'}
+];
+const SCHEDULE_COLORS = ['#5B3FD6','#0E8F7E','#C98A12','#B3216F','#2563EB','#D9480F','#0D9488','#9333EA'];
 /* ============ نونو: المساعد الذكي ============ */
 let nonoProfile = { character:null, language:null }; // character: 'zico'|'farida' — language: 'amiya'|'en'|'mix'
 let nonoSubject = null;   // اسم المادة الحالية
@@ -2837,6 +3001,10 @@ async function loadState(){
     const r = await window.storage.get('games-whack-best', false);
     if(r && r.value) whackBest = JSON.parse(r.value) || 0;
   }catch(e){ whackBest = 0; }
+  try{
+    const r = await window.storage.get('term-schedules', false);
+    if(r && r.value) termSchedules = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
+  }catch(e){ termSchedules = []; }
 }
 async function saveExamHistory(){
   try{ await window.storage.set('exam-history', JSON.stringify(examHistory), false); }
@@ -2860,6 +3028,10 @@ async function saveCustomCourses(){
 }
 async function saveCgpaTerms(){
   try{ await window.storage.set('cgpa-terms', JSON.stringify(cgpaTerms), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function saveTermSchedules(){
+  try{ await window.storage.set('term-schedules', JSON.stringify(termSchedules), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function saveCgpaGoal(){
@@ -3143,6 +3315,39 @@ function openRegisterTermConfirmModal(btnId){
 }
 
 /* ================= NEW TERM MODAL (مستوى + نوع الترم، أو ترم معادلة) ================= */
+/* ================= خطوة إرشادية أول ما الطالب يدخل ساعاته في البروفايل ================= */
+/* بتتفتح فورًا بعد حفظ البروفايل لو لسه فيه فجوة ساعات، وبتشرح ببساطة إيه اللي هيحصل دلوقتي
+   خطوة خطوة، وبعدين بتاخد الطالب يد بيد لفورم "ترم جديد" (اللي هيبقى مضبوط افتراضيًا على "ترم قديم"
+   لأن في فجوة). الهدف إن أول تفاعل مع "تسجيل المواد" يبقى واضح ومباشر بدل ما يواجه صفحة فاضية
+   ومصطلحات جديدة من غير أي توجيه عملي. */
+function openWizardIntroModal(){
+  wizardActive = true;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="profile-modal">
+      <h3>🧭 خطوة كمان وهنبقى خلصنا</h3>
+      <p class="p-sub">كتبت إن عندك <b>${profile.hours}</b> ساعة معتمدة. الموقع دلوقتي مش عارف تفاصيلها (مين المواد ولا تقديراتك فيها) — عشان كده هنسجلها سوا دلوقتي، ترم ترم، بالظبط زي ما هي في كشف درجاتك، عشان كل حسابات الموقع بعد كده (الساعات، الـCGPA، المتطلبات...) تبقى مظبوطة 100%.</p>
+      <ol style="margin:0 0 14px;padding-inline-start:20px;font-size:13.5px;line-height:1.9;color:var(--ink);">
+        <li>افتح موقع الكلية الرسمي <b>scialex.org</b> وسجّل دخول، وهتلاقي فيه "السجل الأكاديمي" بكل ترماتك ومقرراتك وتقديراتك بالظبط.</li>
+        <li>دوس "يلا نبدأ" تحت، هيتفتحلك فورم بسيط لأول ترم — انقل السنة والفصل زي ما هو مكتوب في السجل الأكاديمي واحفظه، وسمّي الترم بنفس الاسم اللي في السجل عشان ميتلخبطش بعدين.</li>
+        <li>لو انت محوّل من كلية/مؤسسة تانية، هتلاقي في السجل ترم اسمه "ترم معادلة" — انقله برضو زي ما هو.</li>
+        <li>بعد ما يتحفظ الترم، ضيف فيه نفس المواد بالظبط من السجل الأكاديمي (الاسم/الكود، عدد الساعات، والتقدير) واحدة واحدة — من غير تقريب، انقل الأرقام زي ما هي.</li>
+        <li>كرر نفس الخطوات لباقي الترمات والمعادلات الموجودة في السجل — وهنفضل نوريك كام ساعة باقية.</li>
+      </ol>
+      <button class="profile-save-btn" id="wizStartBtn">🚀 يلا نبدأ</button>
+      <button class="profile-save-btn secondary" id="wizSkipBtn">مش دلوقتي، هسجل بنفسي</button>
+    </div>
+  `;
+  document.getElementById('wizStartBtn').onclick = ()=>{
+    closeModal();
+    openNewTermModal();
+  };
+  document.getElementById('wizSkipBtn').onclick = ()=>{
+    wizardActive = false;
+    closeModal();
+    renderCurrentView();
+  };
+  document.getElementById('overlay').classList.add('show');
+}
 function openNewTermModal(existingTermId){
   const existing = existingTermId ? cgpaTerms.find(t=>t.id===existingTermId) : null;
   let tYear = existing ? (existing.year||null) : null;
@@ -3758,7 +3963,7 @@ function hoursGapRemaining(){
   return Math.max(0, stated - priorHoursEnteredTotal());
 }
 /* الصفحات المسموح استخدامها لسه لو فيه فجوة ساعات — لازم الطالب يقفلها من "حاسبة المعدل" الأول. */
-const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','nono','study','games']);
+const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','nono','study','games','regs']);
 function termStats(term){
   let qp=0, gpaHrs=0, totalHrs=0;
   (term.items||[]).forEach(it=>{
@@ -5066,16 +5271,18 @@ function renderTermAnalysisHtml(){
 function renderCurrentView(){
   document.getElementById('searchResults').classList.remove('show');
   if(cy){ try{ cy.destroy(); }catch(e){} cy=null; }
-  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="nono" && currentView!=="games"){ currentView="home"; }
+  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="nono" && currentView!=="games" && currentView!=="regs"){ currentView="home"; }
   if(currentView==="home") renderHomeView();
   else if(currentView==="list") renderListView();
   else if(currentView==="graph") renderGraphView();
   else if(currentView==="planner") renderPlannerView();
   else if(currentView==="register") renderRegisterView();
   else if(currentView==="cgpa") renderCgpaView();
+  else if(currentView==="schedule") renderScheduleView();
   else if(currentView==="forecast") renderForecastView();
   else if(currentView==="special") renderSpecialDegreeView();
   else if(currentView==="transcript") renderTranscriptView();
+  else if(currentView==="regs") renderRegsView();
   else if(currentView==="nono") renderNonoView();
   else if(currentView==="study") renderStudyToolsView();
   else if(currentView==="games") renderGamesView();
@@ -5793,6 +6000,8 @@ function renderOwnTrackWizard(track, sectionOfInTrack, trackCodes){
     </div>
     <p class="graph-hint">${hoursHint}</p>`;
 
+  html += renderHedgeSection(track, currentLevel);
+
   if(term==='summer'){
     html += renderSummerChecklist(sectionOfInTrack, trackCodes);
   }
@@ -5831,7 +6040,6 @@ function renderOwnTrackWizard(track, sectionOfInTrack, trackCodes){
     }
   }
 
-  html += renderHedgeSection(track, currentLevel);
   return html;
 }
 /* ================= خطة احتياطية للتحويل ("مفكّر أحوّل بس لسه ما حولتش") =================
@@ -6600,6 +6808,24 @@ function hoursGapBannerHtml(){
     <span>⛔ لسه فاضل <b>${gap}</b> ساعة من إجمالي <b>${profile.hours}</b> ساعة دخّلتها في بروفايلك، متسجّلاش هنا في الترمات تحت. مينفعش تستخدم باقي أدوات البرنامج (التخصص، تحويل المسار، التحليل...) إلا بعد ما تقفل الفجوة دي — سجّل ترماتك السابقة (حتى لو بمواد عامة تقريبية لو مش فاكر التفاصيل بالظبط).</span>
   </div>`;
 }
+/* بانر الوضع الإرشادي: بيفضل ظاهر أعلى صفحة "تسجيل المواد" طول ما wizardActive شغال وفيه فجوة ساعات،
+   وبيوضح بالظبط الخطوة الجاية (سجّل ترم / ضيف مواده) بدل ما الطالب يقرا نص عام ومايعرفش يبدأ منين. */
+function wizardBannerHtml(){
+  const gap = hoursGapRemaining();
+  if(!wizardActive || gap<=0) return '';
+  const openTerm = cgpaTerms.find(t=> isPriorTerm(t) && (t.items||[]).length===0);
+  const step2 = openTerm
+    ? `دلوقتي ضيف مواد ترم "<b>${escapeHtml(openTerm.name)}</b>" تحت 👇 (اسم المادة/الكود + التقدير)، لحد ما تسجل كل مواد الترم ده.`
+    : `دوس الزرار تحت وسجّل ترم قديم جديد، وابدأ ضيف فيه المواد اللي أخدتها.`;
+  return `<div class="wizard-banner">
+    <span class="wb-title">🧭 وضع الإعداد الأول — لسه فاضل ${gap} ساعة من ${profile.hours}</span>
+    <span>${step2}</span>
+    <div class="wb-actions">
+      <button class="wb-cta" id="wizAddTermBtn" type="button">➕ ترم قديم تاني</button>
+      <button class="wb-skip" id="wizDismissBtn" type="button">خلاص هكمل لوحدي</button>
+    </div>
+  </div>`;
+}
 function repeatedFailuresBannerHtml(){
   const list = coursesFailedMultipleTimes();
   if(!list.length) return '';
@@ -6611,12 +6837,15 @@ function repeatedFailuresBannerHtml(){
 function renderCgpaView(){
   const overall = overallCgpaStats();
   const cgpaTxt = overall.cgpa!=null ? overall.cgpa.toFixed(4) : '—';
+  let wizardJustFinished = false;
+  if(wizardActive && hoursGapRemaining()<=0){ wizardActive = false; wizardJustFinished = true; }
   let html = `
   <div class="track-head">
     <div><h2>🧮 تسجيل المواد (حاسبة المعدل التراكمي CGPA)</h2></div>
     <div class="chips"><span class="chip total">${cgpaTerms.length} ترم مسجّل</span><button class="chip" id="openCourseBankBtn" type="button" style="cursor:pointer;border:none;">📚 بنك المواد اليدوي</button></div>
   </div>
-  ${hoursGapBannerHtml()}
+  ${wizardJustFinished ? '<div class="wizard-success-banner"><span>🎉 تمام! قفلت كل الساعات اللي كتبتها في بروفايلك. الموقع دلوقتي شغال بالمواد الفعلية بتاعتك.</span></div>' : ''}
+  ${wizardActive ? wizardBannerHtml() : hoursGapBannerHtml()}
   <p class="graph-hint">اعمل ترم بالمستوى والنوع بتاعه (أو "ترم معادلة" لو محوّل)، وضيف فيه مقررات من القسم (بيجيب عدد ساعاتها تلقائي)، أو مادة من "بنك المواد اليدوي" (متطلب جامعة/اختيار حر مسجّلها إنت)، أو مادة خارج التخصص عمومًا، واختار التقدير بالحرف — وهيتحسب الـ GPA للترم والـ CGPA التراكمي أوتوماتيك ويظهر في الصفحة الرئيسية. الفصل الصيفي بياخد الحد الأقصى (${SUMMER_MAX_H} ساعات) تلقائي.</p>
 
   <div class="cgpa-overall">
@@ -6666,6 +6895,10 @@ function renderCgpaView(){
 
   document.getElementById('addTermBtn').onclick = ()=> openNewTermModal();
   document.getElementById('openCourseBankBtn').onclick = ()=> openCourseBankModal();
+  const wizAddTermBtn = document.getElementById('wizAddTermBtn');
+  if(wizAddTermBtn) wizAddTermBtn.onclick = ()=> openNewTermModal();
+  const wizDismissBtn = document.getElementById('wizDismissBtn');
+  if(wizDismissBtn) wizDismissBtn.onclick = ()=>{ wizardActive = false; renderCgpaView(); };
 
   document.querySelectorAll('.cgpa-term-name').forEach(inp=>{
     inp.addEventListener('change', ()=>{
@@ -6945,6 +7178,332 @@ function renderCgpaView(){
       goalSaveTimer = setTimeout(saveCgpaGoal, 400);
     });
   });
+}
+
+/* ================= جدول الترم ================= */
+function scheduleItemName(it){
+  if(it.source==='db') return (DB[it.code]&&DB[it.code].ar) || it.name || it.code;
+  if(it.source==='custom') return (customCourses[it.code]&&customCourses[it.code].ar) || it.name || it.code;
+  return it.name || 'مادة';
+}
+function parseTimeMin(str){
+  if(!str) return null;
+  const p = String(str).split(':');
+  if(p.length<2) return null;
+  const h = Number(p[0]), m = Number(p[1]);
+  if(isNaN(h) || isNaN(m)) return null;
+  return h*60+m;
+}
+function dayLabel(id){
+  const d = SCHEDULE_DAYS.find(x=>x.id===id);
+  return d ? d.label : '';
+}
+function scheduleEntryText(entry){
+  if(!entry || !entry.from || !entry.to) return null;
+  return `${dayLabel(entry.day)} ${entry.from}–${entry.to}${entry.hall ? ' · '+entry.hall : ''}`;
+}
+function courseColorFor(term, itemId){
+  const idx = (term.items||[]).findIndex(i=>i.id===itemId);
+  return SCHEDULE_COLORS[(idx<0?0:idx) % SCHEDULE_COLORS.length];
+}
+function computeScheduleRange(schedule){
+  let startMin = 480, endMin = 1020; // افتراضي: 8:00 ص – 5:00 م
+  Object.values(schedule.courses||{}).forEach(cs=>{
+    ['lecture','section'].forEach(key=>{
+      const e = cs[key];
+      if(!e) return;
+      if(key==='section' && (!e.type || e.type==='none')) return;
+      const s = parseTimeMin(e.from), en = parseTimeMin(e.to);
+      if(s!=null) startMin = Math.min(startMin, Math.floor(s/60)*60);
+      if(en!=null) endMin = Math.max(endMin, Math.ceil(en/60)*60);
+    });
+  });
+  startMin = Math.max(360, Math.min(startMin, 480));
+  endMin = Math.min(1380, Math.max(endMin, 1020));
+  if(endMin <= startMin) endMin = startMin + 540;
+  return {startMin, endMin};
+}
+function scheduleGridHtml(term, schedule, range){
+  const {startMin, endMin} = range;
+  const totalSlots = Math.round((endMin-startMin)/30);
+  let html = `<div class="sched-grid" style="grid-template-rows:30px repeat(${totalSlots},22px);">`;
+  html += `<div class="sched-corner"></div>`;
+  SCHEDULE_DAYS.forEach((d,i)=>{
+    html += `<div class="sched-daycol-head" style="grid-column:${i+2};">${d.label}</div>`;
+  });
+  for(let m=startMin; m<endMin; m+=60){
+    const row = 2 + Math.round((m-startMin)/30);
+    const hh = Math.floor(m/60);
+    html += `<div class="sched-hour-label" style="grid-row:${row} / span 2;">${String(hh).padStart(2,'0')}:00</div>`;
+  }
+  SCHEDULE_DAYS.forEach((d,i)=>{
+    html += `<div class="sched-daycol-bg" style="grid-column:${i+2}; grid-row:2 / -1;"></div>`;
+  });
+  (term.items||[]).forEach(it=>{
+    const cs = (schedule.courses && schedule.courses[it.id]) || {};
+    const color = courseColorFor(term, it.id);
+    const name = scheduleItemName(it);
+    ['lecture','section'].forEach(key=>{
+      const e = cs[key];
+      if(!e) return;
+      if(key==='section' && (!e.type || e.type==='none')) return;
+      if(!e.day || !e.from || !e.to) return;
+      const dayIdx = SCHEDULE_DAYS.findIndex(d=>d.id===e.day);
+      if(dayIdx<0) return;
+      let s = parseTimeMin(e.from), en = parseTimeMin(e.to);
+      if(s==null || en==null || en<=s) return;
+      s = Math.max(s, startMin); en = Math.min(en, endMin);
+      if(en<=s) return;
+      const startRow = 2 + Math.round((s-startMin)/30);
+      const endRow = Math.max(2 + Math.round((en-startMin)/30), startRow+1);
+      const tag = key==='lecture' ? '📖 محاضرة' : (e.type==='lab' ? '🧪 معمل' : '👥 سكشن');
+      html += `<div class="sched-block" style="grid-column:${dayIdx+2}; grid-row:${startRow} / ${endRow}; background:${color};">
+        <span class="sb-name">${escapeHtml(name)}</span>
+        <span class="sb-tag">${tag}</span>
+        <span class="sb-time">${escapeHtml(e.from)}–${escapeHtml(e.to)}</span>
+        ${e.hall ? `<span class="sb-hall">${escapeHtml(e.hall)}</span>` : ''}
+      </div>`;
+    });
+  });
+  html += `</div>`;
+  return html;
+}
+function scheduleCourseRowHtml(term, schedule, it){
+  const cs = (schedule.courses && schedule.courses[it.id]) || {};
+  const lecTxt = scheduleEntryText(cs.lecture) || 'لسه ما اتحددش معاد المحاضرة';
+  let secTxt;
+  if(!cs.section || cs.section.type==='none'){
+    secTxt = 'بدون سكشن';
+  } else {
+    const kindLabel = cs.section.type==='lab' ? 'معمل' : 'سكشن';
+    const txt = scheduleEntryText(cs.section);
+    secTxt = txt ? `${kindLabel}: ${txt}` : `${kindLabel} — لسه ما اتحددش معاده`;
+  }
+  const color = courseColorFor(term, it.id);
+  return `<div class="sch-course-row">
+    <span class="sch-course-dot" style="background:${color};"></span>
+    <div class="sch-course-info">
+      <div class="sch-course-name">${escapeHtml(scheduleItemName(it))}</div>
+      <div class="sch-course-meta">📖 ${escapeHtml(lecTxt)}</div>
+      <div class="sch-course-meta">🧪 ${escapeHtml(secTxt)}</div>
+    </div>
+    <button class="sch-edit-btn" data-sch="${schedule.id}" data-item="${it.id}">✏️ تعديل المواعيد</button>
+  </div>`;
+}
+function renderScheduleView(){
+  if(!cgpaTerms.length){
+    document.getElementById('trackView').innerHTML = `
+    <div class="track-head"><div><h2>🗓️ جدول الترم</h2></div></div>
+    <p class="graph-hint">لازم تسجّل ترم واحد على الأقل الأول من "🧮 تسجيل المواد" عشان تقدر تعمل له جدول محاضرات وسكاشن.</p>
+    <button class="home-quicklink" id="schGotoCgpa">🧮 روح لتسجيل المواد</button>`;
+    const b = document.getElementById('schGotoCgpa');
+    if(b) b.onclick = ()=> goToView('cgpa');
+    return;
+  }
+  if(scheduleActiveId && !termSchedules.some(s=>s.id===scheduleActiveId)) scheduleActiveId = null;
+  if(!scheduleActiveId && termSchedules.length) scheduleActiveId = termSchedules[0].id;
+
+  const tabsHtml = termSchedules.map(s=>{
+    const term = cgpaTerms.find(t=>t.id===s.termId);
+    const label = term ? term.name : 'ترم محذوف';
+    return `<button class="sch-tab${s.id===scheduleActiveId?' active':''}" data-id="${s.id}">${escapeHtml(label)}<span class="sch-tab-del" data-id="${s.id}" title="حذف الجدول ده">✕</span></button>`;
+  }).join('');
+
+  let bodyHtml = '';
+  const schedule = termSchedules.find(s=>s.id===scheduleActiveId);
+  if(!schedule){
+    bodyHtml = `<p class="graph-hint">مفيش جداول لسه. دوس "➕ جدول ترم جديد" واختار الترم اللي عايز تعمله جدول.</p>`;
+  } else {
+    const term = cgpaTerms.find(t=>t.id===schedule.termId);
+    if(!term){
+      bodyHtml = `<p class="graph-hint" style="color:var(--maroon);">الترم المرتبط بالجدول ده اتحذف من "تسجيل المواد". احذف الجدول ده واعمل واحد جديد.</p>`;
+    } else {
+      const items = term.items || [];
+      const range = computeScheduleRange(schedule);
+      bodyHtml = `
+      <div class="sch-toolbar">
+        <h3 style="margin:0;">📌 ${escapeHtml(term.name)}</h3>
+        <button class="chip" id="schPrintBtn" type="button" style="cursor:pointer;border:none;">🖨️ طباعة الجدول</button>
+      </div>
+      <div class="schedule-print-area" id="schedulePrintArea">
+        <div class="sp-title">جدول ${escapeHtml(term.name)}</div>
+        <div class="sched-grid-wrap">${scheduleGridHtml(term, schedule, range)}</div>
+        <div class="sched-legend">${items.map(it=>`<span class="sch-legend-item"><span class="sch-legend-dot" style="background:${courseColorFor(term,it.id)};"></span>${escapeHtml(scheduleItemName(it))}</span>`).join('')}</div>
+      </div>
+      <div class="sch-course-list">
+        <h4 style="margin:16px 0 8px;">مواد الترم</h4>
+        ${items.length ? items.map(it=> scheduleCourseRowHtml(term, schedule, it)).join('') : '<p class="cgpa-empty">الترم ده مفيش فيه مواد مسجلة في تسجيل المواد.</p>'}
+      </div>`;
+    }
+  }
+
+  const html = `
+  <div class="track-head">
+    <div><h2>🗓️ جدول الترم</h2></div>
+    <div class="chips"><span class="chip total">${termSchedules.length} جدول</span></div>
+  </div>
+  <p class="graph-hint">اختار ترم من الترمات اللي مسجّلها في "تسجيل المواد" وابني له جدول محاضرات وسكاشن قابل للطباعة. تقدر تعمل أكتر من جدول لأكتر من ترم.</p>
+  <div class="sch-tabs">${tabsHtml}<button class="sch-tab sch-tab-add" id="schAddBtn" type="button">➕ جدول ترم جديد</button></div>
+  ${bodyHtml}`;
+  document.getElementById('trackView').innerHTML = html;
+
+  document.getElementById('schAddBtn').onclick = ()=> openNewScheduleModal();
+  document.querySelectorAll('.sch-tab[data-id]').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      if(e.target.classList.contains('sch-tab-del')) return;
+      scheduleActiveId = btn.dataset.id;
+      renderScheduleView();
+    });
+  });
+  document.querySelectorAll('.sch-tab-del').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      if(!confirm('تحذف الجدول ده؟')) return;
+      termSchedules = termSchedules.filter(s=>s.id!==btn.dataset.id);
+      if(scheduleActiveId===btn.dataset.id) scheduleActiveId = termSchedules.length ? termSchedules[0].id : null;
+      saveTermSchedules();
+      renderScheduleView();
+    });
+  });
+  const printBtn = document.getElementById('schPrintBtn');
+  if(printBtn) printBtn.onclick = ()=> window.print();
+  document.querySelectorAll('.sch-edit-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> openScheduleItemModal(btn.dataset.sch, btn.dataset.item));
+  });
+}
+function openNewScheduleModal(){
+  let chosenTermId = null;
+  function bodyHtml(){
+    const options = cgpaTerms.map(t=>{
+      const already = termSchedules.find(s=>s.termId===t.id);
+      return `<div class="track-pick-item${chosenTermId===t.id?' active':''}" data-term="${t.id}">
+        <span class="tp-name">${escapeHtml(t.name)}</span>
+        ${already ? '<span class="tp-tag">فيه جدول بالفعل</span>' : ''}
+      </div>`;
+    }).join('');
+    return `
+    <button class="close" onclick="closeModal()">✕</button>
+    <div class="profile-modal">
+      <h3>🗓️ جدول ترم جديد</h3>
+      <p class="p-sub">اختار الترم اللي عايز تعمله جدول محاضرات وسكاشن من الترمات اللي مسجّلها في "تسجيل المواد". لو الترم ده عنده جدول بالفعل هيفتحلك نفس الجدول تاني.</p>
+      <div class="track-pick-list">${options || '<p class="cgpa-empty">مفيش ترمات مسجلة.</p>'}</div>
+      <button class="profile-save-btn" id="schNewSaveBtn" ${chosenTermId?'':'disabled'}>➕ إنشاء / فتح الجدول</button>
+      <button class="profile-save-btn secondary" onclick="closeModal()">إلغاء</button>
+    </div>`;
+  }
+  function render(){
+    document.getElementById('modalBody').innerHTML = bodyHtml();
+    document.querySelectorAll('.track-pick-item[data-term]').forEach(el=>{
+      el.onclick = ()=>{ chosenTermId = el.dataset.term; render(); };
+    });
+    const saveBtn = document.getElementById('schNewSaveBtn');
+    if(saveBtn) saveBtn.onclick = ()=>{
+      if(!chosenTermId) return;
+      const existing = termSchedules.find(s=>s.termId===chosenTermId);
+      if(existing){
+        scheduleActiveId = existing.id;
+      } else {
+        const id = genId();
+        termSchedules.push({id, termId:chosenTermId, courses:{}});
+        scheduleActiveId = id;
+        saveTermSchedules();
+      }
+      closeModal();
+      renderScheduleView();
+    };
+  }
+  render();
+  document.getElementById('overlay').classList.add('show');
+}
+function openScheduleItemModal(scheduleId, itemId){
+  const schedule = termSchedules.find(s=>s.id===scheduleId);
+  if(!schedule) return;
+  const term = cgpaTerms.find(t=>t.id===schedule.termId);
+  const item = term && (term.items||[]).find(i=>i.id===itemId);
+  if(!item) return;
+  const existing = schedule.courses[itemId] || {};
+  let lecture = {
+    day: (existing.lecture&&existing.lecture.day) || 'sat',
+    from: (existing.lecture&&existing.lecture.from) || '',
+    to: (existing.lecture&&existing.lecture.to) || '',
+    hall: (existing.lecture&&existing.lecture.hall) || ''
+  };
+  let section = {
+    type: (existing.section&&existing.section.type) || 'none',
+    day: (existing.section&&existing.section.day) || 'sat',
+    from: (existing.section&&existing.section.from) || '',
+    to: (existing.section&&existing.section.to) || '',
+    hall: (existing.section&&existing.section.hall) || ''
+  };
+  function dayOptions(sel){
+    return SCHEDULE_DAYS.map(d=> `<option value="${d.id}" ${sel===d.id?'selected':''}>${d.label}</option>`).join('');
+  }
+  function bodyHtml(){
+    return `
+    <button class="close" onclick="closeModal()">✕</button>
+    <div class="profile-modal">
+      <h3>✏️ تعديل مواعيد: ${escapeHtml(scheduleItemName(item))}</h3>
+      <h4>📖 معاد المحاضرة</h4>
+      <div class="sched-form-row">
+        <div class="sched-field"><label>اليوم</label><select id="schLecDay">${dayOptions(lecture.day)}</select></div>
+        <div class="sched-field"><label>من</label><input id="schLecFrom" type="time" value="${escapeHtml(lecture.from)}"></div>
+        <div class="sched-field"><label>إلى</label><input id="schLecTo" type="time" value="${escapeHtml(lecture.to)}"></div>
+        <div class="sched-field"><label>مدرج كام</label><input id="schLecHall" type="text" placeholder="مثال: مدرج 3" value="${escapeHtml(lecture.hall)}"></div>
+      </div>
+      <h4>👥 معاد السكشن / المعمل</h4>
+      <div class="track-pick-list" id="schSecTypeList" style="flex-direction:row;flex-wrap:wrap;">
+        <div class="track-pick-item${section.type==='none'?' active':''}" data-ty="none" style="flex:1 1 100px;text-align:center;"><span class="tp-name">بدون سكشن</span></div>
+        <div class="track-pick-item${section.type==='section'?' active':''}" data-ty="section" style="flex:1 1 100px;text-align:center;"><span class="tp-name">سكشن</span></div>
+        <div class="track-pick-item${section.type==='lab'?' active':''}" data-ty="lab" style="flex:1 1 100px;text-align:center;"><span class="tp-name">معمل</span></div>
+      </div>
+      ${section.type!=='none' ? `
+      <div class="sched-form-row">
+        <div class="sched-field"><label>اليوم</label><select id="schSecDay">${dayOptions(section.day)}</select></div>
+        <div class="sched-field"><label>من</label><input id="schSecFrom" type="time" value="${escapeHtml(section.from)}"></div>
+        <div class="sched-field"><label>إلى</label><input id="schSecTo" type="time" value="${escapeHtml(section.to)}"></div>
+        <div class="sched-field"><label>${section.type==='lab'?'معمل كام':'مدرج/قاعة كام'}</label><input id="schSecHall" type="text" placeholder="${section.type==='lab'?'مثال: معمل 2':'مثال: قاعة 5'}" value="${escapeHtml(section.hall)}"></div>
+      </div>` : ''}
+      <button class="profile-save-btn" id="schItemSaveBtn">💾 حفظ المواعيد</button>
+      <button class="profile-save-btn secondary" onclick="closeModal()">إلغاء</button>
+    </div>`;
+  }
+  function bindFieldListeners(){
+    const lecDay = document.getElementById('schLecDay'); if(lecDay) lecDay.onchange = ()=> lecture.day = lecDay.value;
+    const lecFrom = document.getElementById('schLecFrom'); if(lecFrom) lecFrom.onchange = ()=> lecture.from = lecFrom.value;
+    const lecTo = document.getElementById('schLecTo'); if(lecTo) lecTo.onchange = ()=> lecture.to = lecTo.value;
+    const lecHall = document.getElementById('schLecHall'); if(lecHall) lecHall.oninput = ()=> lecture.hall = lecHall.value;
+    document.querySelectorAll('#schSecTypeList .track-pick-item').forEach(el=>{
+      el.onclick = ()=>{ section.type = el.dataset.ty; render(); };
+    });
+    const secDay = document.getElementById('schSecDay'); if(secDay) secDay.onchange = ()=> section.day = secDay.value;
+    const secFrom = document.getElementById('schSecFrom'); if(secFrom) secFrom.onchange = ()=> section.from = secFrom.value;
+    const secTo = document.getElementById('schSecTo'); if(secTo) secTo.onchange = ()=> section.to = secTo.value;
+    const secHall = document.getElementById('schSecHall'); if(secHall) secHall.oninput = ()=> section.hall = secHall.value;
+    const saveBtn = document.getElementById('schItemSaveBtn');
+    if(saveBtn) saveBtn.onclick = ()=>{
+      if(lecture.from && lecture.to && parseTimeMin(lecture.to) <= parseTimeMin(lecture.from)){
+        alert('معاد نهاية المحاضرة لازم يكون بعد معاد البداية.');
+        return;
+      }
+      if(section.type!=='none' && section.from && section.to && parseTimeMin(section.to) <= parseTimeMin(section.from)){
+        alert('معاد نهاية السكشن/المعمل لازم يكون بعد معاد البداية.');
+        return;
+      }
+      schedule.courses[itemId] = {
+        lecture: {...lecture},
+        section: section.type==='none' ? {type:'none'} : {...section}
+      };
+      saveTermSchedules();
+      closeModal();
+      renderScheduleView();
+    };
+  }
+  function render(){
+    document.getElementById('modalBody').innerHTML = bodyHtml();
+    bindFieldListeners();
+  }
+  render();
+  document.getElementById('overlay').classList.add('show');
 }
 
 /* ================= TRANSCRIPT VIEW ("بيان الحالة") ================= */
@@ -7248,10 +7807,11 @@ function gradStatsHtml(track){
       <div><b>متطلبات الكلية (26 ساعة، إجباري بالكامل):</b> تفاضل وتكامل (1) وهندسة، تفاضل وتكامل (2) وجبر، ميكانيكا (1)، ميكانيكا (2)، برمجة وتطبيقات الحاسب الآلي (دول اللي بيفتحوا مواد في قسمنا) + فيزياء عامة (1)(2)، كيمياء عامة (1)(2)(3) ونظيراتها العملي (دول ملهومش علاقة بالقسم لكن إجبارية للتخرج).</div>
 
       <div style="margin-top:10px;"><b>متطلبات الجامعة (10 ساعة):</b> مقررات على مستوى كل كليات جامعة الإسكندرية، كل مادة بساعتين.</div>
-      <div>• إجباري (4 ساعات): لغة عربية، لغة انجليزية.</div>
-      <div>• اختياري (6 ساعات — اختَر 3 مواد من): الإنسان والبيئة، مقدمة في علم النفس، اخلاقيات مهنة، مقدمة في علم الاثار، الابتكار وريادة الأعمال، تاريخ العلوم، مهارات حياتية، مهارات العرض، سياحة بيئية.</div>
+      <div>• إجباري (4 ساعات، محسوبة ضمن الـ10): لغة عربية، لغة انجليزية.</div>
+      <div>• اختياري (6 ساعات — اختَر 3 مواد من 4): الإنسان والبيئة، مقدمة في علم النفس، مقدمة في علم الاثار، تاريخ العلوم.</div>
+      <div>• الابتكار وريادة الأعمال: إجباري تتخرج وانت مخلّصها، لكنها مش محسوبة ضمن الـ10 ساعات دي ولا ضمن أي بكت ساعات تاني.</div>
 
-      <div style="margin-top:10px;"><b>متطلبات الاختيار الحر (8 ساعات):</b> يدرس الطالب مقررات يختارها من مقررات التخصص أو متطلبات الكلية أو متطلبات الجامعة، بشرط تكون خارج تخصصه الرئيسي أو الفرعي — يعني مش بتتحسب من ساعات التخصص الرئيسي والفرعي الموضحة فوق. أي ساعات زيادة عن المطلوب في الكلية/الجامعة/التخصص بتتحسب هنا تلقائي (لحد 8 ساعات).</div>
+      <div style="margin-top:10px;"><b>متطلبات الاختيار الحر (8 ساعات):</b> يدرس الطالب مقررات يختارها من مقررات التخصص أو متطلبات الكلية أو متطلبات الجامعة، بشرط تكون خارج تخصصه الرئيسي أو الفرعي — يعني مش بتتحسب من ساعات التخصص الرئيسي والفرعي الموضحة فوق. من أشهر مواد الاختيار الحر: مهارات العرض، المهارات الحياتية، السياحة البيئية، الجيولوجيا الأثرية، فارما (1)، فارما (2)، والأخلاقيات المهنية. أي ساعات زيادة عن المطلوب في الكلية/الجامعة/التخصص بتتحسب هنا تلقائي (لحد 8 ساعات).</div>
     </div>
   </div>`;
 }
@@ -7475,9 +8035,9 @@ function openProfileModal(forced){
         modalForced = false;
         currentView = 'cgpa';
         renderViewTabs();
-        closeModal();
         renderTrackBadge();
         renderCurrentView();
+        if(hoursGapRemaining()>0){ openWizardIntroModal(); } else { closeModal(); }
       };
     } else {
       note.innerHTML = '';
@@ -7535,10 +8095,11 @@ function openProfileModal(forced){
       modalForced = false;
       saveProfile();
       renderTrackBadge();
-      currentView = hoursGapRemaining()>0 ? 'cgpa' : 'home';
+      const gapNow = hoursGapRemaining()>0;
+      currentView = gapNow ? 'cgpa' : 'home';
       renderViewTabs();
-      closeModal();
       renderCurrentView();
+      if(gapNow){ openWizardIntroModal(); } else { closeModal(); }
     };
   }
   render();
@@ -8199,6 +8760,371 @@ function nonoBuildWordDoc(data){
 }
 
 /* ============ أدوات المذاكرة: إنشاء الاختبارات ============ */
+/* ============================================================
+   ===== مراجعة اللائحة (لائحة كلية العلوم - جامعة الإسكندرية) =====
+   بيانات ملخّصة من لائحة الدراسة بنظام الساعات المعتمدة 2017/2018،
+   مقسّمة لفئات يسهل الوصول لها بدل قراءة اللائحة كاملة نص متصل.
+   ============================================================ */
+const REGS_CATEGORIES = [
+  {
+    id:'admission', icon:'🎓', accent:'navy',
+    title:'الالتحاق والأقسام العلمية',
+    desc:'مين يقدر يلتحق بالكلية، والشعب والأقسام المتاحة.',
+    materials:[
+      {num:'م 2', title:'شروط الالتحاق بالكلية', body:`
+        <p>تقبل كلية العلوم الطلاب الحاصلين على الثانوية العامة (شعبتي الرياضيات والعلوم) والشهادات المعادلة لها من العرب والأجانب، وفقًا لما يحدده المكتب التنسيقي وحسب الحدود التي يقررها المجلس الأعلى للجامعات.</p>
+        <p>يلتحق الطالب المستجد في المستوى الأول بإحدى الشعب الثلاث التالية:</p>
+        <ul>
+          <li><b>شعبة العلوم الطبيعية</b> — لطلاب شعبة الرياضيات بالثانوية العامة</li>
+          <li><b>شعبة العلوم البيولوجية</b> — لطلاب شعبة العلوم بالثانوية العامة</li>
+          <li><b>شعبة العلوم الجيولوجية</b> — لطلاب شعبتي الرياضيات أو العلوم بالثانوية العامة</li>
+        </ul>
+        <div class="regs-note"><b>ملحوظة:</b> يجوز لمجلس الكلية قبول خريجي كليات وبكالوريوس أخرى أو معاهد عليا معادلة في التخصص المناسب. لا يدخل خريج غير الكلية اللي قبول منها في الحساب التراكمي، ولا تتم معادلة المقررات اللي درسها إلا بمبدأ تكافؤ الفرص مع باقي الخريجين.</div>`},
+      {num:'م 3', title:'الأقسام العلمية والتخصصات المتاحة', body:`
+        <p>تتكون كلية العلوم من 9 أقسام علمية: الرياضيات وعلوم الحاسب، الفيزياء، الكيمياء، النبات والميكروبيولوجيا، علم الحيوان، الجيولوجيا، علوم البحار، الكيمياء الحيوية، وعلوم البيئة (بالإضافة لبرنامجين خاصين بمصروفات: البترول، والميكروبيولوجيا الصناعية والكيمياء التطبيقية).</p>
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>الشعبة</th><th>الأقسام/التخصصات المتاحة لها</th></tr></thead>
+          <tbody>
+            <tr><td>(أ) العلوم الطبيعية</td><td style="text-align:right;">الرياضيات وعلوم الحاسب (رياضيات، إحصاء، علوم الحاسب) — الفيزياء — الفيزياء الحيوية — الكيمياء — علوم البحار الفيزيائية</td></tr>
+            <tr><td>(ب) العلوم البيولوجية</td><td style="text-align:right;">الكيمياء — النبات والميكروبيولوجيا (نبات، ميكروبيولوجيا، تقنية حيوية) — علم الحيوان (علم حيوان، حشرات، بيولوجيا جزيئية) — علوم البحار العامة — الكيمياء الحيوية — علوم البيئة</td></tr>
+            <tr><td>(ج) العلوم الجيولوجية</td><td style="text-align:right;">الجيولوجيا — الجيوفيزياء — علوم البحار العامة</td></tr>
+          </tbody>
+        </table></div>
+        <p>قسمنا (الرياضيات وعلوم الحاسب) بيمنح 5 برامج: الرياضيات، الإحصاء، وعلوم الحاسب (كل واحد بدرجة عامة رئيسي/فرعي، أو درجة خاصة).</p>`}
+    ]
+  },
+  {
+    id:'system', icon:'🗓️', accent:'teal',
+    title:'نظام الدراسة والفصول',
+    desc:'الساعات المعتمدة، الفصول الدراسية، والصيفي، ومستويات الدراسة.',
+    materials:[
+      {num:'م 1', title:'نظام الساعات المعتمدة', body:`
+        <p>النظام المتبع في الكلية هو نظام الساعات المعتمدة (Credit Hours System) في إطار الفصل الدراسي، وهو نظام يشترط للتخرج اجتياز الطالب عددًا من المقررات الدراسية بنجاح، طبقًا للحد الأدنى من الدرجات والساعات المعتمدة التي تحددها الكلية.</p>
+        <p>بيتيح للطالب حرية الدراسة والمشاركة في وضع خطته الدراسية وفقًا لقدراته وحسب النظام المعمول به، وبتوجيه من المرشد الأكاديمي وفي ضوء الحدود الدنيا والعليا للساعات المعتمدة المسموح له بالتسجيل فيها كل فصل دراسي. لغة الدراسة لكل مقررات الكلية هي الإنجليزية.</p>`},
+      {num:'م 5', title:'الفصول الدراسية الأساسية', body:`
+        <p>العام الدراسي يشمل فصلين دراسيين أساسيين (الخريف والربيع)، وكل فصل دراسي يتكون من 17 أسبوعًا موزّعة كالتالي:</p>
+        <ul>
+          <li>فترة التسجيل: أسبوع واحد</li>
+          <li>فترة الدراسة: 14 أسبوعًا</li>
+          <li>فترة الامتحانات: أسبوعان</li>
+        </ul>`},
+      {num:'م 6', title:'الفصل الصيفي', body:`
+        <p>يجوز لمجلس الكلية بالموافقة فتح فصل دراسي صيفي مكثف مدته 8 أسابيع شاملة الامتحانات، يسجل فيه الطالب بحد أقصى 9 ساعات معتمدة وفقًا لقواعد ورسوم يحددها المجلس.</p>
+        <ul>
+          <li>التسجيل في هذا الفصل <b>اختياري</b> للطالب</li>
+          <li>كذلك يكون أداء عضو هيئة التدريس المنوط به تدريس المقرر فيه <b>اختياريًا</b></li>
+          <li>لا يُدرّس أي مقرر في هذا الفصل إذا قل عدد الطلبة المسجلين فيه عن 15 طالبًا، إلا بموافقة مجلس الكلية</li>
+        </ul>`},
+      {num:'م 7', title:'معيار الساعة المعتمدة', body:`
+        <p>تُحتسب الساعة المعتمدة خلال الفصل الدراسي الواحد على النحو التالي:</p>
+        <ul>
+          <li>كل محاضرة نظرية مدتها ساعة واحدة أسبوعيًا تكافئ <b>ساعة معتمدة واحدة</b></li>
+          <li>كل فترة دراسة عملية أو تمارين مدتها 2 أو 3 ساعات أسبوعيًا تكافئ <b>ساعة معتمدة واحدة</b></li>
+          <li>يسقط من حساب الساعات المعتمدة العملية الدراسة العملية أو التمارين التي مدتها ساعة واحدة</li>
+        </ul>`},
+      {num:'م 9', title:'مستويات الدراسة وكود المقررات', body:`
+        <p>تُحدد مستويات الفرق الدراسية طبقًا لعدد الساعات المعتمدة المُكتسبة:</p>
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>المستوى</th><th>الساعات المعتمدة المكتسبة</th></tr></thead>
+          <tbody>
+            <tr><td>الأول (Freshman)</td><td>من صفر إلى 32 ساعة</td></tr>
+            <tr><td>الثاني (Sophomore)</td><td>من 33 إلى 66 ساعة</td></tr>
+            <tr><td>الثالث (Junior)</td><td>من 67 إلى 99 ساعة</td></tr>
+            <tr><td>الرابع (Senior)</td><td>100 ساعة فأكثر</td></tr>
+          </tbody>
+        </table></div>
+        <p>ترقيم المقررات: كود القسم الذي يطرح المقرر + رمز الشعبة (طبقًا لجدول أ) + رقم المقرر، على النحو التالي:</p>
+        <ul>
+          <li>متطلبات الجامعة والكلية ومقررات المستوى الأول: من 100 إلى 199</li>
+          <li>مقررات المستوى الثاني: من 201 إلى 299</li>
+          <li>مقررات المستوى الثالث: من 301 إلى 399</li>
+          <li>مقررات المستوى الرابع: من 401 إلى 499</li>
+        </ul>
+        <div class="regs-note"><b>ملحوظة:</b> عادة تُطرح المقررات ذات الأرقام الفردية في الفصل الدراسي الأول (الخريف)، والزوجية في الفصل الدراسي الثاني (الربيع)، ويجوز للجنة شؤون التعليم والطلاب بناءً على اقتراح الأقسام العلمية طرح مقرر أكثر من فصل دراسي أو في غير موعده إذا دعت الضرورة لذلك.</div>`}
+    ]
+  },
+  {
+    id:'registration', icon:'📝', accent:'gold',
+    title:'التسجيل والحذف والإضافة والانسحاب',
+    desc:'مواعيد التسجيل، وإزاي تحذف أو تضيف أو تنسحب من مقرر.',
+    materials:[
+      {num:'م 16', title:'التسجيل', body:`
+        <p>تعلن إدارة شؤون التعليم والطلاب عن مواعيد التسجيل لكل فصل دراسي بالوسائل المناسبة، والتي تكون غالبًا خلال الأسبوع الأول من بدء الدراسة.</p>
+        <p>في حالة تخلف الطالب عن التسجيل أثناء فترة التسجيل المعلنة، يُسدد رسم تأخير يحدده مجلس الكلية بالإضافة لرسم التسجيل العادي.</p>
+        <p>الطالب اللي معاه عذر تقبله لجنة شؤون التعليم والطلاب ويوافق عليه مجلس الكلية، يجوز له التسجيل متأخرًا خلال الأسبوع الثاني من بدء الدراسة مع تسديد رسم التأخير المذكور. بعد انتهاء فترة الحذف والإضافة لا يُسمح بالتسجيل إلا بعذر تقبله لجنة شؤون التعليم والطلاب ومجلس الكلية.</p>`},
+      {num:'م 17', title:'الحذف والإضافة والانسحاب من المقررات', body:`
+        <p><b>الحذف والإضافة:</b> يجوز للطالب بموافقة المرشد الأكاديمي أن يضيف أو يحذف مقررًا أو أكثر، حتى نهاية الأسبوع الثاني من الفصل الدراسي الثاني (الأسبوع الأول من الفصل الصيفي)، وذلك بما لا يخل بالعبء الدراسي المنصوص عليه في مادة العبء الدراسي.</p>
+        <p><b>الانسحاب "منسحب W":</b> بعد انتهاء فترة الحذف والإضافة، يجوز للطالب الانسحاب من دراسة أي مقرر حتى نهاية الأسبوع الثاني عشر من الفصل الدراسي (الأسبوع السادس من الفصل الصيفي)، بحد أقصى ثمانية مرات طوال فترة دراسة الطالب بالكلية، وذلك بموافقة المرشد الأكاديمي. يُسجل هذا المقرر في سجل الطالب الأكاديمي بتقدير "منسحب W" بشرط ألا يكون الطالب قد تجاوز نسبة الغياب المقررة قبل الانسحاب.</p>
+        <div class="regs-note"><b>حالات الانسحاب الاضطراري:</b> تُعرض على لجنة شؤون التعليم والطلاب للنظر فيها ثم إقرارها من وكيل الكلية لشئون التعليم والطلاب، على ألا يخل الانسحاب بالعبء الدراسي للطالب وفقًا لمادة العبء الدراسي.</div>`},
+      {num:'م 18', title:'المتطلب السابق', body:`
+        <p>المتطلب السابق لدراسة مقرر ما هو مقرر يتعيّن على الطالب اجتيازه بنجاح قبل التسجيل في مقرر آخر معيّن، وفي هذه الحالة يُطلق على الأول متطلب سابق للمقرر الثاني، ويجب أن يكون المتطلب السابق لأي مقرر ضمن مقررات البرنامج الملتحق به الطالب.</p>`},
+      {num:'م 21', title:'نظام الاستماع', body:`
+        <p>يجوز لمجلس الكلية، بعد أخذ رأي مجالس الأقسام العلمية المختصة، أن يقبل طلابًا من كليات أو جامعات أخرى كمستمعين لبعض المقررات التي تطرحها الكلية، وفقًا لقواعد ورسوم يحددها المجلس، وتمنح الكلية إفادة بحضور المقرر كمستمع، ولا يترتب على ذلك منح أي درجة جامعية.</p>`}
+    ]
+  },
+  {
+    id:'load', icon:'⚖️', accent:'maroon',
+    title:'العبء الدراسي',
+    desc:'أقل وأكتر عدد ساعات تقدر تسجله كل فصل، والحالات الخاصة.',
+    materials:[
+      {num:'م 13', title:'العبء الدراسي', body:`
+        <p>العبء الدراسي هو عدد الساعات المعتمدة التي يُسمح للطالب بتسجيلها في الفصل الدراسي الواحد، ويتراوح بين <b>12–13 ساعة</b> (الحد الأدنى) و<b>17 ساعة</b> (الحد الأقصى) معتمدة، مع مراعاة الآتي:</p>
+        <ul>
+          <li>يجوز للطالب الذي يحصل على معدل تراكمي 3 نقاط فأكثر وأنهى 33 ساعة معتمدة على الأقل أن يسجل حتى 19 ساعة معتمدة، بموافقة المرشد الأكاديمي أو رئيس مجلس القسم في الفصل الدراسي الأساسي</li>
+          <li>لا يُسمح للطالب بالتسجيل في أي مقرر ما لم يكن مستوفيًا لمتطلباته السابقة، ذلك، ويجوز السماح لطلاب المستوى الرابع بالتسجيل في مقرر لم يدرسه سابقًا ومتطلبه لم ينجح فيه سابقًا (دراسته مصاحبًا له) وذلك بعد موافقة المرشد الأكاديمي ومنسق الإرشاد الأكاديمي للطالب والقسم الأكاديمي الذي يطرح المقرر</li>
+          <li>لمقتضيات التخرج، يجوز للطالب أن يسجل 21 ساعة معتمدة بموافقة لجنة شؤون التعليم والطلاب وباقتراح من منسق الإرشاد الأكاديمي للقسم، وذلك للطالب الذي يستخرج في الفصل الدراسي العادي الذي يتبعه، بشرط ألا يقل معدله التراكمي عن 3</li>
+          <li>يجوز للطالب التسجيل في مقررات دراسية من خارج برنامجه ومطروحة من القسم أو الكلية أو الجامعة طالما أنها تخدم تخصصه، وذلك بناءً على اقتراح المرشد الأكاديمي وموافقة مجلس القسم المعني، على أن تدخل هذه المقررات في حساب المعدل التراكمي بحد أقصى 8 ساعات طوال فترة دراسته ضمن مقررات الاختيار الحر</li>
+        </ul>
+        <div class="regs-note">في كل الحالات لا يتم تسجيل الساعات التي تزيد على العبء الدراسي العادي إلا خلال فترة الحذف والإضافة.</div>
+        <p>فيما عدا الطلبة المتوقع تخرجهم، يُعتبر تسجيل الطالب لاغيًا إذا قل عدد الساعات المعتمدة المسجلة عن 12 ساعة معتمدة بعد نهاية الأسبوع الأول من بدء الدراسة، ويجوز لمجلس الكلية السماح للطلاب بالتسجيل فيما لا يقل عن 9 ساعات معتمدة خلال الأسبوع الأول من بدء الدراسة حسب شروط أو ظروف معينة يراها المجلس، وذلك فيما لا يزيد عن فصلين دراسيين طوال فترة قيد الطالب بالكلية.</p>`}
+    ]
+  },
+  {
+    id:'grading', icon:'💯', accent:'navy',
+    title:'تقييم المقررات وتوزيع الدرجات',
+    desc:'إزاي بتتوزع الـ100 درجة على أجزاء كل مقرر.',
+    materials:[
+      {num:'م 10', title:'توزيع درجات المقررات', body:`
+        <p>النهاية العظمى لكل مقرر هي 100 (مائة) درجة، ويتم تقييم الطالب في المقررات النظرية والعملية بناءً على الأسس التالية:</p>
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>البيان</th><th>عملي فقط</th><th>نظري فقط</th><th>نظري + عملي</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:right;">الامتحان التحريري النهائي</td><td>-</td><td>60</td><td>50</td></tr>
+            <tr><td style="text-align:right;">الامتحان الشفوي</td><td>10</td><td>10</td><td>10</td></tr>
+            <tr><td style="text-align:right;">امتحان منتصف الفصل التحريري</td><td>-</td><td>20</td><td>10</td></tr>
+            <tr><td style="text-align:right;">اختبارات دورية قصيرة Quiz / امتحان عملي / تمارين / واجبات / رحلات حقلية / تدريب ميداني</td><td>20</td><td>10</td><td>10</td></tr>
+            <tr><td style="text-align:right;">امتحان عملي منتصف الفصل</td><td>20</td><td>-</td><td>-</td></tr>
+            <tr><td style="text-align:right;">الامتحان العملي / التمارين النهائي</td><td>50</td><td>-</td><td>20</td></tr>
+            <tr><td style="text-align:right;"><b>المجموع</b></td><td><b>100</b></td><td><b>100</b></td><td><b>100</b></td></tr>
+          </tbody>
+        </table></div>
+        <p><b>مقرر المشروع البحثي</b> يُحتسب بنسبة 20% لدرجة الأنشطة المختلفة التي يقوم بها الطالب، 10% حضور ومتابعة مع المشرف (أو المشرفين)، 40% تقييم جودة التقرير (الأطروحة) من المشرف (أو المشرفين)، و30% مناقشة المشروع مع لجنة التقييم الشفوي.</p>`}
+    ]
+  },
+  {
+    id:'gpa', icon:'🧮', accent:'teal',
+    title:'المعدل الفصلي والتراكمي',
+    desc:'جدول التقديرات، وإزاي تتحسب GPA وCGPA.',
+    materials:[
+      {num:'م 11-1', title:'جدول الدلائل الرقمية والرمزية للتقديرات', body:`
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>التقدير</th><th>الدرجة</th><th>النقاط</th><th>الرمز</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="2" style="text-align:right;">ممتاز</td><td>90 فأكثر</td><td>4.00</td><td>A</td></tr>
+            <tr><td>85 إلى أقل من 90</td><td>3.67</td><td>A-</td></tr>
+            <tr><td rowspan="2" style="text-align:right;">جيد جدًا</td><td>80 إلى أقل من 85</td><td>3.33</td><td>B+</td></tr>
+            <tr><td>75 إلى أقل من 80</td><td>3.00</td><td>B</td></tr>
+            <tr><td rowspan="2" style="text-align:right;">جيد</td><td>70 إلى أقل من 75</td><td>2.67</td><td>B-</td></tr>
+            <tr><td>65 إلى أقل من 70</td><td>2.33</td><td>C+</td></tr>
+            <tr><td rowspan="4" style="text-align:right;">مقبول</td><td>60 إلى أقل من 65</td><td>2.00</td><td>C</td></tr>
+            <tr><td>56 إلى أقل من 60</td><td>1.67</td><td>C-</td></tr>
+            <tr><td>53 إلى أقل من 56</td><td>1.33</td><td>D+</td></tr>
+            <tr><td>50 إلى أقل من 53</td><td>1.00</td><td>D</td></tr>
+            <tr><td style="text-align:right;">ضعيف</td><td>أقل من 50</td><td>0</td><td>F</td></tr>
+          </tbody>
+        </table></div>
+        <p>رموز أخرى بدون نقاط: <b>I</b> غير مكتمل، <b>FN</b> غائب (0)، <b>NT</b> مستمر، <b>W</b> منسحب، <b>FW</b> منسحب إجباري، <b>L</b> مستمع.</p>`},
+      {num:'م 11-2،3', title:'المعدل الفصلي (GPA) والمعدل التراكمي (CGPA)', body:`
+        <p><b>المعدل الفصلي (GPA):</b> متوسط ما يحصل عليه الطالب من نقاط في الفصل الدراسي الواحد، ويُحسب بالمعادلة:</p>
+        <div class="regs-note" style="text-align:center;">المعدل الفصلي = (مجموع حاصل ضرب نقاط كل مقرر × عدد ساعاته المعتمدة) ÷ مجموع الساعات المعتمدة لهذه المقررات في الفصل — ويُقرّب الناتج إلى رقمين عشريين فقط.</div>
+        <p><b>المعدل التراكمي (CGPA):</b> متوسط ما حصل عليه الطالب من نقاط في جميع الفصول الدراسية التي اجتازها، ويُحسب بالمعادلة:</p>
+        <div class="regs-note" style="text-align:center;">المعدل التراكمي = (مجموع حاصل ضرب نقاط كل مقرر تم دراسته × عدد ساعاته المعتمدة) ÷ مجموع الساعات المعتمدة لكل المقررات التي تم دراستها في جميع الفصول — ويُقرّب الناتج إلى أربعة أرقام عشرية.</div>
+        <p>في حالة تساوي المعدل التراكمي لأوائل الخريجين، تتم المفاضلة بينهم طبقًا للقواعد المعتمدة من الجامعة.</p>`},
+      {num:'م 11-4', title:'الحد الأدنى للتخرج والتقدير النهائي العام', body:`
+        <p>الحد الأدنى للمعدل التراكمي العام للتخرج هو <b>نقطتان (2.000)</b> على الأقل. ويتم احتساب التقديرات طبقًا لنظام النقطتين على أساس المعدل التراكمي العام كالآتي:</p>
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>النسبة المئوية</th><th>الرمز ونقاط المعدل التراكمي العام</th></tr></thead>
+          <tbody>
+            <tr><td>85% فأكثر</td><td>3.400 – 4.000</td></tr>
+            <tr><td>75% إلى أقل من 85%</td><td>3.000 – 3.399</td></tr>
+            <tr><td>60% إلى أقل من 75%</td><td>2.300 – 2.999</td></tr>
+            <tr><td>50% إلى أقل من 60%</td><td>2.000 – 2.299</td></tr>
+            <tr><td>أقل من 50%</td><td>أقل من 2.000</td></tr>
+          </tbody>
+        </table></div>`}
+    ]
+  },
+  {
+    id:'warning', icon:'🚨', accent:'maroon',
+    title:'الإنذار الأكاديمي ووقف وإلغاء القيد',
+    desc:'إمتى بتتحط تحت إنذار، وإمتى ممكن تتفصل من الكلية.',
+    materials:[
+      {num:'م 14', title:'الإنذار الأكاديمي', body:`
+        <p>إذا حصل الطالب على معدل تراكمي CGPA أقل من <b>1.67</b> بعد نهاية الفصل الدراسي الثاني من التحاقه بالكلية، يوجه له إنذار (ملاحظ أكاديميًا) ويوضع على قائمة الإنذار، وعلى الطالب أن يرفع معدله العام التراكمي إلى المعدل المطلوب <b>2.0</b> وذلك بإعادة التسجيل في المقررات التي رسب فيها أو تحسين تقديرات المقررات التي اجتازها بتقدير C- أو أقل.</p>
+        <p>وإذا استمر المعدل المتدني للطالب <b>(أقل من 2.0)</b> في الفصل الدراسي التالي للإنذار الأول، يوجه له الإنذار الثاني ولا يُسمح له بالتسجيل إلا في الحد الأدنى وهو 12 ساعة معتمدة.</p>`},
+      {num:'م 23', title:'إيقاف وإلغاء القيد', body:`
+        <p><b>وقف القيد:</b> يجوز للطالب أن يتقدم بطلب لوقف قيده لفصل دراسي واحد، وبحد أقصى أربعة فصول دراسية منفصلة أو متصلة خلال فترة قيده بالكلية، وذلك لأسباب قهرية توافق عليها لجنة شؤون التعليم والطلاب وطبقًا للنظام العام للجامعة.</p>
+        <p><b>إلغاء القيد (الفصل النهائي):</b> يُلغى قيد الطالب ويُفصل نهائيًا من الكلية بناءً على اقتراح لجنة شؤون التعليم والطلاب وموافقة مجلس الكلية في أي من الحالتين:</p>
+        <ul>
+          <li>تجاوز الحد الأقصى للحصول على الإنذارات الأكاديمية المتصلة (أربعة فصول متصلة)</li>
+          <li>أي حالات أخرى واردة في قانون تنظيم الجامعات</li>
+        </ul>`}
+    ]
+  },
+  {
+    id:'major', icon:'🎯', accent:'gold',
+    title:'التخصص الرئيسي والفرعي وتحويل المسار',
+    desc:'الدرجة العامة والخاصة، وشروط تحويل تخصصك.',
+    materials:[
+      {num:'م 4', title:'درجات البكالوريوس', body:`
+        <p>تمنح جامعة الإسكندرية بناءً على طلب مجلس كلية العلوم الدرجات العلمية التالية:</p>
+        <ul>
+          <li><b>درجة البكالوريوس الخاصة (Honor Degree)</b> في العلوم — حيث يتخصص الطالب في تخصص واحد فقط من التخصصات الواردة بجدول (أ)</li>
+          <li><b>درجة البكالوريوس العامة</b> في العلوم — حيث يتخصص الطالب في تخصص رئيسي (Major) وآخر فرعي (Minor) من التخصصات الواردة بجدول (أ)</li>
+        </ul>
+        <p>يختار الطالب تخصصه الرئيسي قبل بدء فصله الدراسي الثالث (أو المزدوج الأول)، ويختار التخصص الفرعي (المزدوج الثاني) قبل بدء فصله الدراسي الخامس، بعد موافقة المرشد الأكاديمي والقسم المختص لكل تخصص، وطبقًا للبرامج المحددة له، مع وضع المعدل التراكمي للطالب والمقررات المرتبطة بالاعتبار عند التوزيع في حالة تحديد الأعداد المطلوبة تبعًا لاحتياجات الأقسام.</p>`},
+      {num:'م 22', title:'تحويل المسار', body:`
+        <p>يجوز للطالب التحويل من شعبة لأخرى أو من تخصص رئيسي أو فرعي لآخر بناءً على طلبه، وذلك بالشروط التالية:</p>
+        <ul>
+          <li>تُقدم طلبات المسار المشفوعة بموافقة المرشد الأكاديمي للطالب في ضوء الوضع الأكاديمي ومدى استعداده للدراسة في التخصص المراد التحويل إليه خلال الأسبوعين الأخيرين قبل بدء التسجيل للفصل الدراسي الأساسي</li>
+          <li>توافر أماكن شاغرة في التخصص الذي يرغب في التحويل إليه</li>
+          <li>توافر شروط القبول للتخصص المراد التحويل إليه</li>
+          <li>في حالة موافقة لجنة شؤون التعليم والطلاب على هذا التحويل تشطب من سجل الطالب جميع المقررات التي اجتازها ولا تقع ضمن متطلبات التخصص الجديد، ولا يتم احتسابها ضمن المعدل التراكمي ولا تحتسب ضمن مقررات الاختيار الحر</li>
+          <li>يجوز لمجلس الكلية فرض رسوم على هذا التحويل</li>
+        </ul>`}
+    ]
+  },
+  {
+    id:'honors', icon:'🏅', accent:'teal',
+    title:'الدرجة الخاصة ومرتبة الشرف',
+    desc:'شروط الالتحاق بالدرجة الخاصة، وشروط التخرج بمرتبة الشرف.',
+    materials:[
+      {num:'م 12', title:'الدرجة الخاصة', body:`
+        <p>الدرجة الخاصة هي امتداد للتخصص الفرعي بدلًا من التخصص الرئيسي، بحيث يصبح عدد الساعات المعتمدة للدرجة الخاصة 88 ساعة معتمدة، منها 62 ساعة إجبارية و26 ساعة اختيارية.</p>
+        <p>يقبل الطالب المتميز بالدرجة الخاصة طبقًا للشروط التالية:</p>
+        <ul>
+          <li>أن يكون قد أنهى على الأقل أربعة فصول دراسية دون الرسوب في أي من مقررات الكلية أو التخصص</li>
+          <li>أن يكون معدله التراكمي العام <b>3.33</b> على الأقل</li>
+          <li>أن يكون قد اجتاز على الأقل 26 ساعة معتمدة من مقررات التخصص الرئيسي بمعدل لا يقل عن <b>3.0</b></li>
+          <li>موافقة مجلس القسم المختص طبقًا لعدد الطلبة المتقدمين للالتحاق بالدرجة الخاصة وبما يناسب إمكانيات القسم</li>
+        </ul>`},
+      {num:'م 11-10', title:'مرتبة الشرف', body:`
+        <p>تُمنح مرتبة الشرف للطالب الذي ينهي دراسته بالكلية في غضون المدة الاعتيادية للتخرج (من 7 إلى 9 فصول دراسية أساسية)، بشرط:</p>
+        <ul>
+          <li>ألا يقل معدله الفصلي التراكمي عن <b>3.333</b> نقاط في أي فصل من فصول دراسته</li>
+          <li>أن يكون معدله التراكمي العام <b>3.666</b> على الأقل</li>
+          <li>ألا يكون قد رسب في أي مقرر دراسي أثناء قيده بالكلية أو في الكلية/الجامعة المحوَّل منها</li>
+        </ul>`}
+    ]
+  },
+  {
+    id:'graduation', icon:'🎓', accent:'navy',
+    title:'متطلبات التخرج والمواظبة وإعادة المواد',
+    desc:'الـ132 ساعة، التدريب الصيفي، الغياب المسموح، وإعادة المقررات.',
+    materials:[
+      {num:'م 8', title:'متطلبات التخرج (132 ساعة)', body:`
+        <p>متطلبات التخرج لنيل درجة البكالوريوس في العلوم هي 132 ساعة معتمدة على الأقل وفق الخطة الدراسية للبرنامج، وبمعدل تراكمي كلي لا يقل عن نقطتين (2). تتوزع الساعات كالتالي:</p>
+        <div class="regs-table-wrap"><table class="goal-table">
+          <thead><tr><th>وصف المتطلب</th><th>ساعات إجبارية</th><th>ساعات اختيارية</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:right;">متطلبات الجامعة</td><td>4</td><td>6</td></tr>
+            <tr><td style="text-align:right;">متطلبات الكلية</td><td>26</td><td>-</td></tr>
+            <tr><td style="text-align:right;">متطلبات التخصص الرئيسي</td><td>46</td><td>20</td></tr>
+            <tr><td style="text-align:right;">متطلبات التخصص الفرعي</td><td>16</td><td>6</td></tr>
+            <tr><td style="text-align:right;">مقررات الاختيار الحر</td><td>-</td><td>8</td></tr>
+            <tr><td style="text-align:right;"><b>المجموع = 132 ساعة</b></td><td><b>92</b></td><td><b>40</b></td></tr>
+          </tbody>
+        </table></div>
+        <ul>
+          <li>متطلبات الجامعة: اللغة العربية والإنجليزية إجبارية (2 ساعة معتمدة)، بالإضافة لـ6 ساعات اختيارية من مقررات مثل مبادئ علم الفلسفة، أساسيات الإدارة، مبادئ المحاسبة، مقدمة في الصحة العامة، أخلاقيات المهنة، مدخل في علم الآثار، تصميم وفنون جميلة، إدارة الذات، مدخل القانون</li>
+          <li>متطلبات الكلية: 3 مجموعات من المقررات للشعب الثلاثة (الطبيعية، البيولوجية، الجيولوجية) طبقًا لجدول (د)</li>
+          <li>مقررات الاختيار الحر: يدرسها الطالب من مقررات القسم أو الكلية أو الجامعة، على ألا تكون من ضمن متطلبات التخصصين الرئيسي والفرعي</li>
+        </ul>
+        <div class="regs-note"><b>التدريب الصيفي:</b> إجباري لجميع طلاب التخصص الرئيسي لمدة 4-6 أسابيع على الأقل، في الشركات أو المؤسسات العلمية أو دراسة حقلية ذات صلة بالتخصص خلال الإجازات الصيفية، ويتم التدريب بدون احتساب ساعات معتمدة.<br><b>التدريب الميداني:</b> يجوز للقسم العلمي وضع مقرر خاص بالتدريب الميداني (دون احتساب ساعات معتمدة)، أو أن يحتوي مقرر المشروع البحثي على جزء من التدريب الميداني.</div>
+        <p>يُشترط لحصول الطالب على درجة البكالوريوس العامة أو الخاصة اجتيازه بنجاح مقرري "الحاسب الآلي في العلوم" و"حقوق الإنسان"، دون احتساب تقديراتهما في المعدل الفصلي أو المعدل التراكمي العام، بالإضافة لأداء دورة التربية العسكرية.</p>`},
+      {num:'م 20', title:'المواظبة والغياب', body:`
+        <p>يتولى أستاذ المقرر تسجيل حضور الطلاب في كل محاضرة نظرية أو درس عملي معد لذلك في سجل من قبل إدارة شؤون التعليم والطلاب، مع مراعاة ما يلي:</p>
+        <ul>
+          <li>الحد المسموح به لغياب الطالب بدون عذر مقبول هو <b>15%</b> من مجموع ساعات المقرر، وفي حالة تجاوز هذه النسبة يُخطر أستاذ المقرر إدارة شؤون التعليم والطلاب كتابيًا لتوجيه الإنذار الأول للطالب، وإذا بلغت نسبة غياب الطالب <b>20%</b> يوجه له الإنذار الثاني والأخير كتابيًا</li>
+          <li>إذا زادت نسبة الغياب عن <b>25%</b> في المقرر بدون عذر مقبول تقبله لجنة شؤون التعليم والطلاب، يُحرم الطالب من دخول الامتحان النهائي مع إعلانه بالوسائل المناسبة، ويُسجل له تقدير "منسحب إجباري FW" ولا يدخل ذلك في حساب المعدل التراكمي للطالب</li>
+        </ul>`},
+      {num:'م 19', title:'احتساب تقديرات المقررات المعادة', body:`
+        <ul>
+          <li>في حالة إعادة دراسة مقرر للتحسين بعد نجاح الطالب فيه وكان هذا الطالب على قائمة الإنذار، يُحتسب له أعلى تقدير حصل عليه في هذا المقرر</li>
+          <li>عند حساب المعدل التراكمي، يُحتسب تقدير النجاح الأول فقط لأول 8 مقررات أعاد الطالب دراستها، أما ما زاد على ذلك فيُحتسب فيه كل من الرسوب والنجاح في معدله التراكمي</li>
+          <li>إذا تكرر رسوب الطالب في مقرر ما، يُكتفى باحتساب الرسوب مرة واحدة في معدله التراكمي، مع تسجيل عدد المرات التي أدى فيها امتحان هذا المقرر في سجله الأكاديمي</li>
+          <li>في حالة الرسوب في مقرر اختياري، يمكن للطالب إعادة دراسة نفس المقرر أو اختيار مقرر بديل له لاستكمال متطلبات التخرج، ولا يُحذف المقرر الاختياري الذي رسب فيه الطالب من سجله الأكاديمي</li>
+        </ul>`}
+    ]
+  }
+];
+const REGS_ACCENT_VARS = {
+  navy:'--navy', teal:'--teal', gold:'--gold', maroon:'--maroon'
+};
+function regsAccentStyle(accent){
+  const c = REGS_ACCENT_VARS[accent] || '--navy';
+  return `--accent-color:var(${c});--accent-soft:var(${c}-soft);`;
+}
+function renderRegsView(){
+  const el = document.getElementById('trackView');
+  if(!regsActiveCat){
+    el.innerHTML = regsHomeHtml();
+    bindRegsHome();
+    return;
+  }
+  const cat = REGS_CATEGORIES.find(c=>c.id===regsActiveCat);
+  if(!cat){ regsActiveCat = null; el.innerHTML = regsHomeHtml(); bindRegsHome(); return; }
+  el.innerHTML = regsCategoryHtml(cat);
+  bindRegsCategory();
+}
+function regsHomeHtml(){
+  const q = regsSearchQuery.trim().toLowerCase();
+  const cats = !q ? REGS_CATEGORIES : REGS_CATEGORIES.filter(c=>{
+    const hay = (c.title+' '+c.desc+' '+c.materials.map(m=>m.num+' '+m.title+' '+m.body).join(' ')).toLowerCase();
+    return hay.includes(q);
+  });
+  return `<div class="regs-view">
+    <div class="regs-head">
+      <h2>📜 مراجعة اللائحة</h2>
+      <p class="regs-sub">ملخّص لائحة الدراسة بنظام الساعات المعتمدة لقسم الرياضيات وعلوم الحاسب، مقسّم لفئات عشان توصل للمعلومة اللي محتاجها بسرعة من غير ما تقرا اللائحة كلها. اضغط على أي فئة تحت تشوف تفاصيلها.</p>
+    </div>
+    <input class="regs-search" id="regsSearchInput" type="text" placeholder="🔍 دوّر عن بند أو موضوع (مثال: إنذار، انسحاب، معدل)…" value="${escapeHtml(regsSearchQuery)}">
+    ${cats.length ? `<div class="regs-grid">
+      ${cats.map(c=>`
+        <div class="regs-card" data-id="${c.id}" style="${regsAccentStyle(c.accent)}">
+          <div class="regs-card-ic">${c.icon}</div>
+          <div class="regs-card-title">${escapeHtml(c.title)}</div>
+          <div class="regs-card-desc">${escapeHtml(c.desc)}</div>
+          <span class="regs-card-tag">${c.materials.length} ${c.materials.length===1?'مادة':'مواد'}</span>
+        </div>`).join('')}
+    </div>` : `<div class="regs-empty">مفيش نتائج مطابقة لبحثك 🤷‍♂️</div>`}
+    <div class="regs-note">ملحوظة: الملخص ده بيغطي أهم البنود اللي بتخص الطالب في المذاكرة والتسجيل والمعدل، ومش بديل عن نص اللائحة الرسمي الكامل الصادر من الكلية.</div>
+  </div>`;
+}
+function bindRegsHome(){
+  document.querySelectorAll('.regs-card').forEach(card=>{
+    card.onclick = ()=>{ regsActiveCat = card.dataset.id; window.scrollTo({top:0,behavior:'smooth'}); renderCurrentView(); };
+  });
+  const input = document.getElementById('regsSearchInput');
+  if(input){
+    input.oninput = ()=>{ regsSearchQuery = input.value; renderCurrentView(); requestAnimationFrame(()=>{ const i2=document.getElementById('regsSearchInput'); if(i2){ i2.focus(); i2.selectionStart=i2.selectionEnd=i2.value.length; } }); };
+  }
+}
+function regsCategoryHtml(cat){
+  const accentStyle = regsAccentStyle(cat.accent);
+  return `<div class="regs-view" style="${accentStyle}">
+    <button class="study-back" id="regsBackHome">→ رجوع لمراجعة اللائحة</button>
+    <div class="regs-detail-head">
+      <div class="regs-detail-ic">${cat.icon}</div>
+      <div class="regs-detail-titles">
+        <h2>${escapeHtml(cat.title)}</h2>
+        <p class="regs-sub">${escapeHtml(cat.desc)}</p>
+      </div>
+    </div>
+    <div>
+      ${cat.materials.map((m,i)=>`
+        <details class="regs-mat" style="${accentStyle}" ${i===0?'open':''}>
+          <summary><span class="regs-mat-num">${escapeHtml(m.num)}</span><span>${escapeHtml(m.title)}</span></summary>
+          <div class="regs-mat-body">${m.body}</div>
+        </details>`).join('')}
+    </div>
+  </div>`;
+}
+function bindRegsCategory(){
+  const back = document.getElementById('regsBackHome');
+  if(back) back.onclick = ()=>{ regsActiveCat = null; window.scrollTo({top:0,behavior:'smooth'}); renderCurrentView(); };
+}
+
 function renderStudyToolsView(){
   const el = document.getElementById('trackView');
   if(!studyToolActive){
