@@ -7,6 +7,7 @@
 <title>دليل مقررات قسم الرياضيات وعلوم الحاسب</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
 <style>
 :root{
@@ -82,6 +83,49 @@ body{
   transition:background .4s ease, color .35s ease;
 }
 .code{font-family:'IBM Plex Mono',monospace;}
+/* ===== أيقونات المينيو (Google Material Symbols) — outline عادي، filled لما تبقى الحالة الحالية/active ===== */
+.material-symbols-outlined{
+  font-family:'Material Symbols Outlined';
+  font-weight:normal; font-style:normal;
+  display:inline-block; line-height:1; white-space:nowrap;
+  word-wrap:normal; direction:ltr;
+  -webkit-font-smoothing:antialiased;
+  font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;
+  transition:font-variation-settings .18s ease;
+}
+.nav-ico.filled, .active .nav-ico, .active .material-symbols-outlined{
+  font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24;
+}
+/* ===== لمبة الإرشاد (info tooltip) — بدل ما نحط فقرة إرشاد طويلة تحت كل عنوان، بنحط أيقونة صغيرة
+   وبنعرض الشرح في بابل بس لما المستخدم يدوس/يعدي بالماوس عليها ===== */
+.info-tip{
+  position:relative; display:inline-flex; align-items:center; justify-content:center;
+  width:21px; height:21px; border-radius:50%; flex:none;
+  background:var(--paper-2); color:var(--ink-soft); cursor:pointer;
+  vertical-align:middle; margin-inline-start:6px;
+  transition:background .15s ease, color .15s ease;
+}
+.info-tip .material-symbols-outlined{font-size:15px; font-variation-settings:'FILL' 0,'wght' 500,'GRAD' 0,'opsz' 20;}
+.info-tip:hover, .info-tip.show{background:var(--navy-soft); color:var(--navy);}
+.info-tip-bubble{
+  position:absolute; z-index:80; bottom:calc(100% + 9px); inset-inline-end:0;
+  min-width:230px; max-width:320px;
+  background:var(--strong-bg); color:var(--on-strong);
+  font-family:'Tajawal',sans-serif; font-size:12.5px; font-weight:500; line-height:1.75;
+  padding:10px 13px; border-radius:11px; text-align:right; white-space:normal;
+  box-shadow:var(--shadow-soft);
+  opacity:0; transform:translateY(5px) scale(.97); pointer-events:none;
+  transition:opacity .16s ease, transform .16s ease;
+}
+.info-tip:hover .info-tip-bubble, .info-tip.show .info-tip-bubble{
+  opacity:1; transform:translateY(0) scale(1); pointer-events:auto;
+}
+.info-tip-title{display:flex; align-items:center; gap:6px; font-weight:800; margin-bottom:2px;}
+.hint-row{display:flex; align-items:center; margin:0 0 10px;}
+.hint-row-lbl{font-size:12.5px; font-weight:700; color:var(--ink-soft);}
+@media (max-width:640px){
+  .info-tip-bubble{max-width:76vw;}
+}
 ::selection{background:var(--navy);color:#fff;}
 ::-webkit-scrollbar{width:10px;height:10px;}
 ::-webkit-scrollbar-track{background:var(--paper-2);}
@@ -386,7 +430,9 @@ h1{
   font-family:'Tajawal',sans-serif; padding:6px 2px; border-radius:12px; cursor:pointer;
   transition:color .18s ease, background .18s ease, transform .1s ease;
 }
-.bn-item .bn-ic{font-size:18px; line-height:1;}
+.bn-item .bn-ic{font-size:20px; line-height:1;}
+.bn-item .bn-ic.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;}
+.bn-item.active .bn-ic.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20;}
 .bn-item .bn-lbl{
   font-size:9.5px; font-weight:700; line-height:1.15; text-align:center;
   display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
@@ -418,9 +464,11 @@ h1{
   font-family:'Tajawal',sans-serif; font-size:11.5px; font-weight:700;
   transition:border-color .15s ease, color .15s ease, background .15s ease, transform .15s ease;
 }
-.ms-item .ms-ic{font-size:21px;}
+.ms-item .ms-ic{font-size:23px;}
+.ms-item .ms-ic.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
 .ms-item:hover{border-color:var(--navy); color:var(--navy);}
 .ms-item.active{background:var(--navy); border-color:var(--navy); color:#fff;}
+.ms-item.active .ms-ic.material-symbols-outlined{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 24;}
 .ms-item:active{transform:scale(.96);}
 .mobile-menu-btn{
   display:none;width:100%;align-items:center;justify-content:space-between;gap:8px;
@@ -436,6 +484,8 @@ h1{
 }
 .view-tab:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-2px);box-shadow:0 6px 14px var(--glow-teal);}
 .view-tab.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 0 14px var(--glow-teal);}
+.view-tab .nav-ico{font-size:18px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;}
+.view-tab.active .nav-ico{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20;}
 .filters{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
 .filter-label{font-size:12px;color:var(--ink-soft);font-weight:700;}
 .lvl-chip{
@@ -2065,7 +2115,7 @@ button:not(:disabled):active,
     <h1>دليل مقررات قسم الرياضيات وعلوم الحاسب</h1>
     <p class="sub">شجرة تفاعلية لكل تخصص: المقررات الإجبارية والاختيارية، الرئيسي والفرعي، والمتطلبات السابقة لكل مقرر — مع متابعة تقدمك ومخطط تخرجك.</p>
     <div class="hdr-actions">
-      <button id="aboutBtn" class="about-btn">ℹ️ عن الأداة وطريقة استخدامها</button>
+      <button id="aboutBtn" class="about-btn"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px;">info</span> عن الأداة وطريقة استخدامها</button>
     </div>
   </div>
 </header>
@@ -2082,7 +2132,7 @@ button:not(:disabled):active,
 <div class="subbar-wrap">
   <div class="subbar">
     <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-expanded="false">
-      <span>☰ الأقسام</span><span id="mobileMenuCurrent"></span>
+      <span><span class="material-symbols-outlined" style="font-size:16px;vertical-align:-3px;">menu</span> الأقسام</span><span id="mobileMenuCurrent"></span>
     </button>
     <div class="view-tabs" id="viewTabGroup"></div>
     <div class="filters">
@@ -2374,7 +2424,7 @@ const TRACKS = [
   },
   {
     id:"transfer",
-    label:"محوّل أو متأخر في التخصص",
+    label:"طالب مستوى أول / طالب متأخر",
     color:"gold",
     isTransferHub:true,
     sections:[
@@ -2808,18 +2858,18 @@ async function saveSpecialDegreeData(){
 }
 
 const VIEWS = [
-  {id:"home", label:"🏠 الرئيسية"},
-  {id:"list", label:"📋 قائمة المقررات"},
-  {id:"graph", label:"🕸 الشجرة التفاعلية"},
-  {id:"register", label:"🎓 أسجل ايه دلوقتي؟"},
-  {id:"cgpa", label:"🧮 تسجيل المواد"},
-  {id:"schedule", label:"🗓️ جدول الترم"},
-  {id:"forecast", label:"🎯 التخصص وتحويل المسار"},
-  {id:"special", label:"🏅 الدرجة الخاصة"},
-  {id:"transcript", label:"🧾 بيان الحالة"},
-  {id:"regs", label:"📜 مراجعة اللائحة"},
-  {id:"study", label:"📚 أدوات المذاكرة"},
-  {id:"games", label:"🎮 الألعاب الترفيهية"}
+  {id:"home", icon:"home", label:"الرئيسية"},
+  {id:"list", icon:"checklist", label:"قائمة المقررات"},
+  {id:"graph", icon:"hub", label:"الشجرة التفاعلية"},
+  {id:"register", icon:"school", label:"أسجل ايه دلوقتي؟"},
+  {id:"cgpa", icon:"calculate", label:"تسجيل المواد"},
+  {id:"schedule", icon:"calendar_month", label:"جدول الترم"},
+  {id:"forecast", icon:"alt_route", label:"التخصص وتحويل المسار"},
+  {id:"special", icon:"military_tech", label:"الدرجة الخاصة"},
+  {id:"transcript", icon:"description", label:"بيان الحالة"},
+  {id:"regs", icon:"gavel", label:"مراجعة اللائحة"},
+  {id:"study", icon:"auto_stories", label:"أدوات المذاكرة"},
+  {id:"games", icon:"sports_esports", label:"الألعاب الترفيهية"}
 ];
 
 /* ================= STATE ================= */
@@ -2952,6 +3002,18 @@ function termSortKey(t){
   return (t.year*10) + typeRank;
 }
 let cy = null; // cytoscape instance
+/* لمبة إرشاد صغيرة (أيقونة معلومات) بدل فقرة إرشاد طويلة — دوس عليها أو مرّر الماوس عشان يبان الشرح */
+function infoTip(text, title){
+  const body = title
+    ? `<div class="info-tip-title"><span class="material-symbols-outlined" style="font-size:15px;">lightbulb</span>${escapeHtml(title)}</div>${escapeHtml(text)}`
+    : escapeHtml(text);
+  return `<span class="info-tip" tabindex="0" role="button" aria-label="إرشاد"><span class="material-symbols-outlined">info</span><span class="info-tip-bubble">${body}</span></span>`;
+}
+document.addEventListener('click', e=>{
+  const tip = e.target.closest ? e.target.closest('.info-tip') : null;
+  document.querySelectorAll('.info-tip.show').forEach(t=>{ if(t!==tip) t.classList.remove('show'); });
+  if(tip){ tip.classList.toggle('show'); e.stopPropagation(); }
+});
 function escapeHtml(s){
   return String(s==null?'':s).replace(/[&<>"']/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
@@ -3619,7 +3681,7 @@ function goToView(id, opts){
 VIEWS.forEach(v=>{
   const b = document.createElement('button');
   b.className = 'view-tab'+(v.id===currentView?' active':'');
-  b.textContent = v.label;
+  b.innerHTML = `<span class="material-symbols-outlined nav-ico">${v.icon}</span><span>${v.label}</span>`;
   b.onclick = ()=> goToView(v.id);
   b.dataset.id = v.id;
   viewTabGroup.appendChild(b);
@@ -3630,8 +3692,6 @@ const BOTTOM_NAV_IDS = ["home","list","register","cgpa","transcript"];
 const bottomNav = document.getElementById('bottomNav');
 const moreSheetOverlay = document.getElementById('moreSheetOverlay');
 const moreSheetList = document.getElementById('moreSheetList');
-function viewIcon(label){ return (label.match(/^\S+/)||[''])[0]; }
-function viewText(label){ return label.replace(/^\S+\s*/,''); }
 if(bottomNav){
   BOTTOM_NAV_IDS.forEach(id=>{
     const v = VIEWS.find(v=>v.id===id);
@@ -3639,14 +3699,14 @@ if(bottomNav){
     const b = document.createElement('button');
     b.className = 'bn-item';
     b.dataset.id = v.id;
-    b.innerHTML = `<span class="bn-ic">${viewIcon(v.label)}</span><span class="bn-lbl">${viewText(v.label)}</span>`;
+    b.innerHTML = `<span class="bn-ic material-symbols-outlined">${v.icon}</span><span class="bn-lbl">${v.label}</span>`;
     b.onclick = ()=> goToView(v.id);
     bottomNav.appendChild(b);
   });
   const more = document.createElement('button');
   more.className = 'bn-item';
   more.dataset.id = '__more';
-  more.innerHTML = `<span class="bn-ic">⋯</span><span class="bn-lbl">المزيد</span>`;
+  more.innerHTML = `<span class="bn-ic material-symbols-outlined">more_horiz</span><span class="bn-lbl">المزيد</span>`;
   more.onclick = ()=> openMoreSheet();
   bottomNav.appendChild(more);
 }
@@ -3657,7 +3717,7 @@ function renderMoreSheetList(){
     const b = document.createElement('button');
     b.className = 'ms-item'+(v.id===currentView?' active':'');
     b.dataset.id = v.id;
-    b.innerHTML = `<span class="ms-ic">${viewIcon(v.label)}</span><span>${viewText(v.label)}</span>`;
+    b.innerHTML = `<span class="ms-ic material-symbols-outlined">${v.icon}</span><span>${v.label}</span>`;
     b.onclick = ()=> goToView(v.id);
     moreSheetList.appendChild(b);
   });
@@ -4190,8 +4250,7 @@ function specializationEligibilityHtml(){
     statusHtml = `<span style="color:var(--maroon);font-weight:800;">⛔ لسه مش مؤهل للتخصص خالص — لازم توصل 30 ساعة على الأقل (فاضلك ${SPECIALIZATION_MANDATORY_MIN-p.total} ساعة) عشان تتخصص إجباري، أو 32 ساعة كاملة للتخصص العادي</span>`;
   }
   return `<div class="goal-section" id="specEligibilitySection">
-    <div class="track-head"><h2>📐 أهلية التخصص</h2></div>
-    <p class="graph-hint">التخصص العادي بيتطلب إكمال 32 ساعة (26 ساعة متطلبات كلية + 6 ساعات متطلبات جامعة اختيارية). مش شرط عدد مواد معيّن — المهم إنك توصل لـ6 ساعات من متطلبات الجامعة الاختيارية (المتاحة 9 مواد، ساعتين لكل مادة)، بأي توليفة مواد تختارها. الحساب هنا بيعتمد بس على المواد اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة).</p>
+    <div class="track-head"><h2>📐 أهلية التخصص ${infoTip('التخصص العادي بيتطلب إكمال 32 ساعة (26 ساعة متطلبات كلية + 6 ساعات متطلبات جامعة اختيارية). مش شرط عدد مواد معيّن — المهم إنك توصل لـ6 ساعات من متطلبات الجامعة الاختيارية (المتاحة 9 مواد، ساعتين لكل مادة)، بأي توليفة مواد تختارها. الحساب هنا بيعتمد بس على المواد اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة).')}</h2></div>
     <div class="progress-stats">
       <div class="pstat"><div class="n">${p.collegeHrs}/${SPECIALIZATION_COLLEGE_TARGET}</div><div class="l">ساعات متطلبات الكلية</div></div>
       <div class="pstat"><div class="n">${p.univElecHrs}/${SPECIALIZATION_UNIV_ELECTIVE_TARGET}</div><div class="l">ساعات متطلبات الجامعة الاختيارية</div></div>
@@ -4466,8 +4525,7 @@ function renderSpecPartHtml(cgpa){
 
   return `
   <div class="goal-section" id="fcSpecInputSection">
-    <div class="track-head"><h2>📥 التنسيق المتوقع للتخصص (إدخال يدوي)</h2></div>
-    <p class="graph-hint">دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لكل قسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها.</p>
+    <div class="track-head"><h2>📥 التنسيق المتوقع للتخصص (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لكل قسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
     <table class="fc-table">
       <thead><tr><th>القسم</th><th>التنسيق المتوقع</th></tr></thead>
       <tbody>
@@ -4604,8 +4662,8 @@ function renderTransferPartHtml(cgpa){
 
   return `
   <div class="goal-section" id="fcTransferInputSection">
-    <div class="track-head"><h2>📥 التنسيق المتوقع لتحويل المسار (إدخال يدوي)</h2></div>
-    <p class="graph-hint">دخّل نطاق تقريبي (من – إلى) لكل قسم مستهدف، الترم الأول والتاني منفصلين (تنسيق الترم التاني المفروض يكون أعلى/أصعب من الأول). سيب أي خانة فاضية لو مش متأكد منها.</p>
+    <div class="track-head"><h2>📥 التنسيق المتوقع لتحويل المسار (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لكل قسم مستهدف، الترم الأول والتاني منفصلين (تنسيق الترم التاني المفروض يكون أعلى/أصعب من الأول). سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
+
     <table class="fc-table">
       <thead><tr><th>القسم المستهدف</th><th>تنسيق الترم الأول</th><th>تنسيق الترم التاني</th></tr></thead>
       <tbody>
@@ -4836,8 +4894,7 @@ function pastCoordinationHtml(){
   const yearsDesc = PAST_COORDINATION_DATA.slice().reverse();
   return `
   <div class="goal-section" id="fcPastCoordSection">
-    <div class="track-head"><h2>📚 تنسيقات السنين السابقة</h2></div>
-    <p class="graph-hint">دي بيانات فعلية موثّقة لآخر حد أدنى للـCGPA اتقبل بيه كل تخصص في تنسيقات السنين اللي فاتت — مفيدة كمرجع تقريبي بس، مش ضمان إن تنسيق السنة الجاية هيبقى نفس كده (ممكن يعلى أو ينزل حسب أعداد المتقدمين كل سنة). دوس على أي سنة عشان تفتح جدولها.</p>
+    <div class="track-head"><h2>📚 تنسيقات السنين السابقة ${infoTip("دي بيانات فعلية موثّقة لآخر حد أدنى للـCGPA اتقبل بيه كل تخصص في تنسيقات السنين اللي فاتت — مفيدة كمرجع تقريبي بس، مش ضمان إن تنسيق السنة الجاية هيبقى نفس كده (ممكن يعلى أو ينزل حسب أعداد المتقدمين كل سنة). دوس على أي سنة عشان تفتح جدولها.")}</h2></div>
     <div>
       ${yearsDesc.map((y,i)=>`
         <details class="regs-mat" ${i===0?'open':''}>
@@ -4861,8 +4918,7 @@ function renderForecastView(){
   const isPending = profile.trackId === 'transfer';
   const unsupported = !isSpecialized && !isPending;
 
-  let html = `<div class="track-head"><div><h2>🎯 التخصص وتحويل المسار</h2></div></div>
-  <p class="graph-hint">الأداة دي بتساعدك تتوقع هل هتوصل للتخصص أو القسم اللي عايزه ولا لأ، بناءً على تنسيقات متوقعة بتدخلها إنت يدويًا (لأنها مش معروفة رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. جزء التخصص بيظهر بس لو لسه ما اتخصصتش، وجزء تحويل المسار بيظهر بس بعد ما تتخصص.</p>`;
+  let html = `<div class="track-head"><div><h2>🎯 التخصص وتحويل المسار ${infoTip("الأداة دي بتساعدك تتوقع هل هتوصل للتخصص أو القسم اللي عايزه ولا لأ، بناءً على تنسيقات متوقعة بتدخلها إنت يدويًا (لأنها مش معروفة رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. جزء التخصص بيظهر بس لو لسه ما اتخصصتش، وجزء تحويل المسار بيظهر بس بعد ما تتخصص.", "إرشادات الصفحة")}</h2></div></div>`;
 
   html += pastCoordinationHtml();
 
@@ -5816,8 +5872,7 @@ function renderGraphView(){
   const visibleCodes = new Set();
   secs.forEach(sec=> sec.list.forEach(c=> visibleCodes.add(c)));
 
-  let html = `<div class="track-head"><div><h2>${track.label} — الشجرة التفاعلية</h2></div></div>
-    <p class="graph-hint">اضغط على أي مقرر لعرض تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.</p>
+  let html = `<div class="track-head"><div><h2>${track.label} — الشجرة التفاعلية ${infoTip('اضغط على أي مقرر لعرض تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div></div>
     <div class="graph-wrap neon"><div id="cyGraph"></div>
     <div class="graph-legend neon-legend">
       <span><span class="leg-dot" style="background:${SUBJECT_NEON.math.c};box-shadow:0 0 8px ${SUBJECT_NEON.math.glow}"></span> رياضيات</span>
@@ -5974,7 +6029,7 @@ function renderRegisterWizard(track, sectionOfInTrack, trackCodes){
   if(track.isTransferHub){
     const baseOpt = TRANSFER_BASE_OPTIONS.find(o=>o.id===profile.transferBaseId);
     if(!baseOpt){
-      html += `<p class="suggest-empty-note">لسه محدّدش التخصص اللي ناوي تتحول/تتجه له. دوس "✏️ تعديل التخصص / المستوى" فوق، واختار تحت "محوّل أو متأخر في التخصص" التخصص المستهدف، وارجع هنا وهنعمللك خطة تسجيل مرتبة على أساسه.</p>`;
+      html += `<p class="suggest-empty-note">لسه محدّدش التخصص اللي ناوي تتحول/تتجه له. دوس "✏️ تعديل التخصص / المستوى" فوق، واختار تحت "طالب مستوى أول / طالب متأخر" التخصص المستهدف، وارجع هنا وهنعمللك خطة تسجيل مرتبة على أساسه.</p>`;
     } else {
       html += renderTransferPlanWizard(track, baseOpt, sectionOfInTrack, trackCodes);
     }
@@ -6074,7 +6129,7 @@ function renderOwnTrackWizard(track, sectionOfInTrack, trackCodes){
         ? `عادي بين ${TERM_MIN_H}–${TERM_MAX_H} ساعة، ولأن معدلك التراكمي 3+ مسموحلك تزود لحد ${TERM_MAX_H_EXT}. سيبها فاضية وهنرشّحلك لحد ${TERM_MAX_H} كافتراضي، أو حدد رقمك إنت وسيبلك آخر قرار.`
         : `عادي بين ${TERM_MIN_H}–${TERM_MAX_H} ساعة (لو معدلك التراكمي بقى 3 أو أكتر بيتفتح لك لحد ${TERM_MAX_H_EXT}). سيبها فاضية وهنرشّحلك لحد ${TERM_MAX_H} كافتراضي، أو حدد رقمك إنت وسيبلك آخر قرار.`);
 
-  let html = `<p class="graph-hint">حدد الترم اللي عايز تسجّل فيه وعدد الساعات، وهنرشّحلك أنسب مواد تقفل بيها نفس عدد الساعات ده أو قريب منه — بالترتيب اللي المفروض تاخده فيه فعلاً حسب تخصصك: متطلبات كلية 🚨 (أهم حاجة عشان تخلص وتتخصص) ← إجباري رئيسي ← إجباري فرعي ← اختياري رئيسي ← اختياري فرعي، ومتطلبات الجامعة بتتحط آخر حاجة كـ"حشو" لو لسه فاضلّك ساعات.</p>
+  let html = `<div class="hint-row">${infoTip('حدد الترم اللي عايز تسجّل فيه وعدد الساعات، وهنرشّحلك أنسب مواد تقفل بيها نفس عدد الساعات ده أو قريب منه — بالترتيب اللي المفروض تاخده فيه فعلاً حسب تخصصك: متطلبات كلية 🚨 (أهم حاجة عشان تخلص وتتخصص) ← إجباري رئيسي ← إجباري فرعي ← اختياري رئيسي ← اختياري فرعي، ومتطلبات الجامعة بتتحط آخر حاجة كـ"حشو" لو لسه فاضلّك ساعات.')} <span class="hint-row-lbl">إزاي يشتغل الترشيح؟</span></div>
     <div class="reg-wizard-controls">
       <div class="chip-group" id="regTermChips">
         <button class="lvl-chip${term==='first'?' active':''}" data-v="first">ترم أول</button>
@@ -6357,7 +6412,7 @@ function renderRegistrationSuggestions(track, sectionOfInTrack, trackCodesArr){
       <div class="section-title"><span class="dot" style="background:var(--maroon)"></span><h3>🧭 ترشيح التسجيل بالأولوية</h3></div>
       <p class="suggest-empty-note">
         لسه محدّدش نفسك ناوي تتخصص في إيه، فمش هينفع نرشّحلك مواد. دوس "✏️ تعديل التخصص / المستوى" فوق،
-        واختار "محوّل أو متأخر في التخصص"، وبعدها حدد التخصص اللي شايف نفسك فيه (حاسب/إحصاء، إحصاء/حاسب، أو رياضة/حاسب) —
+        واختار "طالب مستوى أول / طالب متأخر"، وبعدها حدد التخصص اللي شايف نفسك فيه (حاسب/إحصاء، إحصاء/حاسب، أو رياضة/حاسب) —
         وهنبدأ نرشّحلك فوراً مواده (رئيسي وفرعي، إجباري واختياري) عشان تسجّلها كـ"اختيار حر" وتبدأ تتقرّب من التخصص ده من دلوقتي.
       </p>
     </div>`;
@@ -6591,7 +6646,7 @@ function renderRegisterView(){
     .sort((a,b)=> registerCategoryKey(a)-registerCategoryKey(b) || (DB[a].level-DB[b].level) || a.localeCompare(b));
 
   let html = `<div class="track-head">
-    <div><h2>${track.label} — أسجل ايه دلوقتي؟</h2></div>
+    <div><h2>${track.label} — أسجل ايه دلوقتي؟ ${infoTip('دي صفحة عرض بس، مش اختيار تخصص. تلاقي تحت الأول ترشيح جاهز لأولوية التسجيل، وبعده جدول بكل مقرر حددته "مكتمل"، وأخيراً جدول بكل مقررات التخصص اللي اتفتحت لك دلوقتي ولسه ما سجلتهاش. عمود/شارة "الترم المتوقع" اللي هتلاقيها مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو تنزل في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) هتظهرلك "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.')}</h2></div>
     <div class="chips">
       <span class="chip total">${completedCodes.length} مقرر تمت دراسته</span>
       <span class="chip done">${availableCodes.length} مقرر متاح للتسجيل</span>
@@ -6599,8 +6654,6 @@ function renderRegisterView(){
   </div>`;
 
   html += renderUrgentCollegeNotice(track);
-
-  html += `<p class="graph-hint">دي صفحة عرض بس، مش اختيار تخصص. تلاقي تحت الأول ترشيح جاهز لأولوية التسجيل، وبعده جدول بكل مقرر حددته "مكتمل"، وأخيراً جدول بكل مقررات التخصص اللي اتفتحت لك دلوقتي ولسه ما سجلتهاش. عمود/شارة "الترم المتوقع" اللي هتلاقيها مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو تنزل في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) هتظهرلك "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.</p>`;
 
   html += renderRegisterWizard(track, sectionOfInTrack, trackCodes);
   html += renderRegistrationSuggestions(track, sectionOfInTrack, trackCodes);
@@ -6929,12 +6982,11 @@ function renderCgpaView(){
   if(wizardActive && hoursGapRemaining()<=0){ wizardActive = false; wizardJustFinished = true; }
   let html = `
   <div class="track-head">
-    <div><h2>🧮 تسجيل المواد (حاسبة المعدل التراكمي CGPA)</h2></div>
+    <div><h2>🧮 تسجيل المواد (حاسبة المعدل التراكمي CGPA) ${infoTip('اعمل ترم بالمستوى والنوع بتاعه (أو "ترم معادلة" لو محوّل)، وضيف فيه مقررات من القسم (بيجيب عدد ساعاتها تلقائي)، أو مادة من "بنك المواد اليدوي" (متطلب جامعة/اختيار حر مسجّلها إنت)، أو مادة خارج التخصص عمومًا، واختار التقدير بالحرف — وهيتحسب الـ GPA للترم والـ CGPA التراكمي أوتوماتيك ويظهر في الصفحة الرئيسية. الفصل الصيفي بياخد الحد الأقصى (' + SUMMER_MAX_H + ' ساعات) تلقائي.')}</h2></div>
     <div class="chips"><span class="chip total">${cgpaTerms.length} ترم مسجّل</span><button class="chip" id="openCourseBankBtn" type="button" style="cursor:pointer;border:none;">📚 بنك المواد اليدوي</button></div>
   </div>
   ${wizardJustFinished ? '<div class="wizard-success-banner"><span>🎉 تمام! قفلت كل الساعات اللي كتبتها في بروفايلك. الموقع دلوقتي شغال بالمواد الفعلية بتاعتك.</span></div>' : ''}
   ${wizardActive ? wizardBannerHtml() : hoursGapBannerHtml()}
-  <p class="graph-hint">اعمل ترم بالمستوى والنوع بتاعه (أو "ترم معادلة" لو محوّل)، وضيف فيه مقررات من القسم (بيجيب عدد ساعاتها تلقائي)، أو مادة من "بنك المواد اليدوي" (متطلب جامعة/اختيار حر مسجّلها إنت)، أو مادة خارج التخصص عمومًا، واختار التقدير بالحرف — وهيتحسب الـ GPA للترم والـ CGPA التراكمي أوتوماتيك ويظهر في الصفحة الرئيسية. الفصل الصيفي بياخد الحد الأقصى (${SUMMER_MAX_H} ساعات) تلقائي.</p>
 
   <div class="cgpa-overall">
     <div class="cgpa-overall-ring"><span class="v">${cgpaTxt}</span><span class="l">CGPA من 4.00</span></div>
@@ -6951,8 +7003,7 @@ function renderCgpaView(){
   <button class="home-quicklink" id="addTermBtn">➕ ترم جديد</button>
 
   <div class="goal-section" id="goalSection">
-    <div class="track-head"><h2>🎯 الوصول لهدف معين</h2></div>
-    <p class="graph-hint">حدد الـCGPA اللي عايز توصله وعدد الترمات المتبقية، وهنحسبلك بواقعية الساعات والمعدل المطلوبين كل ترم عشان توصل هدفك — مع مراعاة إنك مينفعش تسجل أقل من ${GOAL_MIN_H} أو أكتر من ${GOAL_MAX_H} ساعة (إلا لو الـCGPA بتاعك 3 أو أكتر يبقى لحد ${GOAL_MAX_H_EXT}).</p>
+    <div class="track-head"><h2>🎯 الوصول لهدف معين ${infoTip('حدد الـCGPA اللي عايز توصله وعدد الترمات المتبقية، وهنحسبلك بواقعية الساعات والمعدل المطلوبين كل ترم عشان توصل هدفك — مع مراعاة إنك مينفعش تسجل أقل من ' + GOAL_MIN_H + ' أو أكتر من ' + GOAL_MAX_H + ' ساعة (إلا لو الـCGPA بتاعك 3 أو أكتر يبقى لحد ' + GOAL_MAX_H_EXT + ').')}</h2></div>
     <div class="goal-inputs">
       <div class="goal-field">
         <label>🎯 الـCGPA المستهدف</label>
@@ -6972,8 +7023,7 @@ function renderCgpaView(){
   </div>
 
   <div class="goal-section" id="termAnalysisSection">
-    <div class="track-head"><h2>📊 تحليل أداء الترمات</h2></div>
-    <p class="graph-hint">تقييم سريع لكل ترم مسجّل: هل مستواك كويس ولا محتاج تشد أكتر.</p>
+    <div class="track-head"><h2>📊 تحليل أداء الترمات ${infoTip('تقييم سريع لكل ترم مسجّل: هل مستواك كويس ولا محتاج تشد أكتر.')}</h2></div>
     ${renderTermAnalysisHtml()}
   </div>
 
@@ -7470,10 +7520,9 @@ function renderScheduleView(){
 
   const html = `
   <div class="track-head">
-    <div><h2>🗓️ جدول الترم</h2></div>
+    <div><h2>🗓️ جدول الترم ${infoTip('اختار ترم من الترمات اللي مسجّلها في "تسجيل المواد" وابني له جدول محاضرات وسكاشن قابل للطباعة. تقدر تعمل أكتر من جدول لأكتر من ترم.')}</h2></div>
     <div class="chips"><span class="chip total">${termSchedules.length} جدول</span></div>
   </div>
-  <p class="graph-hint">اختار ترم من الترمات اللي مسجّلها في "تسجيل المواد" وابني له جدول محاضرات وسكاشن قابل للطباعة. تقدر تعمل أكتر من جدول لأكتر من ترم.</p>
   <div class="sch-tabs">${tabsHtml}<button class="sch-tab sch-tab-add" id="schAddBtn" type="button">➕ جدول ترم جديد</button></div>
   ${bodyHtml}`;
   document.getElementById('trackView').innerHTML = html;
@@ -7753,12 +7802,11 @@ function renderTranscriptView(){
 
   let html = `
   <div class="track-head">
-    <div><h2>🧾 بيان الحالة</h2></div>
+    <div><h2>🧾 بيان الحالة ${infoTip('بيان بكل المواد اللي اتسجلت عبر "🧮 حاسبة المعدل" وتقديرها، مرتبة بترتيب الترمات. التصنيف بيتحدد حسب تخصصك الحالي (' + (track ? escapeHtml(track.label) : '—') + ') — لو غيّرت تخصصك من هنا هيتغيّر تصنيف نفس المادة على حسب التخصص الجديد.')}</h2></div>
     <div class="chips">
       <button class="transcript-action-btn" id="printTranscriptBtn">🖨️ طباعة</button>
     </div>
   </div>
-  <p class="graph-hint">بيان بكل المواد اللي اتسجلت عبر "🧮 حاسبة المعدل" وتقديرها، مرتبة بترتيب الترمات. التصنيف بيتحدد حسب تخصصك الحالي (${track ? escapeHtml(track.label) : '—'}) — لو غيّرت تخصصك من هنا هيتغيّر تصنيف نفس المادة على حسب التخصص الجديد.</p>
 
   <div id="transcriptPrintArea" class="transcript-print-area">
     <div class="tp-header">
@@ -8235,7 +8283,7 @@ function openProfileModal(forced){
         tempTrackId = null; tempTransferBase = null; trackWasReset = true;
       }
       if(trackWasReset){
-        alert(`عدد الساعات دلوقتي (${Number(tempHours)||0}) أقل من 30 — تخصص "${pickedTrack.label}" اتلغى تلقائي، واختَر "محوّل أو متأخر في التخصص" لحد ما توصل 30 ساعة.`);
+        alert(`عدد الساعات دلوقتي (${Number(tempHours)||0}) أقل من 30 — تخصص "${pickedTrack.label}" اتلغى تلقائي، واختَر "طالب مستوى أول / طالب متأخر" لحد ما توصل 30 ساعة.`);
         render();
         return;
       }
@@ -8250,7 +8298,7 @@ function openProfileModal(forced){
         if(newTrack && !newTrack.isTransferHub && newId!==tempTrackId){
           const hrsNow = Number(tempHours)||0;
           if(hrsNow < SPECIALIZATION_MANDATORY_MIN){
-            alert(`مينفعش تختار "${newTrack.label}" وعدد الساعات اللي دخّلته ${hrsNow} — التخصص بيتطلب 30 ساعة على الأقل. اختَر "محوّل أو متأخر في التخصص" لحد ما توصل 30 ساعة.`);
+            alert(`مينفعش تختار "${newTrack.label}" وعدد الساعات اللي دخّلته ${hrsNow} — التخصص بيتطلب 30 ساعة على الأقل. اختَر "طالب مستوى أول / طالب متأخر" لحد ما توصل 30 ساعة.`);
             return;
           }
         }
@@ -8336,7 +8384,7 @@ async function loadTheme(){
     if(r && r.value) mode = JSON.parse(r.value);
   }catch(e){}
   if(!mode){
-    mode = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    mode = 'light'; // اللايت هو الوضع الأساسي للموقع دايمًا، بغض النظر عن إعداد نظام تشغيل الجهاز
   }
   applyTheme(mode);
 }
@@ -8398,10 +8446,10 @@ function playUiSound(kind){
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
   osc.connect(gain); gain.connect(ctx.destination);
-  let freq=640, dur=.065, type='sine', peak=.05;
-  if(kind==='toggle'){ freq=520; dur=.09; type='triangle'; peak=.06; }
-  else if(kind==='success'){ freq=680; dur=.16; type='sine'; peak=.07; }
-  else if(kind==='close'){ freq=340; dur=.06; type='sine'; peak=.04; }
+  let freq=640, dur=.065, type='sine', peak=.16;
+  if(kind==='toggle'){ freq=520; dur=.09; type='triangle'; peak=.19; }
+  else if(kind==='success'){ freq=680; dur=.16; type='sine'; peak=.22; }
+  else if(kind==='close'){ freq=340; dur=.06; type='sine'; peak=.14; }
   osc.type = type;
   osc.frequency.setValueAtTime(freq, now);
   if(kind==='success') osc.frequency.exponentialRampToValueAtTime(freq*1.5, now+dur*.8);
