@@ -1783,6 +1783,165 @@ button:not(:disabled):active,
 .study-history-empty{padding:24px;text-align:center;color:var(--ink-soft);font-size:13.5px;}
 .study-history-detail-row{display:flex;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;}
 
+/* ===== بومودورو ===== */
+.pmd-wrap{display:flex;flex-direction:column;gap:18px;max-width:520px;margin:0 auto;}
+.pmd-picker-row{display:flex;gap:10px;flex-wrap:wrap;}
+.pmd-picker-col{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px;}
+.pmd-picker-col label{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.pmd-select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13.5px;width:100%;}
+.pmd-select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.pmd-manage-link{background:none;border:none;color:var(--navy);font-size:12.5px;cursor:pointer;padding:0;align-self:flex-start;text-decoration:underline;}
+.pmd-ring-box{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;}
+.pmd-ring-svg{transform:rotate(-90deg);}
+.pmd-ring-track{fill:none;stroke:var(--line);stroke-width:10;}
+.pmd-ring-progress{fill:none;stroke:var(--navy);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s linear, stroke .3s ease;}
+.pmd-ring-center{position:relative;}
+.pmd-time-label{font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:700;color:var(--ink);}
+.pmd-phase-label{font-size:13.5px;font-weight:700;color:var(--ink-soft);letter-spacing:.2px;}
+.pmd-dots{display:flex;gap:6px;justify-content:center;}
+.pmd-dot{width:9px;height:9px;border-radius:50%;background:var(--line);}
+.pmd-dot.filled{background:var(--navy);}
+.pmd-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.pmd-btn{border:none;border-radius:10px;padding:10px 20px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease;}
+.pmd-btn:hover{transform:translateY(-2px);}
+.pmd-btn-primary{background:var(--navy);color:#fff;box-shadow:0 6px 14px var(--glow-navy);}
+.pmd-btn-secondary{background:var(--paper-2);color:var(--ink);border:1px solid var(--line);}
+.pmd-btn-danger{background:var(--maroon-soft);color:var(--maroon);border:1px solid var(--maroon);}
+.pmd-btn-ghost{background:var(--teal-soft);color:var(--teal);border:1px solid var(--teal);}
+.pmd-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+.pmd-panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:12px;}
+.pmd-panel h3{margin:0;font-size:14.5px;}
+.pmd-settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+.pmd-chip-row{display:flex;gap:6px;flex-wrap:wrap;}
+.pmd-chip{border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;font-family:'Tajawal',sans-serif;}
+.pmd-chip.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.pmd-manage-list{display:flex;flex-direction:column;gap:8px;}
+.pmd-manage-item{display:flex;align-items:center;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+.pmd-manage-item-name{font-weight:700;font-size:13.5px;}
+.pmd-manage-item-del{background:none;border:none;color:var(--maroon);cursor:pointer;font-size:15px;padding:2px 6px;}
+.pmd-tasks-list{display:flex;flex-direction:column;gap:6px;margin-inline-start:14px;}
+.pmd-task-row{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;}
+.pmd-add-row{display:flex;gap:8px;}
+.pmd-add-row input{flex:1;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13px;}
+.pmd-add-row input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.pmd-add-row button{border:none;background:var(--navy);color:#fff;border-radius:8px;padding:7px 14px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;}
+.pmd-note-box{display:flex;flex-direction:column;gap:10px;background:var(--gold-soft);border:1px solid var(--gold);border-radius:14px;padding:14px 16px;}
+.pmd-note-box h3{margin:0;font-size:14.5px;color:var(--gold);}
+.pmd-note-box textarea{min-height:70px;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13.5px;resize:vertical;}
+.pmd-unlock-banner{display:flex;flex-direction:column;gap:8px;}
+.pmd-unlock-item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;}
+.pmd-unlock-ic{font-size:22px;}
+.pmd-unlock-title{font-weight:700;font-size:13.5px;color:var(--gold);}
+.pmd-unlock-desc{font-size:12px;color:var(--ink-soft);}
+.pmd-stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
+.pmd-stat-box{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px;text-align:center;}
+.pmd-stat-num{font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:700;color:var(--navy);}
+.pmd-stat-lbl{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+.pmd-badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px;}
+.pmd-badge{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px 6px;opacity:.55;text-align:center;}
+.pmd-badge.unlocked{opacity:1;border-color:var(--gold);background:var(--gold-soft);}
+.pmd-badge-ic{font-size:24px;}
+.pmd-badge-title{font-size:11px;font-weight:700;color:var(--ink-soft);}
+.pmd-badge.unlocked .pmd-badge-title{color:var(--ink);}
+.pmd-heatmap{display:flex;gap:3px;overflow-x:auto;padding:4px 0;}
+.pmd-heat-week{display:flex;flex-direction:column;gap:3px;}
+.pmd-heat-cell{width:11px;height:11px;border-radius:2px;background:var(--line);flex-shrink:0;}
+.pmd-heat-cell[data-level="-1"]{background:transparent;}
+.pmd-heat-cell[data-level="1"]{background:var(--navy);opacity:.25;}
+.pmd-heat-cell[data-level="2"]{background:var(--navy);opacity:.5;}
+.pmd-heat-cell[data-level="3"]{background:var(--navy);opacity:.75;}
+.pmd-heat-cell[data-level="4"]{background:var(--navy);opacity:1;}
+.pmd-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.pmd-cal-label{font-weight:700;font-size:14px;}
+.pmd-cal-nav{background:var(--paper-2);border:1px solid var(--line);border-radius:8px;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--ink);}
+.pmd-cal-nav:disabled{opacity:.3;cursor:not-allowed;}
+.pmd-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.pmd-cal-dow{text-align:center;font-size:11px;color:var(--ink-soft);font-weight:700;padding-bottom:2px;}
+.pmd-cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:8px;background:var(--paper-2);border:1px solid var(--line);font-size:11px;gap:1px;}
+.pmd-cal-cell.empty{background:transparent;border:none;}
+.pmd-cal-cell.today{border-color:var(--navy);border-width:2px;}
+.pmd-cal-cell[data-level="1"]{background:var(--navy);opacity:.25;}
+.pmd-cal-cell[data-level="2"]{background:var(--navy);opacity:.5;}
+.pmd-cal-cell[data-level="3"]{background:var(--navy);opacity:.75;}
+.pmd-cal-cell[data-level="4"]{background:var(--navy);opacity:1;color:#fff;}
+.pmd-cal-daynum{font-weight:700;}
+.pmd-cal-count{font-size:9px;}
+.pmd-log-list{display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;}
+.pmd-log-item{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
+.pmd-log-top{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;}
+.pmd-log-subj{font-weight:700;font-size:13px;margin-top:2px;}
+.pmd-log-note{font-size:12px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+/* وضع التركيز: بيخفي شاسيه الموقع (الهيدر والتابات وأشرطة الفلترة والفوتر والتنقل السفلي)
+   ويخلي بطاقة البومودورو في نص الشاشة لوحدها */
+body.pmd-focus-active header,
+body.pmd-focus-active .tabs-wrap,
+body.pmd-focus-active .subbar-wrap,
+body.pmd-focus-active footer,
+body.pmd-focus-active #bottomNav,
+body.pmd-focus-active #searchResults{ display:none !important; }
+body.pmd-focus-active main{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
+body.pmd-focus-active #trackView{ width:100%; max-width:640px; }
+body.pmd-focus-active .study-back{ display:none; }
+.pmd-focus-toggle{background:var(--strong-bg);color:var(--on-strong);border:none;border-radius:10px;padding:8px 16px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;cursor:pointer;align-self:center;display:flex;align-items:center;gap:6px;}
+.pmd-focus-toggle:hover{opacity:.9;}
+.pmd-focus-toggle.active{background:var(--maroon);}
+.pmd-tree-box{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 16px 12px;max-width:220px;margin:0 auto;}
+.pmd-tree-name{font-weight:700;font-size:13.5px;}
+.pmd-tree-progress{width:170px;height:6px;background:var(--paper-2);border-radius:999px;overflow:hidden;}
+.pmd-tree-progress-fill{height:100%;background:var(--teal);}
+.pmd-tree-next{font-size:11px;color:var(--ink-soft);}
+.pmd-sound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;}
+.pmd-sound-chip{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px 6px;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:11.5px;color:var(--ink-soft);}
+.pmd-sound-chip.active{background:var(--teal-soft);border-color:var(--teal);color:var(--ink);}
+.pmd-sound-ic{font-size:20px;}
+.pmd-sound-volume-row{display:flex;align-items:center;gap:10px;font-size:14px;}
+.pmd-sound-volume-row input[type=range]{flex:1;}
+.pmd-note-actions{display:flex;gap:8px;justify-content:flex-end;}
+.pmd-shop-section-title{font-size:12.5px;font-weight:700;color:var(--ink-soft);margin-top:2px;}
+.pmd-shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;}
+.pmd-shop-card{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:10px 8px;text-align:center;}
+.pmd-shop-card.active{border-color:var(--teal);background:var(--teal-soft);}
+.pmd-shop-swatch{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;}
+.pmd-shop-avatar-swatch{font-size:22px;background:var(--card);}
+.pmd-shop-name{font-size:12px;font-weight:700;color:var(--ink);}
+.pmd-shop-btn{border:none;border-radius:8px;padding:5px 10px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:11.5px;cursor:pointer;}
+.pmd-shop-btn-buy{background:var(--navy);color:#fff;}
+.pmd-shop-btn-buy:disabled{opacity:.4;cursor:not-allowed;}
+.pmd-shop-btn-select{background:var(--paper);color:var(--navy);border:1px solid var(--navy);}
+.pmd-shop-tag{font-size:11.5px;font-weight:700;color:var(--teal);}
+.pmd-avatar-badge{font-size:18px;line-height:1;}
+.pmd-toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);font-family:'Tajawal',sans-serif;font-size:13.5px;font-weight:700;padding:12px 20px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s ease, transform .25s ease;z-index:9999;max-width:90vw;text-align:center;}
+.pmd-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.pmd-analytics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.pmd-analytics-card{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;}
+.pmd-analytics-lbl{font-size:11.5px;color:var(--ink-soft);font-weight:700;}
+.pmd-analytics-val{font-size:16px;font-weight:700;color:var(--ink);margin-top:2px;}
+.pmd-analytics-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+/* المرحلة 6: غرفة التركيز (Focus Room) */
+.pmd-room-box{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:8px;overflow:hidden;}
+.pmd-room-svg{width:100%;height:auto;border-radius:10px;display:block;}
+@keyframes pmdRainFall{
+  0%{transform:translateY(-16px); opacity:0;}
+  12%{opacity:1;}
+  100%{transform:translateY(96px); opacity:0;}
+}
+.pmd-room-rain{animation-name:pmdRainFall; animation-timing-function:linear; animation-iteration-count:infinite;}
+@keyframes pmdSnowFall{
+  0%{transform:translate(0,-10px); opacity:0;}
+  12%{opacity:1;}
+  100%{transform:translate(8px,96px); opacity:0;}
+}
+.pmd-room-snow{animation-name:pmdSnowFall; animation-timing-function:linear; animation-iteration-count:infinite;}
+@keyframes pmdSteamRise{
+  0%{transform:translateY(0); opacity:.7;}
+  100%{transform:translateY(-14px); opacity:0;}
+}
+.pmd-room-steam{animation:pmdSteamRise 2.4s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .pmd-room-rain, .pmd-room-snow, .pmd-room-steam{animation:none; opacity:.6;}
+}
+
 /* ===== مراجعة اللائحة ===== */
 .regs-view{display:flex;flex-direction:column;gap:16px;max-width:900px;}
 .regs-head h2{margin:0 0 4px;}
@@ -2931,7 +3090,52 @@ const SCHEDULE_DAYS = [
 ];
 const SCHEDULE_COLORS = ['#5B3FD6','#0E8F7E','#C98A12','#B3216F','#2563EB','#D9480F','#0D9488','#9333EA'];
 
-let studyToolActive = null; // null | 'videos' | 'player'
+let studyToolActive = null; // null | 'videos' | 'player' | 'pomodoro'
+
+/* ================= بومودورو (أدوات المذاكرة) ================= */
+/* إعدادات المؤقت: مدة المذاكرة/الراحة القصيرة/الراحة الطويلة، وبعد كام جلسة تيجي الراحة الطويلة */
+function pomodoroDefaultSettings(){
+  return { studyMin:25, shortBreakMin:5, longBreakMin:15, sessionsBeforeLong:4, liveNotifications:true };
+}
+let pomodoroSettings = pomodoroDefaultSettings();
+/* المواد اللي الطالب مضيفها، وكل مادة جوها مهام: [{id, name, icon, tasks:[{id, text, done}]}] */
+let pomodoroSubjects = [];
+/* سجل الجلسات المكتملة: [{id, ts, durationMin, kind:'study'|'break', subjectId, subjectName, taskId, taskText, note}] */
+let pomodoroSessions = [];
+/* إحصائيات التحفيز/الألعاب المرتبطة بالبومودورو */
+function pomodoroDefaultStats(){
+  return { coins:0, xp:0, streak:0, lastStudyDateISO:null, achievements:[] };
+}
+let pomodoroStats = pomodoroDefaultStats();
+/* المرحلة 4 (جزء 3): متجر بسيط لشراء ثيمات المؤقت/أشكال الشجرة/الأفاتار بالـ Coins.
+   العنصر الافتراضي في كل قسم مجاني ومملوك دايمًا، والباقي بيتفتح بالشراء مرة واحدة. */
+function pomodoroDefaultShop(){
+  return {
+    owned:{ ringThemes:['classic'], treeSkins:['default'], avatars:['none'], roomThemes:['student'] },
+    active:{ ringTheme:'classic', treeSkin:'default', avatar:'none', roomTheme:'student' }
+  };
+}
+let pomodoroShop = pomodoroDefaultShop();
+/* المرحلة 5 (جزء 4): رابط Playlist بتاع الطالب على Spotify (بديل واقعي عن تشغيل حقيقي جوه الصفحة،
+   لأن التشغيل الفعلي محتاج تسجيل تطبيق مطوّر + OAuth). */
+let pomodoroSpotifyUrl = '';
+/* المرحلة 6: إعدادات غرفة التركيز (2D Focus Room). الثيم نفسه بييجي من متجر المرحلة 4 (قسم roomThemes)،
+   أما الوقت/الجو/دفء الإضاءة هنا فمنفصلين لأنهم مش "شراء" وبيتغيّروا براحة الطالب في أي وقت. */
+function pomodoroDefaultRoomSettings(){
+  return { dayNight:'auto', weather:'none', warmth:60 };
+}
+let pomodoroRoomSettings = pomodoroDefaultRoomSettings();
+/* حالة الصفحة الحالية داخل أداة البومودورو نفسها (هتتستخدم من المرحلة 1 وما بعدها) */
+/* حالة المؤقت أثناء التشغيل (مش متخزنة، بتتصفر كل ما الصفحة تتحمّل من جديد) */
+let pomodoroTimer = null; // انظر pomodoroEnsureTimerInit()
+let pomodoroIntervalHandle = null;
+/* أصوات التركيز: بنولّدها لحظيًا جوه المتصفح بالـ Web Audio API (مش ملفات من سيرفر خارجي) عشان
+   تفضل شغالة 100% حتى لو مفيش نت أو الـ CDN وقع. pomodoroActiveSounds مش متخزنة (زي pomodoroTimer)
+   لأنها Audio Nodes حية مينفعش نحفظها. */
+let pomodoroAudioCtx = null;
+let pomodoroActiveSounds = {}; // id -> { volumeGain, stopNodes:[], timers:[] }
+let pomodoroSoundVolume = 0.5;
+
 /* ================= الألعاب الترفيهية ================= */
 let gamesActiveGame = null; // null | 'xo' | 'memory' | 'sudoku' | '2048' | 'reaction' | 'click' | 'whack' | 'billiards'
 let xoState = null;
@@ -3123,6 +3327,47 @@ async function loadState(){
     const r = await window.storage.get('term-schedules', false);
     if(r && r.value) termSchedules = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
   }catch(e){ termSchedules = []; }
+  try{
+    const r = await window.storage.get('pomodoro-settings', false);
+    if(r && r.value) pomodoroSettings = {...pomodoroDefaultSettings(), ...JSON.parse(r.value)};
+  }catch(e){ pomodoroSettings = pomodoroDefaultSettings(); }
+  try{
+    const r = await window.storage.get('pomodoro-subjects', false);
+    if(r && r.value) pomodoroSubjects = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
+  }catch(e){ pomodoroSubjects = []; }
+  try{
+    const r = await window.storage.get('pomodoro-sessions', false);
+    if(r && r.value) pomodoroSessions = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
+  }catch(e){ pomodoroSessions = []; }
+  try{
+    const r = await window.storage.get('pomodoro-stats', false);
+    if(r && r.value) pomodoroStats = {...pomodoroDefaultStats(), ...JSON.parse(r.value)};
+  }catch(e){ pomodoroStats = pomodoroDefaultStats(); }
+  try{
+    const r = await window.storage.get('pomodoro-gamification', false);
+    if(r && r.value){
+      const parsed = JSON.parse(r.value) || {};
+      const def = pomodoroDefaultShop();
+      const uniq = arr => Array.from(new Set(Array.isArray(arr) ? arr : []));
+      pomodoroShop = {
+        owned:{
+          ringThemes: uniq([...def.owned.ringThemes, ...(parsed.owned && parsed.owned.ringThemes || [])]),
+          treeSkins: uniq([...def.owned.treeSkins, ...(parsed.owned && parsed.owned.treeSkins || [])]),
+          avatars: uniq([...def.owned.avatars, ...(parsed.owned && parsed.owned.avatars || [])]),
+          roomThemes: uniq([...def.owned.roomThemes, ...(parsed.owned && parsed.owned.roomThemes || [])]),
+        },
+        active: {...def.active, ...(parsed.active || {})}
+      };
+    }
+  }catch(e){ pomodoroShop = pomodoroDefaultShop(); }
+  try{
+    const r = await window.storage.get('pomodoro-spotify-url', false);
+    if(r && r.value) pomodoroSpotifyUrl = JSON.parse(r.value) || '';
+  }catch(e){ pomodoroSpotifyUrl = ''; }
+  try{
+    const r = await window.storage.get('pomodoro-room-settings', false);
+    if(r && r.value) pomodoroRoomSettings = {...pomodoroDefaultRoomSettings(), ...JSON.parse(r.value)};
+  }catch(e){ pomodoroRoomSettings = pomodoroDefaultRoomSettings(); }
 }
 async function saveVideoLibrary(){
   try{ await window.storage.set('video-library', JSON.stringify(videoLibrary), false); }
@@ -3142,6 +3387,34 @@ async function saveCgpaTerms(){
 }
 async function saveTermSchedules(){
   try{ await window.storage.set('term-schedules', JSON.stringify(termSchedules), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroSettings(){
+  try{ await window.storage.set('pomodoro-settings', JSON.stringify(pomodoroSettings), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroSubjects(){
+  try{ await window.storage.set('pomodoro-subjects', JSON.stringify(pomodoroSubjects), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroSessions(){
+  try{ await window.storage.set('pomodoro-sessions', JSON.stringify(pomodoroSessions), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroStats(){
+  try{ await window.storage.set('pomodoro-stats', JSON.stringify(pomodoroStats), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroShop(){
+  try{ await window.storage.set('pomodoro-gamification', JSON.stringify(pomodoroShop), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroSpotifyUrl(){
+  try{ await window.storage.set('pomodoro-spotify-url', JSON.stringify(pomodoroSpotifyUrl), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroRoomSettings(){
+  try{ await window.storage.set('pomodoro-room-settings', JSON.stringify(pomodoroRoomSettings), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function saveCgpaGoal(){
@@ -9047,8 +9320,1479 @@ function renderStudyToolsView(){
     bindVideoLibrary();
     return;
   }
+  if(studyToolActive==='pomodoro'){
+    el.innerHTML = pomodoroViewHtml();
+    bindPomodoroView();
+    return;
+  }
   el.innerHTML = videoPlayerHtml();
   bindVideoPlayer();
+}
+
+/* --- بومودورو للمذاكرة --- */
+/* المرحلة 1: مؤقت حقيقي (Start/Pause/Stop/Skip Break)، إعدادات المدد، اختيار مادة/مهمة قبل البدء،
+   إدارة مواد ومهام بسيطة، ومربع ملاحظة بعد كل جلسة مذاكرة. الإحصائيات/الألعاب التفصيلية والـ
+   Heat Map جايين في المراحل الجاية فوق نفس البيانات المتخزنة هنا (pomodoroSessions/pomodoroStats). */
+function pomodoroStatsTodayCount(){
+  const todayISO = new Date().toISOString().slice(0,10);
+  return pomodoroSessions.filter(s=>s.kind==='study' && (s.ts||'').slice(0,10)===todayISO).length;
+}
+function pomodoroStatsRangeCount(days){
+  const cutoff = Date.now() - days*86400000;
+  return pomodoroSessions.filter(s=>s.kind==='study' && new Date(s.ts).getTime()>=cutoff).length;
+}
+function pomodoroStatsRangeMinutes(days){
+  const cutoff = Date.now() - days*86400000;
+  return pomodoroSessions.filter(s=>s.kind==='study' && new Date(s.ts).getTime()>=cutoff).reduce((sum,s)=>sum+(s.durationMin||0),0);
+}
+function pomodoroTotalStudySessions(){ return pomodoroSessions.filter(s=>s.kind==='study').length; }
+function pomodoroTotalStudyMinutes(){ return pomodoroSessions.filter(s=>s.kind==='study').reduce((sum,s)=>sum+(s.durationMin||0),0); }
+/* المرحلة 5 (جزء 1): تحليل إنتاجية محسوب محليًا بالكامل من pomodoroSessions المتخزنة، من غير أي API خارجي. */
+function pomodoroSubjectBreakdown(){
+  const map = {};
+  pomodoroSessions.filter(s=>s.kind==='study').forEach(s=>{
+    const key = s.subjectName || 'بدون مادة محددة';
+    if(!map[key]) map[key] = { name:key, count:0, minutes:0 };
+    map[key].count++;
+    map[key].minutes += (s.durationMin||0);
+  });
+  return Object.values(map).sort((a,b)=> b.minutes-a.minutes);
+}
+function pomodoroHourlyBreakdown(){
+  const buckets = Array.from({length:24}, ()=>0);
+  pomodoroSessions.filter(s=>s.kind==='study').forEach(s=>{
+    const h = new Date(s.ts).getHours();
+    if(!Number.isNaN(h)) buckets[h]++;
+  });
+  return buckets;
+}
+function pomodoroHourLabel(h){
+  const period = h<12 ? 'ص' : 'م';
+  let h12 = h%12; if(h12===0) h12=12;
+  return `${h12}${period==='ص'?' ص':' م'}`;
+}
+/* أفضل وقت تركيز = الساعة اللي فيها أكبر عدد جلسات. أسوأ وقت تركيز بنحسبه بس من الساعات اللي
+   فيها نشاط أصلًا (عشان الساعات اللي مفيهاش أي جلسة أبدًا مش "أسوأ وقت"، هي ببساطة وقت مش بيذاكر فيه). */
+function pomodoroBestWorstHour(){
+  const buckets = pomodoroHourlyBreakdown();
+  const active = buckets.map((c,h)=>({h,c})).filter(x=>x.c>0);
+  if(!active.length) return { bestHour:null, bestCount:0, worstHour:null, worstCount:0 };
+  const bySize = active.slice().sort((a,b)=> b.c-a.c);
+  const byWorst = active.slice().sort((a,b)=> a.c-b.c);
+  return { bestHour:bySize[0].h, bestCount:bySize[0].c, worstHour:byWorst[0].h, worstCount:byWorst[0].c };
+}
+function pomodoroAvgSessionMinutes(){
+  const list = pomodoroSessions.filter(s=>s.kind==='study');
+  if(!list.length) return 0;
+  return Math.round((list.reduce((sum,s)=>sum+(s.durationMin||0),0)/list.length)*10)/10;
+}
+/* نسبة الالتزام: من كام يوم في آخر N يوم، الطالب ذاكر فيه جلسة واحدة على الأقل */
+function pomodoroCommitmentRate(days){
+  days = days||30;
+  const counts = pomodoroSessionCountsByDate();
+  let activeDays = 0;
+  for(let i=0;i<days;i++){
+    const d = new Date(Date.now()-i*86400000);
+    const iso = d.toISOString().slice(0,10);
+    if(counts[iso]>0) activeDays++;
+  }
+  return Math.round((activeDays/days)*100);
+}
+function pomodoroAnalyticsPanelHtml(){
+  const total = pomodoroTotalStudySessions();
+  if(total===0){
+    return `<div class="pmd-panel"><h3>🧠 تحليل الإنتاجية</h3>
+      <div style="color:var(--ink-soft);font-size:13px;">كمّل شوية جلسات مذاكرة الأول عشان نقدر نطلع لك تحليل حقيقي مبني على بياناتك.</div>
+    </div>`;
+  }
+  const subjects = pomodoroSubjectBreakdown();
+  const topSubject = subjects[0];
+  const lowSubject = subjects.length>1 ? subjects[subjects.length-1] : null;
+  const { bestHour, bestCount, worstHour, worstCount } = pomodoroBestWorstHour();
+  const avgMin = pomodoroAvgSessionMinutes();
+  const commitment = pomodoroCommitmentRate(30);
+  const cards = [
+    `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">📘 أكتر مادة بتذاكرها</div><div class="pmd-analytics-val">${escapeHtml(topSubject.name)}</div><div class="pmd-analytics-sub">${topSubject.count} جلسة · ${topSubject.minutes} دقيقة</div></div>`,
+    lowSubject ? `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">📙 أقل مادة بتذاكرها</div><div class="pmd-analytics-val">${escapeHtml(lowSubject.name)}</div><div class="pmd-analytics-sub">${lowSubject.count} جلسة · ${lowSubject.minutes} دقيقة</div></div>` : '',
+    bestHour!==null ? `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">🌟 أفضل وقت تركيز</div><div class="pmd-analytics-val">${pomodoroHourLabel(bestHour)}</div><div class="pmd-analytics-sub">${bestCount} جلسة في الساعة دي</div></div>` : '',
+    (worstHour!==null && worstHour!==bestHour) ? `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">😴 أضعف وقت تركيز</div><div class="pmd-analytics-val">${pomodoroHourLabel(worstHour)}</div><div class="pmd-analytics-sub">${worstCount} جلسة بس في الساعة دي</div></div>` : '',
+    `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">⏱️ متوسط مدة الجلسة</div><div class="pmd-analytics-val">${avgMin} دقيقة</div></div>`,
+    `<div class="pmd-analytics-card"><div class="pmd-analytics-lbl">📅 نسبة الالتزام (آخر 30 يوم)</div><div class="pmd-analytics-val">${commitment}%</div></div>`,
+  ].filter(Boolean).join('');
+  return `<div class="pmd-panel">
+    <h3>🧠 تحليل الإنتاجية</h3>
+    <div class="pmd-analytics-grid">${cards}</div>
+  </div>`;
+}
+/* تعريف الإنجازات: كل واحد بيتفحص بمقارنة عدد الجلسات/ساعات المذاكرة الإجمالية */
+const POMODORO_ACHIEVEMENTS = [
+  { id:'first_session', icon:'🌱', title:'أول خطوة',        desc:'خلصت أول جلسة مذاكرة',        check:(n,h)=> n>=1   },
+  { id:'sessions_10',   icon:'🔟', title:'مستمر',           desc:'خلصت 10 جلسات مذاكرة',        check:(n,h)=> n>=10  },
+  { id:'sessions_100',  icon:'💯', title:'مواظب',           desc:'خلصت 100 جلسة مذاكرة',        check:(n,h)=> n>=100 },
+  { id:'sessions_500',  icon:'🏆', title:'أسطورة المذاكرة', desc:'خلصت 500 جلسة مذاكرة',        check:(n,h)=> n>=500 },
+  { id:'hours_100',     icon:'⏳', title:'100 ساعة',         desc:'ذاكرت 100 ساعة إجمالي',       check:(n,h)=> h>=100 },
+];
+/* نظام المستويات: كل 200 XP = مستوى جديد (كل مستوى = 4 جلسات مذاكرة تقريبًا) */
+function pomodoroLevelInfo(xp){
+  const perLevel = 200;
+  const level = Math.floor(xp/perLevel)+1;
+  const xpIntoLevel = xp % perLevel;
+  return { level, xpIntoLevel, xpForNext:perLevel };
+}
+/* تحديث الـ Streak: لو آخر يوم ذاكرت فيه إمبارح، يزيد يوم. لو النهاردة، يفضل زي ما هو. غير كده يترجع لـ 1 */
+function pomodoroApplyStreak(){
+  const todayISO = new Date().toISOString().slice(0,10);
+  if(pomodoroStats.lastStudyDateISO===todayISO) return;
+  const yestISO = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  pomodoroStats.streak = (pomodoroStats.lastStudyDateISO===yestISO) ? pomodoroStats.streak+1 : 1;
+  pomodoroStats.lastStudyDateISO = todayISO;
+}
+/* بيفحص الإنجازات الجديدة اللي اتحققت ولسه مش متسجلة، بيسجّلها، وبيرجّع اللي اتفتح جديد بس (عشان نعرضه للطالب) */
+function pomodoroCheckAchievements(){
+  const n = pomodoroTotalStudySessions();
+  const hours = pomodoroTotalStudyMinutes()/60;
+  const newly = [];
+  POMODORO_ACHIEVEMENTS.forEach(a=>{
+    if(!pomodoroStats.achievements.includes(a.id) && a.check(n,hours)){
+      pomodoroStats.achievements.push(a.id);
+      newly.push(a);
+    }
+  });
+  return newly;
+}
+/* المرحلة 4 (جزء 1): شجرة بتنمو تدريجيًا حسب إجمالي عدد جلسات المذاكرة المكتملة، برسم SVG بمراحل
+   بدل نموذج 3D. الشجرة بتتحسب من pomodoroSessions مباشرة، فمفيش داعي نخزنها لوحدها. */
+const POMODORO_TREE_STAGES = [
+  { threshold:0,   name:'بذرة'         },
+  { threshold:1,   name:'برعم'         },
+  { threshold:5,   name:'شتلة'         },
+  { threshold:15,  name:'شجرة صغيرة'   },
+  { threshold:40,  name:'شجرة ناضجة'   },
+  { threshold:100, name:'شجرة مزهرة'   },
+];
+function pomodoroTreeStageIndex(sessions){
+  let idx = 0;
+  POMODORO_TREE_STAGES.forEach((s,i)=>{ if(sessions>=s.threshold) idx=i; });
+  return idx;
+}
+function pomodoroTreeSvg(stageIdx, skin){
+  /* skin بييجي من متجر المرحلة 4 (pomodoroActiveTreeSkin) وبيحدد ألوان الجذع/الورق/الزهور،
+     الشكل والمراحل نفسها ثابتة زي ما هي. */
+  skin = skin || POMODORO_SHOP_TREE_SKINS[0];
+  const trunk = skin.trunk, l1 = skin.leaf1, l2 = skin.leaf2, l3 = skin.leaf3, bloom = skin.bloom;
+  const ground = `<ellipse cx="80" cy="148" rx="55" ry="8" style="fill:var(--line)" opacity=".6"/>`;
+  if(stageIdx===0) return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+      <ellipse cx="80" cy="140" rx="7" ry="5" fill="${trunk}"/>
+    </svg>`;
+  if(stageIdx===1) return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+      <path d="M80 142 L80 118" stroke="${l1}" stroke-width="4" stroke-linecap="round"/>
+      <path d="M80 124 C68 120 62 112 62 106" stroke="${l1}" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M80 130 C92 126 98 118 98 112" stroke="${l1}" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <circle cx="60" cy="104" r="7" fill="${l3}"/>
+      <circle cx="100" cy="110" r="7" fill="${l3}"/>
+    </svg>`;
+  if(stageIdx===2) return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+      <path d="M80 142 L80 96" stroke="${trunk}" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="80" cy="82" r="26" fill="${l3}"/>
+      <circle cx="60" cy="96" r="16" fill="${l2}"/>
+      <circle cx="100" cy="96" r="16" fill="${l2}"/>
+    </svg>`;
+  if(stageIdx===3) return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+      <path d="M80 142 L80 84" stroke="${trunk}" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="80" cy="64" r="34" fill="${l2}"/>
+      <circle cx="52" cy="86" r="22" fill="${l3}"/>
+      <circle cx="108" cy="86" r="22" fill="${l3}"/>
+    </svg>`;
+  if(stageIdx===4) return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+      <path d="M80 142 L80 76" stroke="${trunk}" stroke-width="10" stroke-linecap="round"/>
+      <path d="M80 118 L58 100" stroke="${trunk}" stroke-width="5" stroke-linecap="round"/>
+      <path d="M80 110 L104 92" stroke="${trunk}" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="80" cy="52" r="40" fill="${l1}"/>
+      <circle cx="44" cy="78" r="26" fill="${l2}"/>
+      <circle cx="118" cy="78" r="26" fill="${l2}"/>
+    </svg>`;
+  return `<svg viewBox="0 0 160 160" width="110" height="110">${ground}
+    <path d="M80 142 L80 76" stroke="${trunk}" stroke-width="10" stroke-linecap="round"/>
+    <path d="M80 118 L58 100" stroke="${trunk}" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80 110 L104 92" stroke="${trunk}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="80" cy="52" r="40" fill="${l1}"/>
+    <circle cx="44" cy="78" r="26" fill="${l2}"/>
+    <circle cx="118" cy="78" r="26" fill="${l2}"/>
+    <circle cx="62" cy="46" r="6" fill="${bloom}"/>
+    <circle cx="96" cy="38" r="6" fill="${bloom}"/>
+    <circle cx="80" cy="70" r="6" fill="${bloom}"/>
+    <circle cx="112" cy="66" r="6" fill="${bloom}"/>
+    <circle cx="50" cy="66" r="6" fill="${bloom}"/>
+  </svg>`;
+}
+function pomodoroTreeBoxHtml(){
+  const sessions = pomodoroTotalStudySessions();
+  const stageIdx = pomodoroTreeStageIndex(sessions);
+  const stage = POMODORO_TREE_STAGES[stageIdx];
+  const nextStage = POMODORO_TREE_STAGES[stageIdx+1];
+  const progressHtml = nextStage
+    ? `<div class="pmd-tree-progress"><div class="pmd-tree-progress-fill" style="width:${Math.round(((sessions-stage.threshold)/(nextStage.threshold-stage.threshold))*100)}%;"></div></div>
+       <div class="pmd-tree-next">${nextStage.threshold-sessions} جلسة كمان لمرحلة "${nextStage.name}"</div>`
+    : `<div class="pmd-tree-next">وصلت لأعلى مرحلة 🎉</div>`;
+  return `<div class="pmd-tree-box">
+    ${pomodoroTreeSvg(stageIdx, pomodoroActiveTreeSkin())}
+    <div class="pmd-tree-name">🌳 ${stage.name}</div>
+    ${progressHtml}
+  </div>`;
+}
+/* المرحلة 3: Heat Map + تقويم شهري + سجل جلسات، كلهم مبنيين فوق pomodoroSessions المتخزنة أصلًا */
+function pomodoroSessionCountsByDate(){
+  const counts = {};
+  pomodoroSessions.forEach(s=>{
+    if(s.kind!=='study') return;
+    const d = (s.ts||'').slice(0,10);
+    if(d) counts[d] = (counts[d]||0)+1;
+  });
+  return counts;
+}
+function pomodoroHeatLevel(count){
+  if(count<=0) return 0;
+  if(count===1) return 1;
+  if(count===2) return 2;
+  if(count<=4) return 3;
+  return 4;
+}
+/* بيبني آخر ~13 أسبوع (91 يوم) في أعمدة، كل عمود أسبوع وفيه 7 خلايا (الأحد فوق)، بأسلوب GitHub */
+function pomodoroBuildHeatmapWeeks(){
+  const counts = pomodoroSessionCountsByDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const totalDays = 91;
+  const days = [];
+  for(let i=totalDays-1;i>=0;i--){
+    const d = new Date(today.getTime() - i*86400000);
+    const iso = d.toISOString().slice(0,10);
+    days.push({ iso, count: counts[iso]||0, dow: d.getDay() });
+  }
+  const firstDow = days[0].dow;
+  const padded = Array.from({length:firstDow}).map(()=>null).concat(days);
+  const weeks = [];
+  for(let i=0;i<padded.length;i+=7) weeks.push(padded.slice(i,i+7));
+  return weeks;
+}
+function pomodoroHeatmapHtml(){
+  const weeks = pomodoroBuildHeatmapWeeks();
+  const weeksHtml = weeks.map(week=>{
+    const cellsHtml = week.map(day=>{
+      if(!day) return `<div class="pmd-heat-cell" data-level="-1"></div>`;
+      return `<div class="pmd-heat-cell" data-level="${pomodoroHeatLevel(day.count)}" title="${day.iso}: ${day.count} جلسة"></div>`;
+    }).join('');
+    return `<div class="pmd-heat-week">${cellsHtml}</div>`;
+  }).join('');
+  return `<div class="pmd-heatmap">${weeksHtml}</div>`;
+}
+const POMODORO_MONTH_NAMES = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+function pomodoroCalendarData(monthOffset){
+  const now = new Date();
+  const base = new Date(now.getFullYear(), now.getMonth()+monthOffset, 1);
+  const year = base.getFullYear(), month = base.getMonth();
+  const firstDow = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+  const counts = pomodoroSessionCountsByDate();
+  const cells = [];
+  for(let i=0;i<firstDow;i++) cells.push(null);
+  for(let d=1; d<=daysInMonth; d++){
+    const iso = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    cells.push({ day:d, iso, count: counts[iso]||0 });
+  }
+  return { label: POMODORO_MONTH_NAMES[month]+' '+year, cells };
+}
+function pomodoroCalendarHtml(monthOffset){
+  const data = pomodoroCalendarData(monthOffset);
+  const todayISO = new Date().toISOString().slice(0,10);
+  const dowHtml = ['ح','ن','ث','ر','خ','ج','س'].map(l=>`<div class="pmd-cal-dow">${l}</div>`).join('');
+  const cellsHtml = data.cells.map(c=>{
+    if(!c) return `<div class="pmd-cal-cell empty"></div>`;
+    const isToday = c.iso===todayISO;
+    return `<div class="pmd-cal-cell${isToday?' today':''}" data-level="${pomodoroHeatLevel(c.count)}" title="${c.count} جلسة">
+      <span class="pmd-cal-daynum">${c.day}</span>${c.count>0?`<span class="pmd-cal-count">${c.count}</span>`:''}
+    </div>`;
+  }).join('');
+  return `<div class="pmd-cal-head">
+      <button type="button" class="pmd-cal-nav" id="pmdCalPrev">‹</button>
+      <div class="pmd-cal-label">${data.label}</div>
+      <button type="button" class="pmd-cal-nav" id="pmdCalNext" ${monthOffset>=0?'disabled':''}>›</button>
+    </div>
+    <div class="pmd-cal-grid">${dowHtml}${cellsHtml}</div>`;
+}
+function pomodoroSessionLogHtml(limit){
+  const studySessions = pomodoroSessions.filter(s=>s.kind==='study').slice().sort((a,b)=> new Date(b.ts)-new Date(a.ts));
+  const shown = studySessions.slice(0, limit);
+  const rowsHtml = shown.map(s=>{
+    const dt = new Date(s.ts);
+    const dateStr = dt.toLocaleDateString('ar-EG', { day:'2-digit', month:'2-digit', year:'numeric' });
+    const timeStr = dt.toLocaleTimeString('ar-EG', { hour:'2-digit', minute:'2-digit' });
+    return `<div class="pmd-log-item">
+      <div class="pmd-log-top">
+        <span class="pmd-log-date">${dateStr} · ${timeStr}</span>
+        <span class="pmd-log-dur">${s.durationMin} د</span>
+      </div>
+      <div class="pmd-log-subj">${s.subjectName ? escapeHtml(s.subjectName) : 'بدون مادة'}${s.taskText ? ' · '+escapeHtml(s.taskText) : ''}</div>
+      ${s.note ? `<div class="pmd-log-note">${escapeHtml(s.note)}</div>` : ''}
+    </div>`;
+  }).join('') || '<div style="color:var(--ink-soft);font-size:13px;">لسه معملتش جلسات مذاكرة.</div>';
+  const moreBtn = studySessions.length>limit ? `<button class="pmd-manage-link" id="pmdLoadMoreLog">تحميل المزيد (${studySessions.length-limit} باقي)</button>` : '';
+  return `<div class="pmd-log-list">${rowsHtml}</div>${moreBtn}`;
+}
+function pomodoroPhaseDurationSec(phase){
+  if(phase==='study') return pomodoroSettings.studyMin*60;
+  if(phase==='shortBreak') return pomodoroSettings.shortBreakMin*60;
+  return pomodoroSettings.longBreakMin*60;
+}
+function pomodoroFreshTimerState(){
+  return {
+    phase:'study', running:false,
+    totalSec: pomodoroPhaseDurationSec('study'),
+    remainingSec: pomodoroPhaseDurationSec('study'),
+    cycleCount:0, showNote:false, lastSessionId:null,
+    subjectId:'', taskId:'',
+    settingsOpen:false, manageOpen:false, manageExpandSubjectId:null,
+    newlyUnlocked:[], statsOpen:false,
+    historyOpen:false, calendarMonthOffset:0, logVisibleCount:10,
+    focusMode:false, soundsOpen:false, shopOpen:false,
+    analyticsOpen:false, cardOpen:false, spotifyOpen:false, roomOpen:false
+  };
+}
+function pomodoroEnsureTimerInit(){
+  if(!pomodoroTimer) pomodoroTimer = pomodoroFreshTimerState();
+}
+function pomodoroFormatTime(sec){
+  sec = Math.max(0, Math.round(sec));
+  const m = Math.floor(sec/60), s = sec%60;
+  return String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function pomodoroUpdateTimerDom(){
+  if(!pomodoroTimer) return;
+  const label = document.getElementById('pmdTimeLabel');
+  const ring = document.getElementById('pmdRingProgress');
+  if(label) label.textContent = pomodoroFormatTime(pomodoroTimer.remainingSec);
+  if(ring){
+    const circumference = 2*Math.PI*90;
+    const ratio = pomodoroTimer.totalSec>0 ? (pomodoroTimer.remainingSec/pomodoroTimer.totalSec) : 0;
+    ring.style.strokeDashoffset = String(circumference*(1-ratio));
+  }
+}
+function pomodoroStartInterval(){
+  if(pomodoroIntervalHandle) clearInterval(pomodoroIntervalHandle);
+  pomodoroIntervalHandle = setInterval(pomodoroTick, 1000);
+}
+function pomodoroTick(){
+  if(!pomodoroTimer || !pomodoroTimer.running) return;
+  pomodoroTimer.remainingSec--;
+  if(pomodoroTimer.remainingSec<=0){ pomodoroHandlePhaseComplete(); return; }
+  if(pomodoroTimer.phase==='study'){
+    const elapsed = pomodoroTimer.totalSec - pomodoroTimer.remainingSec;
+    if(elapsed>0 && elapsed % 300 === 0) pomodoroNotifyProgress();
+  }
+  pomodoroUpdateTimerDom();
+}
+/* المرحلة 5 (جزء 2): تنبيه حي كل 5 دقايق أثناء جلسة المذاكرة، طول ما التاب مفتوح.
+   بنستخدم Browser Notification لو الطالب سامح بيها، وإلا بنعرض Toast جوه الصفحة كبديل فورًا. */
+function pomodoroShowToast(msg){
+  let el = document.getElementById('pmdToastEl');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'pmdToastEl';
+    el.className = 'pmd-toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  requestAnimationFrame(()=> el.classList.add('show'));
+  clearTimeout(window.__pmdToastTimer);
+  window.__pmdToastTimer = setTimeout(()=>{ el.classList.remove('show'); }, 4500);
+}
+function pomodoroNotifyProgress(){
+  if(!pomodoroSettings.liveNotifications) return;
+  const minutesLeft = Math.round(pomodoroTimer.remainingSec/60);
+  const msg = `⏳ فاضلك ${minutesLeft} دقيقة على نهاية الجلسة، كمّل 💪`;
+  if(typeof Notification!=='undefined' && Notification.permission==='granted'){
+    try{ new Notification('🍅 بومودورو - استمر!', { body: msg, silent:true }); return; }catch(e){}
+  }
+  pomodoroShowToast(msg);
+}
+function pomodoroToggleLiveNotifications(){
+  pomodoroSettings.liveNotifications = !pomodoroSettings.liveNotifications;
+  if(pomodoroSettings.liveNotifications && typeof Notification!=='undefined' && Notification.permission==='default'){
+    Notification.requestPermission().catch(()=>{});
+  }
+  savePomodoroSettings();
+  renderCurrentView();
+}
+function pomodoroHandlePhaseComplete(){
+  if(pomodoroIntervalHandle){ clearInterval(pomodoroIntervalHandle); pomodoroIntervalHandle=null; }
+  pomodoroTimer.running = false;
+  if(pomodoroTimer.phase==='study'){
+    const subj = pomodoroSubjects.find(s=>s.id===pomodoroTimer.subjectId);
+    const task = subj ? subj.tasks.find(t=>t.id===pomodoroTimer.taskId) : null;
+    const session = {
+      id: 'pmd_'+Date.now(),
+      ts: new Date().toISOString(),
+      durationMin: pomodoroSettings.studyMin,
+      kind: 'study',
+      subjectId: pomodoroTimer.subjectId || null,
+      subjectName: subj ? subj.name : null,
+      taskId: pomodoroTimer.taskId || null,
+      taskText: task ? task.text : null,
+      note: ''
+    };
+    pomodoroSessions.push(session);
+    savePomodoroSessions();
+    pomodoroStats.coins += 10;
+    pomodoroStats.xp += 50;
+    pomodoroApplyStreak();
+    pomodoroTimer.newlyUnlocked = pomodoroCheckAchievements();
+    savePomodoroStats();
+    pomodoroTimer.lastSessionId = session.id;
+    pomodoroTimer.cycleCount++;
+    pomodoroTimer.showNote = true;
+  } else {
+    pomodoroTimer.phase = 'study';
+    pomodoroTimer.totalSec = pomodoroPhaseDurationSec('study');
+    pomodoroTimer.remainingSec = pomodoroTimer.totalSec;
+  }
+  renderCurrentView();
+}
+function pomodoroAfterNoteContinue(){
+  pomodoroTimer.showNote = false;
+  pomodoroTimer.newlyUnlocked = [];
+  const isLong = pomodoroTimer.cycleCount>0 && (pomodoroTimer.cycleCount % pomodoroSettings.sessionsBeforeLong === 0);
+  pomodoroTimer.phase = isLong ? 'longBreak' : 'shortBreak';
+  pomodoroTimer.totalSec = pomodoroPhaseDurationSec(pomodoroTimer.phase);
+  pomodoroTimer.remainingSec = pomodoroTimer.totalSec;
+  pomodoroTimer.running = true;
+  renderCurrentView();
+  pomodoroStartInterval();
+}
+function pomodoroSaveNote(){
+  const input = document.getElementById('pmdNoteInput');
+  const val = input ? input.value.trim() : '';
+  const session = pomodoroSessions.find(s=>s.id===pomodoroTimer.lastSessionId);
+  if(session){ session.note = val; savePomodoroSessions(); }
+  pomodoroAfterNoteContinue();
+}
+function pomodoroSkipNote(){ pomodoroAfterNoteContinue(); }
+function pomodoroStart(){
+  pomodoroEnsureTimerInit();
+  if(pomodoroTimer.showNote) return;
+  pomodoroTimer.running = true;
+  renderCurrentView();
+  pomodoroStartInterval();
+}
+function pomodoroPause(){
+  if(!pomodoroTimer) return;
+  pomodoroTimer.running = false;
+  if(pomodoroIntervalHandle){ clearInterval(pomodoroIntervalHandle); pomodoroIntervalHandle=null; }
+  renderCurrentView();
+}
+function pomodoroStop(){
+  if(!pomodoroTimer) return;
+  if(pomodoroIntervalHandle){ clearInterval(pomodoroIntervalHandle); pomodoroIntervalHandle=null; }
+  pomodoroTimer.running = false;
+  pomodoroTimer.phase = 'study';
+  pomodoroTimer.showNote = false;
+  pomodoroTimer.totalSec = pomodoroPhaseDurationSec('study');
+  pomodoroTimer.remainingSec = pomodoroTimer.totalSec;
+  renderCurrentView();
+}
+function pomodoroSkipBreak(){
+  if(!pomodoroTimer || pomodoroTimer.phase==='study') return;
+  if(pomodoroIntervalHandle){ clearInterval(pomodoroIntervalHandle); pomodoroIntervalHandle=null; }
+  pomodoroTimer.phase = 'study';
+  pomodoroTimer.running = false;
+  pomodoroTimer.totalSec = pomodoroPhaseDurationSec('study');
+  pomodoroTimer.remainingSec = pomodoroTimer.totalSec;
+  renderCurrentView();
+}
+/* وضع التركيز: إخفاء شاسيه الموقع + طلب Fullscreen + تأكيد قبل مغادرة الصفحة، طول ما الوضع شغال */
+function pomodoroBeforeUnloadHandler(e){
+  e.preventDefault();
+  e.returnValue = '';
+  return '';
+}
+function pomodoroToggleFocusMode(){
+  pomodoroEnsureTimerInit();
+  pomodoroTimer.focusMode = !pomodoroTimer.focusMode;
+  if(pomodoroTimer.focusMode){
+    document.body.classList.add('pmd-focus-active');
+    window.addEventListener('beforeunload', pomodoroBeforeUnloadHandler);
+    if(document.documentElement.requestFullscreen){
+      document.documentElement.requestFullscreen().catch(()=>{});
+    }
+  } else {
+    document.body.classList.remove('pmd-focus-active');
+    window.removeEventListener('beforeunload', pomodoroBeforeUnloadHandler);
+    if(document.fullscreenElement && document.exitFullscreen){
+      document.exitFullscreen().catch(()=>{});
+    }
+  }
+  renderCurrentView();
+}
+/* لو الطالب خرج من الـ Fullscreen يدويًا (زرار Esc مثلًا)، نطفي وضع التركيز عندنا كمان عشان الحالتين يفضلوا متزامنين */
+function pomodoroSyncFocusModeWithFullscreen(){
+  if(!document.fullscreenElement && pomodoroTimer && pomodoroTimer.focusMode){
+    pomodoroTimer.focusMode = false;
+    document.body.classList.remove('pmd-focus-active');
+    window.removeEventListener('beforeunload', pomodoroBeforeUnloadHandler);
+    renderCurrentView();
+  }
+}
+/* المرحلة 4 (جزء 2): أصوات تركيز مولّدة لحظيًا بالـ Web Audio API (ضجيج مفلتر + نغمات مولّدة
+   عشوائيًا بدل تسجيلات حقيقية)، عشان الميزة تشتغل فورًا من غير أي طلب شبكة أو رابط ممكن يقع. */
+function pomodoroGetAudioCtx(){
+  if(!pomodoroAudioCtx){
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    pomodoroAudioCtx = new Ctx();
+  }
+  if(pomodoroAudioCtx.state==='suspended') pomodoroAudioCtx.resume();
+  return pomodoroAudioCtx;
+}
+function pomodoroMakeNoiseSource(ctx){
+  const bufferSize = ctx.sampleRate*2;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++) data[i] = Math.random()*2-1;
+  const src = ctx.createBufferSource();
+  src.buffer = buffer; src.loop = true;
+  src.start(0);
+  return src;
+}
+const POMODORO_PIANO_NOTES = [261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25];
+const POMODORO_LOFI_NOTES = [220.00,246.94,261.63,293.66,329.63,349.23];
+const POMODORO_SOUND_BUILDERS = {
+  white(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const g = ctx.createGain(); g.gain.value=0.5;
+    src.connect(g); g.connect(out);
+    return { stopNodes:[src] };
+  },
+  rain(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=800;
+    const bp = ctx.createBiquadFilter(); bp.type='peaking'; bp.frequency.value=3000; bp.gain.value=6; bp.Q.value=0.8;
+    const g = ctx.createGain(); g.gain.value=0.55;
+    src.connect(hp); hp.connect(bp); bp.connect(g); g.connect(out);
+    return { stopNodes:[src] };
+  },
+  sea(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=600;
+    const g = ctx.createGain(); g.gain.value=0.4;
+    src.connect(lp); lp.connect(g); g.connect(out);
+    let phase = Math.random()*10;
+    const timer = setInterval(()=>{
+      phase += 0.12;
+      const val = 0.28 + 0.24*Math.max(0, Math.sin(phase));
+      g.gain.setTargetAtTime(val, ctx.currentTime, 0.6);
+    }, 250);
+    return { stopNodes:[src], timers:[timer] };
+  },
+  forest(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const bp = ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=1200; bp.Q.value=0.6;
+    const g = ctx.createGain(); g.gain.value=0.18;
+    src.connect(bp); bp.connect(g); g.connect(out);
+    const timer = setInterval(()=>{
+      if(Math.random()<0.35){
+        const osc = ctx.createOscillator(); osc.type='sine';
+        osc.frequency.value = 1800+Math.random()*1400;
+        const cg = ctx.createGain(); cg.gain.value=0;
+        osc.connect(cg); cg.connect(out);
+        const t0 = ctx.currentTime;
+        cg.gain.setValueAtTime(0,t0);
+        cg.gain.linearRampToValueAtTime(0.06, t0+0.05);
+        cg.gain.linearRampToValueAtTime(0, t0+0.22);
+        osc.start(t0); osc.stop(t0+0.25);
+      }
+    }, 1400);
+    return { stopNodes:[src], timers:[timer] };
+  },
+  fire(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=700;
+    const g = ctx.createGain(); g.gain.value=0.35;
+    src.connect(lp); lp.connect(g); g.connect(out);
+    const timer = setInterval(()=>{
+      if(Math.random()<0.3){
+        const t0 = ctx.currentTime;
+        g.gain.cancelScheduledValues(t0);
+        g.gain.setValueAtTime(g.gain.value, t0);
+        g.gain.linearRampToValueAtTime(0.55, t0+0.03);
+        g.gain.linearRampToValueAtTime(0.35, t0+0.18);
+      }
+    }, 300);
+    return { stopNodes:[src], timers:[timer] };
+  },
+  cafe(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const bp = ctx.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=900; bp.Q.value=0.5;
+    const g = ctx.createGain(); g.gain.value=0.3;
+    src.connect(bp); bp.connect(g); g.connect(out);
+    const timer = setInterval(()=>{
+      if(Math.random()<0.15){
+        const osc = ctx.createOscillator(); osc.type='triangle';
+        osc.frequency.value = 500+Math.random()*400;
+        const cg = ctx.createGain(); cg.gain.value=0;
+        osc.connect(cg); cg.connect(out);
+        const t0 = ctx.currentTime;
+        cg.gain.setValueAtTime(0,t0);
+        cg.gain.linearRampToValueAtTime(0.04, t0+0.02);
+        cg.gain.linearRampToValueAtTime(0, t0+0.12);
+        osc.start(t0); osc.stop(t0+0.15);
+      }
+    }, 900);
+    return { stopNodes:[src], timers:[timer] };
+  },
+  piano(ctx,out){
+    const timer = setInterval(()=>{
+      if(Math.random()<0.5){
+        const freq = POMODORO_PIANO_NOTES[Math.floor(Math.random()*POMODORO_PIANO_NOTES.length)];
+        const osc = ctx.createOscillator(); osc.type='sine'; osc.frequency.value=freq;
+        const g = ctx.createGain(); g.gain.value=0;
+        osc.connect(g); g.connect(out);
+        const t0 = ctx.currentTime;
+        g.gain.setValueAtTime(0,t0);
+        g.gain.linearRampToValueAtTime(0.12, t0+0.05);
+        g.gain.exponentialRampToValueAtTime(0.001, t0+2.2);
+        osc.start(t0); osc.stop(t0+2.3);
+      }
+    }, 1800);
+    return { stopNodes:[], timers:[timer] };
+  },
+  lofi(ctx,out){
+    const src = pomodoroMakeNoiseSource(ctx);
+    const hp = ctx.createBiquadFilter(); hp.type='highpass'; hp.frequency.value=4000;
+    const crackleGain = ctx.createGain(); crackleGain.gain.value=0.04;
+    src.connect(hp); hp.connect(crackleGain); crackleGain.connect(out);
+    const timer = setInterval(()=>{
+      if(Math.random()<0.45){
+        const freq = POMODORO_LOFI_NOTES[Math.floor(Math.random()*POMODORO_LOFI_NOTES.length)];
+        const osc = ctx.createOscillator(); osc.type='triangle'; osc.frequency.value=freq;
+        const lp = ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1200;
+        const g = ctx.createGain(); g.gain.value=0;
+        osc.connect(lp); lp.connect(g); g.connect(out);
+        const t0 = ctx.currentTime;
+        g.gain.setValueAtTime(0,t0);
+        g.gain.linearRampToValueAtTime(0.1, t0+0.08);
+        g.gain.exponentialRampToValueAtTime(0.001, t0+1.8);
+        osc.start(t0); osc.stop(t0+1.9);
+      }
+    }, 1500);
+    return { stopNodes:[src], timers:[timer] };
+  }
+};
+const POMODORO_SOUNDS = [
+  { id:'rain',  icon:'🌧️', name:'مطر' },
+  { id:'sea',   icon:'🌊', name:'بحر' },
+  { id:'cafe',  icon:'☕', name:'مقهى' },
+  { id:'forest',icon:'🌲', name:'غابة' },
+  { id:'fire',  icon:'🔥', name:'مدفأة' },
+  { id:'piano', icon:'🎹', name:'بيانو' },
+  { id:'lofi',  icon:'🎧', name:'لو-فاي' },
+  { id:'white', icon:'📻', name:'ضوضاء بيضاء' },
+];
+function pomodoroPlaySound(id){
+  if(pomodoroActiveSounds[id]) return;
+  const ctx = pomodoroGetAudioCtx();
+  const volumeGain = ctx.createGain();
+  volumeGain.gain.value = pomodoroSoundVolume;
+  volumeGain.connect(ctx.destination);
+  const built = POMODORO_SOUND_BUILDERS[id](ctx, volumeGain);
+  pomodoroActiveSounds[id] = { volumeGain, stopNodes: built.stopNodes||[], timers: built.timers||[] };
+}
+function pomodoroStopSound(id){
+  const s = pomodoroActiveSounds[id];
+  if(!s) return;
+  s.stopNodes.forEach(n=>{ try{ n.stop(); }catch(e){} });
+  s.timers.forEach(t=>clearInterval(t));
+  try{ s.volumeGain.disconnect(); }catch(e){}
+  delete pomodoroActiveSounds[id];
+}
+function pomodoroStopAllSounds(){
+  Object.keys(pomodoroActiveSounds).forEach(pomodoroStopSound);
+}
+function pomodoroToggleSound(id){
+  if(pomodoroActiveSounds[id]) pomodoroStopSound(id); else pomodoroPlaySound(id);
+  renderCurrentView();
+}
+function pomodoroSetSoundVolume(v){
+  pomodoroSoundVolume = v;
+  if(!pomodoroAudioCtx) return;
+  Object.values(pomodoroActiveSounds).forEach(s=> s.volumeGain.gain.setTargetAtTime(v, pomodoroAudioCtx.currentTime, 0.05));
+}
+function pomodoroSoundsPanelHtml(){
+  const chips = POMODORO_SOUNDS.map(s=>{
+    const active = !!pomodoroActiveSounds[s.id];
+    return `<button type="button" class="pmd-sound-chip${active?' active':''}" data-pmd-sound="${s.id}">
+      <span class="pmd-sound-ic">${s.icon}</span><span>${s.name}</span>
+    </button>`;
+  }).join('');
+  return `<div class="pmd-panel">
+    <h3>🎵 أصوات التركيز</h3>
+    <div class="pmd-sound-grid">${chips}</div>
+    <div class="pmd-sound-volume-row">
+      <label>🔊</label>
+      <input type="range" min="0" max="100" value="${Math.round(pomodoroSoundVolume*100)}" id="pmdSoundVolume">
+    </div>
+    <div style="font-size:11px;color:var(--ink-soft);">الأصوات دي متولّدة لحظيًا جوه المتصفح، فبتشتغل فورًا من غير أي تحميل أو نت.</div>
+  </div>`;
+}
+function pomodoroSelectSubject(id){
+  pomodoroTimer.subjectId = id; pomodoroTimer.taskId = '';
+  renderCurrentView();
+}
+function pomodoroSelectTask(id){
+  pomodoroTimer.taskId = id;
+  renderCurrentView();
+}
+function pomodoroAddSubject(name){
+  const trimmed = (name||'').trim();
+  if(!trimmed) return;
+  pomodoroSubjects.push({ id:'sub_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), name:trimmed, tasks:[] });
+  savePomodoroSubjects();
+  renderCurrentView();
+}
+function pomodoroDeleteSubject(id){
+  pomodoroSubjects = pomodoroSubjects.filter(s=>s.id!==id);
+  savePomodoroSubjects();
+  if(pomodoroTimer){
+    if(pomodoroTimer.subjectId===id){ pomodoroTimer.subjectId=''; pomodoroTimer.taskId=''; }
+    if(pomodoroTimer.manageExpandSubjectId===id) pomodoroTimer.manageExpandSubjectId=null;
+  }
+  renderCurrentView();
+}
+function pomodoroAddTask(subjectId, text){
+  const trimmed = (text||'').trim();
+  if(!trimmed) return;
+  const subj = pomodoroSubjects.find(s=>s.id===subjectId);
+  if(!subj) return;
+  subj.tasks.push({ id:'task_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), text:trimmed, done:false });
+  savePomodoroSubjects();
+  renderCurrentView();
+}
+function pomodoroDeleteTask(subjectId, taskId){
+  const subj = pomodoroSubjects.find(s=>s.id===subjectId);
+  if(!subj) return;
+  subj.tasks = subj.tasks.filter(t=>t.id!==taskId);
+  savePomodoroSubjects();
+  if(pomodoroTimer && pomodoroTimer.taskId===taskId) pomodoroTimer.taskId='';
+  renderCurrentView();
+}
+function pomodoroSetStudyMin(v){
+  pomodoroSettings.studyMin=v; savePomodoroSettings();
+  if(pomodoroTimer && pomodoroTimer.phase==='study' && !pomodoroTimer.running && !pomodoroTimer.showNote){
+    pomodoroTimer.totalSec=v*60; pomodoroTimer.remainingSec=v*60;
+  }
+  renderCurrentView();
+}
+function pomodoroSetShortBreakMin(v){
+  pomodoroSettings.shortBreakMin=v; savePomodoroSettings();
+  if(pomodoroTimer && pomodoroTimer.phase==='shortBreak' && !pomodoroTimer.running){
+    pomodoroTimer.totalSec=v*60; pomodoroTimer.remainingSec=v*60;
+  }
+  renderCurrentView();
+}
+function pomodoroSetLongBreakMin(v){
+  pomodoroSettings.longBreakMin=v; savePomodoroSettings();
+  if(pomodoroTimer && pomodoroTimer.phase==='longBreak' && !pomodoroTimer.running){
+    pomodoroTimer.totalSec=v*60; pomodoroTimer.remainingSec=v*60;
+  }
+  renderCurrentView();
+}
+function pomodoroSetSessionsBeforeLong(v){
+  pomodoroSettings.sessionsBeforeLong=v; savePomodoroSettings();
+  renderCurrentView();
+}
+/* المرحلة 4 (جزء 3): متجر بسيط — شراء ثيمات ألوان المؤقت، أشكال ألوان للشجرة، وأفاتار بجانب
+   إحصائيات الطالب، كله بالـ Coins اللي بيكسبها من جلسات المذاكرة. كل عنصر يتشترى مرة واحدة بس
+   (owned) وبعدها يتفعّل ويتبدّل بينه وبين غيره من غير أي تكلفة إضافية. */
+const POMODORO_SHOP_RING_THEMES = [
+  { id:'classic', name:'كلاسيك',       price:0,   study:'var(--navy)', shortBreak:'var(--teal)', longBreak:'var(--gold)' },
+  { id:'sunset',  name:'غروب',         price:60,  study:'#E4574C', shortBreak:'#F0954B', longBreak:'#F2C14E' },
+  { id:'ocean',   name:'محيط',         price:60,  study:'#1B6CA8', shortBreak:'#2AA3B0', longBreak:'#6FD1C5' },
+  { id:'berry',   name:'توت',          price:80,  study:'#8E3B8F', shortBreak:'#C2569C', longBreak:'#E48AC4' },
+  { id:'mono',    name:'أبيض وأسود',   price:100, study:'#10131F', shortBreak:'#565E76', longBreak:'#9AA0B4' },
+];
+const POMODORO_SHOP_TREE_SKINS = [
+  { id:'default', name:'أخضر كلاسيك', price:0,   trunk:'#6B4A2C', leaf1:'#5DA84A', leaf2:'#6BAE55', leaf3:'#7CB768', bloom:'#E4574C' },
+  { id:'sakura',  name:'ساكورا',      price:70,  trunk:'#7A5A46', leaf1:'#F4A6C1', leaf2:'#F8C6D9', leaf3:'#FBD9E6', bloom:'#FF6FA0' },
+  { id:'autumn',  name:'خريف',        price:70,  trunk:'#6B4A2C', leaf1:'#C97A2B', leaf2:'#E0964B', leaf3:'#F0B36B', bloom:'#B33B1E' },
+  { id:'winter',  name:'شتاء',        price:90,  trunk:'#8C9AA8', leaf1:'#BBD9EA', leaf2:'#DCEEF7', leaf3:'#EFF8FC', bloom:'#FFFFFF' },
+  { id:'golden',  name:'ذهبي',        price:120, trunk:'#6B4A2C', leaf1:'#D4A017', leaf2:'#E8C468', leaf3:'#F3D98B', bloom:'#FFF3C4' },
+];
+const POMODORO_SHOP_AVATARS = [
+  { id:'none',    name:'بدون',      price:0,  icon:'' },
+  { id:'cat',     name:'قطة',       price:30, icon:'🐱' },
+  { id:'fox',     name:'ثعلب',      price:30, icon:'🦊' },
+  { id:'panda',   name:'باندا',     price:40, icon:'🐼' },
+  { id:'owl',     name:'بومة',      price:40, icon:'🦉' },
+  { id:'lion',    name:'أسد',       price:50, icon:'🦁' },
+  { id:'unicorn', name:'يونيكورن',  price:70, icon:'🦄' },
+];
+/* المرحلة 6: ثيمات غرفة التركيز (2D Focus Room). كل ثيم بيحدد ألوان الحيطة/المكتب/التفاصيل،
+   وبيتفتح بالشراء بالكوينز زي باقي أقسام المتجر، ما عدا الثيم الافتراضي "غرفة طالب" اللي مجاني. */
+const POMODORO_ROOM_THEMES = [
+  { id:'student',  name:'غرفة طالب',    price:0,   wall:'#EDE3D0', wall2:'#E1D4BB', desk:'#8C6A46', accent:'#C9A66B', frame:'#6B4A2C' },
+  { id:'library',  name:'مكتبة',        price:90,  wall:'#3A2A1E', wall2:'#4C3826', desk:'#5A3D26', accent:'#B08F5A', frame:'#2A1D14' },
+  { id:'cafe',     name:'مقهى',         price:90,  wall:'#5B3A2E', wall2:'#70493A', desk:'#4A2E20', accent:'#D9A441', frame:'#2E1B12' },
+  { id:'japanese', name:'غرفة يابانية', price:110, wall:'#E8DCC8', wall2:'#DACBAE', desk:'#8B5E3C', accent:'#B23B3B', frame:'#4A3524' },
+  { id:'space',    name:'محطة فضاء',    price:140, wall:'#1B2036', wall2:'#262C4A', desk:'#3C4260', accent:'#6FD1C5', frame:'#12152A' },
+];
+function pomodoroShopCatalog(category){
+  if(category==='ringThemes') return POMODORO_SHOP_RING_THEMES;
+  if(category==='treeSkins') return POMODORO_SHOP_TREE_SKINS;
+  if(category==='roomThemes') return POMODORO_ROOM_THEMES;
+  return POMODORO_SHOP_AVATARS;
+}
+function pomodoroShopActiveKey(category){
+  if(category==='ringThemes') return 'ringTheme';
+  if(category==='treeSkins') return 'treeSkin';
+  if(category==='roomThemes') return 'roomTheme';
+  return 'avatar';
+}
+function pomodoroActiveRingTheme(){
+  return POMODORO_SHOP_RING_THEMES.find(x=>x.id===pomodoroShop.active.ringTheme) || POMODORO_SHOP_RING_THEMES[0];
+}
+function pomodoroActiveTreeSkin(){
+  return POMODORO_SHOP_TREE_SKINS.find(x=>x.id===pomodoroShop.active.treeSkin) || POMODORO_SHOP_TREE_SKINS[0];
+}
+function pomodoroActiveAvatar(){
+  return POMODORO_SHOP_AVATARS.find(x=>x.id===pomodoroShop.active.avatar) || POMODORO_SHOP_AVATARS[0];
+}
+function pomodoroActiveRoomTheme(){
+  return POMODORO_ROOM_THEMES.find(x=>x.id===pomodoroShop.active.roomTheme) || POMODORO_ROOM_THEMES[0];
+}
+/* شراء عنصر (أو تفعيله لو ممتلك أصلًا). بنتأكد إن الطالب معاه كوينز كفاية قبل ما نخصم. */
+function pomodoroBuyShopItem(category, id){
+  const item = pomodoroShopCatalog(category).find(x=>x.id===id);
+  if(!item) return;
+  const owned = pomodoroShop.owned[category].includes(id);
+  if(!owned){
+    if(item.price>0 && pomodoroStats.coins < item.price) return;
+    pomodoroStats.coins -= item.price;
+    pomodoroShop.owned[category] = [...pomodoroShop.owned[category], id];
+    savePomodoroStats();
+  }
+  pomodoroShop.active[pomodoroShopActiveKey(category)] = id;
+  savePomodoroShop();
+  renderCurrentView();
+}
+function pomodoroShopCardHtml(category, item){
+  const activeKey = pomodoroShopActiveKey(category);
+  const owned = pomodoroShop.owned[category].includes(item.id);
+  const active = pomodoroShop.active[activeKey]===item.id;
+  const canAfford = pomodoroStats.coins >= item.price;
+  const preview = category==='avatars'
+    ? `<div class="pmd-shop-swatch pmd-shop-avatar-swatch">${item.icon || '🚫'}</div>`
+    : category==='ringThemes'
+      ? `<div class="pmd-shop-swatch" style="background:linear-gradient(135deg, ${item.study}, ${item.shortBreak}, ${item.longBreak});"></div>`
+      : category==='roomThemes'
+        ? `<div class="pmd-shop-swatch" style="background:linear-gradient(135deg, ${item.wall}, ${item.desk}, ${item.accent});"></div>`
+        : `<div class="pmd-shop-swatch" style="background:linear-gradient(135deg, ${item.leaf1}, ${item.leaf2}, ${item.bloom});"></div>`;
+  const action = active
+    ? `<span class="pmd-shop-tag">✓ مُفعّل</span>`
+    : owned
+      ? `<button type="button" class="pmd-shop-btn pmd-shop-btn-select" data-pmd-shop-select="${category}:${item.id}">تفعيل</button>`
+      : `<button type="button" class="pmd-shop-btn pmd-shop-btn-buy" data-pmd-shop-buy="${category}:${item.id}" ${canAfford?'':'disabled'}>شراء 💰${item.price}</button>`;
+  return `<div class="pmd-shop-card${active?' active':''}">
+    ${preview}
+    <div class="pmd-shop-name">${item.name}</div>
+    ${action}
+  </div>`;
+}
+function pomodoroShopPanelHtml(){
+  const ringCards = POMODORO_SHOP_RING_THEMES.map(i=>pomodoroShopCardHtml('ringThemes', i)).join('');
+  const treeCards = POMODORO_SHOP_TREE_SKINS.map(i=>pomodoroShopCardHtml('treeSkins', i)).join('');
+  const avatarCards = POMODORO_SHOP_AVATARS.map(i=>pomodoroShopCardHtml('avatars', i)).join('');
+  const roomCards = POMODORO_ROOM_THEMES.map(i=>pomodoroShopCardHtml('roomThemes', i)).join('');
+  return `<div class="pmd-panel">
+    <h3>🎨 متجر التخصيص · 💰 ${pomodoroStats.coins}</h3>
+    <div class="pmd-shop-section-title">🕐 ثيمات ألوان المؤقت</div>
+    <div class="pmd-shop-grid">${ringCards}</div>
+    <div class="pmd-shop-section-title">🌳 أشكال ألوان الشجرة</div>
+    <div class="pmd-shop-grid">${treeCards}</div>
+    <div class="pmd-shop-section-title">🦊 أفاتار بجانب اسمك</div>
+    <div class="pmd-shop-grid">${avatarCards}</div>
+    <div class="pmd-shop-section-title">🏞️ ثيمات غرفة التركيز</div>
+    <div class="pmd-shop-grid">${roomCards}</div>
+  </div>`;
+}
+/* المرحلة 5 (جزء 3): كارت إنجاز — Canvas بيرسم صورة ملخصة عن تقدم الطالب، قابلة للتنزيل/المشاركة. */
+function pomodoroCardPanelHtml(){
+  return `<div class="pmd-panel">
+    <h3>📷 كارت إنجازك</h3>
+    <div style="display:flex;justify-content:center;">
+      <canvas id="pmdAchievementCanvas" width="600" height="360" style="max-width:100%;border-radius:14px;"></canvas>
+    </div>
+    <div class="pmd-note-actions" style="justify-content:center;">
+      <button type="button" class="pmd-btn pmd-btn-secondary" id="pmdShareCard" style="display:none;">📤 مشاركة</button>
+      <button type="button" class="pmd-btn pmd-btn-primary" id="pmdDownloadCard">⬇ تحميل الصورة</button>
+    </div>
+  </div>`;
+}
+function pomodoroDrawAchievementCard(){
+  const canvas = document.getElementById('pmdAchievementCanvas');
+  if(!canvas || !canvas.getContext) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const lvl = pomodoroLevelInfo(pomodoroStats.xp);
+  const totalSessions = pomodoroTotalStudySessions();
+  const totalHours = Math.round(pomodoroTotalStudyMinutes()/60*10)/10;
+  const subjects = pomodoroSubjectBreakdown();
+  const topSubject = subjects[0];
+  const stageIdx = pomodoroTreeStageIndex(totalSessions);
+  const stage = POMODORO_TREE_STAGES[stageIdx];
+
+  const grad = ctx.createLinearGradient(0,0,w,h);
+  grad.addColorStop(0,'#1b1f3a');
+  grad.addColorStop(1,'#3a2f6b');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0,0,w,h);
+
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#ffffff';
+  ctx.font = "bold 28px Tajawal, Arial, sans-serif";
+  ctx.fillText('🍅 إنجازي في المذاكرة', w/2, 56);
+
+  ctx.font = "20px Tajawal, Arial, sans-serif";
+  ctx.fillStyle = '#F2C14E';
+  ctx.fillText(`المستوى ${lvl.level}  ·  🔥 ${pomodoroStats.streak} يوم متتالي`, w/2, 102);
+
+  ctx.font = "18px Tajawal, Arial, sans-serif";
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText(`💰 ${pomodoroStats.coins} كوين   ·   ⏱️ ${totalHours} ساعة مذاكرة`, w/2, 140);
+  ctx.fillText(`📚 ${totalSessions} جلسة مكتملة`, w/2, 172);
+  if(topSubject) ctx.fillText(`📘 أكتر مادة بتذاكرها: ${topSubject.name}`, w/2, 204);
+
+  ctx.font = "17px Tajawal, Arial, sans-serif";
+  ctx.fillStyle = '#8FCB7A';
+  ctx.fillText(`🌳 شجرتك دلوقتي: ${stage.name}`, w/2, topSubject ? 240 : 210);
+
+  ctx.font = "12.5px Tajawal, Arial, sans-serif";
+  ctx.fillStyle = '#aaaaaa';
+  ctx.fillText('صنعت بأداة البومودورو 🍅', w/2, h-22);
+}
+/* المرحلة 5 (جزء 4): Spotify محدودة تقنيًا — التشغيل الحقيقي جوه الصفحة محتاج تسجيل تطبيق مطوّر
+   + OAuth، فالبديل الواقعي هنا هو زرار بيفتح Playlist الطالب في تاب جديد. */
+function pomodoroSpotifyPanelHtml(){
+  const val = pomodoroSpotifyUrl || '';
+  return `<div class="pmd-panel">
+    <h3>🎧 Spotify</h3>
+    <div style="font-size:12px;color:var(--ink-soft);">التشغيل الفعلي جوه الصفحة بيحتاج تسجيل تطبيق مطوّر عند Spotify، فالبديل هنا إنك تحفظ رابط الـ Playlist بتاعك وتفتحه بضغطة زرار وانت بتذاكر.</div>
+    <div class="pmd-add-row">
+      <input type="text" id="pmdSpotifyInput" placeholder="الصق رابط Playlist من Spotify هنا" value="${escapeHtml(val)}">
+      <button type="button" id="pmdSpotifySave">حفظ</button>
+    </div>
+    <button type="button" class="pmd-btn pmd-btn-ghost" id="pmdSpotifyOpen" ${val?'':'disabled'}>▶ افتح Playlist بتاعتك على Spotify</button>
+  </div>`;
+}
+/* المرحلة 6 — غرفة التركيز (Focus Room): مشهد 2D متحرك بطبقات (SVG/CSS) بدل غرفة 3D حقيقية،
+   نهار/ليل، مطر/ثلج، إضاءة دافئة قابلة للتحكم، ونبتة على المكتب بتكبر مع الجلسات (بتاخد ألوانها
+   من نفس ثيم الشجرة اللي الطالب مالكه من المرحلة 4، فمفيش داعي نخزن حاجة جديدة لنموها). */
+function pomodoroRoomEffectiveDayNight(){
+  if(pomodoroRoomSettings.dayNight!=='auto') return pomodoroRoomSettings.dayNight;
+  const h = new Date().getHours();
+  return (h>=6 && h<19) ? 'day' : 'night';
+}
+/* نبتة في أصيص بتمر بنفس مراحل نمو الشجرة (POMODORO_TREE_STAGES) لكن برسمة أبسط تناسب حجم المكتب */
+function pomodoroRoomPlantSvg(stageIdx, skin){
+  skin = skin || POMODORO_SHOP_TREE_SKINS[0];
+  const l1=skin.leaf1, l2=skin.leaf2, l3=skin.leaf3, bloom=skin.bloom;
+  const pot = `<path d="M-16 40 L16 40 L12 58 L-12 58 Z" fill="#B5673A"/><rect x="-17" y="35" width="34" height="6" rx="2" fill="#8C4E2A"/>`;
+  if(stageIdx===0) return `<g>${pot}<ellipse cx="0" cy="34" rx="9" ry="3" fill="#6B4A2C"/></g>`;
+  if(stageIdx===1) return `<g>${pot}<path d="M0 35 L0 21" stroke="${l1}" stroke-width="3" stroke-linecap="round"/><circle cx="-7" cy="19" r="6" fill="${l3}"/><circle cx="7" cy="17" r="6" fill="${l3}"/></g>`;
+  if(stageIdx===2) return `<g>${pot}<path d="M0 35 L0 11" stroke="${l1}" stroke-width="4" stroke-linecap="round"/><circle cx="0" cy="5" r="13" fill="${l3}"/><circle cx="-11" cy="15" r="9" fill="${l2}"/><circle cx="11" cy="15" r="9" fill="${l2}"/></g>`;
+  if(stageIdx===3) return `<g>${pot}<path d="M0 35 L0 1" stroke="${l1}" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-9" r="17" fill="${l2}"/><circle cx="-15" cy="7" r="12" fill="${l3}"/><circle cx="15" cy="7" r="12" fill="${l3}"/></g>`;
+  return `<g>${pot}<path d="M0 35 L0 -3" stroke="${l1}" stroke-width="5" stroke-linecap="round"/><circle cx="0" cy="-15" r="19" fill="${l1}"/><circle cx="-16" cy="1" r="13" fill="${l2}"/><circle cx="16" cy="1" r="13" fill="${l2}"/>
+    <circle cx="-8" cy="-21" r="4" fill="${bloom}"/><circle cx="10" cy="-25" r="4" fill="${bloom}"/><circle cx="4" cy="-7" r="4" fill="${bloom}"/></g>`;
+}
+function pomodoroRoomSceneSvg(){
+  const theme = pomodoroActiveRoomTheme();
+  const isNight = pomodoroRoomEffectiveDayNight()==='night';
+  const weather = pomodoroRoomSettings.weather;
+  const warmth = pomodoroRoomSettings.warmth;
+  const skin = pomodoroActiveTreeSkin();
+  const stageIdx = pomodoroTreeStageIndex(pomodoroTotalStudySessions());
+
+  const skyTop = isNight ? '#0B1330' : '#8FD3F4';
+  const skyBottom = isNight ? '#1B2550' : '#E9F7FF';
+  const sunMoon = isNight
+    ? `<circle cx="150" cy="38" r="15" fill="#EDEFF5"/><circle cx="156" cy="32" r="15" fill="${skyTop}"/>`
+    : `<circle cx="150" cy="36" r="20" fill="#FDE49A"/>`;
+  const stars = isNight ? Array.from({length:14}).map((_,i)=>{
+      const sx = 26+((i*37)%168), sy = 8+((i*53)%50);
+      return `<circle cx="${sx}" cy="${sy}" r="${1+(i%3)*0.5}" fill="#fff" opacity="${0.4+(i%5)*0.12}"/>`;
+    }).join('') : '';
+
+  let weatherHtml = '';
+  if(weather==='rain'){
+    weatherHtml = Array.from({length:16}).map((_,i)=>{
+      const x = 26+((i*13)%168), delay=(i%8)*0.2, dur=0.6+(i%4)*0.1;
+      return `<line x1="${x}" y1="0" x2="${x-4}" y2="22" class="pmd-room-rain" stroke="#BFE3F5" stroke-width="2" stroke-linecap="round" style="animation-delay:${delay}s;animation-duration:${dur}s;"/>`;
+    }).join('');
+  } else if(weather==='snow'){
+    weatherHtml = Array.from({length:14}).map((_,i)=>{
+      const x = 26+((i*15)%168), delay=(i%7)*0.4, dur=3+(i%5)*0.6, r=1.5+(i%3)*0.7;
+      return `<circle cx="${x}" cy="0" r="${r}" class="pmd-room-snow" fill="#fff" style="animation-delay:${delay}s;animation-duration:${dur}s;"/>`;
+    }).join('');
+  }
+
+  let decor = '';
+  if(theme.id==='library'){
+    decor = Array.from({length:5}).map((_,i)=> `<rect x="${228+i*30}" y="26" width="24" height="76" fill="${i%2?theme.accent:theme.frame}" opacity=".85"/>`).join('');
+  } else if(theme.id==='cafe'){
+    decor = `<line x1="330" y1="0" x2="330" y2="26" stroke="${theme.frame}" stroke-width="2"/><circle cx="330" cy="30" r="6" fill="${theme.accent}"/>
+      <line x1="360" y1="0" x2="360" y2="18" stroke="${theme.frame}" stroke-width="2"/><circle cx="360" cy="22" r="5" fill="${theme.accent}"/>`;
+  } else if(theme.id==='japanese'){
+    decor = `<g opacity=".55">${Array.from({length:4}).map((_,i)=>`<line x1="${234+i*40}" y1="10" x2="${234+i*40}" y2="92" stroke="${theme.frame}" stroke-width="2"/>`).join('')}
+      <line x1="230" y1="50" x2="386" y2="50" stroke="${theme.frame}" stroke-width="2"/></g>`;
+  } else if(theme.id==='space'){
+    decor = `<circle cx="308" cy="46" r="24" fill="#3B4A7A" opacity=".85"/><circle cx="300" cy="38" r="24" fill="${theme.wall}"/>`;
+  }
+
+  const lampColor = `hsl(${38-warmth*0.15}, 90%, ${55+warmth*0.15}%)`;
+  const glowOpacity = 0.12 + (warmth/100)*0.42;
+
+  return `<svg viewBox="0 0 400 220" class="pmd-room-svg" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="pmdSky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${skyTop}"/>
+        <stop offset="100%" stop-color="${skyBottom}"/>
+      </linearGradient>
+      <radialGradient id="pmdGlow" cx="50%" cy="28%" r="65%">
+        <stop offset="0%" stop-color="${lampColor}" stop-opacity="${glowOpacity}"/>
+        <stop offset="100%" stop-color="${lampColor}" stop-opacity="0"/>
+      </radialGradient>
+      <clipPath id="pmdWindowClip"><rect x="20" y="16" width="180" height="96" rx="6"/></clipPath>
+    </defs>
+    <rect x="0" y="0" width="400" height="220" fill="${theme.wall}"/>
+    <rect x="0" y="150" width="400" height="70" fill="${theme.wall2}"/>
+    ${decor}
+    <rect x="14" y="10" width="192" height="108" rx="8" fill="${theme.frame}"/>
+    <g clip-path="url(#pmdWindowClip)">
+      <rect x="20" y="16" width="180" height="96" fill="url(#pmdSky)"/>
+      ${sunMoon}
+      ${stars}
+      <g transform="translate(0,16)">${weatherHtml}</g>
+    </g>
+    <rect x="20" y="16" width="180" height="96" rx="6" fill="none" stroke="${theme.frame}" stroke-width="3"/>
+    <line x1="110" y1="16" x2="110" y2="112" stroke="${theme.frame}" stroke-width="3"/>
+    <line x1="20" y1="64" x2="200" y2="64" stroke="${theme.frame}" stroke-width="3"/>
+    <rect x="0" y="150" width="400" height="70" fill="${theme.desk}"/>
+    <rect x="0" y="150" width="400" height="6" fill="${theme.accent}" opacity=".5"/>
+    <g transform="translate(240,150)">
+      <rect x="-30" y="-14" width="60" height="18" rx="3" fill="#2B2B2B"/>
+      <rect x="-30" y="-30" width="60" height="18" rx="4" fill="#3C3C46"/>
+      <rect x="-26" y="-27" width="52" height="12" rx="2" fill="${isNight?'#8FD3F4':'#CFEFFF'}" opacity=".85"/>
+    </g>
+    <g transform="translate(150,148)">
+      <ellipse cx="0" cy="6" rx="14" ry="5" fill="#fff"/>
+      <path d="M-14 6 a14 8 0 0 0 28 0 v6 a14 8 0 0 1 -28 0 z" fill="#F4F1EA"/>
+      <rect x="-14" y="-2" width="28" height="8" fill="#6B4A2C"/>
+    </g>
+    <g transform="translate(190,148)">
+      <ellipse cx="0" cy="-2" rx="10" ry="10" fill="#fff"/>
+      <path d="M-10 -2 a10 12 0 0 0 20 0 v10 a10 12 0 0 1 -20 0 z" fill="#EFE6DA"/>
+      <path class="pmd-room-steam" d="M-3 -14 q4 -6 0 -12" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>
+      <path class="pmd-room-steam" d="M3 -14 q-4 -8 0 -14" stroke="#fff" stroke-width="2" fill="none" opacity=".5" style="animation-delay:.6s;"/>
+    </g>
+    <g transform="translate(60,150)">
+      ${pomodoroRoomPlantSvg(stageIdx, skin)}
+    </g>
+    <rect x="0" y="0" width="400" height="220" fill="url(#pmdGlow)"/>
+    ${isNight ? `<rect x="0" y="0" width="400" height="220" fill="#0A0E1F" opacity=".28"/>` : ''}
+  </svg>`;
+}
+function pomodoroRoomPanelHtml(){
+  const rs = pomodoroRoomSettings;
+  const roomCards = POMODORO_ROOM_THEMES.map(i=>pomodoroShopCardHtml('roomThemes', i)).join('');
+  return `<div class="pmd-panel">
+    <h3>🏞️ غرفة التركيز</h3>
+    <div class="pmd-room-box">${pomodoroRoomSceneSvg()}</div>
+    <div class="pmd-picker-col"><label>🌗 الوقت</label>
+      <div class="pmd-chip-row">
+        <button type="button" class="pmd-chip${rs.dayNight==='auto'?' active':''}" data-pmd-room-daynight="auto">تلقائي</button>
+        <button type="button" class="pmd-chip${rs.dayNight==='day'?' active':''}" data-pmd-room-daynight="day">☀ نهار</button>
+        <button type="button" class="pmd-chip${rs.dayNight==='night'?' active':''}" data-pmd-room-daynight="night">🌙 ليل</button>
+      </div>
+    </div>
+    <div class="pmd-picker-col"><label>🌦️ الجو</label>
+      <div class="pmd-chip-row">
+        <button type="button" class="pmd-chip${rs.weather==='none'?' active':''}" data-pmd-room-weather="none">صافي</button>
+        <button type="button" class="pmd-chip${rs.weather==='rain'?' active':''}" data-pmd-room-weather="rain">🌧️ مطر</button>
+        <button type="button" class="pmd-chip${rs.weather==='snow'?' active':''}" data-pmd-room-weather="snow">❄️ ثلج</button>
+      </div>
+    </div>
+    <div class="pmd-picker-col"><label>💡 دفء الإضاءة</label>
+      <div class="pmd-sound-volume-row">
+        <span>🕯️</span>
+        <input type="range" min="0" max="100" value="${rs.warmth}" id="pmdRoomWarmth">
+        <span>🔥</span>
+      </div>
+    </div>
+    <div class="pmd-shop-section-title">🎨 ثيمات الغرفة</div>
+    <div class="pmd-shop-grid">${roomCards}</div>
+  </div>`;
+}
+function pomodoroViewHtml(){
+  pomodoroEnsureTimerInit();
+  const t = pomodoroTimer;
+  const todayCount = pomodoroStatsTodayCount();
+  const circumference = 2*Math.PI*90;
+  const ratio = t.totalSec>0 ? (t.remainingSec/t.totalSec) : 0;
+  const dashoffset = circumference*(1-ratio);
+  const ringTheme = pomodoroActiveRingTheme();
+  const phaseColor = t.phase==='study' ? ringTheme.study : (t.phase==='shortBreak' ? ringTheme.shortBreak : ringTheme.longBreak);
+  const phaseLabel = t.phase==='study' ? '🍅 جلسة مذاكرة' : (t.phase==='shortBreak' ? '☕ راحة قصيرة' : '🌿 راحة طويلة');
+  const dotsTotal = pomodoroSettings.sessionsBeforeLong;
+  const dotsFilled = t.cycleCount % dotsTotal;
+  const dotsHtml = Array.from({length:dotsTotal}).map((_,i)=>`<span class="pmd-dot${i<dotsFilled?' filled':''}"></span>`).join('');
+
+  const subjectOptions = `<option value="">بدون مادة محددة</option>` +
+    pomodoroSubjects.map(s=>`<option value="${s.id}" ${t.subjectId===s.id?'selected':''}>${escapeHtml(s.name)}</option>`).join('');
+  const currentSubject = pomodoroSubjects.find(s=>s.id===t.subjectId);
+  const taskOptions = currentSubject
+    ? (`<option value="">بدون مهمة محددة</option>` + currentSubject.tasks.map(tk=>`<option value="${tk.id}" ${t.taskId===tk.id?'selected':''}>${escapeHtml(tk.text)}</option>`).join(''))
+    : `<option value="">اختار مادة الأول</option>`;
+  const pickDisabled = t.running ? 'disabled' : '';
+
+  const settingsPanel = !t.settingsOpen ? '' : `
+    <div class="pmd-panel">
+      <h3>⚙ إعدادات المؤقت</h3>
+      <div class="pmd-settings-grid">
+        <div class="pmd-picker-col"><label>مدة المذاكرة (دقيقة)</label>
+          <div class="pmd-chip-row">${[15,20,25,30,45,60].map(m=>`<button type="button" class="pmd-chip${pomodoroSettings.studyMin===m?' active':''}" data-pmd-study="${m}">${m}</button>`).join('')}</div>
+        </div>
+        <div class="pmd-picker-col"><label>الراحة القصيرة (دقيقة)</label>
+          <div class="pmd-chip-row">${[5,10,15].map(m=>`<button type="button" class="pmd-chip${pomodoroSettings.shortBreakMin===m?' active':''}" data-pmd-short="${m}">${m}</button>`).join('')}</div>
+        </div>
+        <div class="pmd-picker-col"><label>الراحة الطويلة (دقيقة)</label>
+          <div class="pmd-chip-row">${[15,20,30].map(m=>`<button type="button" class="pmd-chip${pomodoroSettings.longBreakMin===m?' active':''}" data-pmd-long="${m}">${m}</button>`).join('')}</div>
+        </div>
+        <div class="pmd-picker-col"><label>راحة طويلة بعد كام جلسة</label>
+          <div class="pmd-chip-row">${[2,3,4,5,6].map(m=>`<button type="button" class="pmd-chip${pomodoroSettings.sessionsBeforeLong===m?' active':''}" data-pmd-cycle="${m}">${m}</button>`).join('')}</div>
+        </div>
+      </div>
+      <div class="pmd-picker-col">
+        <label>🔔 تنبيه حي كل 5 دقايق أثناء المذاكرة</label>
+        <div class="pmd-chip-row">
+          <button type="button" class="pmd-chip${pomodoroSettings.liveNotifications?' active':''}" id="pmdToggleLiveNotif">${pomodoroSettings.liveNotifications?'شغّال ✓':'مقفول'}</button>
+        </div>
+        <div style="font-size:11px;color:var(--ink-soft);">هيشتغل بس والتاب فاتح، مش هيوصلك زي تطبيق موبايل حقيقي في الخلفية.</div>
+      </div>
+    </div>`;
+
+  const manageSubjectsHtml = pomodoroSubjects.map(s=>{
+    const expanded = t.manageExpandSubjectId===s.id;
+    return `<div>
+      <div class="pmd-manage-item">
+        <span class="pmd-manage-item-name" data-pmd-toggle-subject="${s.id}" style="cursor:pointer;">${expanded?'▾':'▸'} ${escapeHtml(s.name)} <span style="color:var(--ink-soft);font-weight:400;">(${s.tasks.length} مهمة)</span></span>
+        <button class="pmd-manage-item-del" data-pmd-del-subject="${s.id}">✕</button>
+      </div>
+      ${expanded ? `<div class="pmd-tasks-list">
+        ${s.tasks.map(tk=>`<div class="pmd-task-row"><span>${escapeHtml(tk.text)}</span><button class="pmd-manage-item-del" data-pmd-del-task="${s.id}|${tk.id}">✕</button></div>`).join('') || '<div style="color:var(--ink-soft);font-size:12.5px;">مفيش مهام لسه</div>'}
+        <div class="pmd-add-row">
+          <input type="text" placeholder="مهمة جديدة..." id="pmdNewTaskInput_${s.id}">
+          <button type="button" data-pmd-add-task="${s.id}">إضافة</button>
+        </div>
+      </div>` : ''}
+    </div>`;
+  }).join('') || '<div style="color:var(--ink-soft);font-size:13px;">لسه معندكش مواد. ضيف واحدة تحت 👇</div>';
+
+  const managePanel = !t.manageOpen ? '' : `
+    <div class="pmd-panel">
+      <h3>📚 المواد والمهام</h3>
+      <div class="pmd-manage-list">${manageSubjectsHtml}</div>
+      <div class="pmd-add-row">
+        <input type="text" placeholder="اسم مادة جديدة..." id="pmdNewSubjectInput">
+        <button type="button" id="pmdAddSubjectBtn">إضافة مادة</button>
+      </div>
+    </div>`;
+
+  const unlockedBannerHtml = (t.newlyUnlocked && t.newlyUnlocked.length) ? `
+    <div class="pmd-unlock-banner">
+      ${t.newlyUnlocked.map(a=>`<div class="pmd-unlock-item"><span class="pmd-unlock-ic">${a.icon}</span><div><div class="pmd-unlock-title">إنجاز جديد: ${a.title}</div><div class="pmd-unlock-desc">${a.desc}</div></div></div>`).join('')}
+    </div>` : '';
+  const lvl = pomodoroLevelInfo(pomodoroStats.xp);
+  const achievementsGridHtml = POMODORO_ACHIEVEMENTS.map(a=>{
+    const unlocked = pomodoroStats.achievements.includes(a.id);
+    return `<div class="pmd-badge${unlocked?' unlocked':''}" title="${escapeHtml(a.desc)}">
+      <div class="pmd-badge-ic">${unlocked?a.icon:'🔒'}</div>
+      <div class="pmd-badge-title">${a.title}</div>
+    </div>`;
+  }).join('');
+  const achievementsPanel = !t.statsOpen ? '' : `
+    <div class="pmd-panel">
+      <h3>📊 إحصائياتك</h3>
+      <div class="pmd-stats-grid">
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(7)}</div><div class="pmd-stat-lbl">جلسات آخر 7 أيام</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(30)}</div><div class="pmd-stat-lbl">جلسات آخر 30 يوم</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${Math.round(pomodoroTotalStudyMinutes()/60*10)/10}</div><div class="pmd-stat-lbl">إجمالي ساعات المذاكرة</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroTotalStudySessions()}</div><div class="pmd-stat-lbl">إجمالي الجلسات</div></div>
+      </div>
+      <h3>🏅 الإنجازات</h3>
+      <div class="pmd-badges-grid">${achievementsGridHtml}</div>
+    </div>`;
+
+  const historyPanel = !t.historyOpen ? '' : `
+    <div class="pmd-panel">
+      <h3>🗓️ خريطة المذاكرة (آخر 13 أسبوع)</h3>
+      ${pomodoroHeatmapHtml()}
+      <h3>📆 التقويم الشهري</h3>
+      ${pomodoroCalendarHtml(t.calendarMonthOffset)}
+      <h3>📋 سجل الجلسات</h3>
+      ${pomodoroSessionLogHtml(t.logVisibleCount)}
+    </div>`;
+
+  const noteBox = !t.showNote ? '' : `
+    <div class="pmd-note-box">
+      <h3>✅ خلصت جلسة مذاكرة! (+10 💰 · +50 🎮 XP) ماذا أنجزت؟</h3>
+      ${unlockedBannerHtml}
+      <textarea id="pmdNoteInput" placeholder="مثلاً: راجعت الفصل الأول وحليت 5 مسائل..."></textarea>
+      <div class="pmd-note-actions">
+        <button class="pmd-btn pmd-btn-secondary" id="pmdSkipNoteBtn">تخطي</button>
+        <button class="pmd-btn pmd-btn-primary" id="pmdSaveNoteBtn">حفظ ومتابعة</button>
+      </div>
+    </div>`;
+
+  return `<div class="study-view">
+    <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
+    <div class="study-head">
+      <h2>🍅 بومودورو للمذاكرة</h2>
+      <p class="study-sub">اختار مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
+    </div>
+    <div class="study-usage-bar">
+      ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge">${pomodoroActiveAvatar().icon}</span>` : ''}
+      <span>جلسات النهاردة: <b>${todayCount}</b></span>
+      <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
+      <span>💰 Coins: <b>${pomodoroStats.coins}</b></span>
+      <span>🎮 المستوى: <b>${lvl.level}</b> (${lvl.xpIntoLevel}/${lvl.xpForNext} XP)</span>
+    </div>
+    ${pomodoroTreeBoxHtml()}
+    <div class="pmd-wrap">
+      <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?'✕ الخروج من وضع التركيز':'🚫 وضع تركيز'}</button>
+      <button class="pmd-manage-link" id="pmdToggleSounds" style="align-self:center;">${t.soundsOpen?'إخفاء أصوات التركيز':'🎵 أصوات التركيز'}</button>
+      ${t.soundsOpen ? pomodoroSoundsPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleRoom" style="align-self:center;">${t.roomOpen?'إخفاء غرفة التركيز':'🏞️ غرفة التركيز'}</button>
+      ${t.roomOpen ? pomodoroRoomPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleStats" style="align-self:center;">${t.statsOpen?'إخفاء الإحصائيات والإنجازات':'📊 الإحصائيات والإنجازات'}</button>
+      ${achievementsPanel}
+      <button class="pmd-manage-link" id="pmdToggleAnalytics" style="align-self:center;">${t.analyticsOpen?'إخفاء تحليل الإنتاجية':'🧠 تحليل الإنتاجية'}</button>
+      ${t.analyticsOpen ? pomodoroAnalyticsPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleShop" style="align-self:center;">${t.shopOpen?'إخفاء متجر التخصيص':'🎨 متجر التخصيص'}</button>
+      ${t.shopOpen ? pomodoroShopPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleCard" style="align-self:center;">${t.cardOpen?'إخفاء كارت الإنجاز':'📷 كارت إنجاز'}</button>
+      ${t.cardOpen ? pomodoroCardPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleSpotify" style="align-self:center;">${t.spotifyOpen?'إخفاء Spotify':'🎧 Spotify'}</button>
+      ${t.spotifyOpen ? pomodoroSpotifyPanelHtml() : ''}
+      <button class="pmd-manage-link" id="pmdToggleHistory" style="align-self:center;">${t.historyOpen?'إخفاء الخريطة والتقويم والسجل':'🗓️ الخريطة والتقويم وسجل الجلسات'}</button>
+      ${historyPanel}
+      ${t.showNote ? noteBox : `
+      <div class="pmd-picker-row">
+        <div class="pmd-picker-col"><label>📘 المادة</label>
+          <select class="pmd-select" id="pmdSubjectSelect" ${pickDisabled}>${subjectOptions}</select>
+        </div>
+        <div class="pmd-picker-col"><label>🎯 المهمة</label>
+          <select class="pmd-select" id="pmdTaskSelect" ${pickDisabled || (!currentSubject?'disabled':'')}>${taskOptions}</select>
+        </div>
+      </div>
+      <button class="pmd-manage-link" id="pmdToggleManage">${t.manageOpen?'إخفاء إدارة المواد والمهام':'✏ إدارة المواد والمهام'}</button>
+      ${managePanel}
+
+      <div class="pmd-ring-box">
+        <div style="position:relative;width:220px;height:220px;">
+          <svg class="pmd-ring-svg" width="220" height="220" viewBox="0 0 220 220" style="position:absolute;top:0;left:0;">
+            <circle class="pmd-ring-track" cx="110" cy="110" r="90"></circle>
+            <circle class="pmd-ring-progress" id="pmdRingProgress" cx="110" cy="110" r="90"
+              style="stroke:${phaseColor}; stroke-dasharray:${circumference}; stroke-dashoffset:${dashoffset};"></circle>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <div class="pmd-time-label" id="pmdTimeLabel">${pomodoroFormatTime(t.remainingSec)}</div>
+          </div>
+        </div>
+        <div class="pmd-phase-label">${phaseLabel}</div>
+        <div class="pmd-dots">${dotsHtml}</div>
+      </div>
+
+      <div class="pmd-controls">
+        ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">▶ Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">⏸ Pause</button>`}
+        <button class="pmd-btn pmd-btn-danger" id="pmdStopBtn">⏹ Stop</button>
+        ${t.phase!=='study' ? `<button class="pmd-btn pmd-btn-ghost" id="pmdSkipBtn">⏭ Skip Break</button>` : ''}
+      </div>
+      <button class="pmd-manage-link" id="pmdToggleSettings" style="align-self:center;">${t.settingsOpen?'إخفاء الإعدادات':'⚙ إعدادات البومودورو'}</button>
+      ${settingsPanel}
+      `}
+    </div>
+  </div>`;
+}
+function bindPomodoroView(){
+  const backBtn = document.getElementById('pomodoroBackHome');
+  if(backBtn) backBtn.onclick = ()=>{
+    if(pomodoroTimer && pomodoroTimer.focusMode) pomodoroToggleFocusMode();
+    pomodoroStopAllSounds();
+    studyToolActive=null; renderCurrentView();
+  };
+
+  const subjSel = document.getElementById('pmdSubjectSelect');
+  if(subjSel) subjSel.onchange = ()=> pomodoroSelectSubject(subjSel.value);
+  const taskSel = document.getElementById('pmdTaskSelect');
+  if(taskSel) taskSel.onchange = ()=> pomodoroSelectTask(taskSel.value);
+
+  const toggleManage = document.getElementById('pmdToggleManage');
+  if(toggleManage) toggleManage.onclick = ()=>{ pomodoroTimer.manageOpen = !pomodoroTimer.manageOpen; renderCurrentView(); };
+  const toggleSettings = document.getElementById('pmdToggleSettings');
+  if(toggleSettings) toggleSettings.onclick = ()=>{ pomodoroTimer.settingsOpen = !pomodoroTimer.settingsOpen; renderCurrentView(); };
+  const toggleFocus = document.getElementById('pmdToggleFocus');
+  if(toggleFocus) toggleFocus.onclick = pomodoroToggleFocusMode;
+  if(!window.__pmdFsListenerAdded){
+    window.__pmdFsListenerAdded = true;
+    document.addEventListener('fullscreenchange', pomodoroSyncFocusModeWithFullscreen);
+  }
+
+  const toggleSounds = document.getElementById('pmdToggleSounds');
+  if(toggleSounds) toggleSounds.onclick = ()=>{ pomodoroTimer.soundsOpen = !pomodoroTimer.soundsOpen; renderCurrentView(); };
+  document.querySelectorAll('[data-pmd-sound]').forEach(btn=>{ btn.onclick = ()=> pomodoroToggleSound(btn.dataset.pmdSound); });
+  const soundVol = document.getElementById('pmdSoundVolume');
+  if(soundVol) soundVol.oninput = ()=> pomodoroSetSoundVolume(parseInt(soundVol.value,10)/100);
+
+  const toggleRoom = document.getElementById('pmdToggleRoom');
+  if(toggleRoom) toggleRoom.onclick = ()=>{ pomodoroTimer.roomOpen = !pomodoroTimer.roomOpen; renderCurrentView(); };
+  document.querySelectorAll('[data-pmd-room-daynight]').forEach(btn=>{
+    btn.onclick = ()=>{ pomodoroRoomSettings.dayNight = btn.dataset.pmdRoomDaynight; savePomodoroRoomSettings(); renderCurrentView(); };
+  });
+  document.querySelectorAll('[data-pmd-room-weather]').forEach(btn=>{
+    btn.onclick = ()=>{ pomodoroRoomSettings.weather = btn.dataset.pmdRoomWeather; savePomodoroRoomSettings(); renderCurrentView(); };
+  });
+  const roomWarmth = document.getElementById('pmdRoomWarmth');
+  if(roomWarmth) roomWarmth.oninput = ()=>{
+    pomodoroRoomSettings.warmth = parseInt(roomWarmth.value,10);
+    savePomodoroRoomSettings();
+    /* بنحدث مشهد الغرفة بس من غير Rerender كامل، عشان السلايدر ميفقدش التركيز وهو بيتسحب */
+    const box = document.querySelector('.pmd-room-box');
+    if(box) box.innerHTML = pomodoroRoomSceneSvg();
+  };
+
+  const toggleStats = document.getElementById('pmdToggleStats');
+  if(toggleStats) toggleStats.onclick = ()=>{ pomodoroTimer.statsOpen = !pomodoroTimer.statsOpen; renderCurrentView(); };
+  const toggleAnalytics = document.getElementById('pmdToggleAnalytics');
+  if(toggleAnalytics) toggleAnalytics.onclick = ()=>{ pomodoroTimer.analyticsOpen = !pomodoroTimer.analyticsOpen; renderCurrentView(); };
+  const toggleShop = document.getElementById('pmdToggleShop');
+  if(toggleShop) toggleShop.onclick = ()=>{ pomodoroTimer.shopOpen = !pomodoroTimer.shopOpen; renderCurrentView(); };
+  document.querySelectorAll('[data-pmd-shop-buy]').forEach(btn=>{
+    btn.onclick = ()=>{ const [cat,id] = btn.dataset.pmdShopBuy.split(':'); pomodoroBuyShopItem(cat, id); };
+  });
+  document.querySelectorAll('[data-pmd-shop-select]').forEach(btn=>{
+    btn.onclick = ()=>{ const [cat,id] = btn.dataset.pmdShopSelect.split(':'); pomodoroBuyShopItem(cat, id); };
+  });
+  const toggleCard = document.getElementById('pmdToggleCard');
+  if(toggleCard) toggleCard.onclick = ()=>{ pomodoroTimer.cardOpen = !pomodoroTimer.cardOpen; renderCurrentView(); };
+  if(pomodoroTimer.cardOpen){
+    pomodoroDrawAchievementCard();
+    const downloadBtn = document.getElementById('pmdDownloadCard');
+    if(downloadBtn) downloadBtn.onclick = ()=>{
+      const canvas = document.getElementById('pmdAchievementCanvas');
+      if(!canvas) return;
+      const link = document.createElement('a');
+      link.download = 'pomodoro-achievement.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    };
+    const shareBtn = document.getElementById('pmdShareCard');
+    if(shareBtn && navigator.share && navigator.canShare){
+      shareBtn.style.display = 'inline-block';
+      shareBtn.onclick = ()=>{
+        const canvas = document.getElementById('pmdAchievementCanvas');
+        if(!canvas) return;
+        canvas.toBlob(blob=>{
+          if(!blob) return;
+          const file = new File([blob], 'pomodoro-achievement.png', { type:'image/png' });
+          if(navigator.canShare({ files:[file] })){
+            navigator.share({ files:[file], title:'إنجازي في المذاكرة 🍅' }).catch(()=>{});
+          }
+        }, 'image/png');
+      };
+    }
+  }
+  const toggleSpotify = document.getElementById('pmdToggleSpotify');
+  if(toggleSpotify) toggleSpotify.onclick = ()=>{ pomodoroTimer.spotifyOpen = !pomodoroTimer.spotifyOpen; renderCurrentView(); };
+  const spotifySave = document.getElementById('pmdSpotifySave');
+  if(spotifySave) spotifySave.onclick = ()=>{
+    const input = document.getElementById('pmdSpotifyInput');
+    pomodoroSpotifyUrl = input ? input.value.trim() : '';
+    savePomodoroSpotifyUrl();
+    renderCurrentView();
+  };
+  const spotifyOpenBtn = document.getElementById('pmdSpotifyOpen');
+  if(spotifyOpenBtn) spotifyOpenBtn.onclick = ()=>{
+    if(pomodoroSpotifyUrl) window.open(pomodoroSpotifyUrl, '_blank', 'noopener');
+  };
+  const toggleHistory = document.getElementById('pmdToggleHistory');
+  if(toggleHistory) toggleHistory.onclick = ()=>{ pomodoroTimer.historyOpen = !pomodoroTimer.historyOpen; renderCurrentView(); };
+  const calPrev = document.getElementById('pmdCalPrev');
+  if(calPrev) calPrev.onclick = ()=>{ pomodoroTimer.calendarMonthOffset--; renderCurrentView(); };
+  const calNext = document.getElementById('pmdCalNext');
+  if(calNext) calNext.onclick = ()=>{ if(pomodoroTimer.calendarMonthOffset<0){ pomodoroTimer.calendarMonthOffset++; renderCurrentView(); } };
+  const loadMoreLog = document.getElementById('pmdLoadMoreLog');
+  if(loadMoreLog) loadMoreLog.onclick = ()=>{ pomodoroTimer.logVisibleCount += 10; renderCurrentView(); };
+
+  const startBtn = document.getElementById('pmdStartBtn');
+  if(startBtn) startBtn.onclick = pomodoroStart;
+  const pauseBtn = document.getElementById('pmdPauseBtn');
+  if(pauseBtn) pauseBtn.onclick = pomodoroPause;
+  const stopBtn = document.getElementById('pmdStopBtn');
+  if(stopBtn) stopBtn.onclick = ()=>{
+    const midSession = pomodoroTimer.phase==='study' && (pomodoroTimer.running || pomodoroTimer.remainingSec < pomodoroTimer.totalSec);
+    if(midSession && !confirm('هتوقف الجلسة الحالية ومش هتتحسب. متأكد؟')) return;
+    pomodoroStop();
+  };
+  const skipBtn = document.getElementById('pmdSkipBtn');
+  if(skipBtn) skipBtn.onclick = pomodoroSkipBreak;
+
+  const saveNoteBtn = document.getElementById('pmdSaveNoteBtn');
+  if(saveNoteBtn) saveNoteBtn.onclick = pomodoroSaveNote;
+  const skipNoteBtn = document.getElementById('pmdSkipNoteBtn');
+  if(skipNoteBtn) skipNoteBtn.onclick = pomodoroSkipNote;
+
+  const addSubjectBtn = document.getElementById('pmdAddSubjectBtn');
+  if(addSubjectBtn) addSubjectBtn.onclick = ()=>{
+    const input = document.getElementById('pmdNewSubjectInput');
+    pomodoroAddSubject(input ? input.value : '');
+  };
+
+  document.querySelectorAll('[data-pmd-del-subject]').forEach(btn=>{ btn.onclick = ()=> pomodoroDeleteSubject(btn.dataset.pmdDelSubject); });
+  document.querySelectorAll('[data-pmd-toggle-subject]').forEach(el=>{
+    el.onclick = ()=>{
+      const id = el.dataset.pmdToggleSubject;
+      pomodoroTimer.manageExpandSubjectId = (pomodoroTimer.manageExpandSubjectId===id) ? null : id;
+      renderCurrentView();
+    };
+  });
+  document.querySelectorAll('[data-pmd-add-task]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const sid = btn.dataset.pmdAddTask;
+      const input = document.getElementById('pmdNewTaskInput_'+sid);
+      pomodoroAddTask(sid, input ? input.value : '');
+    };
+  });
+  document.querySelectorAll('[data-pmd-del-task]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const [sid, tid] = btn.dataset.pmdDelTask.split('|');
+      pomodoroDeleteTask(sid, tid);
+    };
+  });
+
+  document.querySelectorAll('[data-pmd-study]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetStudyMin(parseInt(btn.dataset.pmdStudy,10)); });
+  document.querySelectorAll('[data-pmd-short]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetShortBreakMin(parseInt(btn.dataset.pmdShort,10)); });
+  document.querySelectorAll('[data-pmd-long]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetLongBreakMin(parseInt(btn.dataset.pmdLong,10)); });
+  document.querySelectorAll('[data-pmd-cycle]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetSessionsBeforeLong(parseInt(btn.dataset.pmdCycle,10)); });
+  const toggleLiveNotif = document.getElementById('pmdToggleLiveNotif');
+  if(toggleLiveNotif) toggleLiveNotif.onclick = pomodoroToggleLiveNotifications;
+
+  if(pomodoroTimer && pomodoroTimer.running && !pomodoroIntervalHandle) pomodoroStartInterval();
+  pomodoroUpdateTimerDom();
 }
 function studyToolsHomeHtml(){
   return `<div class="study-view">
@@ -9061,6 +10805,11 @@ function studyToolsHomeHtml(){
         <div class="study-card-ic">🎬</div>
         <div class="study-card-title">مكتبة فيديوهات الكورس</div>
         <div class="study-card-desc">احفظ روابط فيديوهات يوتيوب لمحاضراتك (من غير تنزيل)، نجيبلك العنوان والصورة المصغرة أوتوماتيك، نظّمها حسب المادة، وحط عليها ملاحظات وعلّم اللي خلصته.</div>
+      </div>
+      <div class="study-card" id="studyOpenPomodoro">
+        <div class="study-card-ic">🍅</div>
+        <div class="study-card-title">بومودورو للمذاكرة</div>
+        <div class="study-card-desc">مؤقت مذاكرة قابل للتخصيص، مربوط بالمواد والمهام بتاعتك، مع إحصائيات وإنجازات بتتراكم كل ما تذاكر.</div>
       </div>
       <div class="study-card disabled">
         <div class="study-card-ic">🗂️</div>
@@ -9078,6 +10827,8 @@ function studyToolsHomeHtml(){
 function bindStudyToolsHome(){
   const v = document.getElementById('studyOpenVideos');
   if(v) v.onclick = ()=>{ studyToolActive='videos'; videoLibAddOpen=false; renderCurrentView(); };
+  const p = document.getElementById('studyOpenPomodoro');
+  if(p) p.onclick = ()=>{ studyToolActive='pomodoro'; renderCurrentView(); };
 }
 
 /* --- مكتبة فيديوهات الكورس --- */
