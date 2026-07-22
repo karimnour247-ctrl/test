@@ -883,6 +883,10 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
   transition:border-color .2s ease, box-shadow .2s ease;
 }
 .sched-field input:focus, .sched-field select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.sched-time-row{display:flex;gap:6px;}
+.sched-time-row input{width:64px;flex:0 0 64px;text-align:center;direction:ltr;}
+.sched-time-row select{flex:1;min-width:78px;}
+.sched-time-row select option[value=""]{color:var(--grey);}
 @media print{
   @page{ size:A4 landscape; margin:8mm; }
   body *{ visibility:hidden !important; }
@@ -891,12 +895,20 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
     position:absolute; inset:0; width:100%; margin:0; border:none; box-shadow:none; padding:0;
     background:#fff; color:#111319;
   }
-  .sp-title{display:block;}
-  .sched-grid{background:#fff;border-color:#c9cede;}
-  .sched-daycol-head, .sched-corner{background:#10131f !important;color:#fff !important;}
-  .sched-hour-label{color:#565e76 !important;border-color:#c9cede;}
+  .sp-title{display:block;font-size:20px;margin-bottom:8px;}
+  .sched-grid-wrap{overflow:visible !important;width:100%;}
+  .sched-grid{
+    width:100% !important; min-width:0 !important; max-width:100% !important;
+    background:#fff;border-color:#c9cede;border-width:1.5px;page-break-inside:avoid;
+  }
+  .sched-daycol-head, .sched-corner{background:#10131f !important;color:#fff !important;font-size:14px !important;}
+  .sched-hour-label{color:#282c3d !important;border-color:#c9cede;font-size:11.5px !important;font-weight:700;}
   .sched-daycol-bg{border-color:#c9cede;}
-  .sch-legend-item{color:#282c3d;}
+  .sched-block{box-shadow:none !important;border:1px solid rgba(255,255,255,.5);}
+  .sched-block .sb-name{font-size:11.5px !important;}
+  .sched-block .sb-tag, .sched-block .sb-time, .sched-block .sb-hall{font-size:10px !important;}
+  .sched-legend{page-break-inside:avoid;margin-top:14px;}
+  .sch-legend-item{color:#282c3d;font-size:12.5px;}
 }
 @media (max-width:640px){
   .sched-grid{min-width:620px;}
@@ -1822,7 +1834,23 @@ button:not(:disabled):active,
 .vid-url-bulk{min-height:78px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;direction:ltr;text-align:left;}
 .vid-url-hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
 .vid-add-info{color:var(--teal) !important;}
+.vid-url-status-list{display:flex;flex-direction:column;gap:4px;margin-top:8px;}
+.vid-line-stat{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 9px;border-radius:7px;display:flex;align-items:center;gap:6px;direction:ltr;text-align:left;line-height:1.4;}
+.vid-line-stat .code{opacity:.8;word-break:break-all;}
+.vid-line-ok{background:var(--teal-soft);color:var(--teal);}
+.vid-line-bad{background:var(--maroon-soft);color:var(--maroon);}
+.vid-line-playlist{background:var(--gold-soft);color:var(--gold);}
+.vid-playlist-key-wrap{background:var(--paper-2);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;}
+.vid-playlist-key-wrap label{font-size:12.5px;}
+.vid-playlist-key-hint{font-size:11px;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
+.vid-playlist-key-hint a{color:var(--navy);}
 .vid-subject-wrap{position:relative;}
+.vid-required{color:var(--maroon);font-weight:800;font-size:11.5px;}
+.vid-subject-hint{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5;}
+.vid-add-form input.vid-invalid{border-color:var(--maroon) !important;box-shadow:0 0 0 3px var(--maroon-soft) !important;}
+.vid-dl-btn{padding:8px 10px;border-radius:8px;border:1.5px solid var(--line);background:transparent;color:var(--ink-soft);font-size:12px;cursor:pointer;font-family:'Tajawal',sans-serif;}
+.vid-dl-btn:hover{border-color:var(--navy);color:var(--navy);}
+.vid-dl-note{font-size:11px;color:var(--ink-soft);line-height:1.6;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-top:10px;}
 .vid-select-block{width:100%;padding:9px 12px;font-size:13.5px;border-radius:9px;}
 .vid-add-form input:disabled{opacity:.55;cursor:not-allowed;}
 .vid-add-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
@@ -2113,6 +2141,7 @@ const DB = {
 
 "040000001":{ar:"لغة عربية",en:"Arabic Language",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري (مقرر على مستوى كل كليات جامعة الإسكندرية) — مش بيتحسب ضمن ساعات التخصص."},
 "040000002":{ar:"لغة انجليزية",en:"English Language",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري (مقرر على مستوى كل كليات جامعة الإسكندرية) — مش بيتحسب ضمن ساعات التخصص."},
+"040000100":{ar:"قضايا مجتمعية",en:"Community Issues",credit:[0,0,0,2],level:1,prereq:[],note:"متطلب جامعة إجباري للتخرج (ساعتين نظري رسميًا)، لكنه مش بيتحسب خالص هنا: مش داخل قايمة أي تخصص (يعني مش بيدخل في التنسيق)، ومحطوط بـ 0 ساعة معتمدة عشان ميأثرش لا في الـ CGPA ولا في الساعات المسجلة ولا الساعات المكتسبة. لازم بس تاخده وتنجح فيه عشان تتخرج، وخلاص."},
 "040000052":{ar:"الإنسان والبيئة",en:"Man and Environment",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
 "040000056":{ar:"مقدمة في علم النفس",en:"Introduction to Psychology",credit:[2,0,0,2],level:1,prereq:[],note:"متطلب جامعة اختياري — اختَر 3 مواد من قائمة الأربعة (6 ساعات). مش بيتحسب ضمن ساعات التخصص."},
 "049900011":{ar:"اخلاقيات مهنة",en:"Professional Ethics",credit:[2,0,0,2],level:1,prereq:[],note:"مادة اختيار حر (مش متطلب جامعة). محسوبة ضمن ساعات الاختيار الحر."},
@@ -2874,6 +2903,7 @@ let videoLibFilterSubject = 'all';
 let videoLibFilterStatus = 'all'; // all | done | pending
 let videoLibAddOpen = false;
 let videoLibFetching = false;
+let videoYtApiKey = ''; // مفتاح YouTube Data API الشخصي (اختياري) — لازم بس لاستيراد قائمة تشغيل كاملة برابطها
 let videoPlayerQueue = []; // playlist مرتبة زمنيًا لمجموعة/مادة معينة
 let videoPlayerIndex = 0;
 let videoPlayerGroupLabel = '';
@@ -3000,6 +3030,10 @@ async function loadState(){
     if(r && r.value) videoLibrary = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
   }catch(e){ videoLibrary = []; }
   try{
+    const r = await window.storage.get('video-yt-api-key', false);
+    if(r && r.value) videoYtApiKey = JSON.parse(r.value) || '';
+  }catch(e){ videoYtApiKey = ''; }
+  try{
     const r = await window.storage.get('games-2048-best', false);
     if(r && r.value) g2048Best = JSON.parse(r.value) || 0;
   }catch(e){ g2048Best = 0; }
@@ -3030,6 +3064,10 @@ async function loadState(){
 }
 async function saveVideoLibrary(){
   try{ await window.storage.set('video-library', JSON.stringify(videoLibrary), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function saveVideoYtApiKey(){
+  try{ await window.storage.set('video-yt-api-key', JSON.stringify(videoYtApiKey), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function saveCustomCourses(){
@@ -4650,6 +4688,172 @@ function wireTransferPartHandlers(cgpa){
   if(reapplyBtn) reapplyBtn.onclick = reapplyTransfer;
 }
 
+/* ================= تنسيقات السنين السابقة (بيانات فعلية موثّقة من الكلية) ================= */
+const PAST_COORDINATION_DATA = [
+  { year:"2019", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"1.8900"},
+    {spec:"الأحصاء/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.7700"},
+    {spec:"علوم الحاسب الآلى/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3.2300"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.6000"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.8200"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"3.3000"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"1.9400"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.3200"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.3300"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"2.9800"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.7400"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.1800"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.5000"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.7800"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.6900"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.1500"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.0200"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.4100"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.4600"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.0700"},
+    {spec:"الجيولوجيا/الجيوفيزياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.8900"},
+    {spec:"الجيوفيزياء/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"2.7100"},
+    {spec:"علوم البحار العامة/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"2.0700"}
+  ]},
+  { year:"2020", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"1.93"},
+    {spec:"الأحصاء/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.33"},
+    {spec:"علوم الحاسب الآلى/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3.08"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.31"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.61"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2.3"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.31"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.31"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"3"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.71"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.07"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.51"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.76"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.73"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.1"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.02"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.41"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.45"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.47"},
+    {spec:"الجيولوجيا/الجيوفيزياء", div:"العلوم الجيولوجية (ج)", cgpa:"1.84"},
+    {spec:"الجيوفيزياء/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"2.65"},
+    {spec:"علوم البحار العامة/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"0"}
+  ]},
+  { year:"2021", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.0400"},
+    {spec:"الأحصاء/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.3200"},
+    {spec:"علوم الحاسب الآلى/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3.0100"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.3000"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.6000"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2.5400"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"1.7300"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.4400"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.4000"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"3.0000"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.6100"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.0000"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.3000"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.4400"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.7300"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.0900"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.9900"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.4600"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.3600"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.1500"},
+    {spec:"الجيوفيزياء/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"2.5200"}
+  ]},
+  { year:"2022", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلي", div:"العلوم الطبيعية (أ)", cgpa:"2"},
+    {spec:"الأحصاء/علوم الحاسب الآلي", div:"العلوم الطبيعية (أ)", cgpa:"2.32"},
+    {spec:"علوم الحاسب الآلي/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.1"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.61"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2.47"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"1.67"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.2"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.13"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"3.01"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.68"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.3"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.55"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.82"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.95"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.02"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.3"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.3"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.74"},
+    {spec:"الجيولوجيا/الجيوفيزياء", div:"العلوم الجيولوجية (ج)", cgpa:"1.93"}
+  ]},
+  { year:"2023", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.02"},
+    {spec:"الأحصاء/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.31"},
+    {spec:"علوم الحاسب الآلى/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3.07"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.1"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.72"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2.3"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"1.68"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.27"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.31"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"3"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.56"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.3"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.31"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.94"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.9"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.71"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.45"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.3"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"3.2"},
+    {spec:"الجيوفيزياء/الجيولوجيا", div:"العلوم الجيولوجية (ج)", cgpa:"2.06"}
+  ]},
+  { year:"2024", term:"خريف", rows:[
+    {spec:"رياضيات/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2"},
+    {spec:"الأحصاء/علوم الحاسب الآلى", div:"العلوم الطبيعية (أ)", cgpa:"2.33"},
+    {spec:"علوم الحاسب الآلى/الأحصاء", div:"العلوم الطبيعية (أ)", cgpa:"3.01"},
+    {spec:"الفيزياء/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.1"},
+    {spec:"الفيزياء الحيوية/الكيمياء", div:"العلوم الطبيعية (أ)", cgpa:"2.74"},
+    {spec:"الكيمياء/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"2.3"},
+    {spec:"علوم البحار الفيزيائية/الفيزياء", div:"العلوم الطبيعية (أ)", cgpa:"1.7"},
+    {spec:"الكيمياء/الميكروبيولوجى", div:"العلوم البيولوجية (ب)", cgpa:"3.42"},
+    {spec:"الكيمياء/الكيمياء الحيوية", div:"العلوم البيولوجية (ب)", cgpa:"3.25"},
+    {spec:"الكيمياء/علوم البيئة", div:"العلوم البيولوجية (ب)", cgpa:"3"},
+    {spec:"النبات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.54"},
+    {spec:"الميكروبيولوجى/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.01"},
+    {spec:"التقنية الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.3"},
+    {spec:"علم الحيوان/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.32"},
+    {spec:"علم الحشرات/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.72"},
+    {spec:"البيولوجيا الجزئية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.9"},
+    {spec:"علوم البحار العامة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"1.74"},
+    {spec:"الكيمياء الحيوية/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"3.15"},
+    {spec:"علوم البيئة/الكيمياء", div:"العلوم البيولوجية (ب)", cgpa:"2.4"},
+    {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.03"}
+  ]}
+];
+function pastCoordinationHtml(){
+  const yearsDesc = PAST_COORDINATION_DATA.slice().reverse();
+  return `
+  <div class="goal-section" id="fcPastCoordSection">
+    <div class="track-head"><h2>📚 تنسيقات السنين السابقة</h2></div>
+    <p class="graph-hint">دي بيانات فعلية موثّقة لآخر حد أدنى للـCGPA اتقبل بيه كل تخصص في تنسيقات السنين اللي فاتت — مفيدة كمرجع تقريبي بس، مش ضمان إن تنسيق السنة الجاية هيبقى نفس كده (ممكن يعلى أو ينزل حسب أعداد المتقدمين كل سنة). دوس على أي سنة عشان تفتح جدولها.</p>
+    <div>
+      ${yearsDesc.map((y,i)=>`
+        <details class="regs-mat" ${i===0?'open':''}>
+          <summary><span class="regs-mat-num">${escapeHtml(y.year)}</span><span>تنسيق التخصصات — ${escapeHtml(y.term)} ${escapeHtml(y.year)}</span></summary>
+          <div class="regs-mat-body">
+            <table class="fc-table">
+              <thead><tr><th>التخصص</th><th>الشعبة</th><th>الـCGPA المطلوب</th></tr></thead>
+              <tbody>
+                ${y.rows.map(r=>`<tr><td>${escapeHtml(r.spec)}</td><td>${escapeHtml(r.div)}</td><td>${escapeHtml(r.cgpa)}</td></tr>`).join('')}
+              </tbody>
+            </table>
+          </div>
+        </details>`).join('')}
+    </div>
+  </div>`;
+}
 function renderForecastView(){
   const overall = overallCgpaStats();
   const cgpa = overall.cgpa;
@@ -4659,6 +4863,8 @@ function renderForecastView(){
 
   let html = `<div class="track-head"><div><h2>🎯 التخصص وتحويل المسار</h2></div></div>
   <p class="graph-hint">الأداة دي بتساعدك تتوقع هل هتوصل للتخصص أو القسم اللي عايزه ولا لأ، بناءً على تنسيقات متوقعة بتدخلها إنت يدويًا (لأنها مش معروفة رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. جزء التخصص بيظهر بس لو لسه ما اتخصصتش، وجزء تحويل المسار بيظهر بس بعد ما تتخصص.</p>`;
+
+  html += pastCoordinationHtml();
 
   if(cgpa==null){
     html += `<p class="goal-warn">⚠️ لسه معدلك التراكمي مش محسوب — سجّل موادك في "🧮 حاسبة المعدل" الأول عشان نقدر نحسبلك الاحتمالية.</p>`;
@@ -7076,20 +7282,60 @@ function parseTimeMin(str){
   if(isNaN(h) || isNaN(m)) return null;
   return h*60+m;
 }
+/* مواعيد الكلية الرسمية من 8 الصبح لحد 8 بليل بس — الجدول والتحقق مبنيين على النطاق ده */
+const COLLEGE_DAY_START_MIN = 480;  // 8:00 ص
+const COLLEGE_DAY_END_MIN = 1200;   // 8:00 م
+/* بيحوّل وقت مخزّن بنظام 24 ساعة ("HH:MM") لصورة نظام 12 ساعة عشان نعرضه أو نعبّي بيه حقول التعديل:
+   {timeText:'H:MM', period:'am'|'pm'} */
+function to12Parts(hhmm){
+  if(!hhmm) return {timeText:'', period:''};
+  const p = String(hhmm).split(':');
+  let h = parseInt(p[0],10), m = parseInt(p[1],10);
+  if(isNaN(h) || isNaN(m)) return {timeText:'', period:''};
+  const period = h>=12 ? 'pm' : 'am';
+  let h12 = h % 12; if(h12===0) h12 = 12;
+  return {timeText:`${h12}:${String(m).padStart(2,'0')}`, period};
+}
+/* عكس العملية: بياخد نص وقت كتبه الطالب بنظام 12 ساعة ("9" أو "9:30") + AM/PM ويرجّعه "HH:MM"
+   بنظام 24 ساعة عشان نخزّنه ونحسب عليه زي ما كنا بنعمل بالظبط. بيرجع null لو الصيغة غلط. */
+function parse12ToHHMM(timeText, period){
+  if(!timeText || !period) return null;
+  const m = String(timeText).trim().match(/^([0-9]{1,2})(?:[:.]([0-9]{1,2}))?$/);
+  if(!m) return null;
+  const h = parseInt(m[1],10);
+  const min = m[2]!=null ? parseInt(m[2],10) : 0;
+  if(h<1 || h>12 || min<0 || min>59) return null;
+  let h24 = h % 12;
+  if(period==='pm') h24 += 12;
+  return `${String(h24).padStart(2,'0')}:${String(min).padStart(2,'0')}`;
+}
+/* عرض وقت مخزّن ("HH:MM") بنظام 12 ساعة بالعربي — "9:00 ص" / "8:30 م" — بدل ما يفضل بنظام الـ24 ساعة */
+function formatTime12(hhmm){
+  const {timeText, period} = to12Parts(hhmm);
+  if(!timeText) return '';
+  return `${timeText} ${period==='am' ? 'ص' : 'م'}`;
+}
+/* تسمية ساعة كاملة (أول الساعة بالظبط) بنظام 12 لعمود الأوقات على يمين جدول الترم */
+function formatHourLabel12(totalMin){
+  const hh = Math.floor(totalMin/60);
+  const period = hh>=12 ? 'م' : 'ص';
+  let h12 = hh % 12; if(h12===0) h12 = 12;
+  return `${h12} ${period}`;
+}
 function dayLabel(id){
   const d = SCHEDULE_DAYS.find(x=>x.id===id);
   return d ? d.label : '';
 }
 function scheduleEntryText(entry){
   if(!entry || !entry.from || !entry.to) return null;
-  return `${dayLabel(entry.day)} ${entry.from}–${entry.to}${entry.hall ? ' · '+entry.hall : ''}`;
+  return `${dayLabel(entry.day)} ${formatTime12(entry.from)}–${formatTime12(entry.to)}${entry.hall ? ' · '+entry.hall : ''}`;
 }
 function courseColorFor(term, itemId){
   const idx = (term.items||[]).findIndex(i=>i.id===itemId);
   return SCHEDULE_COLORS[(idx<0?0:idx) % SCHEDULE_COLORS.length];
 }
 function computeScheduleRange(schedule){
-  let startMin = 480, endMin = 1020; // افتراضي: 8:00 ص – 5:00 م
+  let startMin = COLLEGE_DAY_START_MIN, endMin = COLLEGE_DAY_END_MIN; // افتراضي: مواعيد الكلية الرسمية 8ص–8م
   Object.values(schedule.courses||{}).forEach(cs=>{
     ['lecture','section'].forEach(key=>{
       const e = cs[key];
@@ -7100,8 +7346,8 @@ function computeScheduleRange(schedule){
       if(en!=null) endMin = Math.max(endMin, Math.ceil(en/60)*60);
     });
   });
-  startMin = Math.max(360, Math.min(startMin, 480));
-  endMin = Math.min(1380, Math.max(endMin, 1020));
+  startMin = Math.max(360, Math.min(startMin, COLLEGE_DAY_START_MIN));
+  endMin = Math.min(1380, Math.max(endMin, COLLEGE_DAY_END_MIN));
   if(endMin <= startMin) endMin = startMin + 540;
   return {startMin, endMin};
 }
@@ -7115,9 +7361,12 @@ function scheduleGridHtml(term, schedule, range){
   });
   for(let m=startMin; m<endMin; m+=60){
     const row = 2 + Math.round((m-startMin)/30);
-    const hh = Math.floor(m/60);
-    html += `<div class="sched-hour-label" style="grid-row:${row} / span 2;">${String(hh).padStart(2,'0')}:00</div>`;
+    html += `<div class="sched-hour-label" style="grid-row:${row} / span 2;">${formatHourLabel12(m)}</div>`;
   }
+  /* لازم نضيف كمان تسمية آخر حد للجدول (زي 8 م) نفسها، مش بس بداية كل ساعة: من غير السطر ده، الحلقة بتوقف
+     قبل ما توصل لـ endMin وبالتالي آخر رقم ساعة ظاهر بيبقى ناقص ساعة عن نهاية الجدول الحقيقية (يعني الجدول
+     يوصل فعليًا للساعة 8 لكن آخر تسمية ظاهرة كانت 7، فيبان وكأن أي معاد لحد آخر ساعة في اليوم ناقصه ساعة). */
+  html += `<div class="sched-hour-label" style="grid-row:${1+totalSlots} / span 1; align-items:flex-end; padding-top:0; padding-bottom:2px; border-top:none;">${formatHourLabel12(endMin)}</div>`;
   SCHEDULE_DAYS.forEach((d,i)=>{
     html += `<div class="sched-daycol-bg" style="grid-column:${i+2}; grid-row:2 / -1;"></div>`;
   });
@@ -7142,7 +7391,7 @@ function scheduleGridHtml(term, schedule, range){
       html += `<div class="sched-block" style="grid-column:${dayIdx+2}; grid-row:${startRow} / ${endRow}; background:${color};">
         <span class="sb-name">${escapeHtml(name)}</span>
         <span class="sb-tag">${tag}</span>
-        <span class="sb-time">${escapeHtml(e.from)}–${escapeHtml(e.to)}</span>
+        <span class="sb-time">${escapeHtml(formatTime12(e.from))}–${escapeHtml(formatTime12(e.to))}</span>
         ${e.hall ? `<span class="sb-hall">${escapeHtml(e.hall)}</span>` : ''}
       </div>`;
     });
@@ -7304,32 +7553,54 @@ function openScheduleItemModal(scheduleId, itemId){
   const item = term && (term.items||[]).find(i=>i.id===itemId);
   if(!item) return;
   const existing = schedule.courses[itemId] || {};
+  const exLec = existing.lecture || {};
+  const exSec = existing.section || {};
+  const exLecFrom12 = to12Parts(exLec.from), exLecTo12 = to12Parts(exLec.to);
+  const exSecFrom12 = to12Parts(exSec.from), exSecTo12 = to12Parts(exSec.to);
+  // بنحتفظ بوقت الإدخال كنص خام (ساعة بنظام 12 + AM/PM) لحد ما نضغط حفظ، وهناك بس بنحوّلهم
+  // لصيغة "HH:MM" بنظام 24 ساعة عشان نخزّنها ونحسب عليها زي كل الكود التاني بالظبط.
   let lecture = {
-    day: (existing.lecture&&existing.lecture.day) || 'sat',
-    from: (existing.lecture&&existing.lecture.from) || '',
-    to: (existing.lecture&&existing.lecture.to) || '',
-    hall: (existing.lecture&&existing.lecture.hall) || ''
+    day: exLec.day || 'sat',
+    fromTime: exLecFrom12.timeText, fromPeriod: exLecFrom12.period,
+    toTime: exLecTo12.timeText, toPeriod: exLecTo12.period,
+    hall: exLec.hall || ''
   };
   let section = {
-    type: (existing.section&&existing.section.type) || 'none',
-    day: (existing.section&&existing.section.day) || 'sat',
-    from: (existing.section&&existing.section.from) || '',
-    to: (existing.section&&existing.section.to) || '',
-    hall: (existing.section&&existing.section.hall) || ''
+    type: exSec.type || 'none',
+    day: exSec.day || 'sat',
+    fromTime: exSecFrom12.timeText, fromPeriod: exSecFrom12.period,
+    toTime: exSecTo12.timeText, toPeriod: exSecTo12.period,
+    hall: exSec.hall || ''
   };
   function dayOptions(sel){
     return SCHEDULE_DAYS.map(d=> `<option value="${d.id}" ${sel===d.id?'selected':''}>${d.label}</option>`).join('');
+  }
+  /* حقل وقت واحد: تكست بوكس صغير للساعة (رقم بس، ممكن تحط دقايق زي 9:30) + قائمة AM/PM إجبارية
+     (متبدأش على قيمة حقيقية — لازم الطالب يختار بنفسه عشان ميحصلش لبس صباحًا/مساءً). */
+  function timeFieldHtml(idPrefix, timeText, period, label){
+    return `<div class="sched-field">
+      <label>${label}</label>
+      <div class="sched-time-row">
+        <input id="${idPrefix}Time" type="text" class="code" inputmode="numeric" maxlength="5" placeholder="مثال: 9:30" value="${escapeHtml(timeText)}">
+        <select id="${idPrefix}Period">
+          <option value="" ${period?'':'selected disabled'}>AM/PM</option>
+          <option value="am" ${period==='am'?'selected':''}>AM (ص)</option>
+          <option value="pm" ${period==='pm'?'selected':''}>PM (م)</option>
+        </select>
+      </div>
+    </div>`;
   }
   function bodyHtml(){
     return `
     <button class="close" onclick="closeModal()">✕</button>
     <div class="profile-modal">
       <h3>✏️ تعديل مواعيد: ${escapeHtml(scheduleItemName(item))}</h3>
+      <p class="p-sub">مواعيد الكلية الرسمية من 8:00 ص لحد 8:00 م. اكتب الساعة بس (زي 9 أو 9:30) واختار AM ولا PM من القايمة جنبها.</p>
       <h4>📖 معاد المحاضرة</h4>
       <div class="sched-form-row">
         <div class="sched-field"><label>اليوم</label><select id="schLecDay">${dayOptions(lecture.day)}</select></div>
-        <div class="sched-field"><label>من</label><input id="schLecFrom" type="time" value="${escapeHtml(lecture.from)}"></div>
-        <div class="sched-field"><label>إلى</label><input id="schLecTo" type="time" value="${escapeHtml(lecture.to)}"></div>
+        ${timeFieldHtml('schLecFrom', lecture.fromTime, lecture.fromPeriod, 'من الساعة')}
+        ${timeFieldHtml('schLecTo', lecture.toTime, lecture.toPeriod, 'إلى الساعة')}
         <div class="sched-field"><label>مدرج كام</label><input id="schLecHall" type="text" placeholder="مثال: مدرج 3" value="${escapeHtml(lecture.hall)}"></div>
       </div>
       <h4>👥 معاد السكشن / المعمل</h4>
@@ -7341,39 +7612,66 @@ function openScheduleItemModal(scheduleId, itemId){
       ${section.type!=='none' ? `
       <div class="sched-form-row">
         <div class="sched-field"><label>اليوم</label><select id="schSecDay">${dayOptions(section.day)}</select></div>
-        <div class="sched-field"><label>من</label><input id="schSecFrom" type="time" value="${escapeHtml(section.from)}"></div>
-        <div class="sched-field"><label>إلى</label><input id="schSecTo" type="time" value="${escapeHtml(section.to)}"></div>
+        ${timeFieldHtml('schSecFrom', section.fromTime, section.fromPeriod, 'من الساعة')}
+        ${timeFieldHtml('schSecTo', section.toTime, section.toPeriod, 'إلى الساعة')}
         <div class="sched-field"><label>${section.type==='lab'?'معمل كام':'مدرج/قاعة كام'}</label><input id="schSecHall" type="text" placeholder="${section.type==='lab'?'مثال: معمل 2':'مثال: قاعة 5'}" value="${escapeHtml(section.hall)}"></div>
       </div>` : ''}
       <button class="profile-save-btn" id="schItemSaveBtn">💾 حفظ المواعيد</button>
       <button class="profile-save-btn secondary" onclick="closeModal()">إلغاء</button>
     </div>`;
   }
+  /* بيتحقق من زوج وقت (من/إلى) بنظام 12 ساعة، ويرجّعه بصيغة "HH:MM" بنظام 24 ساعة جاهز للتخزين.
+     لو الحقول كلها فاضية، يبقى مفيش معاد اتحدد لحد دلوقتي وده مقبول. لو جزء منها بس اتملى، أو
+     المواعيد طلعت برة نطاق مواعيد الكلية (8ص–8م)، أو النهاية قبل البداية — بيرجع رسالة خطأ. */
+  function resolveTimePair(fromTime, fromPeriod, toTime, toPeriod, label){
+    const fromEmpty = !fromTime && !fromPeriod;
+    const toEmpty = !toTime && !toPeriod;
+    if(fromEmpty && toEmpty) return {from:'', to:''};
+    if(!fromTime || !fromPeriod || !toTime || !toPeriod){
+      return {error:`كمّل معاد ${label} كله (الساعة و AM/PM لبداية ونهاية المعاد)، أو سيب الحقول كلها فاضية لو لسه ما اتحددش.`};
+    }
+    const from24 = parse12ToHHMM(fromTime, fromPeriod);
+    const to24 = parse12ToHHMM(toTime, toPeriod);
+    if(!from24 || !to24){
+      return {error:`صيغة وقت ${label} مش صحيحة. اكتب الساعة كرقم من 1 لـ 12 (ممكن تحط دقايق كمان زي 9:30).`};
+    }
+    const fromMin = parseTimeMin(from24), toMin = parseTimeMin(to24);
+    if(fromMin<COLLEGE_DAY_START_MIN || fromMin>COLLEGE_DAY_END_MIN || toMin<COLLEGE_DAY_START_MIN || toMin>COLLEGE_DAY_END_MIN){
+      return {error:`معاد ${label} لازم يكون بين 8:00 ص و8:00 م (مواعيد الكلية الرسمية).`};
+    }
+    if(toMin<=fromMin){
+      return {error:`معاد نهاية ${label} لازم يكون بعد معاد البداية.`};
+    }
+    return {from:from24, to:to24};
+  }
   function bindFieldListeners(){
     const lecDay = document.getElementById('schLecDay'); if(lecDay) lecDay.onchange = ()=> lecture.day = lecDay.value;
-    const lecFrom = document.getElementById('schLecFrom'); if(lecFrom) lecFrom.onchange = ()=> lecture.from = lecFrom.value;
-    const lecTo = document.getElementById('schLecTo'); if(lecTo) lecTo.onchange = ()=> lecture.to = lecTo.value;
+    const lecFromTime = document.getElementById('schLecFromTime'); if(lecFromTime) lecFromTime.oninput = ()=> lecture.fromTime = lecFromTime.value;
+    const lecFromPeriod = document.getElementById('schLecFromPeriod'); if(lecFromPeriod) lecFromPeriod.onchange = ()=> lecture.fromPeriod = lecFromPeriod.value;
+    const lecToTime = document.getElementById('schLecToTime'); if(lecToTime) lecToTime.oninput = ()=> lecture.toTime = lecToTime.value;
+    const lecToPeriod = document.getElementById('schLecToPeriod'); if(lecToPeriod) lecToPeriod.onchange = ()=> lecture.toPeriod = lecToPeriod.value;
     const lecHall = document.getElementById('schLecHall'); if(lecHall) lecHall.oninput = ()=> lecture.hall = lecHall.value;
     document.querySelectorAll('#schSecTypeList .track-pick-item').forEach(el=>{
       el.onclick = ()=>{ section.type = el.dataset.ty; render(); };
     });
     const secDay = document.getElementById('schSecDay'); if(secDay) secDay.onchange = ()=> section.day = secDay.value;
-    const secFrom = document.getElementById('schSecFrom'); if(secFrom) secFrom.onchange = ()=> section.from = secFrom.value;
-    const secTo = document.getElementById('schSecTo'); if(secTo) secTo.onchange = ()=> section.to = secTo.value;
+    const secFromTime = document.getElementById('schSecFromTime'); if(secFromTime) secFromTime.oninput = ()=> section.fromTime = secFromTime.value;
+    const secFromPeriod = document.getElementById('schSecFromPeriod'); if(secFromPeriod) secFromPeriod.onchange = ()=> section.fromPeriod = secFromPeriod.value;
+    const secToTime = document.getElementById('schSecToTime'); if(secToTime) secToTime.oninput = ()=> section.toTime = secToTime.value;
+    const secToPeriod = document.getElementById('schSecToPeriod'); if(secToPeriod) secToPeriod.onchange = ()=> section.toPeriod = secToPeriod.value;
     const secHall = document.getElementById('schSecHall'); if(secHall) secHall.oninput = ()=> section.hall = secHall.value;
     const saveBtn = document.getElementById('schItemSaveBtn');
     if(saveBtn) saveBtn.onclick = ()=>{
-      if(lecture.from && lecture.to && parseTimeMin(lecture.to) <= parseTimeMin(lecture.from)){
-        alert('معاد نهاية المحاضرة لازم يكون بعد معاد البداية.');
-        return;
-      }
-      if(section.type!=='none' && section.from && section.to && parseTimeMin(section.to) <= parseTimeMin(section.from)){
-        alert('معاد نهاية السكشن/المعمل لازم يكون بعد معاد البداية.');
-        return;
+      const lecResult = resolveTimePair(lecture.fromTime, lecture.fromPeriod, lecture.toTime, lecture.toPeriod, 'المحاضرة');
+      if(lecResult.error){ alert(lecResult.error); return; }
+      let secResult = {from:'', to:''};
+      if(section.type!=='none'){
+        secResult = resolveTimePair(section.fromTime, section.fromPeriod, section.toTime, section.toPeriod, section.type==='lab' ? 'المعمل' : 'السكشن');
+        if(secResult.error){ alert(secResult.error); return; }
       }
       schedule.courses[itemId] = {
-        lecture: {...lecture},
-        section: section.type==='none' ? {type:'none'} : {...section}
+        lecture: {day: lecture.day, from: lecResult.from, to: lecResult.to, hall: lecture.hall},
+        section: section.type==='none' ? {type:'none'} : {type: section.type, day: section.day, from: secResult.from, to: secResult.to, hall: section.hall}
       };
       saveTermSchedules();
       closeModal();
@@ -8764,11 +9062,54 @@ function extractYouTubeId(url){
   const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
   return m ? m[1] : null;
 }
+/* رابط قائمة تشغيل يوتيوب كاملة (list=...) — بيتصايد حتى لو الرابط فيه v= مع list= مع بعض */
+function extractYouTubePlaylistId(url){
+  if(!url) return null;
+  const m = url.match(/[?&]list=([A-Za-z0-9_-]+)/);
+  return m ? m[1] : null;
+}
+/* بيصنّف كل سطر دخله المستخدم: فيديو مفرد صالح / قائمة تشغيل / رابط مش صحيح خالص —
+   دي الأساس اللي بيتبني عليه التنوير الأخضر/الأحمر لحظيًا تحت مربع اللينكات */
+function vidClassifyLine(line){
+  const videoId = extractYouTubeId(line);
+  if(videoId) return {type:'video', id:videoId};
+  const playlistId = extractYouTubePlaylistId(line);
+  if(playlistId) return {type:'playlist', id:playlistId};
+  return {type:'invalid'};
+}
 async function fetchYouTubeMeta(videoId){
   const oembedUrl = `https://www.youtube.com/oembed?url=${encodeURIComponent('https://www.youtube.com/watch?v='+videoId)}&format=json`;
   const res = await fetch(oembedUrl);
   if(!res.ok) throw new Error('oembed failed');
   return await res.json();
+}
+/* بيجيب كل فيديوهات قائمة تشغيل يوتيوب عن طريق الـ YouTube Data API الرسمي (محتاج مفتاح API
+   مجاني من المستخدم نفسه — مفيش سيرفر عندنا نخبي فيه مفتاح مشترك، وده أسلم وأنضف من أي محاولة
+   استخراج/سكرابينج بتكسر شروط استخدام يوتيوب). بيلف على الصفحات (pageToken) لحد ما يجيب الكل. */
+async function fetchYouTubePlaylistItems(playlistId, apiKey){
+  const items = [];
+  let pageToken = '';
+  do{
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${encodeURIComponent(playlistId)}&key=${encodeURIComponent(apiKey)}${pageToken ? '&pageToken='+encodeURIComponent(pageToken) : ''}`;
+    const res = await fetch(url);
+    const data = await res.json().catch(()=>null);
+    if(!res.ok){
+      const msg = (data && data.error && data.error.message) ? data.error.message : `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+    (data && data.items || []).forEach(it=>{
+      const sn = it.snippet;
+      if(!sn) return;
+      const vid = sn.resourceId && sn.resourceId.videoId;
+      if(!vid) return;
+      if(sn.title==='Private video' || sn.title==='Deleted video') return; // فيديوهات اتشالت أو خاصة، مش هنقدر نشغلها أصلاً
+      const th = sn.thumbnails || {};
+      const thumb = (th.medium||th.high||th.default||{}).url || `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`;
+      items.push({videoId:vid, title: sn.title || 'فيديو بدون عنوان', thumb, url:`https://www.youtube.com/watch?v=${vid}`});
+    });
+    pageToken = (data && data.nextPageToken) || '';
+  } while(pageToken);
+  return items;
 }
 function videoGroupKey(v){
   if(v.subjectCode) return 'c:'+v.subjectCode;
@@ -8814,7 +9155,7 @@ function videoLibraryHtml(){
     <button class="study-back" id="videoBackHome" type="button">→ رجوع لأدوات المذاكرة</button>
     <div class="study-head">
       <h2>🎬 مكتبة فيديوهات الكورس</h2>
-      <p class="study-sub">احفظ روابط فيديوهات يوتيوب لمحاضراتك ونظّمها حسب المادة — بنجيب العنوان والصورة المصغرة أوتوماتيك من الرابط نفسه. دوس على أي فيديو أو "▶️ شغّل المجموعة" عشان تتفرج عليه جوه الموقع كقائمة تشغيل منظمة (embed مباشر)، من غير ما تتنزّل أي فيديو.</p>
+      <p class="study-sub">احفظ روابط فيديوهات يوتيوب لمحاضراتك (فيديو مفرد أو قائمة تشغيل كاملة) ونظّمها إجباريًا حسب مادة أو موضوع — بنجيب العنوان والصورة المصغرة أوتوماتيك من الرابط نفسه. دوس على أي فيديو أو "▶️ شغّل المجموعة" عشان تتفرج عليه جوه الموقع كقائمة تشغيل منظمة (embed مباشر) بالتالي والسابق وتتبع اللي خلصته، من غير ما تتنزّل أي فيديو.</p>
     </div>
     ${body}
   </div>`;
@@ -8879,24 +9220,39 @@ function videoCardHtml(v, groupKey){
     </div>
   </div>`;
 }
-function videoSubjectSelectOptionsHtml(){
+/* قائمة اقتراحات (datalist) بأسماء كل مقررات القسم عشان لما المستخدم يكتب اسم المادة تتنور
+   له الاقتراحات المطابقة من المقررات الموجودة فعلاً، لكن برضو يقدر يكتب اسم موضوع حر غير موجود. */
+function videoSubjectDatalistHtml(){
   const codes = Object.keys(DB).sort((a,b)=> (DB[a].ar||'').localeCompare(DB[b].ar||'','ar'));
-  return codes.map(code=>`<option value="${code}">${escapeHtml(DB[code].ar)} — ${fullCode(code)}</option>`).join('');
+  return codes.map(code=>`<option value="${escapeHtml(DB[code].ar+' — '+fullCode(code))}"></option>`).join('');
+}
+/* لو النص اللي كتبه المستخدم مطابق تمامًا لاسم مقرر من القسم (يعني اختار من الاقتراحات) بنربطه
+   بكود المقرر نفسه؛ غير كده بيتحفظ كموضوع حر بنص اليوزر زي ما هو. */
+function videoSubjectLabelToCode(label){
+  const codes = Object.keys(DB);
+  for(const code of codes){
+    if(`${DB[code].ar} — ${fullCode(code)}` === label) return code;
+  }
+  return null;
 }
 function videoAddFormHtml(){
   return `<div class="vid-add-form">
     <div>
-      <label>رابط (أو روابط) فيديو يوتيوب</label>
-      <textarea id="vidUrlInput" class="vid-url-bulk" placeholder="حط رابط فيديو واحد، أو الصق كذا رابط فيديو (كل رابط في سطر لوحده) عشان تضيفهم كلهم مرة واحدة"></textarea>
-      <div class="vid-url-hint">ملحوظة: يوتيوب مابيسمحش نجيب محتوى "قائمة تشغيل" كاملة برابط واحد بس. لو عندك بلاي ليست، افتحها، انسخ رابط كل فيديو فيها لوحده (زرار المشاركة تحت كل فيديو) والصقهم هنا كل رابط في سطر، وهنضيفهم كلهم مع بعض تحت نفس المادة.</div>
+      <label>رابط (أو روابط) فيديو يوتيوب — أو رابط قائمة تشغيل كاملة</label>
+      <textarea id="vidUrlInput" class="vid-url-bulk" placeholder="حط رابط فيديو واحد، أو الصق كذا رابط فيديو (كل رابط في سطر لوحده)، أو رابط قائمة تشغيل يوتيوب (list=) وهنجيبلك كل الفيديوهات اللي جواها"></textarea>
+      <div class="vid-url-hint">كل سطر بيتحقق أوتوماتيك: 🟢 فيديو صالح، 🟡 قائمة تشغيل هتتستورد كاملة، 🔴 رابط مش صحيح.</div>
+      <div class="vid-url-status-list" id="vidUrlStatusList"></div>
+    </div>
+    <div class="vid-playlist-key-wrap">
+      <label>مفتاح YouTube Data API (لازم بس لو حطيت رابط قائمة تشغيل كاملة فوق)</label>
+      <input type="text" id="vidYtApiKeyInput" class="code" placeholder="الصق مفتاح الـ API بتاعك هنا..." autocomplete="off" value="${escapeHtml(videoYtApiKey||'')}">
+      <div class="vid-playlist-key-hint">استيراد قائمة تشغيل كاملة بيحتاج مفتاح API مجاني من حسابك الشخصي (يوتيوب مابيسمحش بجلب محتوى قائمة كاملة من غيره). اعمل واحد من <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a> (فعّل "YouTube Data API v3" وأنشئ API Key)، وهنحفظه عندك عشان متكتبوش تاني. لو مش عندك رابط قائمة تشغيل، سيب الحقل ده فاضي عادي.</div>
     </div>
     <div class="vid-subject-wrap">
-      <label>المادة (اختياري — اختارها من القايمة لو موجودة في القسم)</label>
-      <select class="vid-select vid-select-block" id="vidSubjectSelect">
-        <option value="">— بدون مادة من القسم (اكتب اسم يدوي تحت) —</option>
-        ${videoSubjectSelectOptionsHtml()}
-      </select>
-      <input type="text" id="vidSubjectFreeText" placeholder="أو اكتب اسم موضوع حر لو مش موجود في القسم..." autocomplete="off" style="margin-top:8px;">
+      <label>اسم المادة أو الموضوع <span class="vid-required">* إجباري</span></label>
+      <input type="text" id="vidSubjectInput" class="vid-select-block" list="vidSubjectDatalist" autocomplete="off" placeholder="اكتب اسم المادة (هتتنور لك اقتراحات من مقررات القسم) أو اسم موضوع حر...">
+      <datalist id="vidSubjectDatalist">${videoSubjectDatalistHtml()}</datalist>
+      <div class="vid-subject-hint">لو المادة من مقررات القسم، اكتبها وهتلاقيها في الاقتراحات وانت بتكتب — اختارها عشان تتربط صح. لو موضوع حر مش موجود في القسم، اكتب أي اسم تحبه.</div>
     </div>
     <div>
       <label>ملاحظة (اختياري — هتتحط على كل الفيديوهات المضافة)</label>
@@ -8909,107 +9265,161 @@ function videoAddFormHtml(){
     </div>
   </div>`;
 }
-/* بنستخدم select عنصر متصفح أصلي (native) للمادة بدل input+dropdown مخصص، عشان اختيار المادة
-   يشتغل بثبات 100% على أي جهاز (موبايل أو ديسكتوب) من غير أي مشاكل تركيز/blur كانت بتخلي
-   الاختيار يرفض يتثبّت. حقل النص الحر بيتعطّل تلقائي لو اتختارت مادة من القايمة. */
-function bindVideoSubjectPicker(){
-  const select = document.getElementById('vidSubjectSelect');
-  const freeText = document.getElementById('vidSubjectFreeText');
-  if(!select || !freeText) return;
-  function syncFreeTextState(){
-    const hasSelection = !!select.value;
-    freeText.disabled = hasSelection;
-    freeText.placeholder = hasSelection ? 'مادة متختارة من القايمة فوق' : 'أو اكتب اسم موضوع حر لو مش موجود في القسم...';
-    if(hasSelection) freeText.value = '';
-  }
-  select.addEventListener('change', syncFreeTextState);
-  syncFreeTextState();
+/* بيحدّث لايف التنوير الأخضر/الأصفر/الأحمر تحت مربع اللينكات كل ما المستخدم يكتب أو يلزق حاجة */
+function renderVidUrlStatus(){
+  const ta = document.getElementById('vidUrlInput');
+  const box = document.getElementById('vidUrlStatusList');
+  if(!ta || !box) return;
+  const lines = ta.value.split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!lines.length){ box.innerHTML = ''; return; }
+  box.innerHTML = lines.map(line=>{
+    const c = vidClassifyLine(line);
+    const short = line.length>50 ? line.slice(0,50)+'…' : line;
+    if(c.type==='video') return `<div class="vid-line-stat vid-line-ok">🟢 فيديو صالح <span class="code">${escapeHtml(short)}</span></div>`;
+    if(c.type==='playlist') return `<div class="vid-line-stat vid-line-playlist">🟡 قائمة تشغيل (هتتستورد كل فيديوهاتها) <span class="code">${escapeHtml(short)}</span></div>`;
+    return `<div class="vid-line-stat vid-line-bad">🔴 مش رابط يوتيوب صحيح <span class="code">${escapeHtml(short)}</span></div>`;
+  }).join('');
 }
 async function handleVideoAddSubmit(){
   const urlInput = document.getElementById('vidUrlInput');
-  const subjSelect = document.getElementById('vidSubjectSelect');
-  const subjFreeText = document.getElementById('vidSubjectFreeText');
+  const subjInput = document.getElementById('vidSubjectInput');
+  const apiKeyInput = document.getElementById('vidYtApiKeyInput');
   const noteInput = document.getElementById('vidNoteInput');
   const errBox = document.getElementById('vidAddError');
   const btn = document.getElementById('vidSubmitBtn');
   errBox.style.display = 'none'; errBox.textContent = ''; errBox.classList.remove('vid-add-info');
+  subjInput.classList.remove('vid-invalid');
 
   const rawLines = urlInput.value.split('\n').map(s=>s.trim()).filter(Boolean);
   if(!rawLines.length){
-    errBox.textContent = 'حط رابط فيديو واحد على الأقل.';
+    errBox.textContent = 'حط رابط فيديو واحد على الأقل، أو رابط قائمة تشغيل.';
     errBox.style.display = 'block';
     return;
   }
-  // بنستبعد روابط قوائم التشغيل (list=) اللي مالهاش رقم فيديو (v=) واضح — يوتيوب مابيديش
-  // محتوى القائمة كلها من الرابط ده لوحده، فبنبلغ المستخدم يفصل روابط الفيديوهات بدل ما نتجاهلها بصمت.
-  const playlistOnly = [];
-  const toAdd = []; // {url, videoId}
+
+  // المادة أو الموضوع بقى إجباري — من غيره منقدرش نضيف أي فيديو (طلب أساسي عشان التنظيم يبقى مضبوط)
+  const subjectRaw = (subjInput.value || '').trim();
+  if(!subjectRaw){
+    errBox.textContent = 'اسم المادة أو الموضوع إجباري — اكتب اسم المادة (من الاقتراحات) أو اسم موضوع حر قبل ما تضيف.';
+    errBox.style.display = 'block';
+    subjInput.classList.add('vid-invalid');
+    subjInput.focus();
+    return;
+  }
+  const matchedCode = videoSubjectLabelToCode(subjectRaw);
+  const subjectCode = matchedCode || null;
+  const subjectLabel = matchedCode ? null : subjectRaw;
+
   const seenIds = new Set(videoLibrary.map(v=>v.videoId));
+  const toAdd = []; // {url, videoId}
+  const playlistIds = new Set();
   rawLines.forEach(line=>{
-    const videoId = extractYouTubeId(line);
-    if(!videoId){
-      if(/[?&]list=/.test(line)) playlistOnly.push(line);
-      return;
+    const c = vidClassifyLine(line);
+    if(c.type==='video'){
+      if(seenIds.has(c.id)) return; // متضاف بالفعل أو مكرر جوه نفس اللزقة
+      seenIds.add(c.id);
+      toAdd.push({url: line, videoId: c.id});
+    } else if(c.type==='playlist'){
+      playlistIds.add(c.id);
     }
-    if(seenIds.has(videoId)) return; // متضاف بالفعل أو مكرر جوه نفس اللزقة
-    seenIds.add(videoId);
-    toAdd.push({url: line, videoId});
   });
 
-  if(!toAdd.length){
-    errBox.textContent = playlistOnly.length
-      ? 'الرابط ده رابط "قائمة تشغيل" كاملة ومش رابط فيديو مفرد — يوتيوب مابيسمحش نجيب فيديوهاتها من الرابط ده لوحده. افتح القائمة وانسخ رابط كل فيديو فيها لوحده والصقهم هنا كل واحد في سطر.'
-      : 'مفيش رابط فيديو يوتيوب صحيح في اللي كتبته، أو كله متضاف بالفعل في المكتبة.';
+  const apiKey = (apiKeyInput.value || '').trim();
+  if(playlistIds.size && !apiKey){
+    errBox.textContent = 'لاقيت رابط قائمة تشغيل في اللي كتبته، لكن محتاجين مفتاح YouTube Data API عشان نجيب فيديوهاتها (شوف الشرح فوق مربع المفتاح). حط المفتاح أو امسح رابط القائمة وسيب روابط الفيديوهات المفردة بس.';
+    errBox.style.display = 'block';
+    apiKeyInput.focus();
+    return;
+  }
+
+  if(!toAdd.length && !playlistIds.size){
+    errBox.textContent = 'مفيش رابط فيديو أو قائمة تشغيل يوتيوب صحيح في اللي كتبته، أو كله متضاف بالفعل في المكتبة.';
     errBox.style.display = 'block';
     return;
   }
 
-  const subjectCode = (subjSelect && subjSelect.value) ? subjSelect.value : null;
-  const subjectLabel = subjectCode ? null : ((subjFreeText && subjFreeText.value.trim()) || null);
   const note = (noteInput.value||'').trim();
-
   btn.disabled = true;
   const originalLabel = btn.textContent;
-  let added = 0;
+
+  // 1) استيراد قوائم التشغيل الكاملة أولاً عن طريق الـ API الرسمي
+  const playlistErrors = [];
+  if(playlistIds.size){
+    if(apiKey !== videoYtApiKey){ videoYtApiKey = apiKey; await saveVideoYtApiKey(); }
+    let pIdx = 0;
+    for(const pid of playlistIds){
+      pIdx++;
+      btn.textContent = `بنجيب فيديوهات قائمة التشغيل (${pIdx}/${playlistIds.size})...`;
+      try{
+        const items = await fetchYouTubePlaylistItems(pid, apiKey);
+        items.forEach(it=>{
+          if(seenIds.has(it.videoId)) return;
+          seenIds.add(it.videoId);
+          toAdd.push({url: it.url, videoId: it.videoId, title: it.title, thumb: it.thumb});
+        });
+      }catch(e){
+        playlistErrors.push(`تعذّر جلب قائمة التشغيل (${pid}): ${e.message}`);
+      }
+    }
+  }
+
+  if(!toAdd.length){
+    btn.disabled = false;
+    btn.textContent = originalLabel;
+    errBox.textContent = playlistErrors.length ? playlistErrors.join(' — ') : 'مفيش فيديوهات جديدة نضيفها.';
+    errBox.style.display = 'block';
+    return;
+  }
+
+  // 2) نجيب عنوان/صورة أي فيديو مفرد لسه ملوش بيانات (فيديوهات القوائم غالبًا خدت بياناتها فعلاً)
   for(let i=0;i<toAdd.length;i++){
-    const {url, videoId} = toAdd[i];
+    const item = toAdd[i];
+    if(item.title && item.thumb) continue;
     btn.textContent = toAdd.length>1 ? `بنجيب بيانات الفيديو (${i+1}/${toAdd.length})...` : 'بنجيب بيانات الفيديو...';
-    let title = null, thumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+    let title = null, thumb = `https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`;
     try{
-      const meta = await fetchYouTubeMeta(videoId);
+      const meta = await fetchYouTubeMeta(item.videoId);
       if(meta && meta.title) title = meta.title;
       if(meta && meta.thumbnail_url) thumb = meta.thumbnail_url;
     }catch(e){ /* هنكمل بعنوان مؤقت لو فشل الجلب التلقائي (مشكلة نت أو حجب) — تقدر تعدّله بعدين بزرار ✏️ */ }
     if(!title){
-      // فيديو واحد بس؟ نسأل المستخدم يكتب العنوان بنفسه. أكتر من فيديو (استيراد جماعي)؟
-      // منسألوش سؤال منبثق (prompt) لكل فيديو عشان ده هيبقى مزعج جدًا — بنحط عنوان مؤقت قابل للتعديل.
       if(toAdd.length===1){
         title = (prompt('معرفناش نجيب عنوان الفيديو أوتوماتيك (ممكن تكون فيه مشكلة اتصال بالنت). اكتب عنوان الفيديو بنفسك:', '') || '').trim() || 'فيديو بدون عنوان';
       } else {
         title = `فيديو بدون عنوان (${i+1}) — دوس ✏️ لتعديل العنوان`;
       }
     }
+    item.title = title;
+    item.thumb = thumb;
+  }
+
+  toAdd.forEach(item=>{
     videoLibrary.unshift({
-      id: genId(), url, videoId, title, thumb,
+      id: genId(), url: item.url, videoId: item.videoId, title: item.title, thumb: item.thumb,
       subjectCode, subjectLabel,
       note, done: false, addedAt: Date.now()
     });
-    added++;
-  }
+  });
   await saveVideoLibrary();
   btn.disabled = false;
   btn.textContent = originalLabel;
   videoLibAddOpen = false;
+  if(playlistErrors.length){
+    alert('اتضاف ' + toAdd.length + ' فيديو، لكن حصلت مشكلة في جزء من قوائم التشغيل:\n' + playlistErrors.join('\n'));
+  }
   renderCurrentView();
 }
 function bindVideoAddForm(){
-  bindVideoSubjectPicker();
   const cancelBtn = document.getElementById('vidCancelBtn');
   if(cancelBtn) cancelBtn.onclick = ()=>{ videoLibAddOpen = false; renderCurrentView(); };
   const submitBtn = document.getElementById('vidSubmitBtn');
   if(submitBtn) submitBtn.onclick = handleVideoAddSubmit;
   const urlInput = document.getElementById('vidUrlInput');
-  if(urlInput) urlInput.focus();
+  if(urlInput){
+    urlInput.addEventListener('input', renderVidUrlStatus);
+    urlInput.focus();
+  }
+  renderVidUrlStatus();
 }
 function bindVideoLibrary(){
   const backBtn = document.getElementById('videoBackHome');
