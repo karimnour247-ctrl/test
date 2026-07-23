@@ -1751,6 +1751,21 @@ button:not(:disabled):active,
 .study-usage-bar b{color:var(--ink);font-weight:700;}
 .study-usage-bar.warn{background:var(--gold-soft);color:var(--gold);border-color:var(--gold);}
 .study-usage-bar.warn b{color:var(--gold);}
+.pmd-shop-quick-btn{
+  position:relative;margin-inline-start:auto;display:inline-flex;align-items:center;justify-content:center;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;
+  width:32px;height:32px;font-size:16px;cursor:pointer;transition:border-color .15s ease, background .15s ease;flex:none;
+}
+.pmd-shop-quick-btn:hover{border-color:var(--navy);background:var(--navy-soft);}
+.pmd-shop-quick-btn.active{border-color:var(--navy);background:var(--navy);}
+.pmd-shop-quick-badge{
+  position:absolute;top:-6px;inset-inline-end:-6px;background:var(--maroon);color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:700;line-height:1;
+  min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;
+  padding:0 3px;box-shadow:0 0 0 2px var(--card);animation:pmdShopBadgePulse 1.8s ease-in-out infinite;
+}
+@keyframes pmdShopBadgePulse{ 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+@media (prefers-reduced-motion: reduce){ .pmd-shop-quick-badge{animation:none;} }
 @keyframes coinPop{
   0%{transform:scale(1);}
   35%{transform:scale(1.28) rotate(-8deg);}
@@ -1829,12 +1844,15 @@ button:not(:disabled):active,
   background:var(--paper);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
   padding:24px;animation:revealUp .25s ease both;
+  overflow-y:auto;
 }
 .pmd-ring-box.pmd-ring-expanded .pmd-ring-expand-btn{top:18px;left:18px;}
 .pmd-ring-box.pmd-ring-expanded .pmd-ring-wrap{width:min(78vmin,560px);height:min(78vmin,560px);}
 .pmd-ring-box.pmd-ring-expanded .pmd-time-label{font-size:min(11vmin,72px);}
 .pmd-ring-box.pmd-ring-expanded .pmd-phase-label{font-size:min(3.4vmin,20px);}
 .pmd-ring-box.pmd-ring-expanded .pmd-dots{transform:scale(1.4);}
+.pmd-ring-tabs-wrap{width:100%;max-width:640px;display:flex;flex-direction:column;gap:12px;margin:0 auto;}
+.pmd-ring-tabs-wrap .pmd-tabs-bar{position:sticky;top:0;}
 .pmd-ring-current-task{
   display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;
 }
@@ -2008,6 +2026,8 @@ body.pmd-focus-active .study-back{ display:none; }
 .pmd-task-del-btn{position:absolute;top:10px;inset-inline-end:10px;background:none;border:none;color:var(--ink-soft);font-size:14px;cursor:pointer;padding:2px;line-height:1;}
 .pmd-task-del-btn:hover{color:var(--maroon);}
 .pmd-task-check-row{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.pmd-task-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;}
+.pmd-task-no-video{width:44px;height:44px;border-radius:8px;background:var(--paper-2);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none;}
 .pmd-task-checkbox{width:19px;height:19px;flex:none;accent-color:var(--navy);cursor:pointer;}
 .pmd-task-title{font-size:13.5px;font-weight:700;}
 .pmd-task-item.pmd-task-done .pmd-task-title{text-decoration:line-through;color:var(--ink-soft);}
@@ -2021,6 +2041,8 @@ body.pmd-focus-active .study-back{ display:none; }
 .pmd-side-tasks-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:800;color:var(--ink);}
 .pmd-side-tasks-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
 .pmd-side-task-row{display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;padding:4px 2px;}
+.pmd-side-task-thumb{width:26px;height:26px;border-radius:6px;object-fit:cover;flex:none;}
+.pmd-side-task-no-video{width:26px;height:26px;border-radius:6px;background:var(--paper-2);border:1px dashed var(--line);display:flex;align-items:center;justify-content:center;font-size:12px;flex:none;}
 .pmd-side-task-row input{width:16px;height:16px;flex:none;accent-color:var(--navy);cursor:pointer;}
 .pmd-side-task-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .pmd-side-task-row.done .pmd-side-task-title{text-decoration:line-through;color:var(--ink-soft);}
@@ -2028,6 +2050,13 @@ body.pmd-focus-active .study-back{ display:none; }
 /* صندوق التاسكات المدمج تحت حقل المادة مباشرة في المؤقت — بيعرض تاسكات المادة المفتوحة
    بشكل واضح، مع زرار "ابدأ" على كل تاسك يحدده كتاسك حالي ويشغّل المؤقت عليه فورًا،
    وحقل إضافة سريع تحت من غير ما تحتاج تفتح تاب "المهام" المنفصل. */
+/* صندوق الفيديو المدمج جوه شاشة البومودورو نفسها — بيظهر تلقائيًا لما تدوس "▶ ابدأ" على تاسك
+   مربوط بفيديو، عشان تتفرج عليه وانت شغّال من غير ما تسيب أداة البومودورو خالص. */
+.pmd-active-video-box{
+  width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+  padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin-top:4px;
+}
+.pmd-active-video-frame{margin:0;}
 .pmd-inline-tasks-box{
   width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
   padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin-top:4px;
@@ -2047,7 +2076,8 @@ body.pmd-focus-active .study-back{ display:none; }
 .pmd-inline-add-row button{flex:none;white-space:nowrap;}
 .pmd-tick-toggle{border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);border-radius:10px;padding:10px 14px;font-size:16px;cursor:pointer;line-height:1;}
 .pmd-tick-toggle.active{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);}
-.pmd-tabs-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:8px;}
+.pmd-tabs-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:8px;position:sticky;top:calc(var(--tabs-h) + 8px);z-index:18;}
+body.pmd-focus-active .pmd-tabs-bar{top:8px;}
 .pmd-tab-btn{display:flex;align-items:center;gap:6px;border:none;background:transparent;color:var(--ink-soft);border-radius:10px;padding:8px 14px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s ease, color .15s ease;}
 .pmd-tab-btn:hover{background:var(--card);}
 .pmd-tab-btn.active{background:var(--navy);color:#fff;}
@@ -2055,10 +2085,33 @@ body.pmd-focus-active .study-back{ display:none; }
 .pmd-tab-content{animation:pmdTabIn .2s ease;}
 @keyframes pmdTabIn{ from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
 @media (max-width:640px){
-  .pmd-ring-wrap{width:240px;height:240px;}
-  .pmd-time-label{font-size:32px;}
+  .study-view.pmd-view{gap:10px;}
+  .pmd-dashboard{gap:12px;}
+  .pmd-main-col{min-width:0;flex-basis:100%;}
+  .pmd-side-col{min-width:0;flex-basis:100%;max-width:100%;}
+  .pmd-timer-card{padding:18px 12px;gap:12px;border-radius:16px;}
+  .pmd-ring-wrap{width:220px;height:220px;}
+  .pmd-time-label{font-size:30px;}
+  .pmd-phase-label{font-size:12px;}
+  .study-usage-bar{gap:6px 10px;padding:7px 10px;font-size:11px;}
+  .pmd-controls{gap:8px;}
+  .pmd-btn{padding:9px 14px;font-size:13px;}
+  .pmd-tabs-bar{
+    flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none;gap:4px;padding:6px;margin:0 -4px;
+  }
+  .pmd-tabs-bar::-webkit-scrollbar{display:none;}
   .pmd-tab-lbl{display:none;}
-  .pmd-tab-btn{padding:9px 11px;}
+  .pmd-tab-btn{padding:9px 11px;flex:none;}
+  .pmd-sound-grid{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));}
+  .pmd-shop-grid{grid-template-columns:repeat(auto-fill,minmax(92px,1fr));}
+  .pmd-stats-grid, .pmd-analytics-grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr));}
+}
+@media (max-width:400px){
+  .pmd-ring-wrap{width:180px;height:180px;}
+  .pmd-time-label{font-size:26px;}
+  .study-usage-bar{font-size:10px;}
+  .pmd-btn{padding:8px 11px;font-size:12.5px;}
 }
 
 
@@ -2238,6 +2291,9 @@ body.pmd-focus-active .study-back{ display:none; }
 .vid-title{font-weight:700;font-size:13.5px;line-height:1.5;}
 .vid-note{width:100%;min-height:48px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--paper-2);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:12.5px;resize:vertical;}
 .vid-note::placeholder{color:var(--grey);}
+.vid-task-link-status{font-size:11px;color:var(--ink-soft);background:var(--paper-2);border:1px dashed var(--line);border-radius:8px;padding:6px 8px;}
+.vid-task-link-status.vid-task-link-done{color:var(--teal);font-weight:700;border-color:var(--teal);}
+.vid-task-link-status.vid-task-link-missing{color:var(--maroon);}
 .vid-actions{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:auto;}
 .vid-done-btn{flex:1;padding:8px;border-radius:8px;border:1.5px solid var(--teal);background:transparent;color:var(--teal);font-weight:700;font-size:12px;cursor:pointer;font-family:'Tajawal',sans-serif;transition:background .15s ease,color .15s ease;}
 .vid-done-btn.on{background:var(--teal);color:#fff;}
@@ -9499,6 +9555,12 @@ function pomodoroSubjectBreakdown(){
 }
 /* ===== تقسيم المادة لتاسكات: كل تاسك بياخد عدد جلسات محدد، وبيتعلّم كمكتمل يدويًا من الطالب نفسه ===== */
 function pomodoroTaskId(){ return 'task_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
+/* بيحوّل اسم المادة اللي المستخدم كاتبه في البومودورو لنفس صيغة subjectCode/subjectLabel اللي
+   أداة مكتبة الفيديوهات بتتعرف بيها المواد، عشان الفيديو يظهر جوه نفس مجموعة المادة هناك بالظبط. */
+function pomodoroResolveVideoSubject(subjectName){
+  const matchedCode = videoSubjectLabelToCode(subjectName);
+  return { subjectCode: matchedCode || null, subjectLabel: matchedCode ? null : subjectName };
+}
 function pomodoroTasksForSubject(subjectName){
   return pomodoroTasks.filter(tk=>tk.subjectName===subjectName);
 }
@@ -9512,14 +9574,16 @@ function pomodoroAddTask(subjectName, title, sessionsRequired){
   subjectName = (subjectName||'').trim();
   title = (title||'').trim();
   sessionsRequired = Math.max(1, parseInt(sessionsRequired,10)||1);
-  if(!subjectName || !title) return;
-  pomodoroTasks.push({
+  if(!subjectName || !title) return null;
+  const tk = {
     id: pomodoroTaskId(),
     subjectName, title, sessionsRequired,
     sessionsDone:0, completed:false,
     createdAt:new Date().toISOString(), completedAt:null
-  });
+  };
+  pomodoroTasks.push(tk);
   savePomodoroTasks();
+  return tk;
 }
 function pomodoroDeleteTask(id){
   const tk = pomodoroTasks.find(x=>x.id===id);
@@ -9535,6 +9599,12 @@ function pomodoroDeleteTask(id){
   pomodoroTasks = pomodoroTasks.filter(tk=>tk.id!==id);
   if(pomodoroTimer && pomodoroTimer.activeTaskId===id) pomodoroTimer.activeTaskId = null;
   savePomodoroTasks();
+  // أي فيديو كان مربوط بالتاسك ده يترمي الربط (بدون ما يتغيّر وضع "تم" بتاعه، فقط الربط بيتشال)
+  const affectedVideos = videoLibrary.filter(v=>v.linkedTaskId===id);
+  if(affectedVideos.length){
+    affectedVideos.forEach(v=>{ v.linkedTaskId = null; });
+    saveVideoLibrary();
+  }
 }
 /* تعليم تاسك كمكتمل (أو الرجوع عنه) — التاسك بيتعلّم "خلصان" بقرار الطالب نفسه مش أوتوماتيك بعدد الجلسات،
    عشان أحيانًا التاسك ياخد جلسات أكتر أو أقل من المتوقع. بمكافأة كوينز/XP إضافية لما يخلص، مرة واحدة بس
@@ -9555,6 +9625,37 @@ function pomodoroMarkTaskDone(id, done){
     pomodoroShowToast(`🎉 خلصت تاسك "${tk.title}"! (+${POMODORO_TASK_COMPLETE_COINS} 💰 · +${POMODORO_TASK_COMPLETE_XP} 🎮 XP)`);
   }
   savePomodoroTasks();
+  pomodoroSyncLinkedVideos(id, tk.completed);
+}
+/* أي فيديو جوه مكتبة الفيديوهات مربوط بالتاسك ده (linkedTaskId) بياخد نفس حالة "تم" بتاعت
+   التاسك — سواء لما التاسك يخلص (الفيديو يتحدد تلقائي) أو لما نرجع عن التاسك (الفيديو يرجع
+   "لسه ما اتفرجتش" برضو)، عشان الأداتين يفضلوا متزامنين مع بعض على طول. */
+function pomodoroSyncLinkedVideos(taskId, completed){
+  const linked = videoLibrary.filter(v=>v.linkedTaskId===taskId);
+  if(!linked.length) return;
+  linked.forEach(v=>{ v.done = !!completed; });
+  saveVideoLibrary();
+  if(studyToolActive==='videos') renderCurrentView();
+}
+function pomodoroTaskLinkedVideo(taskId){
+  return videoLibrary.find(v=>v.linkedTaskId===taskId) || null;
+}
+/* عكس pomodoroSyncLinkedVideos: أي فيديو اتحدد "خلصتها"/"لسه" من أي شاشة (مكتبة الفيديوهات،
+   مشغّل الفيديو، أو مربع الفيديو جوه البومودورو) لازم يودّي نفس الحالة للتاسك المربوط بيه في
+   البومودورو، مش بس العكس. من غير الدالة دي، تحديد الفيديو كمخلّص من "مكتبة الفيديوهات" كان
+   بيفضل التاسك المرتبط زي ما هو (لسه مش خلصان) وده اللي كان بيلخبط الطلاب. */
+function videoSetDone(v, done){
+  if(!v) return;
+  done = !!done;
+  v.done = done;
+  if(v.linkedTaskId){
+    const tk = pomodoroTasks.find(x=>x.id===v.linkedTaskId);
+    if(tk && tk.completed!==done){
+      pomodoroMarkTaskDone(tk.id, done); // ده بينادي savePomodoroTasks + pomodoroSyncLinkedVideos (اللي بيحفظ الفيديو كمان)
+      return;
+    }
+  }
+  saveVideoLibrary();
 }
 function pomodoroSubjectTaskStats(subjectName){
   const tasks = pomodoroTasksForSubject(subjectName);
@@ -10334,35 +10435,35 @@ function pomodoroSetSessionsBeforeLong(v){
    (owned) وبعدها يتفعّل ويتبدّل بينه وبين غيره من غير أي تكلفة إضافية. */
 const POMODORO_SHOP_RING_THEMES = [
   { id:'classic', name:'كلاسيك',       price:0,   study:'var(--navy)', shortBreak:'var(--teal)', longBreak:'var(--gold)' },
-  { id:'sunset',  name:'غروب',         price:60,  study:'#E4574C', shortBreak:'#F0954B', longBreak:'#F2C14E' },
-  { id:'ocean',   name:'محيط',         price:60,  study:'#1B6CA8', shortBreak:'#2AA3B0', longBreak:'#6FD1C5' },
-  { id:'berry',   name:'توت',          price:80,  study:'#8E3B8F', shortBreak:'#C2569C', longBreak:'#E48AC4' },
-  { id:'mono',    name:'أبيض وأسود',   price:100, study:'#10131F', shortBreak:'#565E76', longBreak:'#9AA0B4' },
+  { id:'sunset',  name:'غروب',         price:15000,  study:'#E4574C', shortBreak:'#F0954B', longBreak:'#F2C14E' },
+  { id:'ocean',   name:'محيط',         price:15000,  study:'#1B6CA8', shortBreak:'#2AA3B0', longBreak:'#6FD1C5' },
+  { id:'berry',   name:'توت',          price:40000,  study:'#8E3B8F', shortBreak:'#C2569C', longBreak:'#E48AC4' },
+  { id:'mono',    name:'أبيض وأسود',   price:90000, study:'#10131F', shortBreak:'#565E76', longBreak:'#9AA0B4' },
 ];
 const POMODORO_SHOP_TREE_SKINS = [
   { id:'default', name:'أخضر كلاسيك', price:0,   trunk:'#6B4A2C', leaf1:'#5DA84A', leaf2:'#6BAE55', leaf3:'#7CB768', bloom:'#E4574C' },
-  { id:'sakura',  name:'ساكورا',      price:70,  trunk:'#7A5A46', leaf1:'#F4A6C1', leaf2:'#F8C6D9', leaf3:'#FBD9E6', bloom:'#FF6FA0' },
-  { id:'autumn',  name:'خريف',        price:70,  trunk:'#6B4A2C', leaf1:'#C97A2B', leaf2:'#E0964B', leaf3:'#F0B36B', bloom:'#B33B1E' },
-  { id:'winter',  name:'شتاء',        price:90,  trunk:'#8C9AA8', leaf1:'#BBD9EA', leaf2:'#DCEEF7', leaf3:'#EFF8FC', bloom:'#FFFFFF' },
-  { id:'golden',  name:'ذهبي',        price:120, trunk:'#6B4A2C', leaf1:'#D4A017', leaf2:'#E8C468', leaf3:'#F3D98B', bloom:'#FFF3C4' },
+  { id:'sakura',  name:'ساكورا',      price:25000,  trunk:'#7A5A46', leaf1:'#F4A6C1', leaf2:'#F8C6D9', leaf3:'#FBD9E6', bloom:'#FF6FA0' },
+  { id:'autumn',  name:'خريف',        price:25000,  trunk:'#6B4A2C', leaf1:'#C97A2B', leaf2:'#E0964B', leaf3:'#F0B36B', bloom:'#B33B1E' },
+  { id:'winter',  name:'شتاء',        price:60000,  trunk:'#8C9AA8', leaf1:'#BBD9EA', leaf2:'#DCEEF7', leaf3:'#EFF8FC', bloom:'#FFFFFF' },
+  { id:'golden',  name:'ذهبي',        price:220000, trunk:'#6B4A2C', leaf1:'#D4A017', leaf2:'#E8C468', leaf3:'#F3D98B', bloom:'#FFF3C4' },
 ];
 const POMODORO_SHOP_AVATARS = [
   { id:'none',    name:'بدون',      price:0,  icon:'' },
-  { id:'cat',     name:'قطة',       price:30, icon:'🐱' },
-  { id:'fox',     name:'ثعلب',      price:30, icon:'🦊' },
-  { id:'panda',   name:'باندا',     price:40, icon:'🐼' },
-  { id:'owl',     name:'بومة',      price:40, icon:'🦉' },
-  { id:'lion',    name:'أسد',       price:50, icon:'🦁' },
-  { id:'unicorn', name:'يونيكورن',  price:70, icon:'🦄' },
+  { id:'cat',     name:'قطة',       price:3500, icon:'🐱' },
+  { id:'fox',     name:'ثعلب',      price:3500, icon:'🦊' },
+  { id:'panda',   name:'باندا',     price:6000, icon:'🐼' },
+  { id:'owl',     name:'بومة',      price:6000, icon:'🦉' },
+  { id:'lion',    name:'أسد',       price:10000, icon:'🦁' },
+  { id:'unicorn', name:'يونيكورن',  price:25000, icon:'🦄' },
 ];
 /* المرحلة 6: ثيمات غرفة التركيز (2D Focus Room). كل ثيم بيحدد ألوان الحيطة/المكتب/التفاصيل،
    وبيتفتح بالشراء بالكوينز زي باقي أقسام المتجر، ما عدا الثيم الافتراضي "غرفة طالب" اللي مجاني. */
 const POMODORO_ROOM_THEMES = [
   { id:'student',  name:'غرفة طالب',    price:0,   wall:'#EDE3D0', wall2:'#E1D4BB', desk:'#8C6A46', accent:'#C9A66B', frame:'#6B4A2C' },
-  { id:'library',  name:'مكتبة',        price:90,  wall:'#3A2A1E', wall2:'#4C3826', desk:'#5A3D26', accent:'#B08F5A', frame:'#2A1D14' },
-  { id:'cafe',     name:'مقهى',         price:90,  wall:'#5B3A2E', wall2:'#70493A', desk:'#4A2E20', accent:'#D9A441', frame:'#2E1B12' },
-  { id:'japanese', name:'غرفة يابانية', price:110, wall:'#E8DCC8', wall2:'#DACBAE', desk:'#8B5E3C', accent:'#B23B3B', frame:'#4A3524' },
-  { id:'space',    name:'محطة فضاء',    price:140, wall:'#1B2036', wall2:'#262C4A', desk:'#3C4260', accent:'#6FD1C5', frame:'#12152A' },
+  { id:'library',  name:'مكتبة',        price:60000,  wall:'#3A2A1E', wall2:'#4C3826', desk:'#5A3D26', accent:'#B08F5A', frame:'#2A1D14' },
+  { id:'cafe',     name:'مقهى',         price:60000,  wall:'#5B3A2E', wall2:'#70493A', desk:'#4A2E20', accent:'#D9A441', frame:'#2E1B12' },
+  { id:'japanese', name:'غرفة يابانية', price:140000, wall:'#E8DCC8', wall2:'#DACBAE', desk:'#8B5E3C', accent:'#B23B3B', frame:'#4A3524' },
+  { id:'space',    name:'محطة فضاء',    price:500000, wall:'#1B2036', wall2:'#262C4A', desk:'#3C4260', accent:'#6FD1C5', frame:'#12152A' },
 ];
 function pomodoroShopCatalog(category){
   if(category==='ringThemes') return POMODORO_SHOP_RING_THEMES;
@@ -10403,6 +10504,19 @@ function pomodoroBuyShopItem(category, id){
   savePomodoroShop();
   renderCurrentView();
 }
+/* عدد عناصر المتجر (في كل الأقسام) اللي الطالب لسه ماشتراهاش بس معاه كوينز كفاية عشان يشتريها،
+   بنستخدمه عشان نوريه إشعار/رقم على أيقونة المتجر السريعة جنب الكوينز. */
+function pomodoroShopAffordableCount(){
+  const categories = ['ringThemes','treeSkins','avatars','roomThemes'];
+  let count = 0;
+  categories.forEach(cat=>{
+    pomodoroShopCatalog(cat).forEach(item=>{
+      const owned = pomodoroShop.owned[cat].includes(item.id);
+      if(!owned && pomodoroStats.coins >= item.price) count++;
+    });
+  });
+  return count;
+}
 function pomodoroShopCardHtml(category, item){
   const activeKey = pomodoroShopActiveKey(category);
   const owned = pomodoroShop.owned[category].includes(item.id);
@@ -10419,7 +10533,7 @@ function pomodoroShopCardHtml(category, item){
     ? `<span class="pmd-shop-tag">✓ مُفعّل</span>`
     : owned
       ? `<button type="button" class="pmd-shop-btn pmd-shop-btn-select" data-pmd-shop-select="${category}:${item.id}">تفعيل</button>`
-      : `<button type="button" class="pmd-shop-btn pmd-shop-btn-buy" data-pmd-shop-buy="${category}:${item.id}" ${canAfford?'':'disabled'}>شراء 💰${item.price}</button>`;
+      : `<button type="button" class="pmd-shop-btn pmd-shop-btn-buy" data-pmd-shop-buy="${category}:${item.id}" ${canAfford?'':'disabled'}>شراء 💰${item.price.toLocaleString('en-US')}</button>`;
   return `<div class="pmd-shop-card${active?' active':''}">
     ${preview}
     <div class="pmd-shop-name">${item.name}</div>
@@ -10432,7 +10546,7 @@ function pomodoroShopPanelHtml(){
   const avatarCards = POMODORO_SHOP_AVATARS.map(i=>pomodoroShopCardHtml('avatars', i)).join('');
   const roomCards = POMODORO_ROOM_THEMES.map(i=>pomodoroShopCardHtml('roomThemes', i)).join('');
   return `<div class="pmd-panel">
-    <h3>🎨 متجر التخصيص · 💰 ${pomodoroStats.coins}</h3>
+    <h3>🎨 متجر التخصيص · 💰 ${pomodoroStats.coins.toLocaleString('en-US')}</h3>
     <div class="pmd-shop-section-title">🕐 ثيمات ألوان المؤقت</div>
     <div class="pmd-shop-grid">${ringCards}</div>
     <div class="pmd-shop-section-title">🌳 أشكال ألوان الشجرة</div>
@@ -10486,7 +10600,7 @@ function pomodoroDrawAchievementCard(){
 
   ctx.font = "18px Tajawal, Arial, sans-serif";
   ctx.fillStyle = '#ffffff';
-  ctx.fillText(`💰 ${pomodoroStats.coins} كوين   ·   ⏱️ ${totalHours} ساعة مذاكرة`, w/2, 140);
+  ctx.fillText(`💰 ${pomodoroStats.coins.toLocaleString('en-US')} كوين   ·   ⏱️ ${totalHours} ساعة مذاكرة`, w/2, 140);
   ctx.fillText(`📚 ${totalSessions} جلسة مكتملة`, w/2, 172);
   if(topSubject) ctx.fillText(`📘 أكتر مادة بتذاكرها: ${topSubject.name}`, w/2, 204);
 
@@ -10723,10 +10837,15 @@ function pomodoroTasksPanelHtml(){
       const pct = Math.min(100, Math.round((tk.sessionsDone/tk.sessionsRequired)*100));
       const overBy = tk.sessionsDone - tk.sessionsRequired;
       const overBadgeHtml = overBy>0 ? `<span class="pmd-task-over-badge">زودت ${overBy} 🔥</span>` : '';
+      const linkedVideo = pomodoroTaskLinkedVideo(tk.id);
+      const thumbHtml = linkedVideo
+        ? `<img class="pmd-task-thumb" src="${escapeHtml(linkedVideo.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="videoThumbFallback(this,'${linkedVideo.videoId}')" title="مرتبط بفيديو">`
+        : `<span class="pmd-task-no-video" title="مفيش فيديو مربوط بالتاسك ده">📝</span>`;
       return `<div class="pmd-task-item${tk.completed?' pmd-task-done':''}">
         <button type="button" class="pmd-task-del-btn" data-pmd-task-del="${tk.id}" title="حذف التاسك">🗑</button>
         <label class="pmd-task-check-row">
           <input type="checkbox" class="pmd-task-checkbox" data-pmd-task-toggle="${tk.id}" ${tk.completed?'checked':''}>
+          ${thumbHtml}
           <span class="pmd-task-title">${escapeHtml(tk.title)}</span>
         </label>
         <div class="pmd-task-meta-row">
@@ -10750,6 +10869,13 @@ function pomodoroTasksPanelHtml(){
         <div class="pmd-chip-row">
           ${[1,2,3,4,5,6,8,10].map(n=>`<button type="button" class="pmd-chip${t.newTaskSessions===n?' active':''}" data-pmd-task-sessions="${n}">${n}</button>`).join('')}
         </div>
+        <label style="font-size:12.5px;font-weight:700;color:var(--ink-soft);">رابط فيديو للتاسك ده (اختياري)</label>
+        <input type="text" class="pmd-select" id="pmdNewTaskVideoInput" placeholder="رابط فيديو يوتيوب واحد، أو رابط قائمة تشغيل كاملة (list=) وهنعمل تاسك لكل فيديو بالترتيب">
+        <div class="vid-playlist-key-wrap">
+          <label>مفتاح YouTube Data API (لازم بس لو حطيت رابط قائمة تشغيل كاملة فوق)</label>
+          <input type="text" class="code" id="pmdTaskYtApiKeyInput" placeholder="الصق مفتاح الـ API بتاعك هنا..." autocomplete="off" value="${escapeHtml(videoYtApiKey||'')}">
+        </div>
+        <div class="study-error" id="pmdTaskVideoError" style="display:none;"></div>
         <button type="button" class="pmd-btn pmd-btn-primary" id="pmdAddTaskBtn" style="align-self:flex-start;">إضافة التاسك</button>
       </div>
       <h3>📋 تاسكات ${escapeHtml(selectedSubject)}</h3>
@@ -10847,12 +10973,19 @@ function pomodoroSideTaskChecklistHtml(){
   const stats = pomodoroSubjectTaskStats(subj);
   const donePct = stats.totalTasks ? Math.round((stats.completedTasks/stats.totalTasks)*100) : 0;
   const sorted = tasks.slice().sort((a,b)=> (a.completed===b.completed?0:(a.completed?1:-1)) || (new Date(a.createdAt)-new Date(b.createdAt)));
-  const itemsHtml = sorted.map(tk=>`
+  const itemsHtml = sorted.map(tk=>{
+    const linkedVideo = pomodoroTaskLinkedVideo(tk.id);
+    const thumbHtml = linkedVideo
+      ? `<img class="pmd-side-task-thumb" src="${escapeHtml(linkedVideo.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="videoThumbFallback(this,'${linkedVideo.videoId}')" title="مرتبط بفيديو">`
+      : `<span class="pmd-side-task-no-video" title="مفيش فيديو مربوط">📝</span>`;
+    return `
     <label class="pmd-side-task-row${tk.completed?' done':''}">
       <input type="checkbox" data-pmd-side-task-toggle="${tk.id}" ${tk.completed?'checked':''}>
+      ${thumbHtml}
       <span class="pmd-side-task-title">${escapeHtml(tk.title)}</span>
       <span class="pmd-side-task-count">${tk.sessionsDone}/${tk.sessionsRequired}</span>
-    </label>`).join('');
+    </label>`;
+  }).join('');
   return `<div class="pmd-side-tasks-box">
     <div class="pmd-side-tasks-head"><span>🗂️ تاسكات ${escapeHtml(subj)}</span><span>${stats.completedTasks}/${stats.totalTasks}</span></div>
     <div class="vid-progress-bar"><div class="vid-progress-fill" style="width:${donePct}%"></div></div>
@@ -10863,6 +10996,7 @@ function pomodoroViewHtml(){
   pomodoroEnsureTimerInit();
   const t = pomodoroTimer;
   const todayCount = pomodoroStatsTodayCount();
+  const shopAffordableCount = pomodoroShopAffordableCount();
   const ringR = 130;
   const circumference = 2*Math.PI*ringR;
   const ratio = t.totalSec>0 ? (t.remainingSec/t.totalSec) : 0;
@@ -10876,7 +11010,8 @@ function pomodoroViewHtml(){
 
   const pickDisabled = t.running ? 'disabled' : '';
   const activeTaskObj = t.activeTaskId ? pomodoroTasks.find(tk=>tk.id===t.activeTaskId) : null;
-  const addedSubjectsDatalistHtml = pomodoroAllUserAddedSubjectNames().map(n=>`<option value="${escapeHtml(n)}"></option>`).join('');
+  const activeTaskVideo = activeTaskObj ? pomodoroTaskLinkedVideo(activeTaskObj.id) : null;
+  const subjectOptionsHtml = (()=>{ const cur=(t.subjectName||'').trim(); return pomodoroAllUserAddedSubjectNames().map(n=>`<option value="${escapeHtml(n)}"${cur===n?' selected':''}>${escapeHtml(n)}</option>`).join(''); })();
 
   const unlockedBannerHtml = (t.newlyUnlocked && t.newlyUnlocked.length) ? `
     <div class="pmd-unlock-banner">
@@ -10907,6 +11042,18 @@ function pomodoroViewHtml(){
       <button type="button" class="pmd-btn pmd-btn-primary pmd-inline-task-start" data-pmd-inline-task-start="${tk.id}" ${pickDisabled}>▶ ابدأ</button>
     </div>`;
   }).join('');
+  const activeTaskVideoHtml = activeTaskVideo ? `
+      <div class="pmd-active-video-box">
+        <div class="pmd-side-tasks-head"><span>🎬 فيديو التاسك الحالي: ${escapeHtml(activeTaskObj.title)}</span></div>
+        <div class="vid-player-frame pmd-active-video-frame">
+          <iframe src="https://www.youtube-nocookie.com/embed/${activeTaskVideo.videoId}?rel=0" title="${escapeHtml(activeTaskVideo.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="vid-player-controls">
+          <button class="vid-player-btn${activeTaskVideo.done?' done':''}" id="pmdActiveVideoDoneBtn" type="button">${activeTaskVideo.done?'✓ خلصتها':'حدد الفيديو كمخلّص'}</button>
+          <a class="vid-player-btn" href="${escapeHtml(activeTaskVideo.url)}" target="_blank" rel="noopener noreferrer">↗️ فتح على يوتيوب</a>
+        </div>
+      </div>` : '';
+
   const taskPickHtml = currentSubjectTrimmed ? `
       <div class="pmd-inline-tasks-box">
         <div class="pmd-side-tasks-head"><span>🗂️ تاسكات ${escapeHtml(currentSubjectTrimmed)}</span><span>${currentSubjectAllTasks.filter(tk=>tk.completed).length}/${currentSubjectAllTasks.length}</span></div>
@@ -10923,10 +11070,13 @@ function pomodoroViewHtml(){
   const subjectAndControlsHtml = `
       <div class="pmd-subject-row">
         <label>📘 المادة</label>
-        <input type="text" class="pmd-select" list="pmdSubjectDatalist" id="pmdSubjectInput"
-          value="${escapeHtml(t.subjectName||'')}" placeholder="اكتب اسم المادة اللي هتذاكرها دلوقتي..." ${pickDisabled}>
-        <datalist id="pmdSubjectDatalist">${addedSubjectsDatalistHtml}</datalist>
+        <select class="pmd-select" id="pmdSubjectInput" ${pickDisabled}>
+          <option value="">-- اختار مادة --</option>
+          ${subjectOptionsHtml}
+          <option value="__new__">➕ إضافة مادة جديدة...</option>
+        </select>
       </div>
+      ${activeTaskVideoHtml}
       ${taskPickHtml}
       <div class="pmd-controls">
         ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">▶ Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">⏸ Pause</button>`}
@@ -10939,6 +11089,7 @@ function pomodoroViewHtml(){
     ${PMD_TABS.map(tb=>`<button type="button" class="pmd-tab-btn${t.activeTab===tb.id?' active':''}" data-pmd-tab="${tb.id}"><span class="pmd-tab-ic">${tb.icon}</span><span class="pmd-tab-lbl">${tb.label}</span></button>`).join('')}
   </div>`;
   const tabContentHtml = t.activeTab ? `<div class="pmd-tab-content">${pomodoroTabPanelHtml(t.activeTab)}</div>` : '';
+  const ringExpandedTabsHtml = t.ringExpanded ? `<div class="pmd-ring-tabs-wrap">${tabsBarHtml}${tabContentHtml}</div>` : '';
 
   return `<div class="study-view pmd-view">
     <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
@@ -10950,9 +11101,14 @@ function pomodoroViewHtml(){
       ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge">${pomodoroActiveAvatar().icon}</span>` : ''}
       <span>جلسات النهاردة: <b>${todayCount}</b></span>
       <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
-      <span>💰 Coins: <b>${pomodoroStats.coins}</b></span>
+      <span>💰 Coins: <b>${pomodoroStats.coins.toLocaleString('en-US')}</b></span>
       <span>🎮 المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
+      <button type="button" class="pmd-shop-quick-btn${t.activeTab==='shop'?' active':''}" id="pmdShopQuickBtn" title="المتجر">
+        🎨${shopAffordableCount>0 ? `<span class="pmd-shop-quick-badge">${shopAffordableCount>99?'99+':shopAffordableCount}</span>` : ''}
+      </button>
     </div>
+
+    ${!t.ringExpanded ? tabsBarHtml : ''}
 
     <div class="pmd-dashboard" style="--pmd-phase-color:${phaseColor};">
       <div class="pmd-main-col">
@@ -10975,6 +11131,7 @@ function pomodoroViewHtml(){
               <span class="pmd-ring-current-subject">📘 ${escapeHtml(t.subjectName.trim())}</span>
               ${activeTaskObj ? `<span class="pmd-ring-current-taskname">🗂️ ${escapeHtml(activeTaskObj.title)}</span>` : `<span class="pmd-ring-current-taskname pmd-ring-current-taskname-empty">من غير تاسك محدد</span>`}
             </div>` : ''}
+            ${ringExpandedTabsHtml}
           </div>
           ${t.showNote ? noteBox : subjectAndControlsHtml}
         </div>
@@ -10986,8 +11143,7 @@ function pomodoroViewHtml(){
       </div>
     </div>
 
-    ${tabsBarHtml}
-    ${tabContentHtml}
+    ${!t.ringExpanded ? tabContentHtml : ''}
   </div>`;
 }
 function bindPomodoroView(){
@@ -11001,22 +11157,34 @@ function bindPomodoroView(){
 
   const ringExpandBtn = document.getElementById('pmdRingExpandToggle');
   if(ringExpandBtn) ringExpandBtn.onclick = ()=> pomodoroToggleRingExpand();
+  const activeVideoDoneBtn = document.getElementById('pmdActiveVideoDoneBtn');
+  if(activeVideoDoneBtn) activeVideoDoneBtn.onclick = async ()=>{
+    const activeTask = pomodoroTimer.activeTaskId ? pomodoroTasks.find(tk=>tk.id===pomodoroTimer.activeTaskId) : null;
+    const v = activeTask ? pomodoroTaskLinkedVideo(activeTask.id) : null;
+    if(!v) return;
+    videoSetDone(v, !v.done);
+    renderCurrentView();
+  };
 
   const subjInput = document.getElementById('pmdSubjectInput');
-  if(subjInput) subjInput.oninput = ()=> pomodoroSetSubjectName(subjInput.value);
-  /* بنعمل رندر تاني بس لما الطالب يخرج من الحقل (blur/تغيير) أو يدوس Enter، عشان لسته الكتابة
-     ميتقطعش، لكن قايمة التاسكات الظاهرة تحت تتحدث على أساس المادة الجديدة فورًا */
   const commitSubjectInput = ()=>{
     if(pomodoroTimer.activeTaskId){
       const activeTask = pomodoroTasks.find(tk=>tk.id===pomodoroTimer.activeTaskId);
-      if(!activeTask || activeTask.subjectName!==subjInput.value.trim()) pomodoroTimer.activeTaskId = null;
+      if(!activeTask || activeTask.subjectName!==(pomodoroTimer.subjectName||'').trim()) pomodoroTimer.activeTaskId = null;
     }
     renderCurrentView();
   };
-  if(subjInput) subjInput.onchange = commitSubjectInput;
-  if(subjInput) subjInput.addEventListener('keydown', (e)=>{
-    if(e.key==='Enter'){ e.preventDefault(); commitSubjectInput(); }
-  });
+  if(subjInput) subjInput.onchange = ()=>{
+    if(subjInput.value==='__new__'){
+      const name = (prompt('اسم المادة الجديدة:', '') || '').trim();
+      if(name) pomodoroSetSubjectName(name);
+      // نرجّع نرندر في الحالتين (اتكتب اسم أو المستخدم عمل إلغاء) عشان الـ select يرجع لقيمته الحقيقية
+      commitSubjectInput();
+      return;
+    }
+    pomodoroSetSubjectName(subjInput.value);
+    commitSubjectInput();
+  };
   document.querySelectorAll('[data-pmd-inline-task-start]').forEach(btn=>{
     btn.onclick = ()=>{
       pomodoroTimer.activeTaskId = btn.dataset.pmdInlineTaskStart;
@@ -11056,11 +11224,95 @@ function bindPomodoroView(){
     btn.onclick = ()=>{ pomodoroTimer.newTaskSessions = parseInt(btn.dataset.pmdTaskSessions,10); renderCurrentView(); };
   });
   const addTaskBtn = document.getElementById('pmdAddTaskBtn');
-  if(addTaskBtn) addTaskBtn.onclick = ()=>{
+  if(addTaskBtn) addTaskBtn.onclick = async ()=>{
     const titleInput = document.getElementById('pmdNewTaskTitle');
+    const videoInput = document.getElementById('pmdNewTaskVideoInput');
+    const apiKeyInput = document.getElementById('pmdTaskYtApiKeyInput');
+    const errBox = document.getElementById('pmdTaskVideoError');
+    const subject = pomodoroTimer.tasksSelectedSubject;
     const title = titleInput ? titleInput.value.trim() : '';
+    const sessionsRequired = pomodoroTimer.newTaskSessions || 3;
+    if(errBox){ errBox.style.display='none'; errBox.textContent=''; }
     if(!title){ if(titleInput) titleInput.focus(); return; }
-    pomodoroAddTask(pomodoroTimer.tasksSelectedSubject, title, pomodoroTimer.newTaskSessions||3);
+
+    const videoLine = (videoInput ? videoInput.value : '').trim();
+    if(!videoLine){
+      // زي القديم بالظبط: تاسك من غير فيديو مربوط
+      pomodoroAddTask(subject, title, sessionsRequired);
+      renderCurrentView();
+      return;
+    }
+
+    const classified = vidClassifyLine(videoLine);
+    if(classified.type==='invalid'){
+      if(errBox){ errBox.textContent = 'الرابط ده مش رابط يوتيوب صحيح (فيديو أو قائمة تشغيل). صححه أو سيب الحقل فاضي لو مش عايز تربط فيديو.'; errBox.style.display='block'; }
+      return;
+    }
+
+    addTaskBtn.disabled = true;
+    const originalLabel = addTaskBtn.textContent;
+    const { subjectCode, subjectLabel } = pomodoroResolveVideoSubject(subject);
+    const seenIds = new Set(videoLibrary.map(v=>v.videoId));
+
+    try{
+      if(classified.type==='video'){
+        addTaskBtn.textContent = 'بنجيب بيانات الفيديو...';
+        let vTitle = null, thumb = `https://i.ytimg.com/vi/${classified.id}/hqdefault.jpg`;
+        try{
+          const meta = await fetchYouTubeMeta(classified.id);
+          if(meta && meta.title) vTitle = meta.title;
+          if(meta && meta.thumbnail_url) thumb = meta.thumbnail_url;
+        }catch(e){ /* هنكمل بعنوان التاسك كعنوان مؤقت للفيديو لو الجلب فشل */ }
+        const tk = pomodoroAddTask(subject, title, sessionsRequired);
+        if(tk && !seenIds.has(classified.id)){
+          videoLibrary.unshift({
+            id: genId(), url: videoLine, videoId: classified.id, title: vTitle || title, thumb,
+            subjectCode, subjectLabel, note:'', done:false, addedAt: Date.now(), linkedTaskId: tk.id
+          });
+          await saveVideoLibrary();
+        }
+      } else if(classified.type==='playlist'){
+        const apiKey = (apiKeyInput ? apiKeyInput.value : '').trim();
+        if(!apiKey){
+          if(errBox){ errBox.textContent = 'محتاجين مفتاح YouTube Data API عشان نجيب فيديوهات قائمة التشغيل دي — حطّه في الحقل فوق.'; errBox.style.display='block'; }
+          if(apiKeyInput) apiKeyInput.focus();
+          addTaskBtn.disabled = false; addTaskBtn.textContent = originalLabel;
+          return;
+        }
+        if(apiKey !== videoYtApiKey){ videoYtApiKey = apiKey; await saveVideoYtApiKey(); }
+        addTaskBtn.textContent = 'بنجيب فيديوهات قائمة التشغيل...';
+        const items = await fetchYouTubePlaylistItems(classified.id, apiKey);
+        if(!items.length){
+          if(errBox){ errBox.textContent = 'قائمة التشغيل دي مفيهاش فيديوهات نقدر نجيبها (ممكن خاصة أو فاضية).'; errBox.style.display='block'; }
+          addTaskBtn.disabled = false; addTaskBtn.textContent = originalLabel;
+          return;
+        }
+        // بنبني كل التاسكات والفيديوهات بترتيب القائمة الأصلي بالظبط، وبعدين نضيفهم كلهم لمكتبة
+        // الفيديوهات مرة واحدة بـ unshift(...) عشان الترتيب متتقلبش (زي مشكلة الترتيب اللي صلحناها قبل كده).
+        const newLibraryItems = [];
+        let idx = 0;
+        items.forEach(it=>{
+          idx++;
+          if(seenIds.has(it.videoId)) return;
+          seenIds.add(it.videoId);
+          const taskTitle = items.length>1 ? `${title} (${idx}/${items.length}) — ${it.title}` : title;
+          const tk = pomodoroAddTask(subject, taskTitle, sessionsRequired);
+          if(!tk) return;
+          newLibraryItems.push({
+            id: genId(), url: it.url, videoId: it.videoId, title: it.title, thumb: it.thumb,
+            subjectCode, subjectLabel, note:'', done:false, addedAt: Date.now(), linkedTaskId: tk.id
+          });
+        });
+        videoLibrary.unshift(...newLibraryItems);
+        await saveVideoLibrary();
+      }
+    }catch(e){
+      if(errBox){ errBox.textContent = 'حصلت مشكلة وإحنا بنجيب بيانات الفيديو/القائمة: ' + e.message; errBox.style.display='block'; }
+    }
+    addTaskBtn.disabled = false;
+    addTaskBtn.textContent = originalLabel;
+    if(titleInput) titleInput.value = '';
+    if(videoInput) videoInput.value = '';
     renderCurrentView();
   };
   document.querySelectorAll('[data-pmd-task-toggle]').forEach(cb=>{
@@ -11095,6 +11347,12 @@ function bindPomodoroView(){
       renderCurrentView();
     };
   });
+
+  const shopQuickBtn = document.getElementById('pmdShopQuickBtn');
+  if(shopQuickBtn) shopQuickBtn.onclick = ()=>{
+    pomodoroTimer.activeTab = (pomodoroTimer.activeTab==='shop') ? null : 'shop';
+    renderCurrentView();
+  };
 
   document.querySelectorAll('[data-pmd-sound]').forEach(btn=>{ btn.onclick = ()=> pomodoroToggleSound(btn.dataset.pmdSound); });
   const soundVol = document.getElementById('pmdSoundVolume');
@@ -11352,6 +11610,7 @@ function videoLibraryHtml(){
         </select>
       </div>
       <button class="vid-add-btn" id="vidOpenAddBtn" type="button">➕ أضف فيديو</button>
+      <button class="vid-add-btn" id="vidBackfillTasksBtn" type="button" title="اعمل تاسكات بومودورو لأي فيديو قديم اتضاف قبل ميزة الربط ولسه مش مربوط بتاسك">🔗 اربط الفيديوهات القديمة بتاسكات</button>
     </div>`;
     body += videoListBodyHtml();
   }
@@ -11416,6 +11675,7 @@ function videoCardHtml(v, groupKey){
         <button class="vid-rename-btn" data-id="${v.id}" type="button" title="عدّل العنوان">✏️</button>
       </div>
       <textarea class="vid-note" data-id="${v.id}" placeholder="ملاحظاتك على المحاضرة...">${escapeHtml(v.note||'')}</textarea>
+      ${videoLinkedTaskStatusHtml(v)}
       <div class="vid-actions">
         <button class="vid-done-btn${v.done?' on':''}" data-id="${v.id}" type="button">${v.done?'✓ خلصتها':'حدد كمخلّصة'}</button>
         <a class="vid-ext-btn" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer" title="افتح على يوتيوب">↗️</a>
@@ -11423,6 +11683,15 @@ function videoCardHtml(v, groupKey){
       </div>
     </div>
   </div>`;
+}
+/* بيبين حالة التاسك اللي الفيديو ده اتربط بيه لما اتضاف من جوه البومودورو (للعلم بس، مفيش تحكم يدوي هنا) */
+function videoLinkedTaskStatusHtml(v){
+  if(!v.linkedTaskId) return '';
+  const tk = pomodoroTasks.find(x=>x.id===v.linkedTaskId);
+  if(!tk){
+    return `<div class="vid-task-link-status vid-task-link-missing">🗂️ التاسك اللي كان مربوط بيه اتمسح</div>`;
+  }
+  return `<div class="vid-task-link-status${tk.completed?' vid-task-link-done':''}">🗂️ تاسك: ${escapeHtml(tk.title)} — ${tk.completed?'✅ خلصان':'⏳ لسه في البومودورو'}</div>`;
 }
 /* قائمة اقتراحات (datalist) بأسماء كل مقررات القسم عشان لما المستخدم يكتب اسم المادة تتنور
    له الاقتراحات المطابقة من المقررات الموجودة فعلاً، لكن برضو يقدر يكتب اسم موضوع حر غير موجود. */
@@ -11461,6 +11730,12 @@ function videoAddFormHtml(){
     <div>
       <label>ملاحظة (اختياري — هتتحط على كل الفيديوهات المضافة)</label>
       <textarea id="vidNoteInput" placeholder="أي حاجة عايز تفتكرها عن المحاضرة دي..."></textarea>
+    </div>
+    <div>
+      <label>هتخلص كل فيديو في كام جلسة بومودورو؟ (هيتعمل تاسك بومودورو باسم كل فيديو تلقائيًا)</label>
+      <select id="vidTaskSessionsInput" class="vid-select-block">
+        ${[1,2,3,4,5,6,8,10].map(n=>`<option value="${n}"${n===2?' selected':''}>${n}</option>`).join('')}
+      </select>
     </div>
     <div class="study-error" id="vidAddError" style="display:none;"></div>
     <div class="vid-add-actions">
@@ -11543,6 +11818,8 @@ async function handleVideoAddSubmit(){
   }
 
   const note = (noteInput.value||'').trim();
+  const sessionsInput = document.getElementById('vidTaskSessionsInput');
+  const taskSessions = sessionsInput ? (parseInt(sessionsInput.value,10)||2) : 2;
   btn.disabled = true;
   const originalLabel = btn.textContent;
 
@@ -11597,13 +11874,18 @@ async function handleVideoAddSubmit(){
     item.thumb = thumb;
   }
 
-  toAdd.forEach(item=>{
-    videoLibrary.unshift({
+  // كل فيديو بيتضاف هنا بياخد تاسك بومودورو تلقائي بنفس اسمه، تحت نفس اسم المادة اللي كتبته فوق —
+  // عشان لما تفتح تاب "المهام" في البومودورو وتختار المادة دي، تلاقي كل الفيديوهات دي كتاسكات جاهزة.
+  const newLibraryItems = toAdd.map(item=>{
+    const tk = pomodoroAddTask(subjectRaw, item.title, taskSessions);
+    return {
       id: genId(), url: item.url, videoId: item.videoId, title: item.title, thumb: item.thumb,
       subjectCode, subjectLabel,
-      note, done: false, addedAt: Date.now()
-    });
+      note, done: false, addedAt: Date.now(),
+      linkedTaskId: tk ? tk.id : null
+    };
   });
+  videoLibrary.unshift(...newLibraryItems);
   await saveVideoLibrary();
   btn.disabled = false;
   btn.textContent = originalLabel;
@@ -11625,12 +11907,36 @@ function bindVideoAddForm(){
   }
   renderVidUrlStatus();
 }
+/* بيعمل تاسك بومودورو لأي فيديو في المكتبة اتضاف قبل ما تتعمل ميزة الربط (يعني لسه من غير
+   linkedTaskId)، تحت نفس اسم المادة بتاعته بالظبط — عشان يظهر في تاب المهام بالبومودورو زي أي
+   فيديو جديد بالظبط. */
+function videoBackfillPomodoroTasks(){
+  const missing = videoLibrary.filter(v=>!v.linkedTaskId);
+  if(!missing.length){
+    alert('كل الفيديوهات في المكتبة عندها تاسك بومودورو مربوط بالفعل، مفيش حاجة نعملها.');
+    return;
+  }
+  let created = 0, skippedNoSubject = 0;
+  missing.forEach(v=>{
+    const subjectName = videoGroupLabel(videoGroupKey(v));
+    if(!subjectName || subjectName==='بدون مادة محددة'){ skippedNoSubject++; return; }
+    const tk = pomodoroAddTask(subjectName, v.title, 2);
+    if(tk) { v.linkedTaskId = tk.id; created++; }
+  });
+  saveVideoLibrary();
+  let msg = created ? `تمام! اتعمل ${created} تاسك بومودورو للفيديوهات القديمة. افتح تاب "المهام" بالبومودورو واختار المادة، وهتلاقيهم.` : 'معرفناش نعمل تاسكات لأي فيديو.';
+  if(skippedNoSubject) msg += `\n(${skippedNoSubject} فيديو من غير مادة محددة اتجاهلوا.)`;
+  alert(msg);
+  renderCurrentView();
+}
 function bindVideoLibrary(){
   const backBtn = document.getElementById('videoBackHome');
   if(backBtn) backBtn.onclick = ()=>{ studyToolActive=null; videoLibAddOpen=false; renderCurrentView(); };
   if(videoLibAddOpen){ bindVideoAddForm(); return; }
   const openBtn = document.getElementById('vidOpenAddBtn');
   if(openBtn) openBtn.onclick = ()=>{ videoLibAddOpen = true; renderCurrentView(); };
+  const backfillBtn = document.getElementById('vidBackfillTasksBtn');
+  if(backfillBtn) backfillBtn.onclick = videoBackfillPomodoroTasks;
   const subjSel = document.getElementById('vidFilterSubject');
   if(subjSel) subjSel.onchange = ()=>{ videoLibFilterSubject = subjSel.value; renderCurrentView(); };
   const statSel = document.getElementById('vidFilterStatus');
@@ -11639,8 +11945,7 @@ function bindVideoLibrary(){
     btn.onclick = async ()=>{
       const v = videoLibrary.find(x=>x.id===btn.dataset.id);
       if(!v) return;
-      v.done = !v.done;
-      await saveVideoLibrary();
+      videoSetDone(v, !v.done);
       renderCurrentView();
     };
   });
@@ -11757,10 +12062,8 @@ function bindVideoPlayer(){
   if(nextBtn) nextBtn.onclick = ()=>{ if(videoPlayerIndex<videoPlayerQueue.length-1){ videoPlayerIndex++; renderCurrentView(); } };
   const doneBtn = document.getElementById('playerDoneBtn');
   if(doneBtn) doneBtn.onclick = async ()=>{
-    v.done = !v.done;
-    const original = videoLibrary.find(x=>x.id===v.id);
-    if(original) original.done = v.done;
-    await saveVideoLibrary();
+    const original = videoLibrary.find(x=>x.id===v.id) || v;
+    videoSetDone(original, !original.done);
     renderCurrentView();
   };
   const noteInput = document.getElementById('playerNoteInput');
