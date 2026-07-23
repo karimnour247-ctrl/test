@@ -739,6 +739,18 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 .done-check:hover{transform:scale(1.15);border-color:var(--teal);}
 .done-check.checked{background:var(--teal);border-color:var(--teal);box-shadow:0 0 10px var(--glow-teal);animation:revealUp .25s ease;}
 
+/* زرار "التاسكات" — بيودّي على طول لتاسكات المادة دي جوه أداة البومودورو */
+.task-jump-btn{
+  position:absolute;top:8px;right:10px;z-index:2;
+  display:flex;align-items:center;gap:4px;
+  font-family:'Tajawal',sans-serif;font-size:10.5px;font-weight:700;
+  color:var(--navy);background:var(--navy-soft);border:1px solid transparent;
+  border-radius:999px;padding:4px 9px;cursor:pointer;white-space:nowrap;
+  transition:background .15s ease,color .15s ease,transform .15s ease;
+}
+.task-jump-btn:hover{background:var(--navy);color:var(--on-accent);transform:translateY(-1px);}
+.task-jump-btn .material-symbols-outlined{font-size:14px;}
+
 /* level pill top-right of card */
 .lvl-pill{
   position:absolute;top:10px;left:10px;
@@ -1629,6 +1641,20 @@ footer{
   .cgpa-term-gpa .l{font-size:8.5px;white-space:normal;line-height:1.2;}
   .cgpa-term-summer, .cgpa-term-grad{height:32px;padding:0 9px;font-size:11.5px;}
   .cgpa-term-del{width:32px;height:32px;}
+
+  /* صف المادة المسجّلة جوّه الترم (الاسم + الساعات + النقاط + التقدير + حذف) كان الحتة الوحيدة
+     في صفحة "تسجيل المواد" اللي متبنيتش أصلاً للموبايل — 5 أعمدة جنب بعض في جريد بيتزنقوا/يتراكبوا
+     على شاشة ضيقة. بدل ما نفضل مصممين على صف واحد أفقي، اسم المادة بياخد سطر لوحده وباقي
+     التفاصيل (ساعات/نقاط/تقدير/حذف) بتتلم في صف تاني بيلف عادي. */
+  .cgpa-item{
+    display:flex;flex-wrap:wrap;gap:6px 10px;padding:10px 12px;
+  }
+  .cgpa-item .ci-name{
+    flex:1 1 100%;overflow:visible;white-space:normal;text-overflow:clip;font-size:13px;line-height:1.45;
+  }
+  .cgpa-item .ci-hours, .cgpa-item .ci-points{font-size:11px;}
+  .ci-grade{font-size:12.5px;padding:4px 6px;}
+  .ci-remove{margin-inline-start:auto;}
   .cgpa-overall{padding:16px 16px;gap:14px;}
   .cgpa-overall-ring{width:88px;height:88px;border-width:6px;}
   .cgpa-overall-ring .v{font-size:21px;}
@@ -1784,19 +1810,47 @@ button:not(:disabled):active,
 .study-history-detail-row{display:flex;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:13px;}
 
 /* ===== بومودورو ===== */
-.pmd-wrap{display:flex;flex-direction:column;gap:18px;max-width:520px;margin:0 auto;}
-.pmd-picker-row{display:flex;gap:10px;flex-wrap:wrap;}
-.pmd-picker-col{display:flex;flex-direction:column;gap:5px;flex:1;min-width:150px;}
-.pmd-picker-col label{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
 .pmd-select{padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13.5px;width:100%;}
 .pmd-select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.pmd-picker-col{display:flex;flex-direction:column;gap:5px;}
+.pmd-picker-col label{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
 .pmd-manage-link{background:none;border:none;color:var(--navy);font-size:12.5px;cursor:pointer;padding:0;align-self:flex-start;text-decoration:underline;}
-.pmd-ring-box{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;}
+.pmd-ring-box{display:flex;flex-direction:column;align-items:center;gap:10px;padding:6px 0;position:relative;}
+.pmd-ring-expand-btn{
+  position:absolute;top:0;left:0;z-index:3;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;
+  color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);
+  border-radius:8px;padding:5px 10px;cursor:pointer;direction:ltr;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.pmd-ring-expand-btn:hover{background:var(--navy-soft);color:var(--navy);border-color:var(--navy);}
+.pmd-ring-box.pmd-ring-expanded{
+  position:fixed;inset:0;z-index:9600;
+  background:var(--paper);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;
+  padding:24px;animation:revealUp .25s ease both;
+}
+.pmd-ring-box.pmd-ring-expanded .pmd-ring-expand-btn{top:18px;left:18px;}
+.pmd-ring-box.pmd-ring-expanded .pmd-ring-wrap{width:min(78vmin,560px);height:min(78vmin,560px);}
+.pmd-ring-box.pmd-ring-expanded .pmd-time-label{font-size:min(11vmin,72px);}
+.pmd-ring-box.pmd-ring-expanded .pmd-phase-label{font-size:min(3.4vmin,20px);}
+.pmd-ring-box.pmd-ring-expanded .pmd-dots{transform:scale(1.4);}
+.pmd-ring-current-task{
+  display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;
+}
+.pmd-ring-current-subject{font-size:12.5px;font-weight:800;color:var(--ink);}
+.pmd-ring-current-taskname{font-size:11.5px;font-weight:600;color:var(--navy);}
+.pmd-ring-current-taskname.pmd-ring-current-taskname-empty{color:var(--ink-soft);font-weight:500;}
+.pmd-ring-box.pmd-ring-expanded .pmd-ring-current-subject{font-size:min(3.2vmin,22px);}
+.pmd-ring-box.pmd-ring-expanded .pmd-ring-current-taskname{font-size:min(2.6vmin,18px);}
+@media (max-width:640px){
+  .pmd-ring-expand-btn{font-size:10px;padding:4px 8px;}
+}
 .pmd-ring-svg{transform:rotate(-90deg);}
 .pmd-ring-track{fill:none;stroke:var(--line);stroke-width:10;}
 .pmd-ring-progress{fill:none;stroke:var(--navy);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset 1s linear, stroke .3s ease;}
 .pmd-ring-center{position:relative;}
-.pmd-time-label{font-family:'IBM Plex Mono',monospace;font-size:38px;font-weight:700;color:var(--ink);}
+.pmd-time-label{font-family:'IBM Plex Mono',monospace;font-size:46px;font-weight:700;color:var(--ink);}
 .pmd-phase-label{font-size:13.5px;font-weight:700;color:var(--ink-soft);letter-spacing:.2px;}
 .pmd-dots{display:flex;gap:6px;justify-content:center;}
 .pmd-dot{width:9px;height:9px;border-radius:50%;background:var(--line);}
@@ -1815,12 +1869,6 @@ button:not(:disabled):active,
 .pmd-chip-row{display:flex;gap:6px;flex-wrap:wrap;}
 .pmd-chip{border:1px solid var(--line);background:var(--paper);color:var(--ink-soft);border-radius:999px;padding:5px 12px;font-size:12.5px;cursor:pointer;font-family:'Tajawal',sans-serif;}
 .pmd-chip.active{background:var(--navy);border-color:var(--navy);color:#fff;}
-.pmd-manage-list{display:flex;flex-direction:column;gap:8px;}
-.pmd-manage-item{display:flex;align-items:center;justify-content:space-between;background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;}
-.pmd-manage-item-name{font-weight:700;font-size:13.5px;}
-.pmd-manage-item-del{background:none;border:none;color:var(--maroon);cursor:pointer;font-size:15px;padding:2px 6px;}
-.pmd-tasks-list{display:flex;flex-direction:column;gap:6px;margin-inline-start:14px;}
-.pmd-task-row{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px;}
 .pmd-add-row{display:flex;gap:8px;}
 .pmd-add-row input{flex:1;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-family:'Tajawal',sans-serif;font-size:13px;}
 .pmd-add-row input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
@@ -1880,14 +1928,20 @@ body.pmd-focus-active footer,
 body.pmd-focus-active #bottomNav,
 body.pmd-focus-active #searchResults{ display:none !important; }
 body.pmd-focus-active main{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:20px; }
-body.pmd-focus-active #trackView{ width:100%; max-width:640px; }
+body.pmd-focus-active #trackView{ width:100%; max-width:1040px; }
 body.pmd-focus-active .study-back{ display:none; }
 .pmd-focus-toggle{background:var(--strong-bg);color:var(--on-strong);border:none;border-radius:10px;padding:8px 16px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13px;cursor:pointer;align-self:center;display:flex;align-items:center;gap:6px;}
 .pmd-focus-toggle:hover{opacity:.9;}
 .pmd-focus-toggle.active{background:var(--maroon);}
-.pmd-tree-box{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 16px 12px;max-width:220px;margin:0 auto;}
-.pmd-tree-name{font-weight:700;font-size:13.5px;}
-.pmd-tree-progress{width:170px;height:6px;background:var(--paper-2);border-radius:999px;overflow:hidden;}
+.pmd-tree-box{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 18px 16px;width:100%;max-width:260px;margin:0 auto;}
+.pmd-tree-box svg{width:190px;height:190px;animation:pmdTreeSway 5s ease-in-out infinite;transform-origin:50% 100%;}
+@keyframes pmdTreeSway{
+  0%,100%{transform:rotate(-1.2deg);}
+  50%{transform:rotate(1.2deg);}
+}
+@media (prefers-reduced-motion: reduce){ .pmd-tree-box svg{animation:none;} }
+.pmd-tree-name{font-weight:700;font-size:14.5px;}
+.pmd-tree-progress{width:100%;max-width:200px;height:7px;background:var(--paper-2);border-radius:999px;overflow:hidden;}
 .pmd-tree-progress-fill{height:100%;background:var(--teal);}
 .pmd-tree-next{font-size:11px;color:var(--ink-soft);}
 .pmd-sound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;}
@@ -1917,6 +1971,96 @@ body.pmd-focus-active .study-back{ display:none; }
 .pmd-analytics-lbl{font-size:11.5px;color:var(--ink-soft);font-weight:700;}
 .pmd-analytics-val{font-size:16px;font-weight:700;color:var(--ink);margin-top:2px;}
 .pmd-analytics-sub{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+/* ===== إعادة تصميم واجهة البومودورو: تخطيط أوسع بمساحتين + تابات بدل الأزرار المكدّسة ===== */
+.study-view.pmd-view{max-width:1040px;}
+.pmd-dashboard{display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.pmd-main-col{flex:1 1 480px;min-width:300px;}
+.pmd-side-col{flex:0 1 260px;min-width:220px;display:flex;flex-direction:column;gap:14px;align-items:center;}
+.pmd-timer-card{
+  background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px 22px;
+  display:flex;flex-direction:column;align-items:center;gap:18px;
+  box-shadow:0 10px 30px -18px var(--pmd-phase-color,transparent);
+  border-top:3px solid var(--pmd-phase-color,var(--line));
+  transition:box-shadow .5s ease, border-color .5s ease;
+}
+.pmd-ring-wrap{position:relative;width:280px;height:280px;max-width:100%;}
+.pmd-ring-wrap .pmd-ring-svg{position:absolute;inset:0;width:100%;height:100%;}
+.pmd-ring-wrap .pmd-ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;}
+.pmd-ring-wrap.is-running{animation:pmdRingBreathe 3.2s ease-in-out infinite;}
+@keyframes pmdRingBreathe{
+  0%,100%{filter:drop-shadow(0 0 0px var(--pmd-phase-color,transparent));}
+  50%{filter:drop-shadow(0 0 14px var(--pmd-phase-color,transparent));}
+}
+@media (prefers-reduced-motion: reduce){ .pmd-ring-wrap.is-running{animation:none;} }
+.pmd-subject-row{display:flex;flex-direction:column;gap:5px;width:100%;max-width:360px;}
+.pmd-subject-row label{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.pmd-task-subj-card{cursor:pointer;text-align:right;transition:border-color .15s ease;}
+.pmd-task-subj-card.active{border-color:var(--navy);}
+.pmd-task-form{display:flex;flex-direction:column;gap:8px;max-width:440px;}
+.pmd-task-list{display:flex;flex-direction:column;gap:8px;}
+.pmd-task-overall{display:flex;flex-direction:column;gap:7px;background:var(--navy-soft);border:1px solid var(--navy);border-radius:12px;padding:12px 14px;}
+.pmd-task-overall-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:13px;font-weight:800;color:var(--navy);}
+.pmd-task-overall-bar{height:12px;}
+.pmd-task-overall-sub{font-size:12px;color:var(--ink-soft);}
+.pmd-task-item{position:relative;background:var(--paper-2);border:1px solid var(--line);border-radius:12px;padding:12px 40px 12px 14px;display:flex;flex-direction:column;gap:8px;transition:opacity .2s ease;}
+.pmd-task-item.pmd-task-done{opacity:.6;}
+.pmd-task-del-btn{position:absolute;top:10px;inset-inline-end:10px;background:none;border:none;color:var(--ink-soft);font-size:14px;cursor:pointer;padding:2px;line-height:1;}
+.pmd-task-del-btn:hover{color:var(--maroon);}
+.pmd-task-check-row{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.pmd-task-checkbox{width:19px;height:19px;flex:none;accent-color:var(--navy);cursor:pointer;}
+.pmd-task-title{font-size:13.5px;font-weight:700;}
+.pmd-task-item.pmd-task-done .pmd-task-title{text-decoration:line-through;color:var(--ink-soft);}
+.pmd-task-meta-row{display:flex;align-items:center;gap:10px;}
+.pmd-task-meta-row .vid-progress-bar{flex:1;}
+.pmd-task-count{font-size:12px;font-weight:600;color:var(--ink-soft);white-space:nowrap;display:inline-flex;align-items:center;gap:6px;}
+.pmd-task-over-badge{font-size:11px;font-weight:800;color:var(--gold);background:var(--gold-soft);border-radius:999px;padding:2px 8px;}
+.vid-progress-bar.pmd-task-over .vid-progress-fill{background:var(--gold);}
+/* تشيك ليست مصغّرة جنب المؤقت نفسه، عشان تقدر تعلّم التاسكات وانت شغال بومودورو من غير ما تفتح تاب المهام */
+.pmd-side-tasks-box{width:100%;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow-soft);}
+.pmd-side-tasks-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:800;color:var(--ink);}
+.pmd-side-tasks-list{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto;}
+.pmd-side-task-row{display:flex;align-items:center;gap:8px;font-size:12.5px;cursor:pointer;padding:4px 2px;}
+.pmd-side-task-row input{width:16px;height:16px;flex:none;accent-color:var(--navy);cursor:pointer;}
+.pmd-side-task-title{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pmd-side-task-row.done .pmd-side-task-title{text-decoration:line-through;color:var(--ink-soft);}
+.pmd-side-task-count{font-size:11px;color:var(--ink-soft);white-space:nowrap;}
+/* صندوق التاسكات المدمج تحت حقل المادة مباشرة في المؤقت — بيعرض تاسكات المادة المفتوحة
+   بشكل واضح، مع زرار "ابدأ" على كل تاسك يحدده كتاسك حالي ويشغّل المؤقت عليه فورًا،
+   وحقل إضافة سريع تحت من غير ما تحتاج تفتح تاب "المهام" المنفصل. */
+.pmd-inline-tasks-box{
+  width:100%;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;
+  padding:12px 14px;display:flex;flex-direction:column;gap:10px;margin-top:4px;
+}
+.pmd-inline-tasks-empty{font-size:12.5px;color:var(--ink-soft);padding:2px 0;}
+.pmd-inline-tasks-list{display:flex;flex-direction:column;gap:8px;max-height:260px;overflow-y:auto;}
+.pmd-inline-task-row{
+  display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);
+  border-radius:11px;padding:9px 11px;transition:border-color .15s ease,box-shadow .15s ease;
+}
+.pmd-inline-task-row.active{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy-soft);}
+.pmd-inline-task-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;}
+.pmd-inline-task-info .pmd-task-title{font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pmd-inline-task-start{flex:none;padding:7px 14px;font-size:12.5px;white-space:nowrap;}
+.pmd-inline-add-row{display:flex;gap:8px;align-items:center;}
+.pmd-inline-add-row input{flex:1;}
+.pmd-inline-add-row button{flex:none;white-space:nowrap;}
+.pmd-tick-toggle{border:1px solid var(--line);background:var(--paper-2);color:var(--ink-soft);border-radius:10px;padding:10px 14px;font-size:16px;cursor:pointer;line-height:1;}
+.pmd-tick-toggle.active{background:var(--teal-soft);border-color:var(--teal);color:var(--teal);}
+.pmd-tabs-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:8px;}
+.pmd-tab-btn{display:flex;align-items:center;gap:6px;border:none;background:transparent;color:var(--ink-soft);border-radius:10px;padding:8px 14px;font-family:'Tajawal',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s ease, color .15s ease;}
+.pmd-tab-btn:hover{background:var(--card);}
+.pmd-tab-btn.active{background:var(--navy);color:#fff;}
+.pmd-tab-ic{font-size:15px;}
+.pmd-tab-content{animation:pmdTabIn .2s ease;}
+@keyframes pmdTabIn{ from{opacity:0;transform:translateY(4px);} to{opacity:1;transform:translateY(0);} }
+@media (max-width:640px){
+  .pmd-ring-wrap{width:240px;height:240px;}
+  .pmd-time-label{font-size:32px;}
+  .pmd-tab-lbl{display:none;}
+  .pmd-tab-btn{padding:9px 11px;}
+}
+
 
 /* المرحلة 6: غرفة التركيز (Focus Room) */
 .pmd-room-box{background:var(--paper-2);border:1px solid var(--line);border-radius:14px;padding:8px;overflow:hidden;}
@@ -3095,13 +3239,14 @@ let studyToolActive = null; // null | 'videos' | 'player' | 'pomodoro'
 /* ================= بومودورو (أدوات المذاكرة) ================= */
 /* إعدادات المؤقت: مدة المذاكرة/الراحة القصيرة/الراحة الطويلة، وبعد كام جلسة تيجي الراحة الطويلة */
 function pomodoroDefaultSettings(){
-  return { studyMin:25, shortBreakMin:5, longBreakMin:15, sessionsBeforeLong:4, liveNotifications:true };
+  return { studyMin:25, shortBreakMin:5, longBreakMin:15, sessionsBeforeLong:4, liveNotifications:true, tickSound:false };
 }
 let pomodoroSettings = pomodoroDefaultSettings();
-/* المواد اللي الطالب مضيفها، وكل مادة جوها مهام: [{id, name, icon, tasks:[{id, text, done}]}] */
-let pomodoroSubjects = [];
-/* سجل الجلسات المكتملة: [{id, ts, durationMin, kind:'study'|'break', subjectId, subjectName, taskId, taskText, note}] */
+/* سجل الجلسات المكتملة: [{id, ts, durationMin, kind:'study'|'break', subjectName, taskId, note}] */
 let pomodoroSessions = [];
+/* تقسيم كل مادة لتاسكات: كل تاسك له عدد جلسات بومودورو مطلوب لإنجازه، وبيتعلّم كمكتمل يدويًا من الطالب
+   [{id, subjectName, title, sessionsRequired, sessionsDone, completed, createdAt, completedAt}] */
+let pomodoroTasks = [];
 /* إحصائيات التحفيز/الألعاب المرتبطة بالبومودورو */
 function pomodoroDefaultStats(){
   return { coins:0, xp:0, streak:0, lastStudyDateISO:null, achievements:[] };
@@ -3332,10 +3477,6 @@ async function loadState(){
     if(r && r.value) pomodoroSettings = {...pomodoroDefaultSettings(), ...JSON.parse(r.value)};
   }catch(e){ pomodoroSettings = pomodoroDefaultSettings(); }
   try{
-    const r = await window.storage.get('pomodoro-subjects', false);
-    if(r && r.value) pomodoroSubjects = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
-  }catch(e){ pomodoroSubjects = []; }
-  try{
     const r = await window.storage.get('pomodoro-sessions', false);
     if(r && r.value) pomodoroSessions = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
   }catch(e){ pomodoroSessions = []; }
@@ -3343,6 +3484,10 @@ async function loadState(){
     const r = await window.storage.get('pomodoro-stats', false);
     if(r && r.value) pomodoroStats = {...pomodoroDefaultStats(), ...JSON.parse(r.value)};
   }catch(e){ pomodoroStats = pomodoroDefaultStats(); }
+  try{
+    const r = await window.storage.get('pomodoro-tasks', false);
+    if(r && r.value) pomodoroTasks = Array.isArray(JSON.parse(r.value)) ? JSON.parse(r.value) : [];
+  }catch(e){ pomodoroTasks = []; }
   try{
     const r = await window.storage.get('pomodoro-gamification', false);
     if(r && r.value){
@@ -3393,16 +3538,16 @@ async function savePomodoroSettings(){
   try{ await window.storage.set('pomodoro-settings', JSON.stringify(pomodoroSettings), false); }
   catch(e){ console.error('storage save failed', e); }
 }
-async function savePomodoroSubjects(){
-  try{ await window.storage.set('pomodoro-subjects', JSON.stringify(pomodoroSubjects), false); }
-  catch(e){ console.error('storage save failed', e); }
-}
 async function savePomodoroSessions(){
   try{ await window.storage.set('pomodoro-sessions', JSON.stringify(pomodoroSessions), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function savePomodoroStats(){
   try{ await window.storage.set('pomodoro-stats', JSON.stringify(pomodoroStats), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function savePomodoroTasks(){
+  try{ await window.storage.set('pomodoro-tasks', JSON.stringify(pomodoroTasks), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function savePomodoroShop(){
@@ -5959,6 +6104,7 @@ function courseCard(code, sectionType){
   const isDone = completedSet.has(code);
   return `<div class="course ${sectionType==='elective'?'elective':''}${hl}${isDone?' done':''}" data-code="${code}" data-subject="${subjectOf(code)}">
     <button class="done-check${isDone?' checked':''}" data-toggle="${code}" title="حدد كمكتمل">${isDone?'✓':''}</button>
+    <button class="task-jump-btn" data-task-jump="${code}" title="افتح تاسكات المادة دي في البومودورو">🗂️ التاسكات</button>
     <span class="lvl-pill">${c.level}</span>
     <div class="code">${fullCode(code)}</div>
     <div class="name-ar">${c.ar}</div>
@@ -6022,6 +6168,13 @@ function renderListView(){
       e.stopPropagation();
       toggleCompleted(el.dataset.toggle);
       renderListView();
+    });
+  });
+  document.querySelectorAll('.task-jump-btn').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const c = DB[el.dataset.taskJump];
+      if(c && c.ar) pomodoroOpenTasksForSubject(c.ar);
     });
   });
 }
@@ -8228,7 +8381,11 @@ function gradStatsHtml(track){
   const heroCirc = 2*Math.PI*50;
   const heroDash = heroCirc*Math.min(100,grandPct)/100;
 
-  const specCard = hasMinorSplit ? `
+  // الطالب لسه ما اتخصصش (هَب التحويل/المستوى الأول) أو تابع لمسار "لغير المتخصصين"
+  // مفهوش تخصص حقيقي له أصلاً، فمفيش داعي نوريه كارت "التخصص" ولا تحليل ساعاته بالتفصيل.
+  const noSpecYet = !!(track.isTransferHub || track.infoOnly);
+
+  const specCard = noSpecYet ? '' : hasMinorSplit ? `
       ${gradstatCard('spec','التخصص الرئيسي', majorDone, majorTotal, 'var(--navy)',
         (majorReq||majorElec) ? [majorReq?subLine('إجباري', sectionCompletedCredit(majorReq), majorReq.credit):'', majorElec?subLine('اختياري', sectionCompletedCredit(majorElec), majorElec.credit):''].join('') : null)}
       ${gradstatCard('spec','التخصص الفرعي', minorDone, minorTotal, 'var(--maroon)',
@@ -8285,7 +8442,7 @@ function gradStatsHtml(track){
     <div class="gradstat-filters">
       <button class="gradstat-filter-btn active" onclick="filterGradstat(this,'all')">الكل</button>
       <button class="gradstat-filter-btn" onclick="filterGradstat(this,'general')">كلية · جامعة · اختيار حر</button>
-      <button class="gradstat-filter-btn" onclick="filterGradstat(this,'spec')">التخصص</button>
+      ${noSpecYet ? '' : '<button class="gradstat-filter-btn" onclick="filterGradstat(this,\'spec\')">التخصص</button>'}
     </div>
 
     <div class="gradstat-grid">
@@ -8296,11 +8453,12 @@ function gradStatsHtml(track){
       ${specCard}
     </div>
 
+    ${noSpecYet ? '' : `
     <div class="spec-analysis-wrap">
       <div class="grad-breakdown-title">📊 تحليل / تقدّم ساعات التخصص بالتفصيل</div>
       <div class="grad-breakdown-sub">الجزء ده تحليل مفصّل لساعات تخصصك تحديدًا (رئيسي + فرعي، إجباري + اختياري)، بمعزل عن متطلبات الكلية والجامعة والاختيار الحر اللي فوق.</div>
       ${specAnalysisHtml}
-    </div>
+    </div>`}
 
     ${collegeReqDetailHtml()}
 
@@ -8376,24 +8534,6 @@ function renderHomeView(){
 
   ${gradStatsHtml(track)}
 
-  <div class="progress-summary">
-    <div class="big-ring">
-      <svg width="110" height="110">
-        <circle cx="55" cy="55" r="46" fill="none" stroke="var(--paper-2)" stroke-width="10"/>
-        <circle cx="55" cy="55" r="46" fill="none" stroke="var(--teal)" stroke-width="10"
-          stroke-dasharray="${dash} ${circumference}" stroke-linecap="round"/>
-      </svg>
-      <div class="ring-text"><span class="pct">${pct}%</span><span class="lbl">منجَز</span></div>
-    </div>
-    <div class="progress-stats">
-      <div class="pstat"><div class="n">${myLevel||'—'}</div><div class="l">المستوى الحالي</div></div>
-      <div class="pstat"><div class="n">${completedCredit}/${totalCredit}</div><div class="l">ساعة تخصص</div></div>
-      <div class="pstat"><div class="n">${remaining}</div><div class="l">ساعة متبقية</div></div>
-      <div class="pstat"><div class="n">${doneCoursesCount}/${trackCourses.length}</div><div class="l">مقرر تخصص منجَز</div></div>
-    </div>
-    <button class="reset-btn" id="resetBtn">مسح كل التقدم</button>
-  </div>
-
   ${minorSections.length ? `
   <div class="mm-wrap">
     <div class="mm-card">
@@ -8439,7 +8579,6 @@ function renderHomeView(){
   document.getElementById('homeEditBtn').onclick = ()=> openProfileModal(false);
   const finalizeBtn = document.getElementById('finalizeTransferBtn');
   if(finalizeBtn) finalizeBtn.onclick = finalizeTransferSpecialization;
-  document.getElementById('resetBtn').addEventListener('click', resetProgress);
   bindMinorReclassHandlers();
   document.getElementById('homeCgpaCard').addEventListener('click', ()=>{
     currentView = 'cgpa';
@@ -9358,6 +9497,71 @@ function pomodoroSubjectBreakdown(){
   });
   return Object.values(map).sort((a,b)=> b.minutes-a.minutes);
 }
+/* ===== تقسيم المادة لتاسكات: كل تاسك بياخد عدد جلسات محدد، وبيتعلّم كمكتمل يدويًا من الطالب نفسه ===== */
+function pomodoroTaskId(){ return 'task_'+Date.now()+'_'+Math.random().toString(36).slice(2,7); }
+function pomodoroTasksForSubject(subjectName){
+  return pomodoroTasks.filter(tk=>tk.subjectName===subjectName);
+}
+/* أسماء كل المواد اللي اتقسمت لتاسكات قبل كده، عشان تظهر كقائمة سريعة في تاب المهام */
+function pomodoroAllTaskSubjects(){
+  const names = new Set();
+  pomodoroTasks.forEach(tk=>names.add(tk.subjectName));
+  return Array.from(names).sort((a,b)=>a.localeCompare(b,'ar'));
+}
+function pomodoroAddTask(subjectName, title, sessionsRequired){
+  subjectName = (subjectName||'').trim();
+  title = (title||'').trim();
+  sessionsRequired = Math.max(1, parseInt(sessionsRequired,10)||1);
+  if(!subjectName || !title) return;
+  pomodoroTasks.push({
+    id: pomodoroTaskId(),
+    subjectName, title, sessionsRequired,
+    sessionsDone:0, completed:false,
+    createdAt:new Date().toISOString(), completedAt:null
+  });
+  savePomodoroTasks();
+}
+function pomodoroDeleteTask(id){
+  const tk = pomodoroTasks.find(x=>x.id===id);
+  /* لو التاسك ده كان اتاخد عليه كوينز/XP قبل كدا (rewardGiven)، بنرجعهم لما نحذفه — عشان محدش
+     يقدر يعمل تاسك، يخلّصه ياخد المكافأة، بعدين يمسحه ويعمل واحد بنفس الاسم من جديد لاناخد
+     المكافأة تاني ويكرر الدورة دي لانهائي. من غير الاسترجاع ده، الحذف كان بيبقى ثغرة فارمينج. */
+  if(tk && tk.rewardGiven){
+    pomodoroStats.coins = Math.max(0, pomodoroStats.coins - POMODORO_TASK_COMPLETE_COINS);
+    pomodoroStats.xp = Math.max(0, pomodoroStats.xp - POMODORO_TASK_COMPLETE_XP);
+    savePomodoroStats();
+    pomodoroShowToast(`🗑️ حذفت تاسك كان مكافأته اتاخدت، فرجعنا الـ ${POMODORO_TASK_COMPLETE_COINS} 💰 و ${POMODORO_TASK_COMPLETE_XP} XP بتوعه`);
+  }
+  pomodoroTasks = pomodoroTasks.filter(tk=>tk.id!==id);
+  if(pomodoroTimer && pomodoroTimer.activeTaskId===id) pomodoroTimer.activeTaskId = null;
+  savePomodoroTasks();
+}
+/* تعليم تاسك كمكتمل (أو الرجوع عنه) — التاسك بيتعلّم "خلصان" بقرار الطالب نفسه مش أوتوماتيك بعدد الجلسات،
+   عشان أحيانًا التاسك ياخد جلسات أكتر أو أقل من المتوقع. بمكافأة كوينز/XP إضافية لما يخلص، مرة واحدة بس
+   لكل تاسك (rewardGiven) عشان محدش يقدر يفتح ويقفل التاسك عشان ياخد كوينز لا نهائي. */
+const POMODORO_TASK_COMPLETE_COINS = 25;
+const POMODORO_TASK_COMPLETE_XP = 40;
+function pomodoroMarkTaskDone(id, done){
+  const tk = pomodoroTasks.find(x=>x.id===id);
+  if(!tk) return;
+  tk.completed = done!==false;
+  tk.completedAt = tk.completed ? new Date().toISOString() : null;
+  if(tk.completed && pomodoroTimer && pomodoroTimer.activeTaskId===id) pomodoroTimer.activeTaskId = null;
+  if(tk.completed && !tk.rewardGiven){
+    tk.rewardGiven = true;
+    pomodoroStats.coins += POMODORO_TASK_COMPLETE_COINS;
+    pomodoroStats.xp += POMODORO_TASK_COMPLETE_XP;
+    savePomodoroStats();
+    pomodoroShowToast(`🎉 خلصت تاسك "${tk.title}"! (+${POMODORO_TASK_COMPLETE_COINS} 💰 · +${POMODORO_TASK_COMPLETE_XP} 🎮 XP)`);
+  }
+  savePomodoroTasks();
+}
+function pomodoroSubjectTaskStats(subjectName){
+  const tasks = pomodoroTasksForSubject(subjectName);
+  const completedTasks = tasks.filter(tk=>tk.completed).length;
+  const sessionsDone = pomodoroSessions.filter(s=>s.kind==='study' && s.subjectName===subjectName).length;
+  return { totalTasks:tasks.length, completedTasks, remainingTasks:tasks.length-completedTasks, sessionsDone };
+}
 function pomodoroHourlyBreakdown(){
   const buckets = Array.from({length:24}, ()=>0);
   pomodoroSessions.filter(s=>s.kind==='study').forEach(s=>{
@@ -9631,7 +9835,7 @@ function pomodoroSessionLogHtml(limit){
         <span class="pmd-log-date">${dateStr} · ${timeStr}</span>
         <span class="pmd-log-dur">${s.durationMin} د</span>
       </div>
-      <div class="pmd-log-subj">${s.subjectName ? escapeHtml(s.subjectName) : 'بدون مادة'}${s.taskText ? ' · '+escapeHtml(s.taskText) : ''}</div>
+      <div class="pmd-log-subj">${s.subjectName ? escapeHtml(s.subjectName) : 'بدون مادة'}${s.taskId ? (()=>{ const tk = pomodoroTasks.find(x=>x.id===s.taskId); return tk ? ` · 🗂️ ${escapeHtml(tk.title)}` : ''; })() : ''}</div>
       ${s.note ? `<div class="pmd-log-note">${escapeHtml(s.note)}</div>` : ''}
     </div>`;
   }).join('') || '<div style="color:var(--ink-soft);font-size:13px;">لسه معملتش جلسات مذاكرة.</div>';
@@ -9649,16 +9853,24 @@ function pomodoroFreshTimerState(){
     totalSec: pomodoroPhaseDurationSec('study'),
     remainingSec: pomodoroPhaseDurationSec('study'),
     cycleCount:0, showNote:false, lastSessionId:null,
-    subjectId:'', taskId:'',
-    settingsOpen:false, manageOpen:false, manageExpandSubjectId:null,
-    newlyUnlocked:[], statsOpen:false,
-    historyOpen:false, calendarMonthOffset:0, logVisibleCount:10,
-    focusMode:false, soundsOpen:false, shopOpen:false,
-    analyticsOpen:false, cardOpen:false, spotifyOpen:false, roomOpen:false
+    subjectName:'',
+    activeTaskId:null, tasksSelectedSubject:'', newTaskSessions:3,
+    newlyUnlocked:[],
+    calendarMonthOffset:0, logVisibleCount:10,
+    focusMode:false, activeTab:null, ringExpanded:false
   };
 }
 function pomodoroEnsureTimerInit(){
   if(!pomodoroTimer) pomodoroTimer = pomodoroFreshTimerState();
+}
+/* بيودّي على طول لتاب "المهام" جوه البومودورو، ومحدد عليه المادة اللي دوس على زرارها من كارت
+   المادة في صفحة المقررات — عشان الطالب ميضطرش يكتب اسم المادة تاني أو يدور عليها. */
+function pomodoroOpenTasksForSubject(subjectName){
+  pomodoroEnsureTimerInit();
+  pomodoroTimer.tasksSelectedSubject = subjectName;
+  pomodoroTimer.activeTab = 'tasks';
+  studyToolActive = 'pomodoro';
+  goToView('study');
 }
 function pomodoroFormatTime(sec){
   sec = Math.max(0, Math.round(sec));
@@ -9671,7 +9883,7 @@ function pomodoroUpdateTimerDom(){
   const ring = document.getElementById('pmdRingProgress');
   if(label) label.textContent = pomodoroFormatTime(pomodoroTimer.remainingSec);
   if(ring){
-    const circumference = 2*Math.PI*90;
+    const circumference = 2*Math.PI*130;
     const ratio = pomodoroTimer.totalSec>0 ? (pomodoroTimer.remainingSec/pomodoroTimer.totalSec) : 0;
     ring.style.strokeDashoffset = String(circumference*(1-ratio));
   }
@@ -9680,9 +9892,30 @@ function pomodoroStartInterval(){
   if(pomodoroIntervalHandle) clearInterval(pomodoroIntervalHandle);
   pomodoroIntervalHandle = setInterval(pomodoroTick, 1000);
 }
+/* صوت دقة ساعة اختياري (مطفي افتراضيًا) بيتولد لحظيًا زي باقي أصوات المرحلة 4، من غير أي ملف خارجي */
+function pomodoroPlayTick(){
+  try{
+    const ctx = pomodoroGetAudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.value = 1400;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.045, ctx.currentTime+0.004);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime+0.05);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime+0.06);
+  }catch(e){}
+}
+function pomodoroToggleTickSound(){
+  pomodoroSettings.tickSound = !pomodoroSettings.tickSound;
+  savePomodoroSettings();
+  renderCurrentView();
+}
 function pomodoroTick(){
   if(!pomodoroTimer || !pomodoroTimer.running) return;
   pomodoroTimer.remainingSec--;
+  if(pomodoroSettings.tickSound) pomodoroPlayTick();
   if(pomodoroTimer.remainingSec<=0){ pomodoroHandlePhaseComplete(); return; }
   if(pomodoroTimer.phase==='study'){
     const elapsed = pomodoroTimer.totalSec - pomodoroTimer.remainingSec;
@@ -9726,21 +9959,24 @@ function pomodoroHandlePhaseComplete(){
   if(pomodoroIntervalHandle){ clearInterval(pomodoroIntervalHandle); pomodoroIntervalHandle=null; }
   pomodoroTimer.running = false;
   if(pomodoroTimer.phase==='study'){
-    const subj = pomodoroSubjects.find(s=>s.id===pomodoroTimer.subjectId);
-    const task = subj ? subj.tasks.find(t=>t.id===pomodoroTimer.taskId) : null;
     const session = {
       id: 'pmd_'+Date.now(),
       ts: new Date().toISOString(),
       durationMin: pomodoroSettings.studyMin,
       kind: 'study',
-      subjectId: pomodoroTimer.subjectId || null,
-      subjectName: subj ? subj.name : null,
-      taskId: pomodoroTimer.taskId || null,
-      taskText: task ? task.text : null,
+      subjectName: (pomodoroTimer.subjectName||'').trim() || null,
+      taskId: pomodoroTimer.activeTaskId || null,
       note: ''
     };
     pomodoroSessions.push(session);
     savePomodoroSessions();
+    if(pomodoroTimer.activeTaskId){
+      const activeTask = pomodoroTasks.find(tk=>tk.id===pomodoroTimer.activeTaskId);
+      if(activeTask && !activeTask.completed){
+        activeTask.sessionsDone++;
+        savePomodoroTasks();
+      }
+    }
     pomodoroStats.coins += 10;
     pomodoroStats.xp += 50;
     pomodoroApplyStreak();
@@ -9829,6 +10065,13 @@ function pomodoroToggleFocusMode(){
       document.exitFullscreen().catch(()=>{});
     }
   }
+  renderCurrentView();
+}
+/* توسيع/تصغير الساعة بس (من غير باقي عناصر الصفحة) — بتتحط في نص الشاشة بحجم أكبر، من غير ما تدخل
+   Fullscreen حقيقي زي وضع التركيز، عشان تفضل شاسيه الموقع والتابات ظاهرة لو حبيت تخرج بسهولة. */
+function pomodoroToggleRingExpand(){
+  pomodoroEnsureTimerInit();
+  pomodoroTimer.ringExpanded = !pomodoroTimer.ringExpanded;
   renderCurrentView();
 }
 /* لو الطالب خرج من الـ Fullscreen يدويًا (زرار Esc مثلًا)، نطفي وضع التركيز عندنا كمان عشان الحالتين يفضلوا متزامنين */
@@ -10040,46 +10283,26 @@ function pomodoroSoundsPanelHtml(){
     <div style="font-size:11px;color:var(--ink-soft);">الأصوات دي متولّدة لحظيًا جوه المتصفح، فبتشتغل فورًا من غير أي تحميل أو نت.</div>
   </div>`;
 }
-function pomodoroSelectSubject(id){
-  pomodoroTimer.subjectId = id; pomodoroTimer.taskId = '';
-  renderCurrentView();
+function pomodoroSetSubjectName(name){
+  pomodoroTimer.subjectName = name || '';
 }
-function pomodoroSelectTask(id){
-  pomodoroTimer.taskId = id;
-  renderCurrentView();
+/* بدل ما الطالب يبني قائمة مواد يدوية، بنجيب أسماء المواد الموجودة أصلًا في الموقع (بنك المقررات DB
+   + مواد الطالب اليدوية المضافة في بنك المواد customCourses) عشان تظهر كاقتراحات Autocomplete وهو بيكتب. */
+function pomodoroAllSiteSubjectNames(){
+  const names = new Set();
+  Object.values(DB).forEach(c=>{ if(c && c.ar) names.add(c.ar); });
+  Object.values(customCourses).forEach(c=>{ if(c && c.ar) names.add(c.ar); });
+  return Array.from(names).sort((a,b)=>a.localeCompare(b,'ar'));
 }
-function pomodoroAddSubject(name){
-  const trimmed = (name||'').trim();
-  if(!trimmed) return;
-  pomodoroSubjects.push({ id:'sub_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), name:trimmed, tasks:[] });
-  savePomodoroSubjects();
-  renderCurrentView();
-}
-function pomodoroDeleteSubject(id){
-  pomodoroSubjects = pomodoroSubjects.filter(s=>s.id!==id);
-  savePomodoroSubjects();
-  if(pomodoroTimer){
-    if(pomodoroTimer.subjectId===id){ pomodoroTimer.subjectId=''; pomodoroTimer.taskId=''; }
-    if(pomodoroTimer.manageExpandSubjectId===id) pomodoroTimer.manageExpandSubjectId=null;
-  }
-  renderCurrentView();
-}
-function pomodoroAddTask(subjectId, text){
-  const trimmed = (text||'').trim();
-  if(!trimmed) return;
-  const subj = pomodoroSubjects.find(s=>s.id===subjectId);
-  if(!subj) return;
-  subj.tasks.push({ id:'task_'+Date.now()+'_'+Math.random().toString(36).slice(2,6), text:trimmed, done:false });
-  savePomodoroSubjects();
-  renderCurrentView();
-}
-function pomodoroDeleteTask(subjectId, taskId){
-  const subj = pomodoroSubjects.find(s=>s.id===subjectId);
-  if(!subj) return;
-  subj.tasks = subj.tasks.filter(t=>t.id!==taskId);
-  savePomodoroSubjects();
-  if(pomodoroTimer && pomodoroTimer.taskId===taskId) pomodoroTimer.taskId='';
-  renderCurrentView();
+/* بدل ما نقترح مواد من بنك مقررات الموقع، بنجمع اسماء المواد اللي الطالب كتبها بنفسه فعلاً —
+   إما وهو بيذاكر (من الجلسات المسجّلة) أو وهو بيقسّمها لتاسكات — عشان تظهر في dropdown "المواد
+   المضاف" لما يحب يدير/يخلّص تاسكاتها، من غير ما تتقيّد بمواد القسم الرسمية. */
+function pomodoroAllUserAddedSubjectNames(){
+  const names = new Set();
+  pomodoroSessions.forEach(s=>{ if(s.subjectName) names.add(s.subjectName); });
+  pomodoroTasks.forEach(tk=>{ if(tk.subjectName) names.add(tk.subjectName); });
+  if(pomodoroTimer && (pomodoroTimer.subjectName||'').trim()) names.add(pomodoroTimer.subjectName.trim());
+  return Array.from(names).sort((a,b)=>a.localeCompare(b,'ar'));
 }
 function pomodoroSetStudyMin(v){
   pomodoroSettings.studyMin=v; savePomodoroSettings();
@@ -10437,30 +10660,151 @@ function pomodoroRoomPanelHtml(){
     <div class="pmd-shop-grid">${roomCards}</div>
   </div>`;
 }
-function pomodoroViewHtml(){
-  pomodoroEnsureTimerInit();
+const PMD_TABS = [
+  { id:'room',      icon:'🏞️', label:'الغرفة' },
+  { id:'sounds',    icon:'🎵', label:'الأصوات' },
+  { id:'tasks',     icon:'🗂️', label:'المهام' },
+  { id:'stats',     icon:'📊', label:'الإحصائيات' },
+  { id:'analytics', icon:'🧠', label:'التحليلات' },
+  { id:'shop',      icon:'🎨', label:'المتجر' },
+  { id:'card',      icon:'📷', label:'كارت الإنجاز' },
+  { id:'spotify',   icon:'🎧', label:'Spotify' },
+  { id:'history',   icon:'🗓️', label:'السجل' },
+  { id:'settings',  icon:'⚙',  label:'الإعدادات' },
+];
+function pomodoroTasksPanelHtml(){
   const t = pomodoroTimer;
-  const todayCount = pomodoroStatsTodayCount();
-  const circumference = 2*Math.PI*90;
-  const ratio = t.totalSec>0 ? (t.remainingSec/t.totalSec) : 0;
-  const dashoffset = circumference*(1-ratio);
-  const ringTheme = pomodoroActiveRingTheme();
-  const phaseColor = t.phase==='study' ? ringTheme.study : (t.phase==='shortBreak' ? ringTheme.shortBreak : ringTheme.longBreak);
-  const phaseLabel = t.phase==='study' ? '🍅 جلسة مذاكرة' : (t.phase==='shortBreak' ? '☕ راحة قصيرة' : '🌿 راحة طويلة');
-  const dotsTotal = pomodoroSettings.sessionsBeforeLong;
-  const dotsFilled = t.cycleCount % dotsTotal;
-  const dotsHtml = Array.from({length:dotsTotal}).map((_,i)=>`<span class="pmd-dot${i<dotsFilled?' filled':''}"></span>`).join('');
+  const selectedSubject = (t.tasksSelectedSubject||'').trim();
+  const addedSubjects = pomodoroAllUserAddedSubjectNames();
+  if(selectedSubject && !addedSubjects.includes(selectedSubject)){
+    addedSubjects.push(selectedSubject);
+    addedSubjects.sort((a,b)=>a.localeCompare(b,'ar'));
+  }
+  const allSubjectsWithTasks = pomodoroAllTaskSubjects();
 
-  const subjectOptions = `<option value="">بدون مادة محددة</option>` +
-    pomodoroSubjects.map(s=>`<option value="${s.id}" ${t.subjectId===s.id?'selected':''}>${escapeHtml(s.name)}</option>`).join('');
-  const currentSubject = pomodoroSubjects.find(s=>s.id===t.subjectId);
-  const taskOptions = currentSubject
-    ? (`<option value="">بدون مهمة محددة</option>` + currentSubject.tasks.map(tk=>`<option value="${tk.id}" ${t.taskId===tk.id?'selected':''}>${escapeHtml(tk.text)}</option>`).join(''))
-    : `<option value="">اختار مادة الأول</option>`;
-  const pickDisabled = t.running ? 'disabled' : '';
+  const overviewHtml = allSubjectsWithTasks.length ? `
+    <div class="pmd-stats-grid">
+      ${allSubjectsWithTasks.map(name=>{
+        const st = pomodoroSubjectTaskStats(name);
+        return `<div class="pmd-stat-box pmd-task-subj-card${selectedSubject===name?' active':''}" data-pmd-task-subj="${escapeHtml(name)}">
+          <div class="pmd-stat-lbl" style="font-weight:800;color:var(--ink);">${escapeHtml(name)}</div>
+          <div class="pmd-stat-lbl">${st.completedTasks}/${st.totalTasks} تاسك خلصان</div>
+          <div class="pmd-stat-lbl">${st.sessionsDone} جلسة مذاكرة</div>
+        </div>`;
+      }).join('')}
+    </div>` : `<div style="font-size:12.5px;color:var(--ink-soft);">لسه مقسمتش أي مادة لتاسكات. اختار مادة تحت وابدأ.</div>`;
 
-  const settingsPanel = !t.settingsOpen ? '' : `
-    <div class="pmd-panel">
+  const subjectPickHtml = `
+    <div class="pmd-subject-row">
+      <label>📘 اختار المادة</label>
+      ${addedSubjects.length ? `
+        <select class="pmd-select" id="pmdTaskSubjectSelect">
+          <option value="">-- اختار مادة --</option>
+          ${addedSubjects.map(n=>`<option value="${escapeHtml(n)}"${selectedSubject===n?' selected':''}>${escapeHtml(n)}</option>`).join('')}
+        </select>` : `<div style="font-size:12.5px;color:var(--ink-soft);">لسه مكتبتش اسم مادة في المؤقت. اكتب اسم المادة هناك الأول وبعدين ارجع هنا تقسّمها لتاسكات.</div>`}
+    </div>`;
+
+  let bodyHtml = '';
+  if(selectedSubject){
+    const stats = pomodoroSubjectTaskStats(selectedSubject);
+    const overallPct = stats.totalTasks ? Math.round((stats.completedTasks/stats.totalTasks)*100) : 0;
+    const tasks = pomodoroTasksForSubject(selectedSubject).slice().sort((a,b)=>
+      (a.completed===b.completed ? 0 : (a.completed?1:-1)) || (new Date(a.createdAt)-new Date(b.createdAt)));
+    const overallBarHtml = stats.totalTasks ? `
+      <div class="pmd-task-overall">
+        <div class="pmd-task-overall-top">
+          <span>📊 تقدمك في تاسكات ${escapeHtml(selectedSubject)}</span>
+          <span>${stats.completedTasks}/${stats.totalTasks} تاسك (${overallPct}%)</span>
+        </div>
+        <div class="vid-progress-bar pmd-task-overall-bar"><div class="vid-progress-fill" style="width:${overallPct}%"></div></div>
+        <div class="pmd-task-overall-sub">${stats.remainingTasks>0 ? `فاضلك ${stats.remainingTasks} تاسك لسه 💪` : (stats.totalTasks>0 ? 'خلصت كل التاسكات! 🎉' : '')}</div>
+      </div>` : '';
+    const tasksListHtml = tasks.length ? tasks.map(tk=>{
+      const pct = Math.min(100, Math.round((tk.sessionsDone/tk.sessionsRequired)*100));
+      const overBy = tk.sessionsDone - tk.sessionsRequired;
+      const overBadgeHtml = overBy>0 ? `<span class="pmd-task-over-badge">زودت ${overBy} 🔥</span>` : '';
+      return `<div class="pmd-task-item${tk.completed?' pmd-task-done':''}">
+        <button type="button" class="pmd-task-del-btn" data-pmd-task-del="${tk.id}" title="حذف التاسك">🗑</button>
+        <label class="pmd-task-check-row">
+          <input type="checkbox" class="pmd-task-checkbox" data-pmd-task-toggle="${tk.id}" ${tk.completed?'checked':''}>
+          <span class="pmd-task-title">${escapeHtml(tk.title)}</span>
+        </label>
+        <div class="pmd-task-meta-row">
+          <div class="vid-progress-bar${overBy>0?' pmd-task-over':''}"><div class="vid-progress-fill" style="width:${pct}%"></div></div>
+          <span class="pmd-task-count">${tk.sessionsDone}/${tk.sessionsRequired} جلسة${overBadgeHtml}</span>
+        </div>
+      </div>`;
+    }).join('') : `<div style="font-size:12.5px;color:var(--ink-soft);">لسه مفيش تاسكات للمادة دي. ضيف أول تاسك تحت.</div>`;
+
+    bodyHtml = `
+      <div class="pmd-stats-grid">
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${stats.sessionsDone}</div><div class="pmd-stat-lbl">جلسات عملتها في المادة دي</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${stats.completedTasks}/${stats.totalTasks}</div><div class="pmd-stat-lbl">تاسكات خلصتها</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${stats.remainingTasks}</div><div class="pmd-stat-lbl">تاسكات لسه فاضلة</div></div>
+      </div>
+      ${overallBarHtml}
+      <h3>➕ ضيف تاسك جديد</h3>
+      <div class="pmd-task-form">
+        <input type="text" class="pmd-select" id="pmdNewTaskTitle" placeholder="اسم التاسك (مثلاً: الفصل الثاني - المشتقات)">
+        <label style="font-size:12.5px;font-weight:700;color:var(--ink-soft);">هتخلصه في كام جلسة بومودورو؟</label>
+        <div class="pmd-chip-row">
+          ${[1,2,3,4,5,6,8,10].map(n=>`<button type="button" class="pmd-chip${t.newTaskSessions===n?' active':''}" data-pmd-task-sessions="${n}">${n}</button>`).join('')}
+        </div>
+        <button type="button" class="pmd-btn pmd-btn-primary" id="pmdAddTaskBtn" style="align-self:flex-start;">إضافة التاسك</button>
+      </div>
+      <h3>📋 تاسكات ${escapeHtml(selectedSubject)}</h3>
+      <div class="pmd-task-list">${tasksListHtml}</div>
+    `;
+  }
+
+  return `<div class="pmd-panel">
+    <h3>🗂️ المهام لكل مادة</h3>
+    <div style="font-size:12.5px;color:var(--ink-soft);">قسّم أي مادة بتذاكرها لتاسكات، وحدد كل تاسك هتخلصه في كام جلسة بومودورو. لما تخلص تاسك، ادوس "اكتب اني خلصته"، وتقدر تتابع كل مادة عملت فيها قد إيه وباقيلك تاسكات قد إيه.</div>
+    ${overviewHtml}
+    ${subjectPickHtml}
+    ${bodyHtml}
+  </div>`;
+}
+function pomodoroTabPanelHtml(tabId){
+  const t = pomodoroTimer;
+  if(tabId==='room') return pomodoroRoomPanelHtml();
+  if(tabId==='sounds') return pomodoroSoundsPanelHtml();
+  if(tabId==='shop') return pomodoroShopPanelHtml();
+  if(tabId==='card') return pomodoroCardPanelHtml();
+  if(tabId==='spotify') return pomodoroSpotifyPanelHtml();
+  if(tabId==='analytics') return pomodoroAnalyticsPanelHtml();
+  if(tabId==='tasks') return pomodoroTasksPanelHtml();
+  if(tabId==='stats'){
+    const lvl = pomodoroLevelInfo(pomodoroStats.xp);
+    const achievementsGridHtml = POMODORO_ACHIEVEMENTS.map(a=>{
+      const unlocked = pomodoroStats.achievements.includes(a.id);
+      return `<div class="pmd-badge${unlocked?' unlocked':''}" title="${escapeHtml(a.desc)}">
+        <div class="pmd-badge-ic">${unlocked?a.icon:'🔒'}</div>
+        <div class="pmd-badge-title">${a.title}</div>
+      </div>`;
+    }).join('');
+    return `<div class="pmd-panel">
+      <h3>📊 إحصائياتك</h3>
+      <div class="pmd-stats-grid">
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(7)}</div><div class="pmd-stat-lbl">جلسات آخر 7 أيام</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(30)}</div><div class="pmd-stat-lbl">جلسات آخر 30 يوم</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${Math.round(pomodoroTotalStudyMinutes()/60*10)/10}</div><div class="pmd-stat-lbl">إجمالي ساعات المذاكرة</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroTotalStudySessions()}</div><div class="pmd-stat-lbl">إجمالي الجلسات</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">🎮 ${lvl.level}</div><div class="pmd-stat-lbl">المستوى (${lvl.xpIntoLevel}/${lvl.xpForNext} XP)</div></div>
+      </div>
+      <h3>🏅 الإنجازات</h3>
+      <div class="pmd-badges-grid">${achievementsGridHtml}</div>
+    </div>`;
+  }
+  if(tabId==='history') return `<div class="pmd-panel">
+      <h3>🗓️ خريطة المذاكرة (آخر 13 أسبوع)</h3>
+      ${pomodoroHeatmapHtml()}
+      <h3>📆 التقويم الشهري</h3>
+      ${pomodoroCalendarHtml(t.calendarMonthOffset)}
+      <h3>📋 سجل الجلسات</h3>
+      ${pomodoroSessionLogHtml(t.logVisibleCount)}
+    </div>`;
+  if(tabId==='settings') return `<div class="pmd-panel">
       <h3>⚙ إعدادات المؤقت</h3>
       <div class="pmd-settings-grid">
         <div class="pmd-picker-col"><label>مدة المذاكرة (دقيقة)</label>
@@ -10483,72 +10827,63 @@ function pomodoroViewHtml(){
         </div>
         <div style="font-size:11px;color:var(--ink-soft);">هيشتغل بس والتاب فاتح، مش هيوصلك زي تطبيق موبايل حقيقي في الخلفية.</div>
       </div>
-    </div>`;
-
-  const manageSubjectsHtml = pomodoroSubjects.map(s=>{
-    const expanded = t.manageExpandSubjectId===s.id;
-    return `<div>
-      <div class="pmd-manage-item">
-        <span class="pmd-manage-item-name" data-pmd-toggle-subject="${s.id}" style="cursor:pointer;">${expanded?'▾':'▸'} ${escapeHtml(s.name)} <span style="color:var(--ink-soft);font-weight:400;">(${s.tasks.length} مهمة)</span></span>
-        <button class="pmd-manage-item-del" data-pmd-del-subject="${s.id}">✕</button>
-      </div>
-      ${expanded ? `<div class="pmd-tasks-list">
-        ${s.tasks.map(tk=>`<div class="pmd-task-row"><span>${escapeHtml(tk.text)}</span><button class="pmd-manage-item-del" data-pmd-del-task="${s.id}|${tk.id}">✕</button></div>`).join('') || '<div style="color:var(--ink-soft);font-size:12.5px;">مفيش مهام لسه</div>'}
-        <div class="pmd-add-row">
-          <input type="text" placeholder="مهمة جديدة..." id="pmdNewTaskInput_${s.id}">
-          <button type="button" data-pmd-add-task="${s.id}">إضافة</button>
+      <div class="pmd-picker-col">
+        <label>⏱ صوت دقات الساعة أثناء العد التنازلي</label>
+        <div class="pmd-chip-row">
+          <button type="button" class="pmd-chip${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTickSettings">${pomodoroSettings.tickSound?'شغّال 🔊':'صامت 🔇'}</button>
         </div>
-      </div>` : ''}
-    </div>`;
-  }).join('') || '<div style="color:var(--ink-soft);font-size:13px;">لسه معندكش مواد. ضيف واحدة تحت 👇</div>';
-
-  const managePanel = !t.manageOpen ? '' : `
-    <div class="pmd-panel">
-      <h3>📚 المواد والمهام</h3>
-      <div class="pmd-manage-list">${manageSubjectsHtml}</div>
-      <div class="pmd-add-row">
-        <input type="text" placeholder="اسم مادة جديدة..." id="pmdNewSubjectInput">
-        <button type="button" id="pmdAddSubjectBtn">إضافة مادة</button>
       </div>
     </div>`;
+  return '';
+}
+/* تشيك ليست مصغّرة بتظهر جنب المؤقت طول ما فيه مادة مكتوبة وليها تاسكات، وشغالة حتى والمؤقت شغال،
+   عشان تقدر تعلّم أي تاسك خلصته من غير ما توقف الجلسة أو تفتح تاب المهام. */
+function pomodoroSideTaskChecklistHtml(){
+  const t = pomodoroTimer;
+  const subj = (t.subjectName||'').trim();
+  if(!subj) return '';
+  const tasks = pomodoroTasksForSubject(subj);
+  if(!tasks.length) return '';
+  const stats = pomodoroSubjectTaskStats(subj);
+  const donePct = stats.totalTasks ? Math.round((stats.completedTasks/stats.totalTasks)*100) : 0;
+  const sorted = tasks.slice().sort((a,b)=> (a.completed===b.completed?0:(a.completed?1:-1)) || (new Date(a.createdAt)-new Date(b.createdAt)));
+  const itemsHtml = sorted.map(tk=>`
+    <label class="pmd-side-task-row${tk.completed?' done':''}">
+      <input type="checkbox" data-pmd-side-task-toggle="${tk.id}" ${tk.completed?'checked':''}>
+      <span class="pmd-side-task-title">${escapeHtml(tk.title)}</span>
+      <span class="pmd-side-task-count">${tk.sessionsDone}/${tk.sessionsRequired}</span>
+    </label>`).join('');
+  return `<div class="pmd-side-tasks-box">
+    <div class="pmd-side-tasks-head"><span>🗂️ تاسكات ${escapeHtml(subj)}</span><span>${stats.completedTasks}/${stats.totalTasks}</span></div>
+    <div class="vid-progress-bar"><div class="vid-progress-fill" style="width:${donePct}%"></div></div>
+    <div class="pmd-side-tasks-list">${itemsHtml}</div>
+  </div>`;
+}
+function pomodoroViewHtml(){
+  pomodoroEnsureTimerInit();
+  const t = pomodoroTimer;
+  const todayCount = pomodoroStatsTodayCount();
+  const ringR = 130;
+  const circumference = 2*Math.PI*ringR;
+  const ratio = t.totalSec>0 ? (t.remainingSec/t.totalSec) : 0;
+  const dashoffset = circumference*(1-ratio);
+  const ringTheme = pomodoroActiveRingTheme();
+  const phaseColor = t.phase==='study' ? ringTheme.study : (t.phase==='shortBreak' ? ringTheme.shortBreak : ringTheme.longBreak);
+  const phaseLabel = t.phase==='study' ? '🍅 جلسة مذاكرة' : (t.phase==='shortBreak' ? '☕ راحة قصيرة' : '🌿 راحة طويلة');
+  const dotsTotal = pomodoroSettings.sessionsBeforeLong;
+  const dotsFilled = t.cycleCount % dotsTotal;
+  const dotsHtml = Array.from({length:dotsTotal}).map((_,i)=>`<span class="pmd-dot${i<dotsFilled?' filled':''}"></span>`).join('');
+
+  const pickDisabled = t.running ? 'disabled' : '';
+  const activeTaskObj = t.activeTaskId ? pomodoroTasks.find(tk=>tk.id===t.activeTaskId) : null;
+  const addedSubjectsDatalistHtml = pomodoroAllUserAddedSubjectNames().map(n=>`<option value="${escapeHtml(n)}"></option>`).join('');
 
   const unlockedBannerHtml = (t.newlyUnlocked && t.newlyUnlocked.length) ? `
     <div class="pmd-unlock-banner">
       ${t.newlyUnlocked.map(a=>`<div class="pmd-unlock-item"><span class="pmd-unlock-ic">${a.icon}</span><div><div class="pmd-unlock-title">إنجاز جديد: ${a.title}</div><div class="pmd-unlock-desc">${a.desc}</div></div></div>`).join('')}
     </div>` : '';
-  const lvl = pomodoroLevelInfo(pomodoroStats.xp);
-  const achievementsGridHtml = POMODORO_ACHIEVEMENTS.map(a=>{
-    const unlocked = pomodoroStats.achievements.includes(a.id);
-    return `<div class="pmd-badge${unlocked?' unlocked':''}" title="${escapeHtml(a.desc)}">
-      <div class="pmd-badge-ic">${unlocked?a.icon:'🔒'}</div>
-      <div class="pmd-badge-title">${a.title}</div>
-    </div>`;
-  }).join('');
-  const achievementsPanel = !t.statsOpen ? '' : `
-    <div class="pmd-panel">
-      <h3>📊 إحصائياتك</h3>
-      <div class="pmd-stats-grid">
-        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(7)}</div><div class="pmd-stat-lbl">جلسات آخر 7 أيام</div></div>
-        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(30)}</div><div class="pmd-stat-lbl">جلسات آخر 30 يوم</div></div>
-        <div class="pmd-stat-box"><div class="pmd-stat-num">${Math.round(pomodoroTotalStudyMinutes()/60*10)/10}</div><div class="pmd-stat-lbl">إجمالي ساعات المذاكرة</div></div>
-        <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroTotalStudySessions()}</div><div class="pmd-stat-lbl">إجمالي الجلسات</div></div>
-      </div>
-      <h3>🏅 الإنجازات</h3>
-      <div class="pmd-badges-grid">${achievementsGridHtml}</div>
-    </div>`;
 
-  const historyPanel = !t.historyOpen ? '' : `
-    <div class="pmd-panel">
-      <h3>🗓️ خريطة المذاكرة (آخر 13 أسبوع)</h3>
-      ${pomodoroHeatmapHtml()}
-      <h3>📆 التقويم الشهري</h3>
-      ${pomodoroCalendarHtml(t.calendarMonthOffset)}
-      <h3>📋 سجل الجلسات</h3>
-      ${pomodoroSessionLogHtml(t.logVisibleCount)}
-    </div>`;
-
-  const noteBox = !t.showNote ? '' : `
-    <div class="pmd-note-box">
+  const noteBox = `<div class="pmd-note-box">
       <h3>✅ خلصت جلسة مذاكرة! (+10 💰 · +50 🎮 XP) ماذا أنجزت؟</h3>
       ${unlockedBannerHtml}
       <textarea id="pmdNoteInput" placeholder="مثلاً: راجعت الفصل الأول وحليت 5 مسائل..."></textarea>
@@ -10558,93 +10893,194 @@ function pomodoroViewHtml(){
       </div>
     </div>`;
 
-  return `<div class="study-view">
+  const currentSubjectTrimmed = (t.subjectName||'').trim();
+  const currentSubjectAllTasks = currentSubjectTrimmed ? pomodoroTasksForSubject(currentSubjectTrimmed) : [];
+  const currentSubjectOpenTasks = currentSubjectAllTasks.filter(tk=>!tk.completed)
+    .sort((a,b)=> new Date(a.createdAt)-new Date(b.createdAt));
+  const inlineTaskRowsHtml = currentSubjectOpenTasks.map(tk=>{
+    const pct = Math.min(100, Math.round((tk.sessionsDone/tk.sessionsRequired)*100));
+    return `<div class="pmd-inline-task-row${t.activeTaskId===tk.id?' active':''}">
+      <div class="pmd-inline-task-info">
+        <span class="pmd-task-title">${escapeHtml(tk.title)}</span>
+        <div class="pmd-task-meta-row"><div class="vid-progress-bar"><div class="vid-progress-fill" style="width:${pct}%"></div></div><span class="pmd-task-count">${tk.sessionsDone}/${tk.sessionsRequired} جلسة</span></div>
+      </div>
+      <button type="button" class="pmd-btn pmd-btn-primary pmd-inline-task-start" data-pmd-inline-task-start="${tk.id}" ${pickDisabled}>▶ ابدأ</button>
+    </div>`;
+  }).join('');
+  const taskPickHtml = currentSubjectTrimmed ? `
+      <div class="pmd-inline-tasks-box">
+        <div class="pmd-side-tasks-head"><span>🗂️ تاسكات ${escapeHtml(currentSubjectTrimmed)}</span><span>${currentSubjectAllTasks.filter(tk=>tk.completed).length}/${currentSubjectAllTasks.length}</span></div>
+        <div class="pmd-inline-tasks-list">
+          ${inlineTaskRowsHtml || `<div class="pmd-inline-tasks-empty">لسه مفيش تاسكات مفتوحة للمادة دي — ضيف أول تاسك تحت وابدأ عليه على طول.</div>`}
+        </div>
+        <div class="pmd-inline-add-row">
+          <input type="text" class="pmd-select" id="pmdInlineNewTaskTitle" placeholder="اسم تاسك جديد (مثلاً: الفصل الثاني)..." ${pickDisabled}>
+          <button type="button" class="pmd-btn pmd-btn-secondary" id="pmdInlineAddTaskBtn" ${pickDisabled}>➕ إضافة</button>
+        </div>
+        <button type="button" class="pmd-manage-link" id="pmdGoManageTasks">🗂️ إدارة كل التاسكات (حذف / تعديل الجلسات المطلوبة)</button>
+      </div>` : '';
+
+  const subjectAndControlsHtml = `
+      <div class="pmd-subject-row">
+        <label>📘 المادة</label>
+        <input type="text" class="pmd-select" list="pmdSubjectDatalist" id="pmdSubjectInput"
+          value="${escapeHtml(t.subjectName||'')}" placeholder="اكتب اسم المادة اللي هتذاكرها دلوقتي..." ${pickDisabled}>
+        <datalist id="pmdSubjectDatalist">${addedSubjectsDatalistHtml}</datalist>
+      </div>
+      ${taskPickHtml}
+      <div class="pmd-controls">
+        ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">▶ Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">⏸ Pause</button>`}
+        <button class="pmd-btn pmd-btn-danger" id="pmdStopBtn">⏹ Stop</button>
+        ${t.phase!=='study' ? `<button class="pmd-btn pmd-btn-ghost" id="pmdSkipBtn">⏭ Skip Break</button>` : ''}
+        <button class="pmd-tick-toggle${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTick" type="button" title="صوت دقات الساعة">${pomodoroSettings.tickSound?'🔊':'🔇'}</button>
+      </div>`;
+
+  const tabsBarHtml = `<div class="pmd-tabs-bar">
+    ${PMD_TABS.map(tb=>`<button type="button" class="pmd-tab-btn${t.activeTab===tb.id?' active':''}" data-pmd-tab="${tb.id}"><span class="pmd-tab-ic">${tb.icon}</span><span class="pmd-tab-lbl">${tb.label}</span></button>`).join('')}
+  </div>`;
+  const tabContentHtml = t.activeTab ? `<div class="pmd-tab-content">${pomodoroTabPanelHtml(t.activeTab)}</div>` : '';
+
+  return `<div class="study-view pmd-view">
     <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
     <div class="study-head">
       <h2>🍅 بومودورو للمذاكرة</h2>
-      <p class="study-sub">اختار مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
+      <p class="study-sub">اكتب مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
     </div>
     <div class="study-usage-bar">
       ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge">${pomodoroActiveAvatar().icon}</span>` : ''}
       <span>جلسات النهاردة: <b>${todayCount}</b></span>
       <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
       <span>💰 Coins: <b>${pomodoroStats.coins}</b></span>
-      <span>🎮 المستوى: <b>${lvl.level}</b> (${lvl.xpIntoLevel}/${lvl.xpForNext} XP)</span>
+      <span>🎮 المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
     </div>
-    ${pomodoroTreeBoxHtml()}
-    <div class="pmd-wrap">
-      <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?'✕ الخروج من وضع التركيز':'🚫 وضع تركيز'}</button>
-      <button class="pmd-manage-link" id="pmdToggleSounds" style="align-self:center;">${t.soundsOpen?'إخفاء أصوات التركيز':'🎵 أصوات التركيز'}</button>
-      ${t.soundsOpen ? pomodoroSoundsPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleRoom" style="align-self:center;">${t.roomOpen?'إخفاء غرفة التركيز':'🏞️ غرفة التركيز'}</button>
-      ${t.roomOpen ? pomodoroRoomPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleStats" style="align-self:center;">${t.statsOpen?'إخفاء الإحصائيات والإنجازات':'📊 الإحصائيات والإنجازات'}</button>
-      ${achievementsPanel}
-      <button class="pmd-manage-link" id="pmdToggleAnalytics" style="align-self:center;">${t.analyticsOpen?'إخفاء تحليل الإنتاجية':'🧠 تحليل الإنتاجية'}</button>
-      ${t.analyticsOpen ? pomodoroAnalyticsPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleShop" style="align-self:center;">${t.shopOpen?'إخفاء متجر التخصيص':'🎨 متجر التخصيص'}</button>
-      ${t.shopOpen ? pomodoroShopPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleCard" style="align-self:center;">${t.cardOpen?'إخفاء كارت الإنجاز':'📷 كارت إنجاز'}</button>
-      ${t.cardOpen ? pomodoroCardPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleSpotify" style="align-self:center;">${t.spotifyOpen?'إخفاء Spotify':'🎧 Spotify'}</button>
-      ${t.spotifyOpen ? pomodoroSpotifyPanelHtml() : ''}
-      <button class="pmd-manage-link" id="pmdToggleHistory" style="align-self:center;">${t.historyOpen?'إخفاء الخريطة والتقويم والسجل':'🗓️ الخريطة والتقويم وسجل الجلسات'}</button>
-      ${historyPanel}
-      ${t.showNote ? noteBox : `
-      <div class="pmd-picker-row">
-        <div class="pmd-picker-col"><label>📘 المادة</label>
-          <select class="pmd-select" id="pmdSubjectSelect" ${pickDisabled}>${subjectOptions}</select>
-        </div>
-        <div class="pmd-picker-col"><label>🎯 المهمة</label>
-          <select class="pmd-select" id="pmdTaskSelect" ${pickDisabled || (!currentSubject?'disabled':'')}>${taskOptions}</select>
-        </div>
-      </div>
-      <button class="pmd-manage-link" id="pmdToggleManage">${t.manageOpen?'إخفاء إدارة المواد والمهام':'✏ إدارة المواد والمهام'}</button>
-      ${managePanel}
 
-      <div class="pmd-ring-box">
-        <div style="position:relative;width:220px;height:220px;">
-          <svg class="pmd-ring-svg" width="220" height="220" viewBox="0 0 220 220" style="position:absolute;top:0;left:0;">
-            <circle class="pmd-ring-track" cx="110" cy="110" r="90"></circle>
-            <circle class="pmd-ring-progress" id="pmdRingProgress" cx="110" cy="110" r="90"
-              style="stroke:${phaseColor}; stroke-dasharray:${circumference}; stroke-dashoffset:${dashoffset};"></circle>
-          </svg>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-            <div class="pmd-time-label" id="pmdTimeLabel">${pomodoroFormatTime(t.remainingSec)}</div>
+    <div class="pmd-dashboard" style="--pmd-phase-color:${phaseColor};">
+      <div class="pmd-main-col">
+        <div class="pmd-timer-card">
+          <div class="pmd-ring-box${t.ringExpanded?' pmd-ring-expanded':''}">
+            <button type="button" class="pmd-ring-expand-btn" id="pmdRingExpandToggle" title="${t.ringExpanded?'تصغير الساعة':'توسيع الساعة لملء الشاشة'}">${t.ringExpanded?'⤡ Collapse':'⤢ Expand'}</button>
+            <div class="pmd-ring-wrap${t.running?' is-running':''}">
+              <svg class="pmd-ring-svg" viewBox="0 0 ${(ringR+15)*2} ${(ringR+15)*2}">
+                <circle class="pmd-ring-track" cx="${ringR+15}" cy="${ringR+15}" r="${ringR}"></circle>
+                <circle class="pmd-ring-progress" id="pmdRingProgress" cx="${ringR+15}" cy="${ringR+15}" r="${ringR}"
+                  style="stroke:${phaseColor}; stroke-dasharray:${circumference}; stroke-dashoffset:${dashoffset};"></circle>
+              </svg>
+              <div class="pmd-ring-center">
+                <div class="pmd-time-label" id="pmdTimeLabel">${pomodoroFormatTime(t.remainingSec)}</div>
+                <div class="pmd-phase-label">${phaseLabel}</div>
+              </div>
+            </div>
+            <div class="pmd-dots">${dotsHtml}</div>
+            ${(t.subjectName||'').trim() ? `<div class="pmd-ring-current-task">
+              <span class="pmd-ring-current-subject">📘 ${escapeHtml(t.subjectName.trim())}</span>
+              ${activeTaskObj ? `<span class="pmd-ring-current-taskname">🗂️ ${escapeHtml(activeTaskObj.title)}</span>` : `<span class="pmd-ring-current-taskname pmd-ring-current-taskname-empty">من غير تاسك محدد</span>`}
+            </div>` : ''}
           </div>
+          ${t.showNote ? noteBox : subjectAndControlsHtml}
         </div>
-        <div class="pmd-phase-label">${phaseLabel}</div>
-        <div class="pmd-dots">${dotsHtml}</div>
       </div>
-
-      <div class="pmd-controls">
-        ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">▶ Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">⏸ Pause</button>`}
-        <button class="pmd-btn pmd-btn-danger" id="pmdStopBtn">⏹ Stop</button>
-        ${t.phase!=='study' ? `<button class="pmd-btn pmd-btn-ghost" id="pmdSkipBtn">⏭ Skip Break</button>` : ''}
+      <div class="pmd-side-col">
+        ${pomodoroSideTaskChecklistHtml()}
+        ${pomodoroTreeBoxHtml()}
+        <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?'✕ الخروج من وضع التركيز':'🚫 وضع تركيز'}</button>
       </div>
-      <button class="pmd-manage-link" id="pmdToggleSettings" style="align-self:center;">${t.settingsOpen?'إخفاء الإعدادات':'⚙ إعدادات البومودورو'}</button>
-      ${settingsPanel}
-      `}
     </div>
+
+    ${tabsBarHtml}
+    ${tabContentHtml}
   </div>`;
 }
 function bindPomodoroView(){
   const backBtn = document.getElementById('pomodoroBackHome');
   if(backBtn) backBtn.onclick = ()=>{
     if(pomodoroTimer && pomodoroTimer.focusMode) pomodoroToggleFocusMode();
+    if(pomodoroTimer) pomodoroTimer.ringExpanded = false;
     pomodoroStopAllSounds();
     studyToolActive=null; renderCurrentView();
   };
 
-  const subjSel = document.getElementById('pmdSubjectSelect');
-  if(subjSel) subjSel.onchange = ()=> pomodoroSelectSubject(subjSel.value);
-  const taskSel = document.getElementById('pmdTaskSelect');
-  if(taskSel) taskSel.onchange = ()=> pomodoroSelectTask(taskSel.value);
+  const ringExpandBtn = document.getElementById('pmdRingExpandToggle');
+  if(ringExpandBtn) ringExpandBtn.onclick = ()=> pomodoroToggleRingExpand();
 
-  const toggleManage = document.getElementById('pmdToggleManage');
-  if(toggleManage) toggleManage.onclick = ()=>{ pomodoroTimer.manageOpen = !pomodoroTimer.manageOpen; renderCurrentView(); };
-  const toggleSettings = document.getElementById('pmdToggleSettings');
-  if(toggleSettings) toggleSettings.onclick = ()=>{ pomodoroTimer.settingsOpen = !pomodoroTimer.settingsOpen; renderCurrentView(); };
+  const subjInput = document.getElementById('pmdSubjectInput');
+  if(subjInput) subjInput.oninput = ()=> pomodoroSetSubjectName(subjInput.value);
+  /* بنعمل رندر تاني بس لما الطالب يخرج من الحقل (blur/تغيير) أو يدوس Enter، عشان لسته الكتابة
+     ميتقطعش، لكن قايمة التاسكات الظاهرة تحت تتحدث على أساس المادة الجديدة فورًا */
+  const commitSubjectInput = ()=>{
+    if(pomodoroTimer.activeTaskId){
+      const activeTask = pomodoroTasks.find(tk=>tk.id===pomodoroTimer.activeTaskId);
+      if(!activeTask || activeTask.subjectName!==subjInput.value.trim()) pomodoroTimer.activeTaskId = null;
+    }
+    renderCurrentView();
+  };
+  if(subjInput) subjInput.onchange = commitSubjectInput;
+  if(subjInput) subjInput.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){ e.preventDefault(); commitSubjectInput(); }
+  });
+  document.querySelectorAll('[data-pmd-inline-task-start]').forEach(btn=>{
+    btn.onclick = ()=>{
+      pomodoroTimer.activeTaskId = btn.dataset.pmdInlineTaskStart;
+      if(!pomodoroTimer.running) pomodoroStart(); else renderCurrentView();
+    };
+  });
+  const inlineAddBtn = document.getElementById('pmdInlineAddTaskBtn');
+  if(inlineAddBtn) inlineAddBtn.onclick = ()=>{
+    const titleInput = document.getElementById('pmdInlineNewTaskTitle');
+    const title = titleInput ? titleInput.value.trim() : '';
+    const subj = (pomodoroTimer.subjectName||'').trim();
+    if(!title || !subj){ if(titleInput) titleInput.focus(); return; }
+    pomodoroAddTask(subj, title, pomodoroTimer.newTaskSessions||3);
+    renderCurrentView();
+  };
+  const inlineNewTaskTitle = document.getElementById('pmdInlineNewTaskTitle');
+  if(inlineNewTaskTitle) inlineNewTaskTitle.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){ e.preventDefault(); if(inlineAddBtn) inlineAddBtn.click(); }
+  });
+  const goManageTasks = document.getElementById('pmdGoManageTasks');
+  if(goManageTasks) goManageTasks.onclick = ()=>{
+    pomodoroTimer.tasksSelectedSubject = (pomodoroTimer.subjectName||'').trim();
+    pomodoroTimer.activeTab = 'tasks';
+    renderCurrentView();
+  };
+
+  /* --- تاب المهام (تقسيم المادة لتاسكات) --- */
+  const taskSubjectSelect = document.getElementById('pmdTaskSubjectSelect');
+  if(taskSubjectSelect) taskSubjectSelect.onchange = ()=>{
+    pomodoroTimer.tasksSelectedSubject = taskSubjectSelect.value.trim();
+    renderCurrentView();
+  };
+  document.querySelectorAll('[data-pmd-task-subj]').forEach(card=>{
+    card.onclick = ()=>{ pomodoroTimer.tasksSelectedSubject = card.dataset.pmdTaskSubj; renderCurrentView(); };
+  });
+  document.querySelectorAll('[data-pmd-task-sessions]').forEach(btn=>{
+    btn.onclick = ()=>{ pomodoroTimer.newTaskSessions = parseInt(btn.dataset.pmdTaskSessions,10); renderCurrentView(); };
+  });
+  const addTaskBtn = document.getElementById('pmdAddTaskBtn');
+  if(addTaskBtn) addTaskBtn.onclick = ()=>{
+    const titleInput = document.getElementById('pmdNewTaskTitle');
+    const title = titleInput ? titleInput.value.trim() : '';
+    if(!title){ if(titleInput) titleInput.focus(); return; }
+    pomodoroAddTask(pomodoroTimer.tasksSelectedSubject, title, pomodoroTimer.newTaskSessions||3);
+    renderCurrentView();
+  };
+  document.querySelectorAll('[data-pmd-task-toggle]').forEach(cb=>{
+    cb.onchange = ()=>{
+      pomodoroMarkTaskDone(cb.dataset.pmdTaskToggle, cb.checked);
+      renderCurrentView();
+    };
+  });
+  document.querySelectorAll('[data-pmd-side-task-toggle]').forEach(cb=>{
+    cb.onchange = ()=>{
+      pomodoroMarkTaskDone(cb.dataset.pmdSideTaskToggle, cb.checked);
+      renderCurrentView();
+    };
+  });
+  document.querySelectorAll('[data-pmd-task-del]').forEach(btn=>{
+    btn.onclick = ()=>{
+      if(confirm('متأكد إنك عايز تمسح التاسك ده؟')){ pomodoroDeleteTask(btn.dataset.pmdTaskDel); renderCurrentView(); }
+    };
+  });
+
   const toggleFocus = document.getElementById('pmdToggleFocus');
   if(toggleFocus) toggleFocus.onclick = pomodoroToggleFocusMode;
   if(!window.__pmdFsListenerAdded){
@@ -10652,14 +11088,18 @@ function bindPomodoroView(){
     document.addEventListener('fullscreenchange', pomodoroSyncFocusModeWithFullscreen);
   }
 
-  const toggleSounds = document.getElementById('pmdToggleSounds');
-  if(toggleSounds) toggleSounds.onclick = ()=>{ pomodoroTimer.soundsOpen = !pomodoroTimer.soundsOpen; renderCurrentView(); };
+  document.querySelectorAll('[data-pmd-tab]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const id = btn.dataset.pmdTab;
+      pomodoroTimer.activeTab = (pomodoroTimer.activeTab===id) ? null : id;
+      renderCurrentView();
+    };
+  });
+
   document.querySelectorAll('[data-pmd-sound]').forEach(btn=>{ btn.onclick = ()=> pomodoroToggleSound(btn.dataset.pmdSound); });
   const soundVol = document.getElementById('pmdSoundVolume');
   if(soundVol) soundVol.oninput = ()=> pomodoroSetSoundVolume(parseInt(soundVol.value,10)/100);
 
-  const toggleRoom = document.getElementById('pmdToggleRoom');
-  if(toggleRoom) toggleRoom.onclick = ()=>{ pomodoroTimer.roomOpen = !pomodoroTimer.roomOpen; renderCurrentView(); };
   document.querySelectorAll('[data-pmd-room-daynight]').forEach(btn=>{
     btn.onclick = ()=>{ pomodoroRoomSettings.dayNight = btn.dataset.pmdRoomDaynight; savePomodoroRoomSettings(); renderCurrentView(); };
   });
@@ -10675,21 +11115,14 @@ function bindPomodoroView(){
     if(box) box.innerHTML = pomodoroRoomSceneSvg();
   };
 
-  const toggleStats = document.getElementById('pmdToggleStats');
-  if(toggleStats) toggleStats.onclick = ()=>{ pomodoroTimer.statsOpen = !pomodoroTimer.statsOpen; renderCurrentView(); };
-  const toggleAnalytics = document.getElementById('pmdToggleAnalytics');
-  if(toggleAnalytics) toggleAnalytics.onclick = ()=>{ pomodoroTimer.analyticsOpen = !pomodoroTimer.analyticsOpen; renderCurrentView(); };
-  const toggleShop = document.getElementById('pmdToggleShop');
-  if(toggleShop) toggleShop.onclick = ()=>{ pomodoroTimer.shopOpen = !pomodoroTimer.shopOpen; renderCurrentView(); };
   document.querySelectorAll('[data-pmd-shop-buy]').forEach(btn=>{
     btn.onclick = ()=>{ const [cat,id] = btn.dataset.pmdShopBuy.split(':'); pomodoroBuyShopItem(cat, id); };
   });
   document.querySelectorAll('[data-pmd-shop-select]').forEach(btn=>{
     btn.onclick = ()=>{ const [cat,id] = btn.dataset.pmdShopSelect.split(':'); pomodoroBuyShopItem(cat, id); };
   });
-  const toggleCard = document.getElementById('pmdToggleCard');
-  if(toggleCard) toggleCard.onclick = ()=>{ pomodoroTimer.cardOpen = !pomodoroTimer.cardOpen; renderCurrentView(); };
-  if(pomodoroTimer.cardOpen){
+
+  if(pomodoroTimer.activeTab==='card'){
     pomodoroDrawAchievementCard();
     const downloadBtn = document.getElementById('pmdDownloadCard');
     if(downloadBtn) downloadBtn.onclick = ()=>{
@@ -10716,8 +11149,6 @@ function bindPomodoroView(){
       };
     }
   }
-  const toggleSpotify = document.getElementById('pmdToggleSpotify');
-  if(toggleSpotify) toggleSpotify.onclick = ()=>{ pomodoroTimer.spotifyOpen = !pomodoroTimer.spotifyOpen; renderCurrentView(); };
   const spotifySave = document.getElementById('pmdSpotifySave');
   if(spotifySave) spotifySave.onclick = ()=>{
     const input = document.getElementById('pmdSpotifyInput');
@@ -10729,8 +11160,6 @@ function bindPomodoroView(){
   if(spotifyOpenBtn) spotifyOpenBtn.onclick = ()=>{
     if(pomodoroSpotifyUrl) window.open(pomodoroSpotifyUrl, '_blank', 'noopener');
   };
-  const toggleHistory = document.getElementById('pmdToggleHistory');
-  if(toggleHistory) toggleHistory.onclick = ()=>{ pomodoroTimer.historyOpen = !pomodoroTimer.historyOpen; renderCurrentView(); };
   const calPrev = document.getElementById('pmdCalPrev');
   if(calPrev) calPrev.onclick = ()=>{ pomodoroTimer.calendarMonthOffset--; renderCurrentView(); };
   const calNext = document.getElementById('pmdCalNext');
@@ -10750,39 +11179,15 @@ function bindPomodoroView(){
   };
   const skipBtn = document.getElementById('pmdSkipBtn');
   if(skipBtn) skipBtn.onclick = pomodoroSkipBreak;
+  const tickBtn = document.getElementById('pmdToggleTick');
+  if(tickBtn) tickBtn.onclick = pomodoroToggleTickSound;
+  const tickBtnSettings = document.getElementById('pmdToggleTickSettings');
+  if(tickBtnSettings) tickBtnSettings.onclick = pomodoroToggleTickSound;
 
   const saveNoteBtn = document.getElementById('pmdSaveNoteBtn');
   if(saveNoteBtn) saveNoteBtn.onclick = pomodoroSaveNote;
   const skipNoteBtn = document.getElementById('pmdSkipNoteBtn');
   if(skipNoteBtn) skipNoteBtn.onclick = pomodoroSkipNote;
-
-  const addSubjectBtn = document.getElementById('pmdAddSubjectBtn');
-  if(addSubjectBtn) addSubjectBtn.onclick = ()=>{
-    const input = document.getElementById('pmdNewSubjectInput');
-    pomodoroAddSubject(input ? input.value : '');
-  };
-
-  document.querySelectorAll('[data-pmd-del-subject]').forEach(btn=>{ btn.onclick = ()=> pomodoroDeleteSubject(btn.dataset.pmdDelSubject); });
-  document.querySelectorAll('[data-pmd-toggle-subject]').forEach(el=>{
-    el.onclick = ()=>{
-      const id = el.dataset.pmdToggleSubject;
-      pomodoroTimer.manageExpandSubjectId = (pomodoroTimer.manageExpandSubjectId===id) ? null : id;
-      renderCurrentView();
-    };
-  });
-  document.querySelectorAll('[data-pmd-add-task]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const sid = btn.dataset.pmdAddTask;
-      const input = document.getElementById('pmdNewTaskInput_'+sid);
-      pomodoroAddTask(sid, input ? input.value : '');
-    };
-  });
-  document.querySelectorAll('[data-pmd-del-task]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const [sid, tid] = btn.dataset.pmdDelTask.split('|');
-      pomodoroDeleteTask(sid, tid);
-    };
-  });
 
   document.querySelectorAll('[data-pmd-study]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetStudyMin(parseInt(btn.dataset.pmdStudy,10)); });
   document.querySelectorAll('[data-pmd-short]').forEach(btn=>{ btn.onclick = ()=> pomodoroSetShortBreakMin(parseInt(btn.dataset.pmdShort,10)); });
@@ -12132,6 +12537,14 @@ const BIL_BALL_DEF = [
 ];
 let bilLoopRunning = false;
 let bilAudioCtx = null;
+/* بنفصل سرعة الفيزياء عن معدل الفريمز الفعلي للجهاز (Delta Time)، عشان اللعبة متبقاش "بطيئة" على
+   أي جهاز بطيء أو شاشة بمعدل تحديث أقل من 60Hz — كل ما الفريم يتأخر، بنعوّض بخطوات فيزياء إضافية
+   بدل ما سرعة الكور تتبطأ فعليًا. */
+let bilLastTs = null;
+let bilAccumulatorMs = 0;
+const BIL_STEP_MS = 1000/60;
+let bilFeltGradCache = { key:null, grad:null };
+let bilBallHighlightGrad = null;
 
 function bilRackOrder(){ return [1,9,2,3,8,10,11,4,12,5,13,6,14,7,15]; }
 function bilNewRack(){
@@ -12445,59 +12858,69 @@ function bilRoundRectPath(ctx,x,y,w,h,r){
   ctx.arcTo(x,y,x+w,y,r);
   ctx.closePath();
 }
+function bilGetBallHighlightGrad(ctx){
+  /* الجريديانت نفسه هيبقى واحد بس بيتعاد استخدامه لكل الكور (بعد ما بنعمل translate لمركز كل كورة)،
+     بدل ما نعمل 16 جريديانت جديد كل فريم وده كان بيبطّئ اللعبة فعليًا على الأجهزة الأضعف. */
+  if(!bilBallHighlightGrad){
+    const g = ctx.createRadialGradient(-4,-4,1, 0,0, BIL_BALL_R);
+    g.addColorStop(0,'rgba(255,255,255,.85)');
+    g.addColorStop(0.3,'rgba(255,255,255,.15)');
+    g.addColorStop(1,'rgba(255,255,255,0)');
+    bilBallHighlightGrad = g;
+  }
+  return bilBallHighlightGrad;
+}
 function bilDrawBall(ctx,b,status){
   ctx.save();
-  ctx.shadowColor='rgba(0,0,0,.45)';
-  ctx.shadowBlur=6; ctx.shadowOffsetX=2; ctx.shadowOffsetY=3;
+  ctx.translate(b.x, b.y);
+  /* ظل بسيط بدون shadowBlur (blur السوفت وير غالي جدًا وبيتكرر لكل كورة كل فريم) */
   ctx.beginPath();
-  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+  ctx.ellipse(1.5, 2.5, BIL_BALL_R*0.92, BIL_BALL_R*0.8, 0, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(0,0,0,.28)';
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0,0,BIL_BALL_R,0,Math.PI*2);
   ctx.fillStyle = (b.n===0 || b.stripe) ? '#f5f5ef' : b.color;
   ctx.fill();
-  ctx.restore();
   if(b.stripe){
     ctx.save();
     ctx.beginPath();
-    ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+    ctx.arc(0,0,BIL_BALL_R,0,Math.PI*2);
     ctx.clip();
     ctx.fillStyle=b.color;
-    ctx.fillRect(b.x-BIL_BALL_R, b.y-BIL_BALL_R*0.55, BIL_BALL_R*2, BIL_BALL_R*1.1);
+    ctx.fillRect(-BIL_BALL_R, -BIL_BALL_R*0.55, BIL_BALL_R*2, BIL_BALL_R*1.1);
     ctx.restore();
   }
   if(b.n!==0){
     ctx.beginPath();
-    ctx.arc(b.x,b.y,BIL_BALL_R*0.55,0,Math.PI*2);
+    ctx.arc(0,0,BIL_BALL_R*0.55,0,Math.PI*2);
     ctx.fillStyle='#f5f5ef';
     ctx.fill();
     ctx.fillStyle='#111';
     ctx.font='bold 9px sans-serif';
     ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(String(b.n), b.x, b.y+0.5);
+    ctx.fillText(String(b.n), 0, 0.5);
   }
-  const grad = ctx.createRadialGradient(b.x-4,b.y-4,1, b.x, b.y, BIL_BALL_R);
-  grad.addColorStop(0,'rgba(255,255,255,.85)');
-  grad.addColorStop(0.3,'rgba(255,255,255,.15)');
-  grad.addColorStop(1,'rgba(255,255,255,0)');
   ctx.beginPath();
-  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
-  ctx.fillStyle=grad;
+  ctx.arc(0,0,BIL_BALL_R,0,Math.PI*2);
+  ctx.fillStyle=bilGetBallHighlightGrad(ctx);
   ctx.fill();
   ctx.beginPath();
-  ctx.arc(b.x,b.y,BIL_BALL_R,0,Math.PI*2);
+  ctx.arc(0,0,BIL_BALL_R,0,Math.PI*2);
   ctx.strokeStyle='rgba(0,0,0,.25)';
   ctx.lineWidth=1;
   ctx.stroke();
   if(status){
-    const ringColor = (status==='own'||status==='open'||status==='legal') ? 'rgba(60,220,110,.95)' : 'rgba(240,70,70,.9)';
-    ctx.save();
+    /* حلقة الحالة (Legal/Illegal) بقت بدون shadowBlur وبخط أسمك شوية بديلًا عن التوهج،
+       عشان تفضل واضحة بصريًا من غير التكلفة العالية للـ blur اللي كانت بتتكرر لكل الكور كل فريم */
+    const ringColor = (status==='own'||status==='open'||status==='legal') ? '#3cdc6e' : '#f04646';
     ctx.beginPath();
-    ctx.arc(b.x,b.y,BIL_BALL_R+3,0,Math.PI*2);
+    ctx.arc(0,0,BIL_BALL_R+2.5,0,Math.PI*2);
     ctx.strokeStyle = ringColor;
-    ctx.lineWidth = 2.4;
-    ctx.shadowColor = ringColor;
-    ctx.shadowBlur = 7;
+    ctx.lineWidth = 2.2;
     ctx.stroke();
-    ctx.restore();
   }
+  ctx.restore();
 }
 function bilBallStatus(b){
   const s = billiardsState;
@@ -12592,9 +13015,14 @@ function bilDraw(ctx, canvas){
   ctx.fillStyle = '#5b3a24';
   ctx.fillRect(0,0,W,H);
   const felt = BIL_COLORS[s.tableColor] || BIL_COLORS.green;
-  const feltGrad = ctx.createRadialGradient(W/2,H/2,50,W/2,H/2,W*0.7);
-  feltGrad.addColorStop(0, felt.light);
-  feltGrad.addColorStop(1, felt.dark);
+  const feltKey = `${W}x${H}:${s.tableColor}`;
+  let feltGrad = bilFeltGradCache.key===feltKey ? bilFeltGradCache.grad : null;
+  if(!feltGrad){
+    feltGrad = ctx.createRadialGradient(W/2,H/2,50,W/2,H/2,W*0.7);
+    feltGrad.addColorStop(0, felt.light);
+    feltGrad.addColorStop(1, felt.dark);
+    bilFeltGradCache = { key:feltKey, grad:feltGrad };
+  }
   ctx.fillStyle = feltGrad;
   bilRoundRectPath(ctx, BIL_RAIL, BIL_RAIL, W-2*BIL_RAIL, H-2*BIL_RAIL, 6);
   ctx.fill();
@@ -12633,14 +13061,27 @@ function bilDraw(ctx, canvas){
     }
   }
 }
-function bilLoop(){
-  if(currentView!=='games' || gamesActiveGame!=='billiards' || !billiardsState){ bilLoopRunning=false; return; }
+function bilLoop(ts){
+  if(currentView!=='games' || gamesActiveGame!=='billiards' || !billiardsState){ bilLoopRunning=false; bilLastTs=null; bilAccumulatorMs=0; return; }
   const s = billiardsState;
   const canvas = document.getElementById('bilCanvas');
+  if(bilLastTs==null) bilLastTs = ts;
+  let dt = ts - bilLastTs;
+  bilLastTs = ts;
+  if(!(dt>=0)) dt = 0;
+  if(dt>250) dt = 250; // لو التاب كان في الخلفية وفتحناه تاني، منعوّضش بخطوات فيزياء كتير مرة واحدة
   if(canvas && s.mode){
     if(s.simulating){
-      const moving = bilStep();
-      if(!moving){ s.simulating=false; bilResolveShotEnd(); }
+      bilAccumulatorMs += dt;
+      let steps = 0;
+      while(bilAccumulatorMs>=BIL_STEP_MS && steps<8){
+        const moving = bilStep();
+        bilAccumulatorMs -= BIL_STEP_MS;
+        steps++;
+        if(!moving){ s.simulating=false; bilAccumulatorMs=0; bilResolveShotEnd(); break; }
+      }
+    } else {
+      bilAccumulatorMs = 0;
     }
     const ctx = canvas.getContext('2d');
     bilDraw(ctx, canvas);
@@ -12767,7 +13208,7 @@ function bindBilliards(){
   if(restart) restart.onclick = ()=> bilStartGame(s.mode, s.aiLevel);
   const canvas = document.getElementById('bilCanvas');
   if(canvas) bilAttachPointerEvents(canvas);
-  if(!bilLoopRunning){ bilLoopRunning = true; requestAnimationFrame(bilLoop); }
+  if(!bilLoopRunning){ bilLoopRunning = true; bilLastTs = null; bilAccumulatorMs = 0; requestAnimationFrame(bilLoop); }
   if(s.mode==='time' && !s.tickId && !s.over){
     s.tickId = setInterval(()=>{
       if(currentView!=='games' || gamesActiveGame!=='billiards' || !billiardsState || billiardsState.over){ clearInterval(billiardsState && billiardsState.tickId); return; }
