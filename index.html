@@ -883,7 +883,7 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
   border:1px solid var(--line);
   border-inline-start:4px solid var(--navy);
   border-radius:10px;
-  padding:13px 15px;
+  padding:38px 15px 13px;
   cursor:pointer;
   transition:transform .2s cubic-bezier(.2,.7,.3,1), box-shadow .25s ease, border-color .25s ease;
   position:relative;
@@ -1869,7 +1869,7 @@ footer{
      الصفحة قوي، صفين-تلاتة مقررات جنب بعض بحجم مضغوط. عمودين في الموبايل الضيق، وتلاتة
      في الشاشات الأعرض شوية (فابلت/موبايل بالعرض). */
   .grid{grid-template-columns:repeat(2,1fr);gap:8px;}
-  .course{padding:10px 10px;}
+  .course{padding:32px 10px 10px;}
   .course .code{font-size:10px;}
   .course .name-ar{font-size:12px;margin:2px 0 1px;line-height:1.3;}
   .course .name-en{font-size:9.5px;margin-bottom:5px;}
@@ -1879,6 +1879,7 @@ footer{
   .done-check{width:20px;height:20px;top:6px;left:30px;font-size:11px;}
   .course.done .done-check{left:6px;}
   .lvl-pill{width:17px;height:17px;font-size:9.5px;top:7px;left:7px;}
+  .task-jump-btn{top:6px;right:7px;font-size:9px;padding:3px 6px;gap:2px;}
 }
 @media(min-width:481px) and (max-width:760px){
   .grid{grid-template-columns:repeat(3,1fr);}
@@ -2595,7 +2596,177 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
 .bil-hint{font-size:12.5px;color:var(--ink-soft);text-align:center;}
 .bil-sound-btn{background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px;cursor:pointer;font-size:13px;color:var(--ink);}
 .bil-sound-btn.on{border-color:var(--teal);color:var(--teal);}
+
+/* ================= مطوّرين النظام — تصميم احتفالي فخم مختلف عن باقي الصفحات ================= */
+.study-view.dev-view{max-width:1000px;gap:26px;}
+.dev-view{display:flex;flex-direction:column;gap:26px;}
+.dev-hero{
+  position:relative;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:9px;
+  padding:64px 40px 52px;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 50% -10%, var(--glow-gold), transparent 55%),
+    radial-gradient(circle at 12% 100%, var(--glow-navy), transparent 45%),
+    radial-gradient(circle at 88% 100%, var(--glow-maroon), transparent 45%),
+    linear-gradient(180deg, var(--card), var(--paper-2));
+  border:1px solid var(--gold);
+  box-shadow:0 18px 54px var(--glow-gold), var(--shadow-soft);
+  overflow:hidden;
+  isolation:isolate;
+  animation:devHeroIn .7s cubic-bezier(.2,.9,.25,1) both;
+}
+.dev-hero::before{
+  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:radial-gradient(circle, color-mix(in srgb, var(--gold) 70%, transparent) 1.3px, transparent 1.6px);
+  background-size:38px 38px;
+  opacity:.16;
+  animation:devSparkleShift 14s linear infinite;
+}
+.dev-hero::after{
+  content:'';position:absolute;top:0;left:-60%;width:45%;height:100%;z-index:0;pointer-events:none;
+  background:linear-gradient(115deg, transparent, color-mix(in srgb, var(--gold) 35%, transparent), transparent);
+  animation:devSheen 5.5s ease-in-out infinite;
+}
+.dev-hero>*{position:relative;z-index:1;}
+@keyframes devHeroIn{from{opacity:0;transform:translateY(14px) scale(.985);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes devSparkleShift{from{background-position:0 0;}to{background-position:150px 76px;}}
+@keyframes devSheen{0%{left:-60%;}45%,100%{left:130%;}}
+.dev-confetti-layer{position:absolute;inset:0;z-index:2;overflow:hidden;pointer-events:none;border-radius:28px;}
+.dev-confetti-piece{
+  position:absolute;top:-14px;width:7px;height:13px;border-radius:2px;opacity:.95;
+  animation:devConfettiFall var(--duration,2.2s) cubic-bezier(.3,.6,.4,1) var(--delay,0s) forwards;
+  transform:rotate(var(--rot,0deg));
+}
+@keyframes devConfettiFall{
+  0%{transform:translateY(-16px) rotate(0deg);opacity:1;}
+  85%{opacity:1;}
+  100%{transform:translateY(280px) rotate(var(--rot,360deg));opacity:0;}
+}
+.dev-crown-float{
+  position:relative;font-size:38px;line-height:1;margin-bottom:2px;
+  filter:drop-shadow(0 3px 10px var(--glow-gold));
+  animation:devFadeUp .6s ease both, devCrownFloat 3.4s ease-in-out .6s infinite;
+}
+@keyframes devCrownFloat{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-5px) rotate(3deg);}}
+.dev-avatar-wrap{
+  position:relative;width:200px;height:200px;margin-bottom:8px;
+  animation:devFadeUp .6s ease .05s both;
+}
+.dev-avatar-ring{
+  position:absolute;inset:-8px;border-radius:50%;
+  background:conic-gradient(from 0deg, var(--gold), var(--maroon), var(--navy), var(--teal), var(--gold));
+  animation:devRingSpin 6s linear infinite;
+  box-shadow:0 0 30px var(--glow-gold);
+}
+@keyframes devRingSpin{to{transform:rotate(360deg);}}
+@media (prefers-reduced-motion: reduce){
+  .dev-avatar-ring, .dev-hero::before, .dev-hero::after, .dev-crown-float, .dev-tools-track{animation:none;}
+}
+.dev-avatar{
+  position:absolute;inset:7px;border-radius:50%;
+  background:var(--card);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  box-shadow:inset 0 0 0 1px var(--line);
+}
+.dev-avatar img{width:100%;height:100%;object-fit:cover;}
+.dev-avatar-ic{font-size:118px;color:var(--gold);opacity:.65;}
+.dev-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:14.5px;font-weight:800;color:var(--strong-bg);
+  background:linear-gradient(135deg, var(--gold), color-mix(in srgb, var(--gold) 55%, #fff));
+  padding:7px 18px;border-radius:999px;
+  box-shadow:0 4px 16px var(--glow-gold);
+  animation:devFadeUp .6s ease .12s both;
+}
+.dev-name{
+  font-size:36px;font-weight:800;margin:10px 0 0;
+  background:linear-gradient(100deg, var(--ink) 30%, var(--gold) 48%, var(--ink) 66%);
+  background-size:260% auto;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:devFadeUp .6s ease .18s both, devShimmer 4.5s linear 1.2s infinite;
+}
+@keyframes devShimmer{to{background-position:-260% center;}}
+.dev-role{font-size:17px;color:var(--ink-soft);margin:0;font-weight:600;animation:devFadeUp .6s ease .24s both;}
+.dev-track{font-size:15px;color:var(--gold);font-weight:700;margin:0;animation:devFadeUp .6s ease .3s both;}
+.dev-desc{max-width:700px;font-size:15px;line-height:2;color:var(--ink-soft);margin:14px 0 4px;animation:devFadeUp .6s ease .36s both;}
+@keyframes devFadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+
+/* ---- قسم الأدوات والتقنيات: حتة لوحدها بشريط متحرك زي القطر ---- */
+.dev-tools-section{
+  position:relative;
+  padding:26px 0 30px;
+  border-radius:26px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg, var(--card), var(--paper-2));
+  box-shadow:var(--shadow-soft);
+  overflow:hidden;
+  animation:devFadeUp .6s ease .1s both;
+}
+.dev-tools-head{padding:0 26px;margin-bottom:18px;}
+.dev-tools-head h2{margin:0 0 4px;}
+.dev-tools-track-wrap{
+  overflow:hidden;position:relative;
+  direction:ltr;
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image:linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.dev-tools-track{
+  display:flex;gap:20px;width:max-content;
+  padding:6px 4px 16px;
+  direction:ltr;
+  animation:devToolsMarquee 28s linear infinite;
+  will-change:transform;
+}
+.dev-tools-track:hover{animation-play-state:paused;}
+@keyframes devToolsMarquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.dev-tool-tile{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  min-width:136px;padding:26px 18px;border-radius:20px;flex-shrink:0;
+  background:var(--paper-2);border:1.5px solid var(--line);
+  transition:transform .28s ease, border-color .28s ease, background .28s ease, box-shadow .28s ease;
+}
+.dev-tool-tile:hover{
+  transform:translateY(-10px) scale(1.06);
+  border-color:var(--tool-color, var(--gold));
+  background:color-mix(in srgb, var(--tool-color, var(--gold)) 14%, var(--paper-2));
+  box-shadow:0 16px 34px color-mix(in srgb, var(--tool-color, var(--gold)) 40%, transparent);
+}
+.dev-tool-ic{width:64px;height:64px;display:flex;align-items:center;justify-content:center;transition:transform .28s ease;}
+.dev-tool-ic svg{width:100%;height:100%;border-radius:14px;}
+.dev-tool-tile:hover .dev-tool-ic{transform:scale(1.14) rotate(-4deg);}
+.dev-tool-label{font-size:13.5px;font-weight:800;color:var(--ink);text-align:center;transition:color .28s ease;}
+.dev-tool-tile:hover .dev-tool-label{color:var(--tool-color, var(--gold));}
+
+/* ---- قسم الدعم (QA) بدون تقسيمات — أسماء لو موجودة، وإلا رسالة قريبًا ---- */
+.dev-qa-section{animation:devFadeUp .6s ease .16s both;}
+.dev-qa-section .study-sub{margin-top:2px;}
+.dev-qa-soon{
+  margin-top:14px;padding:22px;border-radius:16px;text-align:center;
+  border:1.5px dashed var(--line);background:var(--paper-2);
+  color:var(--grey);font-weight:700;font-size:13.5px;
+}
+.dev-qa-names{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.dev-qa-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:13px;font-weight:700;color:var(--ink);
+  background:var(--paper-2);border:1px solid var(--line);
+  padding:8px 16px;border-radius:999px;
+  transition:border-color .2s ease, transform .2s ease;
+}
+.dev-qa-chip:hover{border-color:var(--gold);transform:translateY(-2px);}
+
+@media(max-width:600px){
+  .dev-hero{padding:40px 16px 30px;}
+  .dev-avatar-wrap{width:132px;height:132px;}
+  .dev-avatar-ic{font-size:76px;}
+  .dev-name{font-size:24px;}
+  .dev-tools-head{padding:0 16px;}
+}
 </style>
+
 </head>
 <body class="is-home">
 
@@ -3436,7 +3607,8 @@ const VIEWS = [
   {id:"transcript", icon:"description", label:"بيان الحالة"},
   {id:"regs", icon:"gavel", label:"مراجعة اللائحة"},
   {id:"study", icon:"auto_stories", label:"أدوات المذاكرة"},
-  {id:"games", icon:"sports_esports", label:"الألعاب الترفيهية"}
+  {id:"games", icon:"sports_esports", label:"الألعاب الترفيهية"},
+  {id:"developers", icon:"groups", label:"مطوّرين النظام"}
 ];
 
 /* ================= STATE ================= */
@@ -3963,6 +4135,17 @@ function hasPassingAttemptUpToIndex(code, termIdx){
 function hasAnyAttemptUpToIndex(code, termIdx){
   return cgpaTerms.some((term, idx)=> idx <= termIdx && (term.items||[]).some(it=> it.source==='db' && it.code===code));
 }
+/* بيرجع اسم الترم اللي فيه مادة معينة متسجلة بس من غير تقدير لسه (معلّقة)، لو موجودة قبل/في الترم
+   المستهدف — ده مختلف عن "راسب فيها"، فبنفصّله عشان نقدر نوجّه الطالب بدقة إنه "حدد التقدير" مش
+   "أعد المادة". */
+function pendingAttemptTermNameUpToIndex(code, termIdx){
+  for(let idx=0; idx<=termIdx && idx<cgpaTerms.length; idx++){
+    const term = cgpaTerms[idx];
+    const hit = (term.items||[]).some(it=> it.source==='db' && it.code===code && !it.grade);
+    if(hit) return term.name || `الترم رقم ${idx+1}`;
+  }
+  return null;
+}
 function prereqSatisfiedByIndex(code, termIdx){
   const c = DB[code];
   if(!c) return false;
@@ -3990,6 +4173,16 @@ function prereqBlockMsgAtIndex(code, termIdx){
   const names = c.prereq.map(p=> `${DB[p]?DB[p].ar:p} (${fullCode(p)})`);
   const joiner = c.prereqOr ? ' أو ' : ' و';
   const hasUnpassedAttempt = c.prereq.some(p=> hasAnyAttemptUpToIndex(p, termIdx) && !(isEquivTerm ? hasPassingAttemptUpToIndex(p, termIdx) : hasPassingAttemptBeforeIndex(p, termIdx)));
+  /* لو السبب تحديدًا إن المتطلب السابق متسجل بالفعل بس تقديره لسه معلّق (مش راسب فيه)، بنوجّه
+     الطالب بدقة إنه يرجع يحدد التقدير بتاعه، عشان الحالة دي (زي اللي حصلت مع المستخدم) تبقى واضحة
+     ومش تتلخبط مع "المتطلب السابق أصلاً مش متسجل" أو "رسبت فيه". */
+  const pendingHits = c.prereq
+    .map(p=>({p, termName: pendingAttemptTermNameUpToIndex(p, termIdx)}))
+    .filter(x=> x.termName && !(isEquivTerm ? hasPassingAttemptUpToIndex(x.p, termIdx) : hasPassingAttemptBeforeIndex(x.p, termIdx)));
+  if(pendingHits.length){
+    const pendingNames = pendingHits.map(x=> `"${DB[x.p]?DB[x.p].ar:x.p}" (في ${x.termName})`).join(' و');
+    return `مينفعش تسجّل "${c.ar}" لسه — انت أصلاً مسجّل ${pendingNames}، بس لسه محدّدتش تقديرها. ارجع لحاسبة المعدل وحدد تقديرها الأول (سواء نجحت فيها أو رسبت)، وبعدين تقدر تسجّل "${c.ar}" هنا عادي.`;
+  }
   const extra = hasUnpassedAttempt
     ? ' لاحظ إن مجرد تسجيل المتطلب السابق (حتى لو رسبت فيه أو لسه من غير تقدير) مش كافي — لازم تكون نجحت فيه فعلاً.'
     : '';
@@ -4140,6 +4333,24 @@ function openWizardIntroModal(){
   };
   document.getElementById('overlay').classList.add('show');
 }
+/* بيرجع قائمة بكل المواد المسجّلة في أي ترم بس لسه من غير تقدير محدد (معلّقة) — بتُستخدم عشان
+   نمنع إنشاء ترم جديد لحد ما الطالب يقفل تقديرات المواد المعلّقة دي الأول، عشان محدش يتلخبط
+   ويحاول يسجّل مادة بتفتحها مادة لسه معلّقة زي ما حصل فعلاً. */
+function pendingGradeItems(){
+  const list = [];
+  cgpaTerms.forEach(term=>{
+    (term.items||[]).forEach(it=>{
+      if(!it.grade){
+        let name;
+        if(it.source==='db' && it.code) name = (DB[it.code]&&DB[it.code].ar) || it.code;
+        else if(it.source==='custom' && it.code) name = (customCourses[it.code]&&customCourses[it.code].ar) || it.name || it.code;
+        else name = it.name || 'مادة';
+        list.push({name, termName: term.name || 'ترم'});
+      }
+    });
+  });
+  return list;
+}
 function openNewTermModal(existingTermId){
   const existing = existingTermId ? cgpaTerms.find(t=>t.id===existingTermId) : null;
   let tYear = existing ? (existing.year||null) : null;
@@ -4202,6 +4413,15 @@ function openNewTermModal(existingTermId){
     });
     document.getElementById('ntSaveBtn').onclick = ()=>{
       if(!tEquiv && (!tYear || !tType)) return;
+      if(!existing){
+        const pending = pendingGradeItems();
+        if(pending.length){
+          const first = pending[0];
+          const extra = pending.length>1 ? ` (وكمان ${pending.length-1} مادة تانية لسه معلّقة)` : '';
+          alert(`مينفعش تعمل ترم جديد دلوقتي — عندك مادة "${first.name}" متسجلة في "${first.termName}" بس لسه محدّدتش تقديرها${extra}. حدد تقدير المادة دي الأول (سواء نجحت فيها أو رسبت) من حاسبة المعدل، وبعدين ارجع اعمل الترم الجديد.`);
+          return;
+        }
+      }
       if(existing){
         existing.isEquivalency = tEquiv;
         existing.year = tEquiv ? (tYear||null) : tYear;
@@ -4786,7 +5006,7 @@ function hoursGapRemaining(){
   return Math.max(0, stated - priorHoursEnteredTotal());
 }
 /* الصفحات المسموح استخدامها لسه لو فيه فجوة ساعات — لازم الطالب يقفلها من "حاسبة المعدل" الأول. */
-const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','study','games','regs']);
+const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','study','games','regs','developers']);
 function termStats(term){
   let qp=0, gpaHrs=0, totalHrs=0;
   (term.items||[]).forEach(it=>{
@@ -4946,7 +5166,12 @@ function specializationProgress(){
   });
   collegeHrs = Math.min(collegeHrs, SPECIALIZATION_COLLEGE_TARGET);
   univElecHrs = Math.min(univElecHrs, SPECIALIZATION_UNIV_ELECTIVE_TARGET);
-  return { collegeHrs, univElecHrs, total: collegeHrs+univElecHrs };
+  /* الإجمالي المعتبر في الأهلية = إجمالي الساعات المكتسبة الفعلية للطالب (من أي مواد نجح فيها،
+     مش بس متطلب الكلية ومتطلب الجامعة الاختياري)، مقفول على 32 كحد أقصى. ده عشان لو الطالب خلّص
+     30 ساعة إجمالي بأي توزيع (حتى لو الساعتين الناقصين من الـ32 كانوا تحديدًا من متطلب الكلية)
+     يتخصص إجباري زي ما اللائحة بتنص، بدل ما يتقفل الحساب على توزيع 26+6 بالظبط. */
+  const total = Math.min(totalAcquiredHoursRaw(), SPECIALIZATION_TOTAL_TARGET);
+  return { collegeHrs, univElecHrs, total };
 }
 function specializationEligibilityHtml(){
   /* الحتة دي بتفيد بس لسه ما اتخصصش فعليًا (يعني حالته "محوّل أو متأخر" — مفيش قسم رئيسي حقيقي
@@ -4965,7 +5190,7 @@ function specializationEligibilityHtml(){
     statusHtml = `<span style="color:var(--maroon);font-weight:800;">⛔ لسه مش مؤهل للتخصص خالص — لازم توصل 30 ساعة على الأقل (فاضلك ${SPECIALIZATION_MANDATORY_MIN-p.total} ساعة) عشان تتخصص إجباري، أو 32 ساعة كاملة للتخصص العادي</span>`;
   }
   return `<div class="goal-section" id="specEligibilitySection">
-    <div class="track-head"><h2>📐 أهلية التخصص ${infoTip('التخصص العادي بيتطلب إكمال 32 ساعة (26 ساعة متطلبات كلية + 6 ساعات متطلبات جامعة اختيارية). مش شرط عدد مواد معيّن — المهم إنك توصل لـ6 ساعات من متطلبات الجامعة الاختيارية (المتاحة 9 مواد، ساعتين لكل مادة)، بأي توليفة مواد تختارها. الحساب هنا بيعتمد بس على المواد اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة).')}</h2></div>
+    <div class="track-head"><h2>📐 أهلية التخصص ${infoTip('التخصص العادي بيتطلب إكمال 32 ساعة مكتسبة إجمالي (مش شرط توزيع معيّن بالظبط)، والتخصص الإجباري بيتفعّل من 30 ساعة فأكتر. المرجعية 26 ساعة كلية + 6 ساعات جامعة اختيارية موجودة هنا كتوضيح لأكتر جزء بيتكوّن منه الـ32 ساعة دي عادةً، لكن الإجمالي الفعلي بيتحسب من كل الساعات اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة)، مش بس من الكليتين دول تحديدًا.')}</h2></div>
     <div class="progress-stats">
       <div class="pstat"><div class="n">${p.collegeHrs}/${SPECIALIZATION_COLLEGE_TARGET}</div><div class="l">ساعات متطلبات الكلية</div></div>
       <div class="pstat"><div class="n">${p.univElecHrs}/${SPECIALIZATION_UNIV_ELECTIVE_TARGET}</div><div class="l">ساعات متطلبات الجامعة الاختيارية</div></div>
@@ -6259,7 +6484,7 @@ function renderCurrentView(){
   document.getElementById('searchResults').classList.remove('show');
   document.body.classList.toggle('is-home', currentView==='home');
   if(cy){ try{ cy.destroy(); }catch(e){} cy=null; }
-  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs"){ currentView="home"; }
+  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs" && currentView!=="developers"){ currentView="home"; }
   updatePageToolbar();
   if(currentView==="home") renderHomeView();
   else if(currentView==="list") renderListView();
@@ -6273,6 +6498,7 @@ function renderCurrentView(){
   else if(currentView==="regs") renderRegsView();
   else if(currentView==="study") renderStudyToolsView();
   else if(currentView==="games") renderGamesView();
+  else if(currentView==="developers") renderDevelopersView();
 }
 function prereqMet(code){
   const c = DB[code];
@@ -7580,6 +7806,10 @@ function renderRegisterView(){
 /* ================= HOME DASHBOARD ================= */
 /* ================= CGPA CALCULATOR VIEW ================= */
 function itemQualityPoints(it){
+  /* "منسحب إجباري" FW بيتعرض بنقاط 0.00 صراحةً (مش شرطة "—")، رغم إنه برضه مستبعد تمامًا من
+     حساب المعدل الفعلي (زي ما بتنص اللائحة) — ده استثناء عرض بس، مش تغيير في حساب الـ GPA/CGPA
+     الحقيقي اللي بيعتمد على gradeCountsInGPA في أماكن تانية. */
+  if(it.grade==='FW') return 0;
   if(!gradeCountsInGPA(it.grade)) return null;
   return (Number(it.hours)||0) * GRADES[it.grade].points;
 }
@@ -11177,6 +11407,7 @@ const PMD_TABS = [
   { id:'room',      icon:'🏞️', label:'الغرفة' },
   { id:'sounds',    icon:'🎵', label:'الأصوات' },
   { id:'tasks',     icon:'🗂️', label:'المهام' },
+  { id:'tree',      icon:'🌳', label:'الشجرة' },
   { id:'stats',     icon:'📊', label:'الإحصائيات' },
   { id:'analytics', icon:'🧠', label:'التحليلات' },
   { id:'shop',      icon:'🎨', label:'المتجر' },
@@ -11294,6 +11525,11 @@ function pomodoroTabPanelHtml(tabId){
   const t = pomodoroTimer;
   if(tabId==='room') return pomodoroRoomPanelHtml();
   if(tabId==='sounds') return pomodoroSoundsPanelHtml();
+  if(tabId==='tree') return `<div class="pmd-panel pmd-tree-panel">
+      <h3>🌳 شجرتك</h3>
+      <p class="study-sub">بتكبر تدريجيًا مع كل جلسة مذاكرة تخلّصها.</p>
+      ${pomodoroTreeBoxHtml()}
+    </div>`;
   if(tabId==='shop') return pomodoroShopPanelHtml();
   if(tabId==='card') return pomodoroCardPanelHtml();
   if(tabId==='spotify') return pomodoroSpotifyPanelHtml();
@@ -11490,26 +11726,10 @@ function pomodoroViewHtml(){
   const tabContentHtml = t.activeTab ? `<div class="pmd-tab-content">${pomodoroTabPanelHtml(t.activeTab)}</div>` : '';
   const ringExpandedTabsHtml = t.ringExpanded ? `<div class="pmd-ring-tabs-wrap">${tabsBarHtml}${tabContentHtml}</div>` : '';
 
-  return `<div class="study-view pmd-view">
-    <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
-    <div class="study-head">
-      <h2>🍅 بومودورو للمذاكرة</h2>
-      <p class="study-sub">اكتب مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
-    </div>
-    <div class="study-usage-bar">
-      ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge" title="اسمع صوت ${pomodoroActiveAvatar().name}" onclick="applyAvatarTheme('${pomodoroActiveAvatar().id}',{pulse:true,sound:true})">${pomodoroActiveAvatar().icon}</span>` : ''}
-      <span>جلسات النهاردة: <b>${todayCount}</b></span>
-      <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
-      <span>💰 Coins: <b>${pomodoroStats.coins.toLocaleString('en-US')}</b></span>
-      <span>🎮 المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
-      <button type="button" class="pmd-shop-quick-btn${t.activeTab==='shop'?' active':''}" id="pmdShopQuickBtn" title="المتجر">
-        🎨${shopAffordableCount>0 ? `<span class="pmd-shop-quick-badge">${shopAffordableCount>99?'99+':shopAffordableCount}</span>` : ''}
-      </button>
-    </div>
-
-    ${!t.ringExpanded ? tabsBarHtml : ''}
-
-    <div class="pmd-dashboard" style="--pmd-phase-color:${phaseColor};">
+  /* لما يكون فيه تاب أداة مفتوح (المهام/الإحصائيات/المتجر...إلخ)، بنخفي الساعة والشجرة تمامًا
+     ونوريّ بس محتوى الأداة المختارة — عشان الشاشة تبقى مركّزة على الأداة دي بس بدل ما تفضل
+     الساعة والشجرة ظاهرين تحتها ومحدش شايف غير جزء منهم. */
+  const dashboardHtml = `<div class="pmd-dashboard" style="--pmd-phase-color:${phaseColor};">
       <div class="pmd-main-col">
         <div class="pmd-timer-card">
           <div class="pmd-ring-box${t.ringExpanded?' pmd-ring-expanded':''}">
@@ -11537,10 +11757,27 @@ function pomodoroViewHtml(){
       </div>
       <div class="pmd-side-col">
         ${pomodoroSideTaskChecklistHtml()}
-        ${pomodoroTreeBoxHtml()}
         <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?'✕ الخروج من وضع التركيز':'🚫 وضع تركيز'}</button>
       </div>
+    </div>`;
+
+  return `<div class="study-view pmd-view">
+    <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
+    <div class="study-head">
+      <h2>🍅 بومودورو للمذاكرة</h2>
+      <p class="study-sub">اكتب مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
     </div>
+    <div class="study-usage-bar">
+      ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge" title="اسمع صوت ${pomodoroActiveAvatar().name}" onclick="applyAvatarTheme('${pomodoroActiveAvatar().id}',{pulse:true,sound:true})">${pomodoroActiveAvatar().icon}</span>` : ''}
+      <span>جلسات النهاردة: <b>${todayCount}</b></span>
+      <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
+      <span>💰 Coins: <b>${pomodoroStats.coins.toLocaleString('en-US')}</b></span>
+      <span>🎮 المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
+    </div>
+
+    ${!t.ringExpanded ? tabsBarHtml : ''}
+
+    ${t.ringExpanded || !t.activeTab ? dashboardHtml : ''}
 
     ${!t.ringExpanded ? tabContentHtml : ''}
   </div>`;
@@ -12480,6 +12717,105 @@ function bindVideoPlayer(){
 }
 
 /* ================= الألعاب الترفيهية — DISPATCH ================= */
+/* ================= مطوّرين النظام ================= */
+/* أسماء فريق الدعم (اقتراحات واكتشاف أخطاء وحلول) — هتتحط هنا أول ما تتوفر، من غير تقسيم بالجهة. */
+const DEV_QA_NAMES = [];
+const DEV_TECH_STACK = [
+  {key:'html5', label:'HTML5'},
+  {key:'css3', label:'CSS3'},
+  {key:'js', label:'JavaScript'},
+  {key:'cytoscape', label:'Cytoscape.js'},
+  {key:'fonts', label:'Google Fonts'},
+  {key:'firebase', label:'Firebase'},
+  {key:'firestore', label:'Cloud Firestore'}
+];
+const DEV_TECH_COLORS = {
+  html5:'#E44D26', css3:'#264DE4', js:'#F0DB4F', cytoscape:'#0E8F7E',
+  fonts:'#4285F4', firebase:'#F57C00', firestore:'#FFA000'
+};
+/* رموز/لوجوهات لغات وتقنيات البرمجة — أيقونات SVG مبسّطة بألوان كل تقنية المعروفة */
+function devTechIconSvg(key){
+  const icons = {
+    html5:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#E44D26"/><path d="M8 7h16l-1.45 16.3L16 25.4l-6.55-2.1L8 7z" fill="#fff" fill-opacity=".18"/><path d="M9.6 8.6h12.8l-1.15 13-5.25 1.65-5.25-1.65-.35-3.95h2.35l.18 2.15 3.07.95 3.08-.98.32-3.62H12.4l-.22-2.2h8.6l.22-2.25H10.5l-.9-.1z" fill="#fff"/></svg>`,
+    css3:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#264DE4"/><path d="M9.6 8.6h12.8l-1.15 13-5.25 1.65-5.25-1.65-.35-3.95h2.35l.18 2.15 3.07.95 3.08-.98.32-3.62H12.4l-.22-2.2h8.6l.22-2.25H10.5l-.9-.1z" fill="#fff"/></svg>`,
+    js:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#F0DB4F"/><text x="16" y="22" font-family="Arial,sans-serif" font-weight="800" font-size="13" text-anchor="middle" fill="#0a0a0a">JS</text></svg>`,
+    cytoscape:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#0E8F7E"/><circle cx="9" cy="10" r="3" fill="#fff"/><circle cx="23" cy="9" r="2.4" fill="#fff"/><circle cx="10" cy="23" r="2.4" fill="#fff"/><circle cx="22" cy="22" r="3" fill="#fff"/><path d="M9 10l13-1M9 10l1 13M22 22l1-13M10 23l12-1" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>`,
+    fonts:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#1a2b4c"/><text x="16" y="22" font-family="Georgia,serif" font-weight="700" font-size="14" text-anchor="middle" fill="#fff">Aa</text></svg>`,
+    firebase:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="devFbGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFCA28"/><stop offset="1" stop-color="#F57C00"/></linearGradient></defs><rect width="32" height="32" rx="6" fill="url(#devFbGrad)"/><path d="M12 25l2.35-15.3c.15-.95 1.42-1.2 1.92-.35l2.15 3.7 1.5-1.7c.5-.57 1.42-.3 1.55.42L23 25l-5.5-3.05L12 25z" fill="#fff" fill-opacity=".94"/></svg>`,
+    firestore:`<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" rx="6" fill="#FFA000"/><ellipse cx="16" cy="9.5" rx="8" ry="3" fill="#fff"/><path d="M8 9.5v13c0 1.66 3.6 3 8 3s8-1.34 8-3v-13" fill="none" stroke="#fff" stroke-width="2"/><path d="M8 16c0 1.66 3.6 3 8 3s8-1.34 8-3" fill="none" stroke="#fff" stroke-width="2"/></svg>`
+  };
+  return icons[key] || '';
+}
+/* دفعة كونفيتي ذهبية احتفالية بتظهر أول ما المستخدم يدخل صفحة المطوّرين */
+function spawnDevConfetti(layer){
+  if(!layer) return;
+  layer.innerHTML = '';
+  const colors = ['var(--gold)','var(--navy)','var(--teal)','var(--maroon)','#fff'];
+  const count = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 34;
+  for(let i=0;i<count;i++){
+    const piece = document.createElement('div');
+    piece.className = 'dev-confetti-piece';
+    piece.style.left = (Math.random()*100)+'%';
+    piece.style.setProperty('--delay', (Math.random()*0.5)+'s');
+    piece.style.setProperty('--duration', (1.8+Math.random()*1.3)+'s');
+    piece.style.setProperty('--rot', (Math.random()*360)+'deg');
+    piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+    layer.appendChild(piece);
+    setTimeout(()=>{ if(piece.parentNode) piece.remove(); }, 3400);
+  }
+}
+function devToolTileHtml(b){
+  return `<div class="dev-tool-tile" style="--tool-color:${DEV_TECH_COLORS[b.key]||'var(--gold)'}">
+      <div class="dev-tool-ic">${devTechIconSvg(b.key)}</div>
+      <div class="dev-tool-label">${b.label}</div>
+    </div>`;
+}
+function renderDevelopersView(){
+  const el = document.getElementById('trackView');
+  const tilesOnce = DEV_TECH_STACK.map(devToolTileHtml).join('');
+  /* الشريط متكرر مرتين عشان يلف بشكل متصل زي القطر من غير ما ينقطع */
+  const tilesLoop = tilesOnce + tilesOnce;
+  const qaBody = DEV_QA_NAMES.length
+    ? `<div class="dev-qa-names">${DEV_QA_NAMES.map(n=>`<span class="dev-qa-chip">🙌 ${n}</span>`).join('')}</div>`
+    : `<div class="dev-qa-soon">هنضيف أسماء الفريق قريبًا ✨</div>`;
+
+  el.innerHTML = `<div class="study-view dev-view">
+    <div class="dev-hero">
+      <div class="dev-confetti-layer" id="devConfettiLayer"></div>
+      <div class="dev-crown-float">👑</div>
+      <div class="dev-avatar-wrap">
+        <div class="dev-avatar-ring"></div>
+        <div class="dev-avatar">
+          <!-- 📸 محل الصورة الشخصية: لو عايز تحط صورتك، بدّل السطر اللي تحت بـ:
+               <img src="ضع رابط أو مسار صورتك هنا" alt="نور كريم الشريف عبد الرحمن"> -->
+          <span class="material-symbols-outlined dev-avatar-ic">account_circle</span>
+        </div>
+      </div>
+      <div class="dev-badge">👑 المؤسس والمطوّر للنظام</div>
+      <h2 class="dev-name">نور كريم الشريف عبد الرحمن</h2>
+      <p class="dev-role">طالب في كلية العلوم — جامعة الإسكندرية</p>
+      <p class="dev-track">التخصص: علوم حاسب / الإحصاء</p>
+      <p class="dev-desc">من شجرة المقررات وحاسبة المعدل، لحد أدوات المذاكرة والألعاب — كل تفصيلة هنا اتصممت وبُرمجت بحب واهتمام بالتفاصيل، على أمل إنها تفرق معاك فعلاً في رحلتك الدراسية.</p>
+    </div>
+
+    <div class="dev-tools-section">
+      <div class="dev-tools-head">
+        <h2>🛠️ الأدوات والتقنيات المستخدمة</h2>
+        <p class="study-sub">من HTML و CSS و JavaScript لحد Cytoscape.js في رسم شجرة المقررات، وجاري نقل تخزين البيانات لـ Firebase و Cloud Firestore.</p>
+      </div>
+      <div class="dev-tools-track-wrap">
+        <div class="dev-tools-track">${tilesLoop}</div>
+      </div>
+    </div>
+
+    <div class="goal-section dev-qa-section">
+      <div class="track-head"><h2>🤝 فريق الدعم</h2></div>
+      <p class="study-sub">بيساعدوا بالاقتراحات واكتشاف الأخطاء وحلولها، من طلبة كلية العلوم.</p>
+      ${qaBody}
+    </div>
+  </div>`;
+  spawnDevConfetti(document.getElementById('devConfettiLayer'));
+}
 function renderGamesView(){
   const el = document.getElementById('trackView');
   if(!gamesActiveGame){ el.innerHTML = gamesHomeHtml(); bindGamesHome(); return; }
