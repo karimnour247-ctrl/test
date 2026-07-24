@@ -194,7 +194,18 @@ body{
 .hint-row{display:flex; align-items:center; margin:0 0 10px;}
 .hint-row-lbl{font-size:0.78125rem; font-weight:700; color:var(--ink-soft);}
 @media (max-width:640px){
-  .info-tip-bubble{max-width:76vw;}
+  .info-tip-bubble{
+    position:fixed;
+    inset-inline-end:auto;
+    left:50%; top:50%; bottom:auto;
+    transform:translate(-50%,-50%) scale(.97);
+    width:88vw; max-width:88vw; max-height:70vh;
+    overflow-y:auto;
+    z-index:500;
+  }
+  .info-tip:hover .info-tip-bubble, .info-tip.show .info-tip-bubble{
+    transform:translate(-50%,-50%) scale(1);
+  }
 }
 /* ===== طبقة تأثيرات الأفاتار: جزيئات/رموز عايمة على كل صفحات الأداة، شكلها بيتغيّر حسب الأفاتار المفعّل ===== */
 #avatarFxLayer{
@@ -386,25 +397,8 @@ h1{
   line-height:1.35;
 }
 .sub{color:#C9D3DC;font-size:0.9375rem;margin:0;max-width:640px;line-height:1.8;}
-.about-btn{
-  margin-top:16px;
-  background:rgba(228,199,122,.14);
-  border:1.5px solid #E4C77A;
-  color:#E4C77A;
-  padding:8px 16px;
-  border-radius:999px;
-  font-family:'Tajawal',sans-serif;
-  font-weight:700;
-  font-size:0.84375rem;
-  cursor:pointer;
-  transition:.15s;
-}
-.about-btn:hover{background:rgba(228,199,122,.28); box-shadow:0 0 18px rgba(228,199,122,.35); transform:translateY(-2px);}
-.about-btn:active{transform:translateY(0);}
-
 /* ===== Theme toggle ===== */
 .hdr-actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap;}
-.hdr-actions .about-btn{margin-top:0;}
 .theme-toggle{
   position:relative;
   width:62px;height:34px;border-radius:999px;cursor:pointer;
@@ -438,25 +432,6 @@ h1{
 }
 [data-theme="dark"] .theme-toggle .ico-sun{opacity:0;transform:scale(.4) rotate(90deg);}
 [data-theme="dark"] .theme-toggle .ico-moon{opacity:1;transform:scale(1) rotate(0deg);color:#04101c;}
-.about-modal .a-hero{
-  background:linear-gradient(135deg,#1C3D5A,#0e1320);
-  color:#fff;border-radius:12px;padding:18px 20px;margin-bottom:16px;
-}
-.about-modal .a-hero h4{margin:0 0 6px;font-size:1rem;color:#E4C77A;}
-.about-modal .a-hero p{margin:0;font-size:0.84375rem;line-height:1.8;color:#dbe4ee;}
-.about-modal ol, .about-modal ul{margin:0 0 14px;padding-inline-start:20px;font-size:0.84375rem;line-height:2;color:var(--ink);}
-.about-modal .a-creator{
-  background:var(--paper-2);border-radius:12px;padding:16px 18px;margin-top:14px;
-}
-.about-modal .a-creator .name{font-size:1rem;font-weight:800;color:var(--navy);}
-.about-modal .a-creator .meta-line{font-size:0.8125rem;color:var(--ink-soft);margin-top:4px;line-height:1.9;}
-.about-modal .yt-link{
-  display:inline-flex;align-items:center;gap:6px;margin-top:10px;
-  background:#FF0000;color:#fff;padding:8px 16px;border-radius:8px;
-  font-weight:700;font-size:0.84375rem;text-decoration:none;
-}
-.about-modal .yt-link:hover{opacity:.9;}
-
 /* ===== Top Navigation (fixed at the very top of the page) =====
    إعادة تصميم: بدل الكبسولة التيل الموحّدة الكلاسيكية، كل قسم رئيسي بياخد لون تعريفي خاص بيه
    (--tn-accent / --tn-accent-soft / --tn-accent-glow بيتحطّوا كـinline custom properties من الـJS
@@ -578,6 +553,29 @@ h1{
 .top-nav .theme-toggle .knob{width:21px;height:21px;top:2.3px;}
 .top-nav .theme-toggle:hover{border-color:var(--navy);box-shadow:0 0 12px var(--navy-soft);}
 [data-theme="dark"] .top-nav .theme-toggle{border-color:var(--teal);box-shadow:0 0 12px var(--glow-teal);}
+
+/* ===== زرار "مطوّرين النظام" في المينيو العلوي بتاع الموبايل بس (في الديسكتوب هو أصلاً موجود
+   جوه المينيو الرئيسي)، بتاج لامع فوقه كإشارة مميزة للصفحة دي. ===== */
+.dev-tab-btn{
+  display:none;position:relative;align-items:center;justify-content:center;flex:0 0 auto;
+  width:34px;height:34px;border-radius:10px;
+  border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);cursor:pointer;
+  transition:border-color .18s ease, color .18s ease, background .18s ease;
+}
+.dev-tab-btn .dev-tab-ic{font-size:1.1875rem;}
+.dev-tab-btn:hover, .dev-tab-btn.active{border-color:var(--gold);color:var(--gold);background:var(--gold-soft);}
+.dev-tab-crown{
+  position:absolute;top:-10px;inset-inline-end:-7px;font-size:0.875rem;line-height:1;pointer-events:none;
+  filter:drop-shadow(0 0 4px rgba(255,210,63,.85));
+  animation:devCrownShine 2.4s ease-in-out infinite;
+}
+@keyframes devCrownShine{
+  0%,100%{transform:rotate(-10deg) scale(1);filter:drop-shadow(0 0 3px rgba(255,210,63,.55));}
+  50%{transform:rotate(10deg) scale(1.18);filter:drop-shadow(0 0 9px rgba(255,210,63,1));}
+}
+@media(max-width:760px){
+  .dev-tab-btn{display:flex;}
+}
 
 body{padding-top:64px;}
 
@@ -942,6 +940,14 @@ main{max-width:1180px;margin:0 auto;padding:28px 24px 80px;}
 .chip.done{background:var(--teal);color:#fff;}
 button.chip{cursor:pointer;background:var(--gold);color:var(--on-accent);transition:transform .15s ease, box-shadow .15s ease;}
 button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2px);}
+.tree-toggle-btn{
+  display:inline-flex;align-items:center;gap:6px;cursor:pointer;
+  background:var(--navy);color:#fff;border:none;
+  font-family:'Tajawal',sans-serif;font-weight:700;font-size:0.8125rem;
+  padding:7px 14px;border-radius:999px;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+.tree-toggle-btn:hover{box-shadow:0 6px 14px var(--glow-navy);transform:translateY(-2px);}
 
 .section{margin-bottom:34px;}
 .section-title{
@@ -1395,11 +1401,6 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 .grad-req-list{margin-top:16px;padding-top:14px;border-top:1px dashed var(--line);font-size:0.78125rem;color:var(--ink-soft);line-height:2;}
 .grad-req-list b{color:var(--ink);}
 .spec-analysis-wrap{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);}
-.college-req-detail{margin-top:16px;padding-top:16px;border-top:1px dashed var(--line);}
-.college-req-detail .crd-title{font-size:0.875rem;font-weight:800;margin-bottom:4px;}
-.college-req-detail .crd-sub{font-size:0.78125rem;color:var(--ink-soft);margin-bottom:12px;line-height:1.7;}
-.college-req-detail .ub-row{margin-top:10px;}
-.college-req-detail .ub-row b{font-size:0.78125rem;color:var(--ink-soft);display:block;margin-bottom:7px;}
 
 .gradstat-hero{display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:18px;border-bottom:1px dashed var(--line);}
 .gh-ring{position:relative;flex:0 0 auto;width:112px;height:112px;}
@@ -1667,7 +1668,6 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 }
 .cst-btn:hover{border-color:var(--navy);color:var(--navy);}
 .cst-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
-.cgpa-add-db{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 .course-picker{position:relative;flex:1 1 260px;min-width:220px;}
 .cgpa-course-search{
   width:100%;font-family:'Tajawal',sans-serif;font-size:0.84375rem;padding:9px 12px;
@@ -1699,6 +1699,46 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 }
 .cgpa-add-btn:disabled{opacity:.4;cursor:not-allowed;}
 .cgpa-add-btn:not(:disabled):hover{background:var(--teal-soft);box-shadow:0 8px 18px var(--glow-teal);transform:translateY(-2px);}
+.cgpa-add-db{display:block;}
+.cgpa-course-filter{
+  width:100%;font-family:'Tajawal',sans-serif;font-size:0.84375rem;padding:9px 12px;margin-bottom:10px;
+  border:1.5px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.cgpa-course-filter:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px var(--navy-soft);}
+.cgpa-course-list{
+  max-height:280px;overflow-y:auto;border:1.5px solid var(--line);border-radius:10px;background:var(--card);
+}
+.cgpa-course-group-title{
+  position:sticky;top:0;background:var(--paper);color:var(--ink-soft);font-weight:800;font-size:0.75rem;
+  padding:6px 12px;border-bottom:1px solid var(--line);z-index:1;
+}
+.cgpa-course-row{
+  display:flex;align-items:center;gap:8px;padding:9px 12px;cursor:pointer;font-size:0.8125rem;
+  border-bottom:1px solid var(--line);transition:background .12s ease;
+}
+.cgpa-course-row:last-child{border-bottom:none;}
+.cgpa-course-row:hover{background:var(--navy-soft);}
+.cgpa-course-row.picked{background:var(--teal-soft);}
+.cgpa-course-row .cgpa-course-check{flex-shrink:0;width:16px;height:16px;cursor:pointer;accent-color:var(--teal);}
+.cgpa-course-row .cp-code{font-family:'IBM Plex Mono',monospace;font-size:0.6875rem;color:var(--ink-soft);white-space:nowrap;}
+.cgpa-course-row .cp-name{flex:1;}
+.cgpa-course-row .cp-hours{font-family:'IBM Plex Mono',monospace;font-size:0.6875rem;color:var(--navy);white-space:nowrap;}
+.cgpa-reopen-list-btn{
+  border:1.5px dashed var(--line);color:var(--navy);background:transparent;
+  padding:10px 16px;border-radius:9px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:0.8125rem;cursor:pointer;
+  width:100%;transition:border-color .18s ease, background .18s ease;
+}
+.cgpa-reopen-list-btn:hover{border-color:var(--navy);background:var(--navy-soft);}
+.cgpa-pick-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.cgpa-pick-summary{font-family:'IBM Plex Mono',monospace;font-size:0.8125rem;color:var(--ink-soft);}
+.cgpa-add-all-btn{
+  border:1.5px solid var(--teal);color:#fff;background:var(--teal);
+  padding:9px 18px;border-radius:9px;font-family:'Tajawal',sans-serif;font-weight:800;font-size:0.8125rem;cursor:pointer;
+  transition:transform .18s ease, box-shadow .18s ease, background .18s ease;white-space:nowrap;
+}
+.cgpa-add-all-btn:disabled{opacity:.4;cursor:not-allowed;}
+.cgpa-add-all-btn:not(:disabled):hover{box-shadow:0 8px 18px var(--glow-teal);transform:translateY(-2px);}
 .cgpa-add-external{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
 .cgpa-ext-name{
   flex:1 1 220px;font-family:'Tajawal',sans-serif;font-size:0.84375rem;padding:9px 12px;
@@ -1915,7 +1955,6 @@ footer{
 @media(max-width:760px){
   header{padding:22px 16px 20px;}
   .hdr-actions{margin-top:12px;}
-  .about-btn{font-size:0.78125rem;padding:7px 13px;}
   h1{font-size:clamp(22px,6.5vw,28px);}
   .sub{font-size:0.84375rem;}
   .eyebrow{font-size:0.65625rem;white-space:normal;}
@@ -2901,6 +2940,15 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
   .dev-desc{max-width:none;}
   .dev-social-row{justify-content:center;}
 }
+
+/* ===== موبايل: تحويل فقرات الشرح الطويلة لنفس أيقونة الإرشاد (.info-tip) المستخدمة أصلاً في
+   الموقع — الفقرة الأصلية بتتخفي وبيتحط قبلها أيقونة ℹ️ صغيرة (نفس مكوّن infoTip() بالظبط، بنفس
+   الـ CSS وبنفس الـ click handler الموجود أصلاً في السكريبت) فبتفتح بابل فيها نص الشرح كامل لما
+   تتداس. الديسكتوب مش بيتأثر خالص، ولسه شغالة بالهوفر زي ما هي في كل حتة تانية بتستخدمها. */
+@media(max-width:760px){
+  .mn-hidden{display:none !important;}
+  .mn-note{margin-inline-start:0;}
+}
 </style>
 <!-- =========================== نهاية أنماط صفحة مطوّرين النظام =========================== -->
 
@@ -2925,6 +2973,10 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
 
     <div class="tn-right">
       <div class="tn-status" id="tabGroup"></div>
+      <button class="dev-tab-btn" id="devTabBtn" type="button" aria-label="مطوّرين النظام" title="مطوّرين النظام">
+        <span class="material-symbols-outlined dev-tab-ic">groups</span>
+        <span class="dev-tab-crown" aria-hidden="true">👑</span>
+      </button>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="تبديل الوضع الداكن/الفاتح" title="تبديل الوضع الداكن/الفاتح">
         <span class="knob">
           <span class="ico ico-sun">☀</span>
@@ -2992,9 +3044,8 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
         <span class="rule end"></span>
       </div>
       <h1>دليل مقررات قسم الرياضيات وعلوم الحاسب</h1>
-      <p class="sub">شجرة تفاعلية لكل تخصص: المقررات الإجبارية والاختيارية، الرئيسي والفرعي، والمتطلبات السابقة لكل مقرر — مع متابعة تقدمك ومخطط تخرجك.</p>
+      <p class="sub">شجرة المقررات لكل تخصص: المقررات الإجبارية والاختيارية، الرئيسي والفرعي، والمتطلبات السابقة لكل مقرر — مع متابعة تقدمك ومخطط تخرجك.</p>
       <div class="hdr-actions">
-        <button id="aboutBtn" class="about-btn"><span class="material-symbols-outlined" style="font-size:1rem;vertical-align:-3px;">info</span> عن الأداة وطريقة استخدامها</button>
       </div>
     </div>
   </div>
@@ -3741,15 +3792,18 @@ async function saveSpecialDegreeData(){
 const VIEWS = [
   {id:"home", icon:"home", label:"الرئيسية"},
   {id:"list", icon:"checklist", label:"قائمة المقررات"},
-  {id:"graph", icon:"hub", label:"الشجرة التفاعلية"},
   {id:"register", icon:"school", label:"أسجل ايه دلوقتي؟"},
   {id:"cgpa", icon:"calculate", label:"تسجيل المواد"},
-  {id:"schedule", icon:"calendar_month", label:"جدول الترم"},
-  {id:"forecast", icon:"alt_route", label:"التخصص وتحويل المسار"},
+  {id:"pastcoord", icon:"history_edu", label:"تنسيقات السنين السابقة"},
+  {id:"specforecast", icon:"flag", label:"التخصص"},
+  {id:"trackforecast", icon:"alt_route", label:"تحويل المسار"},
   {id:"special", icon:"military_tech", label:"الدرجة الخاصة"},
   {id:"transcript", icon:"description", label:"بيان الحالة"},
   {id:"regs", icon:"gavel", label:"مراجعة اللائحة"},
+  {id:"advising", icon:"support_agent", label:"الإرشاد"},
+  {id:"tools", icon:"handyman", label:"الأدوات"},
   {id:"study", icon:"auto_stories", label:"أدوات المذاكرة"},
+  {id:"organize", icon:"event_note", label:"أدوات التنظيم"},
   {id:"games", icon:"sports_esports", label:"الألعاب الترفيهية"},
   {id:"developers", icon:"groups", label:"مطوّرين النظام"}
 ];
@@ -3759,6 +3813,7 @@ let profile = { level:null, trackId:null, cgpa:null, hours:null, transferBaseId:
 let modalForced = false;
 let currentTrack = null;
 let currentView = "home";
+let listTreeMode = false; // لما يكون true، صفحة "قائمة المقررات" بتعرض شجرة المقررات بدل القائمة العادية، بنفس الفلاتر
 let highlightCode = null;
 let levelFilter = new Set();
 let typeFilter = "all";
@@ -3797,6 +3852,11 @@ let cgpaTerms = []; // [{id, name, year, termType, isSummer, isEquivalency, isPr
 //   false = ترم جديد فعلاً بعد استخدام الموقع — بيزوّد على طول فوق الساعات المعلنة، بغض النظر عن حالة الفجوة.
 function isPriorTerm(term){ return term.isPriorTerm !== false; }
 let cgpaAddMode = {}; // termId -> 'db' | 'external' | 'custom'
+let cgpaMultiPick = {}; // termId -> [{code, isCustom}] — سلة المواد المختارة مؤقتاً قبل ما الطالب يضيفها كلها مرة واحدة
+/* هل قايمة "مواد متاحة" مفتوحة وظاهرة للترم ده ولا لأ (termId -> boolean). بتتقفل تلقائي بمجرد
+   ما الطالب يدوس "✅ ضيف المواد المحددة" عشان القايمة الطويلة متفضلش ظاهرة وعاملة زحمة بعد ما
+   خلّص التسجيل، وبيقدر يفتحها تاني بضغطة واحدة لو حاب يضيف مواد زيادة. undefined = مفتوحة (افتراضي). */
+let cgpaCourseListOpen = {};
 let wizardActive = false; // وضع "خلّينا نسجل ترماتك القديمة" الإرشادي لأول مرة يدخل الطالب فيها ساعات في البروفايل
 /* ============ جدول الترم ============ */
 /* كل عنصر في termSchedules هو "جدول" مربوط بترم من الترمات المسجلة في تسجيل المواد (cgpaTerms).
@@ -3814,6 +3874,7 @@ const SCHEDULE_DAYS = [
 const SCHEDULE_COLORS = ['#5B3FD6','#0E8F7E','#C98A12','#B3216F','#2563EB','#D9480F','#0D9488','#9333EA'];
 
 let studyToolActive = null; // null | 'videos' | 'player' | 'pomodoro'
+let organizeToolActive = null; // null | 'schedule'
 
 /* ================= بومودورو (أدوات المذاكرة) ================= */
 /* إعدادات المؤقت: مدة المذاكرة/الراحة القصيرة/الراحة الطويلة، وبعد كام جلسة تيجي الراحة الطويلة */
@@ -4678,10 +4739,12 @@ function openCourseBankModal(){
    صغير جوه المينيو نفسه. */
 const NAV_GROUPS = [
   {id:"home"},
-  {id:"list", children:["graph"]},
-  {id:"cgpa", children:["register","schedule","transcript"]},
-  {id:"study", children:["games"]},
-  {id:"forecast", children:["regs"]},
+  {id:"list"},
+  {id:"cgpa", children:["register","transcript"]},
+  {id:"tools", children:["study","organize","games"]},
+  {id:"advising", children:["pastcoord","regs"]},
+  {id:"specforecast"},
+  {id:"trackforecast"},
   {id:"special"},
   {id:"developers"}
 ];
@@ -4692,8 +4755,10 @@ const GROUP_ACCENT = {
   home:       {main:'var(--navy)',   soft:'var(--navy-soft)',   glow:'var(--glow-navy)'},
   list:       {main:'var(--navy)',   soft:'var(--navy-soft)',   glow:'var(--glow-navy)'},
   cgpa:       {main:'var(--teal)',   soft:'var(--teal-soft)',   glow:'var(--glow-teal)'},
-  study:      {main:'var(--maroon)', soft:'var(--maroon-soft)', glow:'var(--glow-maroon)'},
-  forecast:   {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
+  tools:      {main:'var(--maroon)', soft:'var(--maroon-soft)', glow:'var(--glow-maroon)'},
+  advising:     {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
+  specforecast: {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
+  trackforecast:{main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
   special:    {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
   developers: {main:'var(--grey)',   soft:'var(--paper-2)',     glow:'transparent'},
   __more:     {main:'var(--grey)',   soft:'var(--paper-2)',     glow:'transparent'}
@@ -4760,27 +4825,49 @@ if(!window.__statusPanelOutsideClickBound){
     if(wrap && !e.target.closest('.tn-status-wrap')) closeStatusPanel();
   });
 }
-/* تبويب "الدرجة الخاصة" بيظهر بس لو التخصص الحالي بيفتح درجة خاصة (رياضة/حاسب أو حاسب/إحصاء)
-   ومش درجة خاصة من الأول. بيتنادى بعد أي تغيير في البروفايل عشان يتحدّث فورًا. */
-function updateSpecialTabVisibility(){
-  const show = specialDegreeEligible();
-  if(navGroupWraps.special){
-    navGroupWraps.special.style.display = show ? '' : 'none';
+/* حالة الطالب بالنسبة لتبويبات "التخصص" / "تحويل المسار" / "الدرجة الخاصة" — ثلاث حالات بس:
+   1) لسه مش متخصص (مفيش trackId، أو transfer، أو non_majors) → يظهرله "التخصص" بس.
+   2) متخصص عادي (math_cs / stats_cs / cs_stats) → يظهرله "تحويل المسار"، وكمان "الدرجة
+      الخاصة" لو تخصصه بيفتحها (شوف specialDegreeEligible)، وميظهرلوش "التخصص" تاني.
+   3) درجة خاصة بالفعل (math_special / cs_special) → ميظهرلوش أي واحدة من التلاتة. */
+function isSpecializedTrack(){
+  const t = TRACKS.find(x=>x.id===profile.trackId);
+  return !!(t && FORECAST_TRACKS.some(f=>f.id===t.id));
+}
+function isSpecialDegreeTrack(){
+  const t = TRACKS.find(x=>x.id===profile.trackId);
+  return !!(t && t.special && !t.infoOnly);
+}
+function specForecastTabVisible(){ return !isSpecializedTrack() && !isSpecialDegreeTrack(); }
+function trackForecastTabVisible(){ return isSpecializedTrack(); }
+/* بتظبط ظهور/إخفاء تبويب واحد (في المينيو الرئيسي وفي شيت "المزيد")، وبترجّع لصفحة "الرئيسية"
+   لو الطالب واقف في تبويب اتخفى فجأة بسبب تغيير في البروفايل. */
+function setNavTabVisibility(id, show){
+  if(navGroupWraps[id]){
+    navGroupWraps[id].style.display = show ? '' : 'none';
   }
   if(moreSheetList){
-    const msBtn = moreSheetList.querySelector('[data-id="special"]');
+    const msBtn = moreSheetList.querySelector(`[data-id="${id}"]`);
     if(msBtn) msBtn.style.display = show ? '' : 'none';
   }
-  if(!show && currentView==='special'){
+  if(!show && currentView===id){
     currentView = 'home';
     renderViewTabs();
     renderCurrentView();
   }
 }
+/* بتنادى بعد أي تغيير في البروفايل (تخصص/تحويل مسار/درجة خاصة) عشان تبويبات "التخصص"
+   و"تحويل المسار" و"الدرجة الخاصة" تتحدّث فورًا حسب حالة الطالب الحالية. */
+function updateSpecialTabVisibility(){
+  setNavTabVisibility('special', specialDegreeEligible());
+  setNavTabVisibility('specforecast', specForecastTabVisible());
+  setNavTabVisibility('trackforecast', trackForecastTabVisible());
+  renderBottomNav();
+}
 
 /* فلتر المستوى/النوع وخانة البحث بقوا جوه محتوى الصفحة نفسه (page-toolbar) مش في المينيو،
    وبيظهروا بس في الصفحات المناسبة. */
-const FILTER_VIEWS = new Set(["list","graph","register","transcript"]);
+const FILTER_VIEWS = new Set(["list","register","transcript"]);
 const SEARCH_VIEWS = new Set(["list"]);
 function updatePageToolbar(){
   const toolbar = document.getElementById('pageToolbar');
@@ -4801,6 +4888,7 @@ function goToView(id, opts){
     id = 'cgpa';
   }
   currentView = id;
+  listTreeMode = false; // التنقل من المينيو الرئيسي بيرجّع صفحة قائمة المقررات لوضعها العادي دايمًا
   renderViewTabs();
   closeSearch();
   renderCurrentView();
@@ -5030,16 +5118,37 @@ function applyViewAccent(el, viewId){
   el.style.setProperty(el.classList.contains('ms-item') ? '--ms-accent-soft' : '--bn-accent-soft', a.soft);
   if(!el.classList.contains('ms-item')) el.style.setProperty('--bn-accent-glow', a.glow);
 }
-const BOTTOM_NAV_IDS = ["home","list","register","cgpa","transcript"];
+/* أدوات المذاكرة/التنظيم/الألعاب بقوا متاحين بس من جوه صفحة "الأدوات" (كروت)، وتنسيقات
+   السنين السابقة/مراجعة اللائحة بقوا متاحين بس من جوه صفحة "الإرشاد" (كروت) — مش كتبويبات
+   مستقلة في أي مينيو (لا في شريط الموبايل ولا في شيت "المزيد")، عشان المينيو يفضل مختصر. */
+const HIDDEN_FROM_MENUS = new Set(["study","organize","games","pastcoord","regs"]);
+/* التبويب الديناميكي التالت في شريط الموبايل: "التخصص" لمين لسه مش متخصص، أو "تحويل المسار"
+   لمين متخصص عادي، إلا لو تخصصه بيفتحله "الدرجة الخاصة" فبتاخد الأولوية هي (تفضل "تحويل
+   المسار" برضو متاحة من جوه "المزيد" وقتها، مش مختفية خالص). */
+function forecastBottomTabId(){
+  if(specialDegreeEligible()) return 'special';
+  if(isSpecializedTrack()) return 'trackforecast';
+  if(specForecastTabVisible()) return 'specforecast';
+  return null;
+}
+function getBottomNavIds(){
+  const ids = ["home","cgpa"];
+  const dyn = forecastBottomTabId();
+  if(dyn) ids.push(dyn);
+  ids.push("tools","transcript");
+  return ids;
+}
 const bottomNav = document.getElementById('bottomNav');
 const moreSheetOverlay = document.getElementById('moreSheetOverlay');
 const moreSheetList = document.getElementById('moreSheetList');
-if(bottomNav){
-  BOTTOM_NAV_IDS.forEach(id=>{
+function renderBottomNav(){
+  if(!bottomNav) return;
+  bottomNav.innerHTML = '';
+  getBottomNavIds().forEach(id=>{
     const v = VIEWS.find(v=>v.id===id);
     if(!v) return;
     const b = document.createElement('button');
-    b.className = 'bn-item';
+    b.className = 'bn-item'+(v.id===currentView?' active':'');
     b.dataset.id = v.id;
     applyViewAccent(b, v.id);
     b.innerHTML = `<span class="bn-ic-badge"><span class="bn-ic material-symbols-outlined">${v.icon}</span></span><span class="bn-lbl">${v.label}</span>`;
@@ -5047,17 +5156,19 @@ if(bottomNav){
     bottomNav.appendChild(b);
   });
   const more = document.createElement('button');
-  more.className = 'bn-item';
+  more.className = 'bn-item'+(!getBottomNavIds().includes(currentView)?' active':'');
   more.dataset.id = '__more';
   applyViewAccent(more, '__more');
   more.innerHTML = `<span class="bn-ic-badge"><span class="bn-ic material-symbols-outlined">more_horiz</span></span><span class="bn-lbl">المزيد</span>`;
   more.onclick = ()=> openMoreSheet();
   bottomNav.appendChild(more);
 }
+renderBottomNav();
 function renderMoreSheetList(){
   if(!moreSheetList) return;
   moreSheetList.innerHTML = '';
-  VIEWS.filter(v=>!BOTTOM_NAV_IDS.includes(v.id)).forEach(v=>{
+  const bottomIds = getBottomNavIds();
+  VIEWS.filter(v=> !bottomIds.includes(v.id) && !HIDDEN_FROM_MENUS.has(v.id)).forEach(v=>{
     const b = document.createElement('button');
     b.className = 'ms-item'+(v.id===currentView?' active':'');
     b.dataset.id = v.id;
@@ -5091,14 +5202,16 @@ function renderViewTabs(){
     });
   }
   if(bottomNav){
+    const bottomIds = getBottomNavIds();
     [...bottomNav.children].forEach(b=>{
       const isMore = b.dataset.id==='__more';
-      b.classList.toggle('active', !isMore && b.dataset.id===currentView || (isMore && !BOTTOM_NAV_IDS.includes(currentView)));
+      b.classList.toggle('active', !isMore && b.dataset.id===currentView || (isMore && !bottomIds.includes(currentView)));
     });
   }
   if(moreSheetList && moreSheetList.children.length){
     [...moreSheetList.children].forEach(b=> b.classList.toggle('active', b.dataset.id===currentView));
   }
+  if(devTabBtn) devTabBtn.classList.toggle('active', currentView==='developers');
   updatePageToolbar();
   scheduleTopNavLayout();
 }
@@ -5411,7 +5524,7 @@ function hoursGapRemaining(){
   return Math.max(0, stated - priorHoursEnteredTotal());
 }
 /* الصفحات المسموح استخدامها لسه لو فيه فجوة ساعات — لازم الطالب يقفلها من "حاسبة المعدل" الأول. */
-const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','study','games','regs','developers']);
+const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','tools','study','games','advising','regs','developers']);
 function termStats(term){
   let qp=0, gpaHrs=0, totalHrs=0;
   (term.items||[]).forEach(it=>{
@@ -6400,16 +6513,17 @@ function pastCoordinationHtml(){
     </div>
   </div>`;
 }
-function renderForecastView(){
+function renderPastCoordView(){
+  document.getElementById('trackView').innerHTML = pastCoordinationHtml();
+}
+function renderSpecForecastView(){
   const overall = overallCgpaStats();
   const cgpa = overall.cgpa;
   const isSpecialized = !!(profile.trackId && FORECAST_TRACKS.some(t=>t.id===profile.trackId));
   const isPending = profile.trackId === 'transfer';
   const unsupported = !isSpecialized && !isPending;
 
-  let html = `<div class="track-head"><div><h2>🎯 التخصص وتحويل المسار ${infoTip("الأداة دي بتساعدك تتوقع هل هتوصل للتخصص أو القسم اللي عايزه ولا لأ، بناءً على تنسيقات متوقعة بتدخلها إنت يدويًا (لأنها مش معروفة رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. جزء التخصص بيظهر بس لو لسه ما اتخصصتش، وجزء تحويل المسار بيظهر بس بعد ما تتخصص.", "إرشادات الصفحة")}</h2></div></div>`;
-
-  html += pastCoordinationHtml();
+  let html = `<div class="track-head"><div><h2>🎓 التخصص ${infoTip("الأداة دي بتساعدك تتوقع هل هتوصل للتخصص اللي عايزه ولا لأ، بناءً على تنسيق متوقع بتدخله إنت يدويًا (لأنه مش معروف رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. الصفحة دي بتفيد بس لو لسه ما اتخصصتش.", "إرشادات الصفحة")}</h2></div></div>`;
 
   if(cgpa==null){
     html += `<p class="goal-warn">⚠️ لسه معدلك التراكمي مش محسوب — سجّل موادك في "🧮 حاسبة المعدل" الأول عشان نقدر نحسبلك الاحتمالية.</p>`;
@@ -6422,30 +6536,65 @@ function renderForecastView(){
     document.getElementById('trackView').innerHTML = html;
     return;
   }
+  if(isSpecialized){
+    html += `<p class="goal-note">✅ إنت اتخصصت خلاص في <b>${escapeHtml(trackLabelById(profile.trackId))}</b>، فمفيش داعي لأداة توقّع التخصص. لو عايز تشوف احتمالية تحويل مسارك، روح صفحة "🔁 تحويل المسار".</p>`;
+    document.getElementById('trackView').innerHTML = html;
+    return;
+  }
 
   const cgpaTxt = cgpa.toFixed(4);
-  const statusTxt = isSpecialized
-    ? `متخصص حاليًا في: <b>${escapeHtml(trackLabelById(profile.trackId))}</b>`
-    : `لسه مش متخصص (محوّل/متأخر)`;
-
   html += `
   <div class="cgpa-overall" style="margin-bottom:18px;">
     <div class="cgpa-overall-ring"><span class="v">${cgpaTxt}</span><span class="l">CGPA الحالي</span></div>
     <div class="progress-stats">
-      <div class="pstat"><div class="n" style="font-size:0.9375rem;">${statusTxt}</div><div class="l">حالتك الحالية</div></div>
+      <div class="pstat"><div class="n" style="font-size:0.9375rem;">لسه مش متخصص (محوّل/متأخر)</div><div class="l">حالتك الحالية</div></div>
     </div>
   </div>`;
 
-  if(isPending){
-    html += `<h3 style="margin:6px 0 10px;font-size:1rem;">🎓 جزء التخصص</h3>` + renderSpecPartHtml(cgpa);
-  } else if(isSpecialized){
-    html += `<h3 style="margin:6px 0 10px;font-size:1rem;">🔁 جزء تحويل المسار</h3>` + renderTransferPartHtml(cgpa);
-  }
+  html += renderSpecPartHtml(cgpa);
 
   document.getElementById('trackView').innerHTML = html;
+  wireSpecPartHandlers(cgpa);
+}
+function renderTrackForecastView(){
+  const overall = overallCgpaStats();
+  const cgpa = overall.cgpa;
+  const isSpecialized = !!(profile.trackId && FORECAST_TRACKS.some(t=>t.id===profile.trackId));
+  const isPending = profile.trackId === 'transfer';
+  const unsupported = !isSpecialized && !isPending;
 
-  if(isPending) wireSpecPartHandlers(cgpa);
-  else if(isSpecialized) wireTransferPartHandlers(cgpa);
+  let html = `<div class="track-head"><div><h2>🔁 تحويل المسار ${infoTip("الأداة دي بتساعدك تتوقع هل هتقدر تحوّل للقسم اللي عايزه ولا لأ، بناءً على تنسيق متوقع بتدخله إنت يدويًا (لأنه مش معروف رسميًا مقدّمًا). المقارنة بمقارنة الـCGPA الحالي بتاعك مباشرة بالتنسيق المتوقع — من غير افتراض تحسّن أو تراجع مستقبلي. الصفحة دي بتفيد بس بعد ما تتخصص فعليًا.", "إرشادات الصفحة")}</h2></div></div>`;
+
+  if(cgpa==null){
+    html += `<p class="goal-warn">⚠️ لسه معدلك التراكمي مش محسوب — سجّل موادك في "🧮 حاسبة المعدل" الأول عشان نقدر نحسبلك الاحتمالية.</p>`;
+    document.getElementById('trackView').innerHTML = html;
+    return;
+  }
+  if(unsupported){
+    const curLabel = TRACKS.find(t=>t.id===profile.trackId)?.label || '';
+    html += `<p class="goal-warn">⚠️ الأداة دي متاحة بس للتخصصات الأساسية التلاتة (رياضة/حاسب، إحصاء/حاسب، حاسب/إحصاء) أو لمن لسه ما اتخصصش. تخصصك الحالي (${escapeHtml(curLabel)}) مش من ضمنهم.</p>`;
+    document.getElementById('trackView').innerHTML = html;
+    return;
+  }
+  if(isPending){
+    html += `<p class="goal-note">ℹ️ إنت لسه مش متخصص فعليًا، فأداة "تحويل المسار" مش هتفيدك دلوقتي. لو عايز تشوف احتمالية التخصص الأول، روح صفحة "🎓 التخصص".</p>`;
+    document.getElementById('trackView').innerHTML = html;
+    return;
+  }
+
+  const cgpaTxt = cgpa.toFixed(4);
+  html += `
+  <div class="cgpa-overall" style="margin-bottom:18px;">
+    <div class="cgpa-overall-ring"><span class="v">${cgpaTxt}</span><span class="l">CGPA الحالي</span></div>
+    <div class="progress-stats">
+      <div class="pstat"><div class="n" style="font-size:0.9375rem;">متخصص حاليًا في: <b>${escapeHtml(trackLabelById(profile.trackId))}</b></div><div class="l">حالتك الحالية</div></div>
+    </div>
+  </div>`;
+
+  html += renderTransferPartHtml(cgpa);
+
+  document.getElementById('trackView').innerHTML = html;
+  wireTransferPartHandlers(cgpa);
 }
 
 /* ================= الدرجة الخاصة ================= */
@@ -7236,19 +7385,22 @@ function renderCurrentView(){
   document.getElementById('searchResults').classList.remove('show');
   document.body.classList.toggle('is-home', currentView==='home');
   if(cy){ try{ cy.destroy(); }catch(e){} cy=null; }
-  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs" && currentView!=="developers"){ currentView="home"; }
+  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs" && currentView!=="advising" && currentView!=="developers"){ currentView="home"; }
   updatePageToolbar();
   if(currentView==="home") renderHomeView();
   else if(currentView==="list") renderListView();
-  else if(currentView==="graph") renderGraphView();
   else if(currentView==="register") renderRegisterView();
   else if(currentView==="cgpa") renderCgpaView();
-  else if(currentView==="schedule") renderScheduleView();
-  else if(currentView==="forecast") renderForecastView();
+  else if(currentView==="pastcoord") renderPastCoordView();
+  else if(currentView==="specforecast") renderSpecForecastView();
+  else if(currentView==="trackforecast") renderTrackForecastView();
   else if(currentView==="special") renderSpecialDegreeView();
   else if(currentView==="transcript") renderTranscriptView();
   else if(currentView==="regs") renderRegsView();
+  else if(currentView==="advising") renderAdvisingView();
+  else if(currentView==="tools") renderToolsView();
   else if(currentView==="study") renderStudyToolsView();
+  else if(currentView==="organize") renderOrganizeView();
   else if(currentView==="games") renderGamesView();
   else if(currentView==="developers") renderDevelopersView();
 }
@@ -7393,13 +7545,15 @@ function courseCard(code, sectionType){
 
 function renderListView(){
   const track = TRACKS.find(t=>t.id===currentTrack);
+  if(listTreeMode){ renderListTreeMode(track); return; }
+
   const totalCredit = track.sections.reduce((s,sec)=> s + (sec.credit||0), 0);
   const chip = track.infoOnly
     ? `<span class="chip total">${track.sections.reduce((s,sec)=>s+sec.list.length,0)} مقرر</span>`
     : `<span class="chip total">إجمالي التخصص: ${totalCredit} ساعة معتمدة</span>`;
   let html = `<div class="track-head">
     <div><h2>${track.label}</h2></div>
-    <div class="chips">${chip}</div>
+    <div class="chips">${chip}<button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">park</span> شجرة المقررات</button></div>
   </div>
   <p class="graph-hint">شارة "🗓️ الترم" جنب كل مقرر مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) بتظهر "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.</p>`;
 
@@ -7433,6 +7587,9 @@ function renderListView(){
 
   document.getElementById('trackView').innerHTML = html;
 
+  const treeToggleBtn = document.getElementById('listTreeToggleBtn');
+  if(treeToggleBtn) treeToggleBtn.addEventListener('click', ()=>{ listTreeMode = true; renderListView(); });
+
   document.querySelectorAll('.course').forEach(el=>{
     el.addEventListener('click', (e)=>{
       if(e.target.dataset.jump){ jumpTo(e.target.dataset.jump); return; }
@@ -7459,7 +7616,7 @@ function renderListView(){
 function jumpTo(code){
   const track = TRACKS.find(t=>t.id===currentTrack);
   const found = track.sections.some(sec=>sec.list.includes(code));
-  if(found && currentView==="list"){
+  if(found && currentView==="list" && !listTreeMode){
     highlightCode = code;
     renderListView();
     const el = document.querySelector(`.course[data-code="${code}"]`);
@@ -7568,16 +7725,18 @@ function closeSearch(){
   searchInput.value='';
 }
 
-/* ================= GRAPH VIEW (NEON TREE) ================= */
-function renderGraphView(){
-  const track = TRACKS.find(t=>t.id===currentTrack);
-  // الشجرة التفاعلية بتستبعد دايمًا مواد "متطلبات الجامعة" و"الاختيار الحر" لأنها مواد
+/* ================= LIST VIEW — TREE MODE (NEON TREE) =================
+   دي مش صفحة لوحدها، دي وضع عرض بديل جوه صفحة "قائمة المقررات" (listTreeMode=true)، بيستخدم
+   نفس الفلاتر (المستوى/النوع) المطبّقة على القائمة العادية عن طريق filteredSections(track) نفسها. */
+function renderListTreeMode(track){
+  // شجرة المقررات بتستبعد دايمًا مواد "متطلبات الجامعة" و"الاختيار الحر" لأنها مواد
   // مالهاش علاقة حقيقية بمتطلبات التخصص السابق/اللاحق، ووجودها كان بيزوّد زحمة الشجرة من غير فايدة.
   const secs = filteredSections(track).filter(sec => sec.scope!=="university" && sec.scope!=="freeElective");
   const visibleCodes = new Set();
   secs.forEach(sec=> sec.list.forEach(c=> visibleCodes.add(c)));
 
-  let html = `<div class="track-head"><div><h2>${track.label} — الشجرة التفاعلية ${infoTip('اضغط على أي مقرر (أو مرّر عليه بالماوس) عشان تتوضحلك بس الأسهم الداخلة والخارجة منه، والباقي يخفت شوية عشان تقدر تتابعها بسهولة، وكمان هيتفتحلك تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div></div>
+  let html = `<div class="track-head"><div><h2>${track.label} — شجرة المقررات ${infoTip('اضغط على أي مقرر (أو مرّر عليه بالماوس) عشان تتوضحلك بس الأسهم الداخلة والخارجة منه، والباقي يخفت شوية عشان تقدر تتابعها بسهولة، وكمان هيتفتحلك تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div>
+    <div class="chips"><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">checklist</span> قائمة المقررات</button></div></div>
     <div class="graph-wrap neon"><div id="cyGraph"></div>
     <div class="graph-legend neon-legend">
       <span><span class="leg-dot" style="background:${SUBJECT_NEON.math.c};box-shadow:0 0 8px ${SUBJECT_NEON.math.glow}"></span> رياضيات</span>
@@ -7588,6 +7747,9 @@ function renderGraphView(){
       <span style="margin-inline-start:auto;opacity:.75;">إجباري = مربع · اختياري = شكل مستدير</span>
     </div></div>`;
   document.getElementById('trackView').innerHTML = html;
+
+  const backBtn = document.getElementById('listTreeToggleBtn');
+  if(backBtn) backBtn.addEventListener('click', ()=>{ listTreeMode = false; renderListView(); });
 
   if(!visibleCodes.size){
     document.getElementById('cyGraph').innerHTML = '<p style="padding:40px;text-align:center;color:#8b93a8">لا توجد مقررات مطابقة للفلاتر.</p>';
@@ -8678,6 +8840,125 @@ function cgpaItemRow(termId, it){
     <button class="ci-remove" data-item="${it.id}" data-term="${termId}" title="إزالة المادة">✕</button>
   </div>`;
 }
+function cgpaPickItemData(p){
+  return p.isCustom ? allCustomCourseData()[p.code] : DB[p.code];
+}
+function cgpaPickItemHours(p){
+  const c = cgpaPickItemData(p);
+  if(!c) return 0;
+  return p.isCustom ? (Number(c.hours)||0) : (Number(c.credit[0])||0);
+}
+function cgpaPickSummaryText(termId){
+  const list = (cgpaMultiPick[termId]||[]).filter(p=> cgpaPickItemData(p));
+  const totalHrs = list.reduce((s,p)=> s + cgpaPickItemHours(p), 0);
+  return list.length ? `🧺 ${list.length} مادة مختارة · ${totalHrs} ساعة` : 'اختَر مادة أو أكتر من القايمة تحت، وهتضيفهم كلهم مرة واحدة';
+}
+function cgpaCourseRowHtml(code, isCustom, picked){
+  const c = isCustom ? allCustomCourseData()[code] : DB[code];
+  const codeTxt = isCustom ? escapeHtml(code) : fullCode(code);
+  const hrs = isCustom ? c.hours : c.credit[0];
+  const restoredTag = (isCustom && !customCourses[code]) ? ' <span class="ci-ext-tag" title="اتشالت من بنك المواد اليدوي بس لسه ممكن تسجّلها من هنا">↩️ مستعادة</span>' : '';
+  const kindTag = isCustom ? ` <span class="ci-ext-tag">${CUSTOM_KIND_LABEL[c.kind]||''}</span>` : '';
+  const searchTxt = escapeHtml((c.ar + ' ' + codeTxt + ' ' + (c.en||'')).toLowerCase());
+  return `<label class="cgpa-course-row${picked?' picked':''}" data-code="${escapeHtml(code)}" data-custom="${isCustom?'1':''}" data-search="${searchTxt}">
+    <input type="checkbox" class="cgpa-course-check"${picked?' checked':''}>
+    <span class="cp-code">${codeTxt}</span>
+    <span class="cp-name">${escapeHtml(c.ar)}${kindTag}${restoredTag}</span>
+    <span class="cp-hours">${hrs} س</span>
+  </label>`;
+}
+function cgpaCourseListHtml(termId){
+  const termIdxForSearch = termOrderIndex(termId);
+  const dbCodes = Object.keys(DB).filter(code=> !codeBlockedForAdd(code) && prereqSatisfiedByIndex(code, termIdxForSearch));
+  dbCodes.sort((a,b)=> (DB[a].level-DB[b].level) || a.localeCompare(b));
+  const allCustom = allCustomCourseData();
+  const customCodes = Object.keys(allCustom).filter(code=> !codeBlockedForAdd(code));
+  if(!dbCodes.length && !customCodes.length){
+    return `<div class="cp-empty">مفيش مقررات متاحة للتسجيل في الترم ده دلوقتي (يا إما خلّصتها كلها، يا إما لسه محتاجة متطلب سابق ما اتحققش).</div>`;
+  }
+  const pickedSet = new Set((cgpaMultiPick[termId]||[]).map(p=>p.code));
+  let html = '';
+  if(dbCodes.length){
+    const byLevel = {};
+    dbCodes.forEach(code=>{ const lv = DB[code].level||0; (byLevel[lv]=byLevel[lv]||[]).push(code); });
+    Object.keys(byLevel).sort((a,b)=>a-b).forEach(lv=>{
+      html += `<div class="cgpa-course-group-title">مستوى ${escapeHtml(lv)}</div>`;
+      html += byLevel[lv].map(code=> cgpaCourseRowHtml(code, false, pickedSet.has(code))).join('');
+    });
+  }
+  if(customCodes.length){
+    html += `<div class="cgpa-course-group-title">📚 بنك المواد اليدوي</div>`;
+    html += customCodes.map(code=> cgpaCourseRowHtml(code, true, pickedSet.has(code))).join('');
+  }
+  return html;
+}
+function updateCgpaPickBar(termId){
+  const summary = document.querySelector(`.cgpa-pick-summary[data-term="${CSS.escape(termId)}"]`);
+  if(summary) summary.textContent = cgpaPickSummaryText(termId);
+  const btn = document.querySelector(`.cgpa-add-all-btn[data-term="${CSS.escape(termId)}"]`);
+  if(btn) btn.disabled = !(cgpaMultiPick[termId]||[]).length;
+}
+function applyCgpaCourseFilter(termId, query){
+  const list = document.querySelector(`.cgpa-course-list[data-term="${CSS.escape(termId)}"]`);
+  if(!list) return;
+  const q = query.trim().toLowerCase();
+  let lastTitle = null, lastTitleHasVisible = false;
+  Array.from(list.children).forEach(el=>{
+    if(el.classList.contains('cgpa-course-group-title')){
+      if(lastTitle) lastTitle.style.display = lastTitleHasVisible ? '' : 'none';
+      lastTitle = el; lastTitleHasVisible = false;
+    } else if(el.classList.contains('cgpa-course-row')){
+      const match = !q || (el.dataset.search||'').includes(q);
+      el.style.display = match ? '' : 'none';
+      if(match) lastTitleHasVisible = true;
+    }
+  });
+  if(lastTitle) lastTitle.style.display = lastTitleHasVisible ? '' : 'none';
+}
+function commitCgpaMultiPick(termId){
+  const list = cgpaMultiPick[termId]||[];
+  if(!list.length) return;
+  const term = cgpaTerms.find(t=>t.id===termId);
+  if(!term) return;
+  const skipped = [];
+  list.forEach(p=>{
+    const c = cgpaPickItemData(p);
+    if(!c) return;
+    if(codeBlockedForAdd(p.code)){ skipped.push(`${c.ar} (متسجّلة بالفعل)`); return; }
+    const addHours = cgpaPickItemHours(p);
+    if(!p.isCustom){
+      const capMsg = freeElectiveCapBlockMsg(p.code);
+      if(capMsg){ skipped.push(`${c.ar} (${capMsg})`); return; }
+      const blockMsg = prereqBlockMsgAtIndex(p.code, termOrderIndex(termId));
+      if(blockMsg){ skipped.push(`${c.ar} (${blockMsg})`); return; }
+    }
+    if(term.isSummer){
+      const currentHours = termStats(term).totalHours;
+      if(currentHours + addHours > SUMMER_MAX_H){
+        skipped.push(`${c.ar} (هتتخطى الحد الأقصى ${SUMMER_MAX_H} ساعة للفصل الصيفي)`);
+        return;
+      }
+    }
+    if(p.isCustom){
+      term.items.push({id:genId(), source:'custom', code:p.code, name:c.ar, hours:addHours, kind:c.kind, grade:null});
+      if(!customCourses[p.code]){
+        customCourses[p.code] = {code:p.code, ar:c.ar, hours:c.hours, kind:c.kind};
+        saveCustomCourses();
+      }
+    } else {
+      term.items.push({id:genId(), source:'db', code:p.code, hours:addHours, grade:null});
+    }
+  });
+  cgpaMultiPick[termId] = [];
+  cgpaCourseListOpen[termId] = false;
+  saveCgpaTerms();
+  recomputeCompletedFromCgpa();
+  renderTrackBadge();
+  renderCgpaView();
+  if(skipped.length){
+    alert('اتضافت باقي المواد، ما عدا دي اتجاهلت:\n' + skipped.join('\n'));
+  }
+}
 function cgpaTermCard(term){
   const stats = termStats(term);
   const gpaTxt = stats.gpa!=null ? stats.gpa.toFixed(2) : '—';
@@ -8723,18 +9004,21 @@ function cgpaTermCard(term){
     <div class="cgpa-items">${itemsHtml}</div>
     <div class="cgpa-add-row">
       <div class="cgpa-source-toggle">
-        <button class="cst-btn${mode==='db'?' active':''}" data-term="${term.id}" data-src="db" type="button">من القسم</button>
-        <button class="cst-btn${mode==='external'?' active':''}" data-term="${term.id}" data-src="external" type="button">مادة خارج التخصص</button>
+        <button class="cst-btn${mode==='db'?' active':''}" data-term="${term.id}" data-src="db" type="button">مواد متاحة</button>
+        <button class="cst-btn${mode==='external'?' active':''}" data-term="${term.id}" data-src="external" type="button">مواد تخصصات أخرى</button>
       </div>
-      ${mode==='db' ? `
+      ${mode==='db' ? (cgpaCourseListOpen[term.id]===false ? `
+      <button class="cgpa-reopen-list-btn" data-term="${term.id}" type="button">➕ اختار مواد تانية من "مواد متاحة"</button>
+      ` : `
       <div class="cgpa-add-db">
-        <div class="course-picker" data-term="${term.id}">
-          <input class="cgpa-course-search" data-term="${term.id}" placeholder="دور بكود أو اسم مقرر من القسم..." autocomplete="off">
-          <div class="cp-dropdown" data-term="${term.id}"></div>
+        <input class="cgpa-course-filter" data-term="${term.id}" placeholder="🔍 دوّر لو حابب تضيّق القائمة (مش لازم — اختَر مباشرة تحت)" autocomplete="off">
+        <div class="cgpa-course-list" data-term="${term.id}">${cgpaCourseListHtml(term.id)}</div>
+        <div class="cgpa-pick-actions">
+          <span class="cgpa-pick-summary" data-term="${term.id}">${cgpaPickSummaryText(term.id)}</span>
+          <button class="cgpa-add-all-btn" data-term="${term.id}" type="button"${(cgpaMultiPick[term.id]||[]).length?'':' disabled'}>✅ ضيف المواد المحددة</button>
         </div>
-        <span class="cgpa-hours-preview" data-term="${term.id}">— ساعة</span>
-        <button class="cgpa-add-btn" data-term="${term.id}" disabled>➕ أضف</button>
-      </div>` : `
+      </div>
+      `) : `
       <div class="cgpa-add-external">
         <input class="cgpa-ext-name" data-term="${term.id}" placeholder="اسم المادة" maxlength="80">
         <input class="cgpa-ext-hours" data-term="${term.id}" type="number" min="0" step="1" placeholder="عدد الساعات">
@@ -8783,8 +9067,12 @@ function renderCgpaView(){
   if(wizardActive && hoursGapRemaining()<=0){ wizardActive = false; wizardJustFinished = true; }
   let html = `
   <div class="track-head">
-    <div><h2>🧮 تسجيل المواد (حاسبة المعدل التراكمي CGPA) ${infoTip('اعمل ترم بالمستوى والنوع بتاعه (أو "ترم معادلة" لو محوّل)، وضيف فيه مقررات من القسم (بيجيب عدد ساعاتها تلقائي)، أو مادة من "بنك المواد اليدوي" (متطلب جامعة/اختيار حر مسجّلها إنت)، أو مادة خارج التخصص عمومًا، واختار التقدير بالحرف — وهيتحسب الـ GPA للترم والـ CGPA التراكمي أوتوماتيك ويظهر في الصفحة الرئيسية. الفصل الصيفي بياخد الحد الأقصى (' + SUMMER_MAX_H + ' ساعات) تلقائي.')}</h2></div>
-    <div class="chips"><span class="chip total">${cgpaTerms.length} ترم مسجّل</span><button class="chip" id="openCourseBankBtn" type="button" style="cursor:pointer;border:none;">📚 بنك المواد اليدوي</button></div>
+    <div><h2>🧮 تسجيل المواد (حاسبة المعدل التراكمي CGPA) ${infoTip('اعمل ترم بالمستوى والنوع بتاعه (أو "ترم معادلة" لو محوّل)، وابدأ اختَر منه كل مواد الترم (مواد متاحة بيجيب عدد ساعاتها تلقائي، أو مادة من "بنك المواد اليدوي"، أو مواد تخصصات أخرى) — هتتلمّ في قايمة تحت وتقدر تشيل أي حاجة قبل ما تأكّد، وبعد ما تخلّص اختيار كل المواد دوس زرار واحد يضيفهم كلهم مرة واحدة. وبعدين رجّع لكل مادة وحط تقديرها بالحرف — وهيتحسب الـ GPA للترم والـ CGPA التراكمي أوتوماتيك ويظهر في الصفحة الرئيسية. الفصل الصيفي بياخد الحد الأقصى (' + SUMMER_MAX_H + ' ساعات) تلقائي.')}</h2></div>
+    <div class="chips">
+      <span class="chip total">${cgpaTerms.length} ترم مسجّل</span>
+      <button class="chip" id="openCourseBankBtn" type="button" style="cursor:pointer;border:none;">📚 بنك المواد اليدوي</button>
+      <button class="chip" id="cgpaGotoRegisterBtn" type="button" style="cursor:pointer;border:none;">🧭 اقتراحات التسجيل</button>
+    </div>
   </div>
   ${wizardJustFinished ? '<div class="wizard-success-banner"><span>🎉 تمام! قفلت كل الساعات اللي كتبتها في بروفايلك. الموقع دلوقتي شغال بالمواد الفعلية بتاعتك.</span></div>' : ''}
   ${wizardActive ? wizardBannerHtml() : hoursGapBannerHtml()}
@@ -8804,38 +9092,21 @@ function renderCgpaView(){
   <div id="cgpaTermsWrap">${cgpaTerms.map(cgpaTermCard).join('') || '<p class="cgpa-empty" style="padding:6px 2px;">لسه مفيش ترمات مضافة. دوس "ترم جديد" وابدأ.</p>'}</div>
   <button class="home-quicklink" id="addTermBtn">➕ ترم جديد</button>
 
-  <div class="goal-section" id="goalSection">
-    <div class="track-head"><h2>🎯 الوصول لهدف معين ${infoTip('حدد الـCGPA اللي عايز توصله وعدد الترمات المتبقية، وهنحسبلك بواقعية الساعات والمعدل المطلوبين كل ترم عشان توصل هدفك — مع مراعاة إنك مينفعش تسجل أقل من ' + GOAL_MIN_H + ' أو أكتر من ' + GOAL_MAX_H + ' ساعة (إلا لو الـCGPA بتاعك 3 أو أكتر يبقى لحد ' + GOAL_MAX_H_EXT + ').')}</h2></div>
-    <div class="goal-inputs">
-      <div class="goal-field">
-        <label>🎯 الـCGPA المستهدف</label>
-        <input id="goalTarget" type="number" min="0" max="4" step="0.01" value="${escapeHtml(cgpaGoal.target)}" placeholder="مثال: 3.50">
-      </div>
-      <div class="goal-field">
-        <label>📅 عدد الترمات</label>
-        <input id="goalTerms" type="number" min="1" step="1" value="${escapeHtml(cgpaGoal.terms)}" placeholder="مثال: 4">
-      </div>
-      <div class="goal-field">
-        <label>⏱️ متوسط الساعات/ترم (اختياري)</label>
-        <input id="goalHours" type="number" min="${GOAL_MIN_H}" max="${GOAL_MAX_H_EXT}" step="1" value="${escapeHtml(cgpaGoal.hours)}" placeholder="سيبها فاضية للاقتراح التلقائي">
-        <span class="h-note">${GOAL_MIN_H}–${GOAL_MAX_H} عادي، لحد ${GOAL_MAX_H_EXT} لو CGPA ≥ 3</span>
-      </div>
-    </div>
-    <div class="goal-results" id="goalResults">${renderGoalResultsHtml()}</div>
-  </div>
-
   <div class="goal-section" id="termAnalysisSection">
     <div class="track-head"><h2>📊 تحليل أداء الترمات ${infoTip('تقييم سريع لكل ترم مسجّل: هل مستواك كويس ولا محتاج تشد أكتر.')}</h2></div>
     ${renderTermAnalysisHtml()}
   </div>
-
-  ${specializationEligibilityHtml()}
   `;
   document.getElementById('trackView').innerHTML = html;
   initTermPerformanceChart();
 
   document.getElementById('addTermBtn').onclick = ()=> openNewTermModal();
   document.getElementById('openCourseBankBtn').onclick = ()=> openCourseBankModal();
+  document.getElementById('cgpaGotoRegisterBtn').onclick = ()=>{
+    currentView = 'register';
+    renderViewTabs();
+    renderCurrentView();
+  };
   const wizAddTermBtn = document.getElementById('wizAddTermBtn');
   if(wizAddTermBtn) wizAddTermBtn.onclick = ()=> openNewTermModal();
   const wizDismissBtn = document.getElementById('wizDismissBtn');
@@ -8867,8 +9138,9 @@ function renderCgpaView(){
   });
   document.querySelectorAll('.cgpa-term-del').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      if(!confirm('هل أنت متأكد من حذف هذا الترم وكل مواده؟ لو فيه مقررات "من القسم" مسجلة فيه هتترجع "غير منتهية" في كل الصفحات.')) return;
+      if(!confirm('هل أنت متأكد من حذف هذا الترم وكل مواده؟ لو فيه مقررات "مواد متاحة" مسجلة فيه هتترجع "غير منتهية" في كل الصفحات.')) return;
       cgpaTerms = cgpaTerms.filter(t=>t.id!==btn.dataset.term);
+      delete cgpaMultiPick[btn.dataset.term];
       Object.keys(semesterPlan).forEach(code=>{ if(semesterPlan[code]===btn.dataset.term) delete semesterPlan[code]; });
       saveCgpaTerms();
       saveSemesterPlan();
@@ -8880,6 +9152,12 @@ function renderCgpaView(){
   document.querySelectorAll('.cst-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       cgpaAddMode[btn.dataset.term] = btn.dataset.src;
+      renderCgpaView();
+    });
+  });
+  document.querySelectorAll('.cgpa-reopen-list-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      cgpaCourseListOpen[btn.dataset.term] = true;
       renderCgpaView();
     });
   });
@@ -8935,190 +9213,38 @@ function renderCgpaView(){
     });
   });
 
-  /* course picker: live filter without full re-render on each keystroke */
-  document.querySelectorAll('.course-picker').forEach(picker=>{
-    const termId = picker.dataset.term;
-    const input = picker.querySelector('.cgpa-course-search');
-    const dropdown = picker.querySelector('.cp-dropdown');
-    const preview = document.querySelector(`.cgpa-hours-preview[data-term="${termId}"]`);
-    const addBtn = document.querySelector(`.cgpa-add-btn[data-term="${termId}"]`);
-    let selectedCode = null;
-    let confirmedText = '';
-
-    function confirmSelection(code, isCustom){
-      selectedCode = code;
-      const c = isCustom ? allCustomCourseData()[code] : DB[code];
-      const codeTxt = isCustom ? code : fullCode(code);
-      confirmedText = c.ar + ' — ' + codeTxt;
-      input.value = confirmedText;
-      preview.textContent = (isCustom ? c.hours : c.credit[0]) + ' ساعة';
-      addBtn.dataset.custom = isCustom ? '1' : '';
-      addBtn.disabled = false;
-      dropdown.classList.remove('show');
-      dropdown.innerHTML = '';
-    }
-
-    function renderDropdown(query){
-      selectedCode = null;
-      addBtn.disabled = true;
-      preview.textContent = '— ساعة';
-      if(!query || query.length<1){ dropdown.innerHTML=''; dropdown.classList.remove('show'); return; }
-      const q = query.toLowerCase();
-      const textMatches = Object.keys(DB).filter(code=>{
-        const c = DB[code];
-        return code.includes(q) || fullCode(code).includes(q) || c.ar.includes(query) || (c.en||'').toLowerCase().includes(q);
-      });
-      const allCustom = allCustomCourseData();
-      const customMatches = Object.keys(allCustom).filter(code=>{
-        const c = allCustom[code];
-        return code.toLowerCase().includes(q) || c.ar.includes(query);
-      });
-      // بنعرض بس المقررات اللي متطلبها السابق اتحقق فعلاً في ترم أسبق من الترم ده (سواء مادة تخصص
-      // أو متطلب كلية/جامعة) — مينفعش تسجّل مادة ومتطلبها السابق في نفس الترم مع بعض.
-      const termIdxForSearch = termOrderIndex(termId);
-      const lockedMatches = textMatches.filter(code=> !codeBlockedForAdd(code) && !prereqSatisfiedByIndex(code, termIdxForSearch));
-      const matches = textMatches.filter(code=> !codeBlockedForAdd(code) && prereqSatisfiedByIndex(code, termIdxForSearch)).slice(0,8);
-      const cMatches = customMatches.filter(code=> !codeBlockedForAdd(code)).slice(0,6);
-      if(!matches.length && !cMatches.length){
-        const alreadyTaken = textMatches.some(code=> codeBlockedForAdd(code));
-        let msg;
-        if(lockedMatches.length && !alreadyTaken){
-          msg = `المقرر(ات) المطابقة لسه متطلبها السابق ما اتحققش، مينفعش تسجّلها قبل كده. خلّص المتطلب السابق الأول من "📋 قائمة المقررات".`;
-        } else if(alreadyTaken || textMatches.length || customMatches.length){
-          msg = `المقرر ده متسجل بالفعل ومش راسب فيه، مينفعش يتكرر`;
-        } else {
-          msg = `مفيش مقررات مطابقة (لو المادة مش موجودة في قائمة القسم، ضيفها الأول من "📚 بنك المواد اليدوي")`;
-        }
-        dropdown.innerHTML = `<div class="cp-empty">${msg}</div>`;
-        dropdown.classList.add('show');
-        return;
-      }
-      dropdown.innerHTML = matches.map(code=>{
-        const c = DB[code];
-        return `<div class="cp-opt" data-code="${code}">
-          <span class="cp-code">${fullCode(code)}</span>
-          <span class="cp-name">${c.ar}</span>
-          <span class="cp-hours">${c.credit[0]} س</span>
-        </div>`;
-      }).join('') + cMatches.map(code=>{
-        const c = allCustom[code];
-        const restoredTag = !customCourses[code] ? ' <span class="ci-ext-tag" title="اتشالت من بنك المواد اليدوي بس لسه ممكن تسجّلها من هنا">↩️ مستعادة</span>' : '';
-        return `<div class="cp-opt" data-code="${code}" data-custom="1">
-          <span class="cp-code">${escapeHtml(code)}</span>
-          <span class="cp-name">${escapeHtml(c.ar)} <span class="ci-ext-tag">${CUSTOM_KIND_LABEL[c.kind]||''}</span>${restoredTag}</span>
-          <span class="cp-hours">${c.hours} س</span>
-        </div>`;
-      }).join('');
-      dropdown.classList.add('show');
-      dropdown.querySelectorAll('.cp-opt').forEach(opt=>{
-        opt.addEventListener('click', ()=> confirmSelection(opt.dataset.code, opt.dataset.custom==='1'));
-      });
-    }
-    function tryAdd(){
-      if(!addBtn.disabled) addBtn.click();
-    }
-    input.addEventListener('input', ()=> renderDropdown(input.value.trim()));
-    input.addEventListener('focus', ()=>{
-      /* لو فيه اختيار متأكّد منه فعلاً ومطابق للنص الحالي، متعملش إعادة بحث تمسحه */
-      if(selectedCode && input.value === confirmedText) return;
-      if(input.value.trim()) renderDropdown(input.value.trim());
-    });
-    input.addEventListener('keydown', (e)=>{
-      if(e.key !== 'Enter') return;
-      e.preventDefault();
-      if(selectedCode){ tryAdd(); return; }
-      const firstOpt = dropdown.querySelector('.cp-opt');
-      if(firstOpt){ confirmSelection(firstOpt.dataset.code); tryAdd(); }
-    });
-    if(!window.__cpOutsideClickBound){
-      window.__cpOutsideClickBound = true;
-      document.addEventListener('click', (e)=>{
-        document.querySelectorAll('.cp-dropdown.show').forEach(dd=>{
-          if(!dd.closest('.course-picker') || !dd.closest('.course-picker').contains(e.target)){
-            dd.classList.remove('show');
-          }
-        });
-      });
-    }
-    addBtn.addEventListener('click', ()=>{
-      if(!selectedCode) return;
-      const isCustom = addBtn.dataset.custom==='1';
-      if(codeBlockedForAdd(selectedCode)){ alert('المقرر ده متسجل بالفعل ومش راسب فيه، مينفعش يتكرر.'); return; }
-      if(!isCustom){
-        const capMsg = freeElectiveCapBlockMsg(selectedCode);
-        if(capMsg){ alert(capMsg); return; }
-        const blockMsg = prereqBlockMsgAtIndex(selectedCode, termOrderIndex(termId));
-        if(blockMsg){ alert(blockMsg); return; }
-      }
-      const term = cgpaTerms.find(t=>t.id===termId);
-      const customData = isCustom ? allCustomCourseData()[selectedCode] : null;
-      const addHours = isCustom ? customData.hours : DB[selectedCode].credit[0];
-      if(term.isSummer){
-        const currentHours = termStats(term).totalHours;
-        if(currentHours + addHours > SUMMER_MAX_H){
-          alert(`الفصل الصيفي حده الأقصى ${SUMMER_MAX_H} ساعات معتمدة. مسجل حالياً ${currentHours} ساعة، وإضافة ${addHours} ساعة هتتخطى الحد.`);
-          return;
-        }
-      }
-      if(isCustom){
-        term.items.push({id:genId(), source:'custom', code:selectedCode, name:customData.ar, hours:addHours, kind:customData.kind, grade:null});
-        // لو المادة دي كانت اتمسحت من بنك المواد اليدوي بالغلط، رجّعها للبنك تلقائي بمجرد ما استخدمها تاني
-        if(!customCourses[selectedCode]){
-          customCourses[selectedCode] = {code:selectedCode, ar:customData.ar, hours:customData.hours, kind:customData.kind};
-          saveCustomCourses();
-        }
+  /* قائمة المواد المتاحة: كل المقررات اللي ينفع الطالب يسجّلها في الترم ده بتتعرض دفعة واحدة
+     كتشيك بوكس (من غير ما يضطر يكتب حاجة)، بيختار منها اللي عايزها وبتتحفظ في سلة مؤقتة
+     (cgpaMultiPick) لحد ما يدوس "✅ ضيف المواد المحددة" فتتسجل كلها مرة واحدة. مربع البحث فوق
+     اختياري بس لو حابب يضيّق القايمة الطويلة. */
+  document.querySelectorAll('.cgpa-course-list').forEach(list=>{
+    const termId = list.dataset.term;
+    if(!cgpaMultiPick[termId]) cgpaMultiPick[termId] = [];
+    list.addEventListener('change', (e)=>{
+      const row = e.target.closest('.cgpa-course-row');
+      if(!row) return;
+      const code = row.dataset.code;
+      const isCustom = row.dataset.custom==='1';
+      if(!cgpaMultiPick[termId]) cgpaMultiPick[termId] = [];
+      if(e.target.checked){
+        if(!cgpaMultiPick[termId].some(p=>p.code===code)) cgpaMultiPick[termId].push({code, isCustom});
+        row.classList.add('picked');
       } else {
-        term.items.push({id:genId(), source:'db', code:selectedCode, hours:addHours, grade:null});
+        cgpaMultiPick[termId] = cgpaMultiPick[termId].filter(p=>p.code!==code);
+        row.classList.remove('picked');
       }
-      saveCgpaTerms();
-      recomputeCompletedFromCgpa();
-      renderTrackBadge();
-      renderCgpaView();
-      const freshInput = document.querySelector(`.cgpa-course-search[data-term="${termId}"]`);
-      if(freshInput) freshInput.focus();
+      updateCgpaPickBar(termId);
     });
+  });
+  document.querySelectorAll('.cgpa-course-filter').forEach(inp=>{
+    const termId = inp.dataset.term;
+    inp.addEventListener('input', ()=> applyCgpaCourseFilter(termId, inp.value));
+  });
+  document.querySelectorAll('.cgpa-add-all-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=> commitCgpaMultiPick(btn.dataset.term));
   });
 
-  /* goal planner inputs — update results in place without losing focus */
-  let goalSaveTimer = null;
-  function wireGoalTermHoursInputs(){
-    document.querySelectorAll('.goal-term-hours-inp').forEach(inp=>{
-      inp.addEventListener('input', ()=>{
-        const term = inp.dataset.term;
-        if(!cgpaGoal.termHours) cgpaGoal.termHours = {};
-        if(inp.value===''){ delete cgpaGoal.termHours[term]; }
-        else { cgpaGoal.termHours[term] = inp.value; }
-        clearTimeout(goalSaveTimer);
-        goalSaveTimer = setTimeout(saveCgpaGoal, 400);
-        refreshGoalResults(true); // keep focus on this row's input while recalculating
-      });
-    });
-  }
-  function refreshGoalResults(preserveFocus){
-    const target = document.getElementById('goalResults');
-    if(!target) return;
-    const focusedTerm = preserveFocus && document.activeElement && document.activeElement.classList.contains('goal-term-hours-inp')
-      ? document.activeElement.dataset.term : null;
-    target.innerHTML = renderGoalResultsHtml();
-    wireGoalTermHoursInputs();
-    if(focusedTerm!=null){
-      const toFocus = target.querySelector(`.goal-term-hours-inp[data-term="${focusedTerm}"]`);
-      if(toFocus){ toFocus.focus(); toFocus.select(); }
-    }
-  }
-  wireGoalTermHoursInputs();
-  const goalTargetInp = document.getElementById('goalTarget');
-  const goalTermsInp = document.getElementById('goalTerms');
-  const goalHoursInp = document.getElementById('goalHours');
-  [['target',goalTargetInp],['terms',goalTermsInp],['hours',goalHoursInp]].forEach(([key,inp])=>{
-    if(!inp) return;
-    inp.addEventListener('input', ()=>{
-      cgpaGoal[key] = inp.value;
-      refreshGoalResults();
-      clearTimeout(goalSaveTimer);
-      goalSaveTimer = setTimeout(saveCgpaGoal, 400);
-    });
-  });
+
 }
 
 /* ================= جدول الترم ================= */
@@ -9277,11 +9403,14 @@ function scheduleCourseRowHtml(term, schedule, it){
 function renderScheduleView(){
   if(!cgpaTerms.length){
     document.getElementById('trackView').innerHTML = `
+    <button class="study-back" id="scheduleBackHome">→ رجوع لأدوات التنظيم</button>
     <div class="track-head"><div><h2>🗓️ جدول الترم</h2></div></div>
     <p class="graph-hint">لازم تسجّل ترم واحد على الأقل الأول من "🧮 تسجيل المواد" عشان تقدر تعمل له جدول محاضرات وسكاشن.</p>
     <button class="home-quicklink" id="schGotoCgpa">🧮 روح لتسجيل المواد</button>`;
     const b = document.getElementById('schGotoCgpa');
     if(b) b.onclick = ()=> goToView('cgpa');
+    const backBtn = document.getElementById('scheduleBackHome');
+    if(backBtn) backBtn.onclick = ()=>{ organizeToolActive=null; renderCurrentView(); };
     return;
   }
   if(scheduleActiveId && !termSchedules.some(s=>s.id===scheduleActiveId)) scheduleActiveId = null;
@@ -9322,6 +9451,7 @@ function renderScheduleView(){
   }
 
   const html = `
+  <button class="study-back" id="scheduleBackHome">→ رجوع لأدوات التنظيم</button>
   <div class="track-head">
     <div><h2>🗓️ جدول الترم ${infoTip('اختار ترم من الترمات اللي مسجّلها في "تسجيل المواد" وابني له جدول محاضرات وسكاشن قابل للطباعة. تقدر تعمل أكتر من جدول لأكتر من ترم.')}</h2></div>
     <div class="chips"><span class="chip total">${termSchedules.length} جدول</span></div>
@@ -9330,6 +9460,8 @@ function renderScheduleView(){
   ${bodyHtml}`;
   document.getElementById('trackView').innerHTML = html;
 
+  const scheduleBackBtn = document.getElementById('scheduleBackHome');
+  if(scheduleBackBtn) scheduleBackBtn.onclick = ()=>{ organizeToolActive=null; renderCurrentView(); };
   document.getElementById('schAddBtn').onclick = ()=> openNewScheduleModal();
   document.querySelectorAll('.sch-tab[data-id]').forEach(btn=>{
     btn.addEventListener('click', (e)=>{
@@ -9678,35 +9810,6 @@ function subLine(label, done, total){
   return `<span>${label}: ${done}/${total}</span>`;
 }
 
-/* بيصنّف كل مادة من متطلبات الكلية الـ26 ساعة (ALL_COLLEGE_REQ) لثلاث حالات، حسب آخر محاولة تسجيل
-   ليها في حاسبة المعدل: نجح فيها فعلاً / رسب فيها (F أو FN، محتاجة إعادة) / لسه ما سجلهاش أصلاً
-   (أو آخر محاولة ليها تقدير محايد زي I/NT/W/FW/L، يعني لسه مش مقفولة). */
-function collegeReqStatusLists(){
-  const passed=[], failed=[], pending=[];
-  ALL_COLLEGE_REQ.forEach(code=>{
-    const attempts = codeAttempts(code);
-    if(!attempts.length){ pending.push(code); return; }
-    const last = attempts[attempts.length-1];
-    if(isAcquiredGrade(last.grade)) passed.push(code);
-    else if(isFailingGrade(last.grade)) failed.push(code);
-    else pending.push(code);
-  });
-  return {passed, failed, pending};
-}
-function collegeReqDetailHtml(){
-  const {passed, failed, pending} = collegeReqStatusLists();
-  function chip(code, cls){
-    return `<span class="urgent-chip creq-chip ${cls}" data-code="${code}">${fullCode(code)} · ${DB[code].ar}</span>`;
-  }
-  return `<div class="college-req-detail">
-    <div class="crd-title">📋 متطلبات الكلية المكتسبة بالتفصيل (نجاح/رسوب)</div>
-    <div class="crd-sub">تصنيف كل مادة من الـ${ALL_COLLEGE_REQ.length} مادة (26 ساعة متطلبات الكلية) حسب آخر تقدير ليها في حاسبة المعدل.</div>
-    ${passed.length ? `<div class="ub-row"><b>✅ نجحت فيها (${passed.length})</b><div class="urgent-chip-list">${passed.map(c=>chip(c,'pass')).join('')}</div></div>` : ''}
-    ${failed.length ? `<div class="ub-row"><b>❌ رسبت فيها — محتاجة إعادة (${failed.length})</b><div class="urgent-chip-list">${failed.map(c=>chip(c,'fail')).join('')}</div></div>` : ''}
-    ${pending.length ? `<div class="ub-row"><b>⏳ لسه ما سجلتهاش أو تقديرها مش مقفول (${pending.length})</b><div class="urgent-chip-list">${pending.map(c=>chip(c,'pending')).join('')}</div></div>` : ''}
-  </div>`;
-}
-
 /* Full 132-hour graduation stats for the current track: how much of each
    fixed bucket (college / university / free choice / specialization) is
    actually done, based on completedSet, plus how many hours are left to
@@ -9837,18 +9940,6 @@ function gradStatsHtml(track){
       ${specAnalysisHtml}
     </div>`}
 
-    ${collegeReqDetailHtml()}
-
-    <div class="grad-req-list">
-      <div><b>متطلبات الكلية (26 ساعة، إجباري بالكامل):</b> تفاضل وتكامل (1) وهندسة، تفاضل وتكامل (2) وجبر، ميكانيكا (1)، ميكانيكا (2)، برمجة وتطبيقات الحاسب الآلي (دول اللي بيفتحوا مواد في قسمنا) + فيزياء عامة (1)(2)، كيمياء عامة (1)(2)(3) ونظيراتها العملي (دول ملهومش علاقة بالقسم لكن إجبارية للتخرج).</div>
-
-      <div style="margin-top:10px;"><b>متطلبات الجامعة (10 ساعة):</b> مقررات على مستوى كل كليات جامعة الإسكندرية، كل مادة بساعتين.</div>
-      <div>• إجباري (4 ساعات، محسوبة ضمن الـ10): لغة عربية، لغة انجليزية.</div>
-      <div>• اختياري (6 ساعات — اختَر 3 مواد من 4): الإنسان والبيئة، مقدمة في علم النفس، مقدمة في علم الاثار، تاريخ العلوم.</div>
-      <div>• الابتكار وريادة الأعمال: إجباري تتخرج وانت مخلّصها، لكنها مش محسوبة ضمن الـ10 ساعات دي ولا ضمن أي بكت ساعات تاني.</div>
-
-      <div style="margin-top:10px;"><b>متطلبات الاختيار الحر (8 ساعات):</b> يدرس الطالب مقررات يختارها من مقررات التخصص أو متطلبات الكلية أو متطلبات الجامعة، بشرط تكون خارج تخصصه الرئيسي أو الفرعي — يعني مش بتتحسب من ساعات التخصص الرئيسي والفرعي الموضحة فوق. من أشهر مواد الاختيار الحر: مهارات العرض، المهارات الحياتية، السياحة البيئية، الجيولوجيا الأثرية، فارما (1)، فارما (2)، والأخلاقيات المهنية. أي ساعات زيادة عن المطلوب في الكلية/الجامعة/التخصص بتتحسب هنا تلقائي (لحد 8 ساعات).</div>
-    </div>
   </div>`;
 }
 
@@ -9925,6 +10016,8 @@ function renderHomeView(){
 
   ${renderMinorReclassBannerHtml()}
 
+  ${specializationEligibilityHtml()}
+
   <div class="home-cards">
     <div class="home-card home-card-cgpa" id="homeCgpaCard">
       <div class="hc-label">المعدل التراكمي (CGPA)</div>
@@ -9948,7 +10041,7 @@ function renderHomeView(){
     <button class="home-quicklink" data-goto="cgpa">🧮 تسجيل المواد</button>
     <button class="home-quicklink" data-goto="list">📋 حدد مقرراتك المكتملة</button>
     <button class="home-quicklink" data-goto="register">🎓 أسجل ايه دلوقتي؟</button>
-    <button class="home-quicklink" data-goto="graph">🕸 الشجرة التفاعلية</button>
+    <button class="home-quicklink" data-goto="list" data-tree="1">🌳 شجرة المقررات</button>
     <button class="home-quicklink" data-goto="study">📚 أدوات المذاكرة</button>
   </div>`;
 
@@ -9966,6 +10059,7 @@ function renderHomeView(){
   document.querySelectorAll('.home-quicklink[data-goto]').forEach(b=>{
     b.addEventListener('click', ()=>{
       currentView = b.dataset.goto;
+      listTreeMode = !!b.dataset.tree;
       renderViewTabs();
       renderCurrentView();
     });
@@ -10127,45 +10221,10 @@ function openProfileModal(forced){
   document.getElementById('overlay').classList.add('show');
 }
 
-/* ================= ABOUT MODAL ================= */
-function openAboutModal(){
-  document.getElementById('modalBody').innerHTML = `
-    <button class="close" onclick="closeModal()">✕</button>
-    <div class="about-modal">
-      <div class="a-hero">
-        <h4>عن الأداة</h4>
-        <p>دليل تفاعلي شامل لمقررات قسم الرياضيات وعلوم الحاسب بكلية العلوم — جامعة الإسكندرية، مبني على اللائحة المعدلة بنظام الساعات المعتمدة 2018/2017.</p>
-      </div>
-      <h4 style="margin-bottom:8px;">إزاي تستخدمها؟</h4>
-      <ol>
-        <li><b>اختار تخصصك</b> من الأزرار أعلى الصفحة (رئيسي/فرعي).</li>
-        <li><b>📋 قائمة المقررات:</b> تصفح كل مقررات تخصصك مقسّمة إجباري/اختياري، حدد المقررات اللي خلصتها بزر "✓"، واضغط على أي مقرر لتفاصيله الكاملة.</li>
-        <li><b>🕸 الشجرة التفاعلية:</b> شوف ترتيب المقررات ومتطلباتها السابقة بصرياً، ملون حسب مجال المادة.</li>
-        <li><b>🏠 الرئيسية:</b> تابع نسبة إنجازك في الرئيسي والفرعي أول بأول، واستخدم "مسح كل التقدم" لو حبيت تبدأ من جديد.</li>
-        <li><b>🗓 مخطط الفصول:</b> رتّب مقرراتك على فصول قادمة، وهتتنبه لو حصل تعارض مع متطلب سابق.</li>
-        <li><b>🎓 أسجل ايه دلوقتي؟:</b> بتحدد الترم (أول/تاني/صيفي) وعدد الساعات وهي بترشّحلك مواد بنفس عدد الساعات تقريباً، ولو بتفكر تحوّل تخصص بتديك خطة لعدة ترمات قدام.</li>
-      </ol>
-      <p style="font-size:0.78125rem;color:var(--ink-soft);line-height:1.8;">ملحوظة: فلترَي "المستوى" و"النوع" أعلى الصفحة بيشتغلوا في كل الصفحات دي مع بعض (قائمة المقررات، الشجرة، مخطط الفصول، سجل ايه؟، وبيان الحالة)، وممكن كمان تفلتر على "اختيار حر" لو تخصصك فيه مقررات مرشّحة من النوع ده.</p>
-      <p style="font-size:0.78125rem;color:var(--ink-soft);line-height:1.8;">ملحوظة: مقررات المستوى الأول (زي مقدمة في الاحتمالات والإحصاء أو الهندسة التحليلية الفراغية) بتظهر كمتطلبات سابقة لكنها لا تُحتسب ضمن ساعات التخصص، لأنها أصلاً متطلبات كلية عامة خارج ساعات التخصص المطلوبة.</p>
-
-      <div class="a-creator">
-        <div class="name">تم إنشاء هذه الأداة بواسطة نور كريم الشريف عبد الرحمن</div>
-        <div class="meta-line">
-          طالب في المستوى الثالث<br>
-          التخصص: رئيسي علوم الحاسب / فرعي إحصاء
-        </div>
-        <p style="font-size:0.8125rem;line-height:1.9;margin-top:10px;color:var(--ink);">
-          الفكرة دي شغل جاد على تحسين مستوى الإرشاد الأكاديمي للطلاب بشكل متطور وحقيقي — هدفها إن كل طالب يقدر يشوف مساره الدراسي وتقدمه بوضوح تام بدل التوهان بين جداول اللائحة الورقية. واثق إنها هتعمل فرق كبير وتألق ومفاجأة لكل حد هيستخدمها.
-        </p>
-        <a class="yt-link" href="https://www.youtube.com/@elnonacademy" target="_blank" rel="noopener">▶ قناتي على يوتيوب: elnonacademy</a>
-      </div>
-    </div>
-  `;
-  document.getElementById('overlay').classList.add('show');
-}
-document.getElementById('aboutBtn').addEventListener('click', openAboutModal);
-
 /* ================= INIT ================= */
+/* زرار "مطوّرين النظام" في المينيو العلوي بتاع الموبايل */
+const devTabBtn = document.getElementById('devTabBtn');
+if(devTabBtn) devTabBtn.onclick = ()=> goToView('developers');
 /* ================= THEME TOGGLE ================= */
 const themeToggleBtn = document.getElementById('themeToggle');
 function applyTheme(mode){
@@ -10832,6 +10891,105 @@ function regsCategoryHtml(cat){
 function bindRegsCategory(){
   const back = document.getElementById('regsBackHome');
   if(back) back.onclick = ()=>{ regsActiveCat = null; window.scrollTo({top:0,behavior:'smooth'}); renderCurrentView(); };
+}
+
+/* ================= TOOLS HUB (الأدوات) ================= */
+/* صفحة "الأدوات" مجرد هَب بسيط بيوجّه لتلات أقسام: أدوات المذاكرة، أدوات التنظيم، والألعاب
+   الترفيهية — كل قسم صفحته الحقيقية زي ما هي، هنا بس واجهة اختيار موحّدة بينهم. */
+function renderToolsView(){
+  document.getElementById('trackView').innerHTML = toolsHomeHtml();
+  bindToolsHome();
+}
+function toolsHomeHtml(){
+  return `<div class="study-view">
+    <div class="study-head">
+      <h2>🧰 الأدوات</h2>
+      <p class="study-sub">كل الأدوات المساعدة بره مسار المقررات نفسه، مقسّمة حسب الغرض منها.</p>
+    </div>
+    <div class="study-grid">
+      <div class="study-card" id="toolsOpenStudy">
+        <div class="study-card-ic">📚</div>
+        <div class="study-card-title">أدوات المذاكرة</div>
+        <div class="study-card-desc">مكتبة فيديوهات، مؤقت بومودورو، وأدوات تساعدك تذاكر أسرع وأذكى.</div>
+      </div>
+      <div class="study-card" id="toolsOpenOrganize">
+        <div class="study-card-ic">🗂️</div>
+        <div class="study-card-title">أدوات التنظيم</div>
+        <div class="study-card-desc">جدول الترم، وأدوات تنظيم تانية جاية مع الوقت.</div>
+      </div>
+      <div class="study-card" id="toolsOpenGames">
+        <div class="study-card-ic">🎮</div>
+        <div class="study-card-title">الألعاب الترفيهية</div>
+        <div class="study-card-desc">خد بريك من المذاكرة وامرّن دماغك شوية.</div>
+      </div>
+    </div>
+  </div>`;
+}
+function bindToolsHome(){
+  const s = document.getElementById('toolsOpenStudy');
+  if(s) s.onclick = ()=> goToView('study');
+  const o = document.getElementById('toolsOpenOrganize');
+  if(o) o.onclick = ()=> goToView('organize');
+  const g = document.getElementById('toolsOpenGames');
+  if(g) g.onclick = ()=> goToView('games');
+}
+
+/* ================= الإرشاد (هَب لتنسيقات السنين السابقة + مراجعة اللائحة) ================= */
+function renderAdvisingView(){
+  document.getElementById('trackView').innerHTML = advisingHomeHtml();
+  bindAdvisingHome();
+}
+function advisingHomeHtml(){
+  return `<div class="study-view">
+    <div class="study-head">
+      <h2>🧭 الإرشاد</h2>
+      <p class="study-sub">أدوات ومراجع بتساعدك تاخد قرارك وانت فاهم الصورة كاملة.</p>
+    </div>
+    <div class="study-grid">
+      <div class="study-card" id="advisingOpenPastcoord">
+        <div class="study-card-ic">📜</div>
+        <div class="study-card-title">تنسيقات السنين السابقة</div>
+        <div class="study-card-desc">تنسيقات التخصص وتحويل المسار في السنين اللي فاتت، تستخدمها كمرجع تقريبي.</div>
+      </div>
+      <div class="study-card" id="advisingOpenRegs">
+        <div class="study-card-ic">⚖️</div>
+        <div class="study-card-title">مراجعة اللائحة</div>
+        <div class="study-card-desc">أهم مواد اللائحة اللي بتحكم مسارك الدراسي، مبسّطة وسهلة الرجوع لها.</div>
+      </div>
+    </div>
+  </div>`;
+}
+function bindAdvisingHome(){
+  const p = document.getElementById('advisingOpenPastcoord');
+  if(p) p.onclick = ()=> goToView('pastcoord');
+  const r = document.getElementById('advisingOpenRegs');
+  if(r) r.onclick = ()=> goToView('regs');
+}
+
+/* ================= ORGANIZE TOOLS (أدوات التنظيم) ================= */
+function renderOrganizeView(){
+  const el = document.getElementById('trackView');
+  if(!organizeToolActive){ el.innerHTML = organizeToolsHomeHtml(); bindOrganizeToolsHome(); return; }
+  if(organizeToolActive==='schedule'){ renderScheduleView(); return; }
+}
+function organizeToolsHomeHtml(){
+  return `<div class="study-view">
+    <div class="study-head">
+      <h2>🗂️ أدوات التنظيم</h2>
+      <p class="study-sub">أدوات بتساعدك تنظّم دراستك وترمك، وهنضيف عليها أكتر مع الوقت.</p>
+    </div>
+    <div class="study-grid">
+      <div class="study-card" id="organizeOpenSchedule">
+        <div class="study-card-ic">🗓️</div>
+        <div class="study-card-title">جدول الترم</div>
+        <div class="study-card-desc">اختار ترم من "تسجيل المواد" وابني له جدول محاضرات وسكاشن قابل للطباعة.</div>
+      </div>
+    </div>
+  </div>`;
+}
+function bindOrganizeToolsHome(){
+  const s = document.getElementById('organizeOpenSchedule');
+  if(s) s.onclick = ()=>{ organizeToolActive='schedule'; renderCurrentView(); };
 }
 
 function renderStudyToolsView(){
@@ -15112,6 +15270,42 @@ function bindBilliards(){
     setTimeout(()=>{ if(billiardsState) billiardsState.aiPending=false; bilAiTakeShot(); }, 900);
   }
 }
+
+/* ===== موبايل: تحويل فقرات الشرح الطويلة لأيقونة ℹ️ صغيرة (بدل ما تاخد مساحة وتزحم الشاشة) =====
+   مهم: احنا مش بنعمل آلية فتح/قفل جديدة خالص، وده مقصود — عشان ميحصلش تعارض مع الـ click handler
+   الأصلي بتاع .info-tip (اللي موجود فوق جنب دالة infoTip()، وهو نفسه اللي بيشتغل بالهوفر في
+   الديسكتوب وبالدوسة في الموبايل من زمان). إحنا بس بنلف نص الفقرة الأصلية جوه نفس الشكل بتاعه
+   (أيقونة + بابل)، وبنخفي الفقرة الأصلية، والباقي كله بيشتغل زي أي .info-tip تاني في الموقع. */
+(function initMobileLongTextToIcon(){
+  const MN_SELECTOR = [
+    '.study-sub', '.graph-hint', '.p-sub', '.regs-note', '.fc-plan-note', '.fc-plan-sub',
+    '.dev-subnote', '.suggest-empty-note', '.regs-sub', '.vid-url-hint', '.vid-subject-hint',
+    '.vid-playlist-key-hint', '.vid-player-fallback-hint', '.bil-hint', '.section-note',
+    '.hours-note', 'h1 + .sub'
+  ].join(',');
+  function mnTransform(el){
+    if(el.dataset.mnDone || el.classList.contains('info-tip')) return;
+    const text = el.innerHTML.trim();
+    if(!text) return;
+    el.dataset.mnDone = '1';
+    el.classList.add('mn-hidden');
+    const icon = document.createElement('span');
+    icon.className = 'info-tip mn-note';
+    icon.setAttribute('tabindex', '0');
+    icon.setAttribute('role', 'button');
+    icon.setAttribute('aria-label', 'إرشاد');
+    icon.innerHTML = '<span class="material-symbols-outlined">info</span><span class="info-tip-bubble">' + text + '</span>';
+    el.parentNode.insertBefore(icon, el);
+  }
+  function mnScan(){
+    if(window.innerWidth > 760) return;
+    document.querySelectorAll(MN_SELECTOR).forEach(mnTransform);
+  }
+  const mo = new MutationObserver(mnScan);
+  mo.observe(document.documentElement, {childList:true, subtree:true});
+  mnScan();
+  window.addEventListener('resize', mnScan);
+})();
 
 (function syncTabsHeight(){
   const tw = document.querySelector('.tabs-wrap');
