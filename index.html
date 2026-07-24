@@ -473,8 +473,9 @@ h1{
 .tn-brand-glyph{width:24px;height:24px;color:var(--navy);display:flex;flex:0 0 auto;}
 .tn-brand-glyph svg{width:100%;height:100%;}
 .tn-brand-word{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13.5px;letter-spacing:.4px;white-space:nowrap;color:var(--ink);}
-.tn-links{display:flex;align-items:center;gap:6px;flex:1 1 auto;overflow-x:auto;scrollbar-width:none;}
+.tn-links{display:flex;align-items:center;gap:6px;flex:1 1 auto;overflow:hidden;scrollbar-width:none;min-width:0;}
 .tn-links::-webkit-scrollbar{display:none;}
+.tn-overflow-hidden{display:none!important;}
 .tn-link{
   border:1.5px solid transparent;background:none;color:var(--ink-soft);
   padding:8px 14px;border-radius:999px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;
@@ -486,34 +487,65 @@ h1{
 .tn-link.active{background:var(--teal);border-color:var(--teal);color:#fff;box-shadow:0 0 12px var(--glow-teal);}
 .tn-link.active .nav-ico{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20;}
 
-.tn-more-wrap{position:relative;flex:0 0 auto;}
-.tn-more-btn{
-  border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);
-  padding:8px 14px;border-radius:999px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;
-  cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap;
-  transition:border-color .18s ease, color .18s ease, background .18s ease;
+/* ===== أقسام المينيو الرئيسية اللي بينزل منها دروب داون لصفحات فرعية (tn-group) ===== */
+.tn-group{position:relative;display:flex;align-items:center;flex:0 0 auto;}
+.tn-group-caret-btn{
+  border:none;background:none;color:var(--ink-soft);cursor:pointer;
+  display:flex;align-items:center;padding:6px;margin-inline-start:-8px;border-radius:999px;
 }
-.tn-more-btn:hover{border-color:var(--navy);color:var(--navy);}
-.tn-more-btn.active{background:var(--navy);border-color:var(--navy);color:#fff;}
-.tn-more-caret{font-size:18px;transition:transform .2s ease;}
-.tn-more-wrap.open .tn-more-caret{transform:rotate(180deg);}
-.tn-more-panel{
-  display:none;position:absolute;top:calc(100% + 10px);inset-inline-end:0;
+.tn-group-caret-btn:hover{color:var(--teal);background:var(--teal-soft);}
+.tn-group-caret{font-size:18px;transition:transform .2s ease;}
+.tn-group.open .tn-group-caret{transform:rotate(180deg);}
+.tn-group-panel{
+  display:none;position:fixed;top:0;left:0;
   background:var(--card);border:1.5px solid var(--line);border-radius:14px;
-  box-shadow:var(--shadow-soft); padding:8px; min-width:230px;
-  flex-direction:column; gap:2px; z-index:210; max-height:70vh; overflow-y:auto;
+  box-shadow:var(--shadow-soft); padding:8px; min-width:220px;
+  flex-direction:column; gap:2px; z-index:400;
 }
-.tn-more-wrap.open .tn-more-panel{display:flex;}
-.tn-more-panel .view-tab{justify-content:flex-start;border-radius:9px;width:100%;box-sizing:border-box;}
+.tn-group.open .tn-group-panel{display:flex;}
+.tn-group-item{
+  border:none;background:none;color:var(--ink-soft);
+  padding:9px 12px;border-radius:9px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:13.5px;
+  cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;width:100%;box-sizing:border-box;
+  text-align:start;
+}
+.tn-group-item .nav-ico{font-size:18px;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 20;}
+.tn-group-item:hover{background:var(--teal-soft);color:var(--teal);}
+.tn-group-item.active{background:var(--teal);color:#fff;}
+.tn-group-item.active .nav-ico{font-variation-settings:'FILL' 1,'wght' 500,'GRAD' 0,'opsz' 20;}
 
 .tn-right{display:flex;align-items:center;gap:12px;flex:0 0 auto;margin-inline-start:auto;padding-inline-start:8px;}
-.tn-status{display:flex;align-items:center;gap:6px;flex-wrap:nowrap;}
-.tn-status .lvl-pill-badge, .tn-status .hours-pill-badge, .tn-status .cgpa-pill-badge{font-size:11px;padding:3px 8px;white-space:nowrap;}
-.tn-status .track-name-badge{font-size:12px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.tn-status .edit-track-btn{
-  border:none;background:none;color:var(--ink-soft);cursor:pointer;font-size:15px;padding:2px 4px;border-radius:6px;line-height:1;
+.tn-status-wrap{position:relative;}
+.tn-status-chip{
+  border:1.5px solid var(--line);background:var(--card);color:var(--ink-soft);
+  display:flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;
+  transition:border-color .18s ease, color .18s ease;
 }
-.tn-status .edit-track-btn:hover{color:var(--navy);background:var(--navy-soft);}
+.tn-status-chip .nav-ico{font-size:18px;}
+.tn-status-chip:hover{border-color:var(--navy);color:var(--navy);}
+.tn-status-wrap.open .tn-status-chip{border-color:var(--navy);color:var(--navy);background:var(--navy-soft);}
+.tn-status-panel{
+  display:none;position:absolute;top:calc(100% + 10px);inset-inline-end:0;
+  background:var(--card);border:1.5px solid var(--line);border-radius:14px;
+  box-shadow:var(--shadow-soft); padding:14px; width:230px; max-width:calc(100vw - 24px);
+  flex-direction:column; gap:10px; z-index:210;
+}
+.tn-status-wrap.open .tn-status-panel{display:flex;}
+.tn-status-panel .track-name-line{font-weight:800;font-size:14px;color:var(--ink);line-height:1.5;}
+.tn-status-panel .badges-row{display:flex;flex-wrap:wrap;gap:6px;}
+.tn-status-panel .lvl-pill-badge{
+  background:var(--navy);color:#fff;font-weight:800;font-size:12px;border-radius:999px;
+  padding:3px 10px;font-family:'IBM Plex Mono',monospace;
+}
+.tn-status-panel .hours-pill-badge, .tn-status-panel .cgpa-pill-badge{
+  background:var(--paper-2);color:var(--ink-soft);font-weight:700;font-size:12px;border-radius:999px;
+  padding:3px 10px;font-family:'IBM Plex Mono',monospace;border:1px solid var(--line);white-space:nowrap;
+}
+.tn-status-panel .cgpa-pill-badge{color:var(--teal);border-color:var(--teal);}
+.tn-status-panel .edit-track-btn{
+  width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:6px;
+}
 .top-nav .theme-toggle{width:50px;height:28px;background:var(--paper-2);border:1.5px solid var(--line);}
 .top-nav .theme-toggle .knob{width:21px;height:21px;top:2.3px;}
 .top-nav .theme-toggle:hover{border-color:var(--navy);box-shadow:0 0 12px var(--navy-soft);}
@@ -521,9 +553,6 @@ h1{
 
 body{padding-top:64px;}
 
-@media(max-width:980px){
-  .tn-status .track-name-badge{display:none;}
-}
 @media(max-width:900px){
   .tn-brand-word{display:none;}
 }
@@ -532,9 +561,8 @@ body{padding-top:64px;}
   .top-nav{height:56px;}
   body{padding-top:56px;}
   .tn-inner{padding:0 12px;gap:6px;justify-content:space-between;}
-  .tn-brand, .tn-links, .tn-more-wrap{display:none;}
+  .tn-brand, .tn-links{display:none;}
   .tn-right{margin-inline-start:0;gap:8px;padding-inline-start:0;}
-  .tn-status{gap:3px;}
 }
 
 /* ===== Page toolbar: search + filters live inside the page content, not the nav ===== */
@@ -1635,22 +1663,51 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 .goal-table .tag{
   display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;
 }
-.term-analysis-list{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-.term-analysis-row{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
-  background:var(--paper-2);border-radius:10px;padding:12px 16px;
+/* ===== تحليل أداء الترمات: چارت "الرحلة" التفاعلي المتحرك + كروت حلقات الأداء ===== */
+.term-chart-wrap{background:var(--paper-2);border-radius:18px;padding:20px 16px 12px;margin-top:6px;position:relative;overflow:visible;}
+.tpc-bar{transform-origin:bottom;animation:tpcGrow .7s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes tpcGrow{from{transform:scaleY(0);opacity:0;}to{transform:scaleY(1);opacity:1;}}
+.tpc-area{animation:tpcFade .9s ease .15s both;}
+@keyframes tpcFade{from{opacity:0;}to{opacity:1;}}
+.tpc-line{stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);animation:tpcDraw 1.15s cubic-bezier(.3,.7,.2,1) forwards;}
+@keyframes tpcDraw{to{stroke-dashoffset:0;}}
+.tpc-dot{transition:r .15s ease;cursor:pointer;}
+.tpc-dot-current{animation:tpcPulse 1.8s ease-in-out infinite;transform-origin:center;transform-box:fill-box;}
+@keyframes tpcPulse{0%,100%{filter:drop-shadow(0 0 0 var(--glow-navy));}50%{filter:drop-shadow(0 0 7px var(--glow-navy));}}
+.tpc-hit{fill:transparent;cursor:pointer;}
+.tpc-tooltip{
+  position:absolute;pointer-events:none;background:var(--card);border:1.5px solid var(--line);
+  border-radius:12px;padding:10px 14px;box-shadow:var(--shadow-soft);font-size:12.5px;
+  min-width:150px;opacity:0;transform:translate(-50%,-4px);transition:opacity .15s ease, transform .15s ease;
+  z-index:20;
 }
-.tar-name{font-weight:800;font-size:14px;}
-.tar-meta{font-size:12px;color:var(--ink-soft);}
-.tar-right{display:flex;align-items:center;gap:12px;}
-.tar-gpa{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:16px;color:var(--navy);}
-.term-chart-wrap{background:var(--paper-2);border-radius:14px;padding:16px 14px 10px;margin-top:6px;}
-.term-chart-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:6px;padding:0 4px;}
+.tpc-tooltip.show{opacity:1;transform:translate(-50%,-12px);}
+.tpc-tooltip .tt-name{font-weight:800;font-size:13.5px;margin-bottom:5px;}
+.tpc-tooltip .tt-row{display:flex;justify-content:space-between;gap:16px;color:var(--ink-soft);padding:2px 0;}
+.tpc-tooltip .tt-row b{color:var(--ink);font-family:'IBM Plex Mono',monospace;}
+.term-chart-legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;padding:0 4px;}
 .term-chart-legend span{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);}
 .term-chart-legend i{width:11px;height:11px;border-radius:3px;display:inline-block;}
+
+.term-ring-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px;}
+.term-ring-card{
+  flex:1 1 128px;max-width:158px;background:var(--paper-2);border-radius:16px;padding:14px 8px 12px;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  border:1.5px solid transparent;transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.term-ring-card:hover{transform:translateY(-3px);border-color:var(--navy);box-shadow:0 8px 18px var(--glow-navy);}
+.term-ring-svg{width:82px;height:82px;}
+.term-ring-track{fill:none;stroke:var(--line);stroke-width:8;}
+.term-ring-progress{fill:none;stroke-width:8;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;animation:tpcRing 1.1s cubic-bezier(.2,.8,.2,1) both;}
+@keyframes tpcRing{from{stroke-dashoffset:var(--ring-c);}}
+.term-ring-center{font-family:'IBM Plex Mono',monospace;font-weight:800;font-size:15.5px;}
+.term-ring-name{font-weight:800;font-size:12.5px;text-align:center;line-height:1.4;}
+.term-ring-tag{font-size:9.5px;font-weight:700;padding:2px 9px;border-radius:999px;white-space:nowrap;}
+.term-ring-meta{font-size:10.5px;color:var(--ink-soft);}
 @media(max-width:640px){
+  .term-ring-card{flex:1 1 96px;}
+  .term-ring-svg{width:70px;height:70px;}
   .goal-table{font-size:11.5px;}
-  .term-analysis-row{flex-direction:column;align-items:flex-start;}
 }
 
 /* ===== توقّع التخصص وتحويل المسار ===== */
@@ -1675,6 +1732,66 @@ button.chip:hover{box-shadow:0 6px 14px var(--glow-gold);transform:translateY(-2
 @media(max-width:640px){
   .fc-table{font-size:11.5px;}
   .fc-table th, .fc-table td{padding:6px;}
+}
+
+/* ===== خطة الوصول للتخصص/تحويل المسار — كارت بصري جديد ("توقعاتك" + خطة الترمات) ===== */
+.fc-plan-card{
+  position:relative; overflow:hidden; margin-top:16px; border-radius:18px;
+  border:1.5px solid var(--line); background:linear-gradient(160deg, var(--card) 0%, var(--paper-2) 100%);
+  box-shadow:var(--shadow-soft); padding:18px 18px 20px;
+}
+.fc-plan-card::before{
+  content:''; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background:
+    radial-gradient(420px 200px at 8% -10%, var(--glow-navy), transparent 60%),
+    radial-gradient(360px 200px at 105% 0%, var(--glow-gold), transparent 60%);
+}
+.fc-plan-eyebrow{
+  display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800;
+  color:var(--navy); background:var(--navy-soft); padding:5px 12px; border-radius:999px; letter-spacing:.2px;
+}
+.fc-plan-head{position:relative; display:flex; align-items:center; gap:18px; flex-wrap:wrap; margin:12px 0 16px;}
+.fc-plan-gauge{position:relative; width:96px; height:96px; flex:0 0 auto;}
+.fc-plan-gauge svg{width:100%; height:100%; transform:rotate(-90deg);}
+.fc-plan-gauge-track{fill:none; stroke:var(--line); stroke-width:9;}
+.fc-plan-gauge-fill{fill:none; stroke-width:9; stroke-linecap:round; transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1);}
+.fc-plan-gauge-target{stroke:var(--gold); stroke-width:2.5; stroke-dasharray:3 3;}
+.fc-plan-gauge-txt{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+.fc-plan-gauge-txt .v{font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:17px; color:var(--ink);}
+.fc-plan-gauge-txt .l{font-size:9px; color:var(--ink-soft);}
+.fc-plan-head-info{flex:1 1 220px; position:relative;}
+.fc-plan-headline{font-size:15px; font-weight:800; margin:8px 0 4px; line-height:1.6;}
+.fc-plan-headline b{color:var(--navy);}
+.fc-plan-sub{font-size:12.5px; color:var(--ink-soft); line-height:1.8;}
+.fc-plan-inputs{
+  position:relative; display:flex; gap:14px; flex-wrap:wrap; margin:6px 0 16px; padding:14px;
+  border-radius:14px; background:var(--navy-soft); border:1px dashed var(--navy);
+}
+.fc-plan-field{display:flex; flex-direction:column; gap:6px; flex:1 1 150px; min-width:140px;}
+.fc-plan-field label{font-size:11.5px; font-weight:800; color:var(--ink-soft);}
+.fc-plan-field input{
+  padding:9px 10px; border-radius:9px; border:1.5px solid var(--line);
+  background:var(--card); color:var(--ink); font-family:'IBM Plex Mono',monospace; font-size:13px;
+}
+.fc-plan-field input:focus{outline:none; border-color:var(--navy); box-shadow:0 0 0 3px var(--navy-soft);}
+.fc-roadmap{position:relative; display:flex; gap:0; overflow-x:auto; padding:8px 2px 14px; -webkit-overflow-scrolling:touch;}
+.fc-road-node{position:relative; display:flex; flex-direction:column; align-items:center; flex:0 0 auto; width:112px;}
+.fc-road-line{position:absolute; top:21px; right:50%; width:100%; height:3px; background:var(--line); z-index:0;}
+.fc-road-node:first-child .fc-road-line{display:none;}
+.fc-road-dot{
+  position:relative; z-index:1; width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:13px; color:var(--on-accent);
+  box-shadow:0 4px 12px rgba(0,0,0,.15); border:3px solid var(--card);
+}
+.fc-road-label{margin-top:8px; font-size:10.5px; color:var(--ink-soft); text-align:center;}
+.fc-road-gpa{font-family:'IBM Plex Mono',monospace; font-weight:800; font-size:13px; margin-top:2px;}
+.fc-road-cum{font-size:10px; color:var(--ink-soft);}
+.fc-plan-note{font-size:12px; color:var(--ink-soft); line-height:1.85; margin-top:6px;}
+@media(max-width:640px){
+  .fc-plan-card{padding:14px 12px 16px;}
+  .fc-plan-gauge{width:76px; height:76px;}
+  .fc-plan-gauge-txt .v{font-size:14px;}
+  .fc-road-node{width:92px;}
 }
 
 .home-card-cgpa{cursor:pointer;}
@@ -2782,17 +2899,9 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
           <path d="M5 16.9V11c0-1.1.9-2 2-2h3.2M12 7.1V9m0 0c0 1.1.9 2 2 2h3v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </span>
-      <span class="tn-brand-word">COURSE TREE</span>
     </div>
 
     <div class="tn-links" id="tnPrimaryNav"></div>
-
-    <div class="tn-more-wrap" id="tnMoreWrap">
-      <button class="tn-more-btn" id="mobileMenuBtn" type="button" aria-haspopup="true" aria-expanded="false">
-        <span>المزيد</span><span class="material-symbols-outlined tn-more-caret">expand_more</span>
-      </button>
-      <div class="tn-more-panel" id="viewTabGroup"></div>
-    </div>
 
     <div class="tn-right">
       <div class="tn-status" id="tabGroup"></div>
@@ -3283,7 +3392,16 @@ function finalizeTransferSpecialization(){
   const baseId = profile.transferBaseId;
   const baseOpt = TRANSFER_BASE_OPTIONS.find(o=>o.id===baseId);
   if(!baseId || !baseOpt) return;
-  if(!confirm(`هتتخصص رسمياً في "${baseOpt.label}"؟\nكل المواد اللي سجلتها من قائمة الاختيار الحر المرشحة هتتحول تلقائي لساعات تخصص رئيسي/فرعي حقيقية.`)) return;
+  const p = specializationProgress();
+  if(p.total < SPECIALIZATION_MANDATORY_MIN){
+    alert(`لسه مش مؤهل تتخصص: عندك ${p.total} ساعة مكتسبة بس من أصل ${SPECIALIZATION_MANDATORY_MIN} ساعة كحد أدنى مطلوب للتخصص الإجباري (أو ${SPECIALIZATION_TOTAL_TARGET} ساعة للتخصص العادي). خلّص الساعات الناقصة الأول من حاسبة المعدل قبل ما تتخصص.`);
+    return;
+  }
+  let confirmMsg = `هتتخصص رسمياً في "${baseOpt.label}"؟\nكل المواد اللي سجلتها من قائمة الاختيار الحر المرشحة هتتحول تلقائي لساعات تخصص رئيسي/فرعي حقيقية.`;
+  if(p.total < SPECIALIZATION_TOTAL_TARGET){
+    confirmMsg += `\n\n⚠️ ملحوظة: لسه ماخلصتش الـ${SPECIALIZATION_TOTAL_TARGET} ساعة كاملة (عندك ${p.total} بس)، فده هيبقى تخصص إجباري مبكر زي ما اللائحة بتسمح من ${SPECIALIZATION_MANDATORY_MIN} ساعة، مش تخصص عادي.`;
+  }
+  if(!confirm(confirmMsg)) return;
   profile.trackId = baseId;
   profile.transferBaseId = null;
   currentTrack = baseId;
@@ -3304,6 +3422,10 @@ function fcDefaultSpecApp(){ return { applied:false, decision:null, targetId:nul
 /* حالة "طلب تحويل المسار" — لطالب متخصص بالفعل. usedTransfer بيتسجّل true بمجرد ما
    تحويل مسار واحد يتقبل رسميًا، وبعدها الأداة بتتقفل خالص (اللائحة بتسمح بمرة واحدة بس). */
 function fcDefaultTransferApp(){ return { applied:false, decision:null, targetId:null, usedTransfer:false }; }
+/* حالة "خطة الوصول" (لو الـCGPA الحالي تحت أقل حد متوقع للتنسيق) — بتتخزن منفصلة لكل من
+   جزء التخصص وجزء تحويل المسار، وبتتغذّى لنفس محرك computeGoalPlan المستخدم في "الوصول لهدف
+   معين" و"الدرجة الخاصة"، لكن هدفها هنا بيتحدد أوتوماتيك = أقل حد متوقع للتنسيق المستهدف. */
+function fcDefaultPlanState(){ return { terms:'', hours:'', termHours:{}, baseHours:'', baseCgpa:'' }; }
 function fcDefaultData(){
   const spec = {}, transfer = {};
   FORECAST_TRACKS.forEach(t=>{
@@ -3313,7 +3435,8 @@ function fcDefaultData(){
   return {
     spec, transfer,
     specTargetTrack:'', transferTargetTrack:'', remainingTerms:'',
-    specApp: fcDefaultSpecApp(), transferApp: fcDefaultTransferApp()
+    specApp: fcDefaultSpecApp(), transferApp: fcDefaultTransferApp(),
+    specPlan: fcDefaultPlanState(), transferPlan: fcDefaultPlanState()
   };
 }
 let forecastData = fcDefaultData();
@@ -3849,6 +3972,8 @@ async function loadState(){
       fresh.remainingTerms = loaded.remainingTerms || '';
       fresh.specApp = {...fresh.specApp, ...(loaded.specApp||{})};
       fresh.transferApp = {...fresh.transferApp, ...(loaded.transferApp||{})};
+      fresh.specPlan = {...fresh.specPlan, ...(loaded.specPlan||{}), termHours:{...(loaded.specPlan&&loaded.specPlan.termHours||{})}};
+      fresh.transferPlan = {...fresh.transferPlan, ...(loaded.transferPlan||{}), termHours:{...(loaded.transferPlan&&loaded.transferPlan.termHours||{})}};
       forecastData = fresh;
     }
   }catch(e){ forecastData = fcDefaultData(); }
@@ -4527,33 +4652,71 @@ function openCourseBankModal(){
 }
 
 /* ================= NAV BUILD ================= */
-/* الفكرة الجديدة: مينيو ثابت فوق زي المواقع، فيه ٤ أقسام أساسية ظاهرة على طول
-   (الرئيسية - قائمة المقررات - تسجيل المواد - أدوات المذاكرة) وبعدين "المزيد" فيها باقي
-   الأقسام. شريط المستوى/الساعات/الـCGPA بقى بادچ صغير جوه المينيو نفسه. */
-const TOP_NAV_PRIMARY_IDS = ["home","list","cgpa","study"];
-const tabGroup = document.getElementById('tabGroup'); // .tn-status badge inside the top nav
+/* الفكرة الجديدة: مينيو ثابت فوق زي المواقع، فيه أقسام أساسية ظاهرة على طول وكل قسم منها
+   ممكن ينزل منه دروب داون فيه صفحات فرعية مرتبطة بيه. اللي مش داخل أي جروب (زي "الدرجة
+   الخاصة" و"مطوّرين النظام") بيفضل في "المزيد". شريط المستوى/الساعات/الـCGPA بقى بادچ
+   صغير جوه المينيو نفسه. */
+const NAV_GROUPS = [
+  {id:"home"},
+  {id:"list", children:["graph"]},
+  {id:"cgpa", children:["register","schedule","transcript"]},
+  {id:"study", children:["games"]},
+  {id:"forecast", children:["regs"]},
+  {id:"special"},
+  {id:"developers"}
+];
+const NAV_GROUP_ALL_IDS = NAV_GROUPS.flatMap(g=>[g.id, ...(g.children||[])]);
+const tabGroup = document.getElementById('tabGroup'); // .tn-status wrap inside the top nav (بقى چيب صغير بيفتح بوب أوفر)
+function closeStatusPanel(){
+  tabGroup.classList.remove('open');
+  const chipBtn = tabGroup.querySelector('.tn-status-chip');
+  if(chipBtn) chipBtn.setAttribute('aria-expanded','false');
+}
 function renderTrackBadge(){
   const track = TRACKS.find(t=>t.id===currentTrack);
   const lvl = effectiveLevel();
   const hrs = effectiveHours();
   const overall = overallCgpaStats();
   const cgpaTxt = overall.cgpa!=null ? overall.cgpa.toFixed(4) : '—';
+  tabGroup.classList.add('tn-status-wrap');
   tabGroup.innerHTML = `
-    <span class="lvl-pill-badge">مستوى ${lvl||'؟'}</span>
-    <span class="track-name-badge">${track ? track.label : 'لم يُحدَّد بعد'}</span>
-    <span class="hours-pill-badge" title="الساعات المكتسبة">🎓 ${hrs} س</span>
-    <span class="cgpa-pill-badge" title="المعدل التراكمي">📊 ${cgpaTxt}</span>
-    <button class="edit-track-btn" id="editProfileBtn" title="تعديل التخصص / المستوى">✏️</button>`;
-  document.getElementById('editProfileBtn').onclick = ()=> openProfileModal(false);
+    <button class="tn-status-chip" id="statusChipBtn" type="button" aria-haspopup="true" aria-expanded="false" title="المستوى والساعات والتخصص">
+      <span class="material-symbols-outlined nav-ico">school</span>
+      <span>${lvl||'؟'}</span>
+    </button>
+    <div class="tn-status-panel" id="statusPanel">
+      <div class="track-name-line">${track ? track.label : 'لم يُحدَّد بعد'}</div>
+      <div class="badges-row">
+        <span class="lvl-pill-badge">مستوى ${lvl||'؟'}</span>
+        <span class="hours-pill-badge" title="الساعات المكتسبة">🎓 ${hrs} س</span>
+        <span class="cgpa-pill-badge" title="المعدل التراكمي">📊 ${cgpaTxt}</span>
+      </div>
+      <button class="edit-track-btn" id="editProfileBtn">✏️ تعديل التخصص / المستوى</button>
+    </div>`;
+  const chipBtn = document.getElementById('statusChipBtn');
+  chipBtn.onclick = (e)=>{
+    e.stopPropagation();
+    const isOpen = tabGroup.classList.contains('open');
+    closeAllNavGroups();
+    closeStatusPanel();
+    if(!isOpen){ tabGroup.classList.add('open'); chipBtn.setAttribute('aria-expanded','true'); }
+  };
+  document.getElementById('editProfileBtn').onclick = ()=>{ closeStatusPanel(); openProfileModal(false); };
   updateSpecialTabVisibility();
+}
+if(!window.__statusPanelOutsideClickBound){
+  window.__statusPanelOutsideClickBound = true;
+  document.addEventListener('click', (e)=>{
+    const wrap = document.getElementById('tabGroup');
+    if(wrap && !e.target.closest('.tn-status-wrap')) closeStatusPanel();
+  });
 }
 /* تبويب "الدرجة الخاصة" بيظهر بس لو التخصص الحالي بيفتح درجة خاصة (رياضة/حاسب أو حاسب/إحصاء)
    ومش درجة خاصة من الأول. بيتنادى بعد أي تغيير في البروفايل عشان يتحدّث فورًا. */
 function updateSpecialTabVisibility(){
   const show = specialDegreeEligible();
-  if(viewTabGroup){
-    const btn = viewTabGroup.querySelector('[data-id="special"]');
-    if(btn) btn.style.display = show ? '' : 'none';
+  if(navGroupWraps.special){
+    navGroupWraps.special.style.display = show ? '' : 'none';
   }
   if(moreSheetList){
     const msBtn = moreSheetList.querySelector('[data-id="special"]');
@@ -4581,9 +4744,7 @@ function updatePageToolbar(){
   if(filtersEl) filtersEl.style.display = showFilters ? '' : 'none';
 }
 
-const viewTabGroup = document.getElementById('viewTabGroup'); // "المزيد" dropdown panel (secondary views)
-const tnPrimaryNav = document.getElementById('tnPrimaryNav'); // top-level nav links (primary views)
-const tnMoreWrap = document.getElementById('tnMoreWrap');
+const tnPrimaryNav = document.getElementById('tnPrimaryNav'); // top-level nav links (كل الصفحات ظاهرة هنا مباشرة)
 function goToView(id, opts){
   opts = opts || {};
   if(hoursGapRemaining()>0 && !HOURS_GAP_ALLOWED_VIEWS.has(id)){
@@ -4594,28 +4755,213 @@ function goToView(id, opts){
   renderViewTabs();
   closeSearch();
   renderCurrentView();
-  if(tnMoreWrap) tnMoreWrap.classList.remove('open');
+  closeAllNavGroups();
+  closeStatusPanel();
   closeMoreSheet();
 }
-if(tnPrimaryNav){
-  VIEWS.filter(v=>TOP_NAV_PRIMARY_IDS.includes(v.id)).forEach(v=>{
-    const b = document.createElement('button');
-    b.className = 'tn-link'+(v.id===currentView?' active':'');
-    b.innerHTML = `<span class="material-symbols-outlined nav-ico">${v.icon}</span><span>${v.label}</span>`;
-    b.onclick = ()=> goToView(v.id);
-    b.dataset.id = v.id;
-    tnPrimaryNav.appendChild(b);
+/* بيقفل أي دروب داون مفتوح من أقسام المينيو الأساسية (tn-group)، ما عدا واحد بعينه لو محتاجينه يفضل مفتوح */
+function closeAllNavGroups(exceptWrap){
+  document.querySelectorAll('.tn-group.open').forEach(g=>{
+    if(g===exceptWrap) return;
+    g.classList.remove('open');
+    const caret = g.querySelector('.tn-group-caret-btn');
+    if(caret) caret.setAttribute('aria-expanded','false');
   });
 }
-VIEWS.filter(v=>!TOP_NAV_PRIMARY_IDS.includes(v.id)).forEach(v=>{
-  const b = document.createElement('button');
-  b.className = 'view-tab'+(v.id===currentView?' active':'');
-  b.innerHTML = `<span class="material-symbols-outlined nav-ico">${v.icon}</span><span>${v.label}</span>`;
-  b.onclick = ()=> goToView(v.id);
-  b.dataset.id = v.id;
-  viewTabGroup.appendChild(b);
-});
+function openNavGroup(wrap, panel){
+  closeAllNavGroups(wrap);
+  const rect = wrap.getBoundingClientRect();
+  panel.style.top = (rect.bottom + 10) + 'px';
+  panel.style.left = Math.max(8, rect.left) + 'px';
+  wrap.classList.add('open');
+  const caret = wrap.querySelector('.tn-group-caret-btn');
+  if(caret) caret.setAttribute('aria-expanded','true');
+}
+const navGroupWraps = {}; // group.id -> wrap element (عشان نظبط ظهور/إخفاء تبويبات زي "الدرجة الخاصة")
+let navGroupHoverTimer = null;
+if(tnPrimaryNav){
+  NAV_GROUPS.forEach(group=>{
+    const gv = VIEWS.find(v=>v.id===group.id);
+    if(!gv) return;
+    const hasChildren = group.children && group.children.length;
+    const wrap = document.createElement('div');
+    wrap.className = 'tn-group';
+    wrap.dataset.groupId = group.id;
+    navGroupWraps[group.id] = wrap;
 
+    const b = document.createElement('button');
+    b.className = 'tn-link'+(group.id===currentView?' active':'');
+    b.innerHTML = `<span class="material-symbols-outlined nav-ico">${gv.icon}</span><span>${gv.label}</span>`;
+    b.dataset.id = group.id;
+    b.onclick = ()=>{ closeAllNavGroups(); goToView(group.id); };
+    wrap.appendChild(b);
+
+    if(hasChildren){
+      const caret = document.createElement('button');
+      caret.type = 'button';
+      caret.className = 'tn-group-caret-btn';
+      caret.setAttribute('aria-label', `عرض صفحات ${gv.label}`);
+      caret.setAttribute('aria-haspopup','true');
+      caret.setAttribute('aria-expanded','false');
+      caret.innerHTML = `<span class="material-symbols-outlined tn-group-caret">expand_more</span>`;
+      wrap.appendChild(caret);
+
+      const panel = document.createElement('div');
+      panel.className = 'tn-group-panel';
+      group.children.forEach(childId=>{
+        const cv = VIEWS.find(v=>v.id===childId);
+        if(!cv) return;
+        const cb = document.createElement('button');
+        cb.className = 'tn-group-item'+(childId===currentView?' active':'');
+        cb.dataset.id = childId;
+        cb.innerHTML = `<span class="material-symbols-outlined nav-ico">${cv.icon}</span><span>${cv.label}</span>`;
+        cb.onclick = (e)=>{ e.stopPropagation(); closeAllNavGroups(); goToView(childId); };
+        panel.appendChild(cb);
+      });
+      wrap.appendChild(panel);
+
+      caret.onclick = (e)=>{
+        e.stopPropagation();
+        const isOpen = wrap.classList.contains('open');
+        if(isOpen){
+          wrap.classList.remove('open');
+          caret.setAttribute('aria-expanded','false');
+        } else {
+          openNavGroup(wrap, panel);
+        }
+      };
+      /* هوفر بالماوس: يفتح لما تدخل، ويقفل تاني (بعد تأخير بسيط) لما تمشي بعيد */
+      wrap.addEventListener('mouseenter', ()=>{
+        clearTimeout(navGroupHoverTimer);
+        openNavGroup(wrap, panel);
+      });
+      wrap.addEventListener('mouseleave', ()=>{
+        clearTimeout(navGroupHoverTimer);
+        navGroupHoverTimer = setTimeout(()=>{
+          wrap.classList.remove('open');
+          caret.setAttribute('aria-expanded','false');
+        }, 150);
+      });
+    }
+    tnPrimaryNav.appendChild(wrap);
+  });
+  document.addEventListener('click', (e)=>{
+    if(!e.target.closest('.tn-group')) closeAllNavGroups();
+  });
+}
+/* ===== "المزيد" في المينيو الرئيسي: أي قسم مش لاقي مكان له بيتنقل هنا بدل ما يختفي أو يتعمله سكرول ===== */
+let tnMoreWrap = null, tnMorePanel = null;
+if(tnPrimaryNav){
+  tnMoreWrap = document.createElement('div');
+  tnMoreWrap.className = 'tn-group tn-more-group';
+  tnMoreWrap.dataset.groupId = '__more';
+  tnMoreWrap.style.display = 'none';
+
+  const moreBtn = document.createElement('button');
+  moreBtn.type = 'button';
+  moreBtn.className = 'tn-link';
+  moreBtn.innerHTML = `<span class="material-symbols-outlined nav-ico">more_horiz</span><span>المزيد</span>`;
+  tnMoreWrap.appendChild(moreBtn);
+
+  const moreCaret = document.createElement('button');
+  moreCaret.type = 'button';
+  moreCaret.className = 'tn-group-caret-btn';
+  moreCaret.setAttribute('aria-label', 'عرض باقي الأقسام');
+  moreCaret.setAttribute('aria-haspopup','true');
+  moreCaret.setAttribute('aria-expanded','false');
+  moreCaret.innerHTML = `<span class="material-symbols-outlined tn-group-caret">expand_more</span>`;
+  tnMoreWrap.appendChild(moreCaret);
+
+  tnMorePanel = document.createElement('div');
+  tnMorePanel.className = 'tn-group-panel';
+  tnMoreWrap.appendChild(tnMorePanel);
+
+  const toggleMore = ()=>{
+    const isOpen = tnMoreWrap.classList.contains('open');
+    if(isOpen){
+      tnMoreWrap.classList.remove('open');
+      moreCaret.setAttribute('aria-expanded','false');
+    } else {
+      openNavGroup(tnMoreWrap, tnMorePanel);
+    }
+  };
+  moreBtn.onclick = (e)=>{ e.stopPropagation(); toggleMore(); };
+  moreCaret.onclick = (e)=>{ e.stopPropagation(); toggleMore(); };
+  tnMoreWrap.addEventListener('mouseenter', ()=>{
+    clearTimeout(navGroupHoverTimer);
+    openNavGroup(tnMoreWrap, tnMorePanel);
+  });
+  tnMoreWrap.addEventListener('mouseleave', ()=>{
+    clearTimeout(navGroupHoverTimer);
+    navGroupHoverTimer = setTimeout(()=>{
+      tnMoreWrap.classList.remove('open');
+      moreCaret.setAttribute('aria-expanded','false');
+    }, 150);
+  });
+  tnPrimaryNav.appendChild(tnMoreWrap);
+}
+/* بتحسب مساحة المينيو، ولو الأقسام كلها مش هتضبط جنب بعض، بتنقل الأقسام الزيادة (من الآخر) جوه "المزيد" بدل ما تختفي أو تحتاج سكرول */
+function layoutTopNav(){
+  if(!tnPrimaryNav || !tnMoreWrap) return;
+  const groupWraps = NAV_GROUPS.map(g=>navGroupWraps[g.id]).filter(Boolean);
+  // نرجّع كل الأقسام ظاهرة الأول عشان نقيس مساحتها الطبيعية (ما عدا اللي متخفي لأسباب منطق العمل زي "special")
+  groupWraps.forEach(w=> w.classList.remove('tn-overflow-hidden'));
+  tnMoreWrap.classList.remove('tn-overflow-hidden');
+  tnMoreWrap.style.display = 'none';
+  tnMorePanel.innerHTML = '';
+
+  const eligible = groupWraps.filter(w=> w.style.display !== 'none');
+  const containerWidth = tnPrimaryNav.clientWidth;
+  const gap = 6; // نفس القيمة بتاعة gap في .tn-links
+  const totalWidth = eligible.reduce((sum,w)=> sum + w.offsetWidth + gap, 0);
+  if(totalWidth <= containerWidth) return; // كله ضابط جنب بعض، مفيش داعي لـ"المزيد"
+
+  tnMoreWrap.style.display = 'flex';
+  const moreBtnWidth = tnMoreWrap.offsetWidth + gap;
+  let runningWidth = 0;
+  const overflowGroupIds = [];
+  eligible.forEach(w=>{
+    const wWidth = w.offsetWidth + gap;
+    if(overflowGroupIds.length===0 && runningWidth + wWidth + moreBtnWidth <= containerWidth){
+      runningWidth += wWidth;
+    } else {
+      overflowGroupIds.push(w.dataset.groupId);
+      w.classList.add('tn-overflow-hidden');
+    }
+  });
+  if(overflowGroupIds.length===0){
+    tnMoreWrap.style.display = 'none';
+    return;
+  }
+  overflowGroupIds.forEach(gid=>{
+    const group = NAV_GROUPS.find(g=>g.id===gid);
+    const gv = VIEWS.find(v=>v.id===gid);
+    if(!gv) return;
+    addMorePanelItem(gv, gid===currentView);
+    (group.children||[]).forEach(childId=>{
+      const cv = VIEWS.find(v=>v.id===childId);
+      if(cv) addMorePanelItem(cv, childId===currentView);
+    });
+  });
+}
+function addMorePanelItem(v, isActive){
+  const btn = document.createElement('button');
+  btn.className = 'tn-group-item'+(isActive?' active':'');
+  btn.dataset.id = v.id;
+  btn.innerHTML = `<span class="material-symbols-outlined nav-ico">${v.icon}</span><span>${v.label}</span>`;
+  btn.onclick = (e)=>{ e.stopPropagation(); closeAllNavGroups(); goToView(v.id); };
+  tnMorePanel.appendChild(btn);
+}
+let tnLayoutTimer = null;
+function scheduleTopNavLayout(){
+  clearTimeout(tnLayoutTimer);
+  tnLayoutTimer = setTimeout(layoutTopNav, 60);
+}
+window.addEventListener('resize', scheduleTopNavLayout);
+if(typeof ResizeObserver !== 'undefined' && tnPrimaryNav){
+  new ResizeObserver(scheduleTopNavLayout).observe(tnPrimaryNav);
+}
+scheduleTopNavLayout();
 /* ===== Bottom nav (موبايل): ٤ اختصارات أساسية + "المزيد" بيفتح شيت فيه كل الأقسام ===== */
 const BOTTOM_NAV_IDS = ["home","list","register","cgpa","transcript"];
 const bottomNav = document.getElementById('bottomNav');
@@ -4665,11 +5011,14 @@ if(moreSheetOverlay){
 }
 function renderViewTabs(){
   if(tnPrimaryNav){
-    [...tnPrimaryNav.children].forEach(b=> b.classList.toggle('active', b.dataset.id===currentView));
-  }
-  [...viewTabGroup.children].forEach(b=> b.classList.toggle('active', b.dataset.id===currentView));
-  if(mobileMenuBtn){
-    mobileMenuBtn.classList.toggle('active', !TOP_NAV_PRIMARY_IDS.includes(currentView));
+    [...tnPrimaryNav.children].forEach(wrap=>{
+      const group = NAV_GROUPS.find(g=>g.id===wrap.dataset.groupId);
+      if(!group) return;
+      const childIds = group.children || [];
+      const mainBtn = wrap.querySelector('.tn-link');
+      if(mainBtn) mainBtn.classList.toggle('active', group.id===currentView || childIds.includes(currentView));
+      wrap.querySelectorAll('.tn-group-item').forEach(cb=> cb.classList.toggle('active', cb.dataset.id===currentView));
+    });
   }
   if(bottomNav){
     [...bottomNav.children].forEach(b=>{
@@ -4681,22 +5030,8 @@ function renderViewTabs(){
     [...moreSheetList.children].forEach(b=> b.classList.toggle('active', b.dataset.id===currentView));
   }
   updatePageToolbar();
+  scheduleTopNavLayout();
 }
-const mobileMenuBtn = document.getElementById('mobileMenuBtn'); // "المزيد" dropdown toggle in the top nav
-if(mobileMenuBtn && tnMoreWrap){
-  mobileMenuBtn.addEventListener('click', (e)=>{
-    e.stopPropagation();
-    const open = tnMoreWrap.classList.toggle('open');
-    mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  document.addEventListener('click', (e)=>{
-    if(!tnMoreWrap.classList.contains('open')) return;
-    if(tnMoreWrap.contains(e.target)) return;
-    tnMoreWrap.classList.remove('open');
-    mobileMenuBtn.setAttribute('aria-expanded', 'false');
-  });
-}
-
 const lvlChipsWrap = document.getElementById('lvlChips');
 function renderLvlChips(){
   lvlChipsWrap.innerHTML = '';
@@ -4728,7 +5063,7 @@ document.getElementById('typeSelect').addEventListener('change', (e)=>{
 });
 
 /* ================= HELPERS ================= */
-function fullCode(code){ return "0401"+code; }
+function fullCode(code){ return "040"+code; }
 
 /* ترشيح "الترم المتوقع" (تقديري بس، مش قاعدة رسمية من الكلية): آخر رقم في كود المقرر فردي ⇐ الترم
    الأول غالباً، وزوجي ⇐ الترم الثاني غالباً. دي عادة بتتبع ترتيب الكلية بس مش ملزمة خالص — ممكن مادة
@@ -5165,13 +5500,15 @@ function specializationProgress(){
     if(cc.kind==='univ-elective' && isCourseAcquired(cc.code)) univElecHrs += Number(cc.hours)||0;
   });
   collegeHrs = Math.min(collegeHrs, SPECIALIZATION_COLLEGE_TARGET);
-  univElecHrs = Math.min(univElecHrs, SPECIALIZATION_UNIV_ELECTIVE_TARGET);
+  /* متطلب الجامعة الاختياري + الاختيار الحر بيتحسبوا مع بعض من غير سقف تصنيعي على الـ6 —
+     لو الطالب خلّص منهم أكتر من 6 ساعة (مثلاً من الاختيار الحر) بيظهرله الرقم الحقيقي زي 10/6. */
+  const freeElecHrs = freeElectiveCreditHours();
+  const electiveCombinedHrs = univElecHrs + freeElecHrs;
   /* الإجمالي المعتبر في الأهلية = إجمالي الساعات المكتسبة الفعلية للطالب (من أي مواد نجح فيها،
-     مش بس متطلب الكلية ومتطلب الجامعة الاختياري)، مقفول على 32 كحد أقصى. ده عشان لو الطالب خلّص
-     30 ساعة إجمالي بأي توزيع (حتى لو الساعتين الناقصين من الـ32 كانوا تحديدًا من متطلب الكلية)
-     يتخصص إجباري زي ما اللائحة بتنص، بدل ما يتقفل الحساب على توزيع 26+6 بالظبط. */
-  const total = Math.min(totalAcquiredHoursRaw(), SPECIALIZATION_TOTAL_TARGET);
-  return { collegeHrs, univElecHrs, total };
+     مش بس متطلب الكلية ومتطلب الجامعة الاختياري)، من غير سقف على العرض — لو خلّص أكتر من 32
+     ساعة بيظهرله الرقم الحقيقي (زي 36/32) بدل ما يتقفل على 32. */
+  const total = totalAcquiredHoursRaw();
+  return { collegeHrs, univElecHrs, freeElecHrs, electiveCombinedHrs, total };
 }
 function specializationEligibilityHtml(){
   /* الحتة دي بتفيد بس لسه ما اتخصصش فعليًا (يعني حالته "محوّل أو متأخر" — مفيش قسم رئيسي حقيقي
@@ -5190,10 +5527,10 @@ function specializationEligibilityHtml(){
     statusHtml = `<span style="color:var(--maroon);font-weight:800;">⛔ لسه مش مؤهل للتخصص خالص — لازم توصل 30 ساعة على الأقل (فاضلك ${SPECIALIZATION_MANDATORY_MIN-p.total} ساعة) عشان تتخصص إجباري، أو 32 ساعة كاملة للتخصص العادي</span>`;
   }
   return `<div class="goal-section" id="specEligibilitySection">
-    <div class="track-head"><h2>📐 أهلية التخصص ${infoTip('التخصص العادي بيتطلب إكمال 32 ساعة مكتسبة إجمالي (مش شرط توزيع معيّن بالظبط)، والتخصص الإجباري بيتفعّل من 30 ساعة فأكتر. المرجعية 26 ساعة كلية + 6 ساعات جامعة اختيارية موجودة هنا كتوضيح لأكتر جزء بيتكوّن منه الـ32 ساعة دي عادةً، لكن الإجمالي الفعلي بيتحسب من كل الساعات اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة)، مش بس من الكليتين دول تحديدًا.')}</h2></div>
+    <div class="track-head"><h2>📐 أهلية التخصص ${infoTip('التخصص العادي بيتطلب إكمال 32 ساعة مكتسبة إجمالي (مش شرط توزيع معيّن بالظبط)، والتخصص الإجباري بيتفعّل من 30 ساعة فأكتر. المرجعية 26 ساعة كلية + 6 ساعات (متطلب جامعة اختياري + اختيار حر) موجودة هنا كتوضيح لأكتر جزء بيتكوّن منه الـ32 ساعة دي عادةً، لكن الإجمالي الفعلي بيتحسب من كل الساعات اللي نجحت فيها فعلاً في حاسبة المعدل (مش مجرد مسجّلة)، مش بس من البندين دول تحديدًا. ولو خلّصت ساعات أكتر من المطلوب في أي بند، بيظهرلك الرقم الحقيقي زي ما هو من غير ما يتقفل على السقف.')}</h2></div>
     <div class="progress-stats">
       <div class="pstat"><div class="n">${p.collegeHrs}/${SPECIALIZATION_COLLEGE_TARGET}</div><div class="l">ساعات متطلبات الكلية</div></div>
-      <div class="pstat"><div class="n">${p.univElecHrs}/${SPECIALIZATION_UNIV_ELECTIVE_TARGET}</div><div class="l">ساعات متطلبات الجامعة الاختيارية</div></div>
+      <div class="pstat"><div class="n">${p.electiveCombinedHrs}/${SPECIALIZATION_UNIV_ELECTIVE_TARGET}</div><div class="l">ساعات متطلب الجامعة الاختياري + الاختيار الحر</div></div>
       <div class="pstat"><div class="n">${p.total}/${SPECIALIZATION_TOTAL_TARGET}</div><div class="l">الإجمالي</div></div>
     </div>
     <p style="margin-top:12px;line-height:1.8;">${statusHtml}</p>
@@ -5418,7 +5755,214 @@ function reapplyTransfer(){
   renderCurrentView();
 }
 
+/* ================= خطة الوصول لتنسيق التخصص/تحويل المسار (كارت بصري جديد) =================
+   بتتفعّل بس لو الـCGPA الحالي أقل من أقل حد متوقع للتنسيق المستهدف (verdict = 'no')، أو جواه
+   النطاق ولسه مش مضمون (verdict = 'maybe') — في الحالتين الهدف هو "أقل حد متوقع" نفسه، وبنستخدم
+   نفس محرك computeGoalPlan (المستخدم في "الوصول لهدف معين" والدرجة الخاصة) عشان نطلع خطة حقيقية:
+   كام ترم، بكام ساعة، وبمعدل قد إيه كل ترم، عشان يوصل. */
+function fcPlanRef(prefix){ return prefix==='spec' ? forecastData.specPlan : forecastData.transferPlan; }
+/* شريط بصري (0 → 4.00) بيوضّح مكان الـCGPA الحالي والهدف المطلوب عليه، كخلفية سريعة قبل التفاصيل. */
+function fcPlanGaugeHtml(cgpaNow, T){
+  const R = 40, C = 2*Math.PI*R;
+  const pct = Math.max(0, Math.min(1, (cgpaNow??0)/4));
+  const tPct = Math.max(0, Math.min(1, T/4));
+  const dash = C*pct, tOffset = C*(1-tPct);
+  const color = (cgpaNow!=null && cgpaNow>=T) ? 'var(--teal)' : 'var(--maroon)';
+  return `<div class="fc-plan-gauge">
+    <svg viewBox="0 0 100 100">
+      <circle class="fc-plan-gauge-track" cx="50" cy="50" r="${R}"></circle>
+      <circle class="fc-plan-gauge-fill" cx="50" cy="50" r="${R}" stroke="${color}"
+        stroke-dasharray="${C}" stroke-dashoffset="${C-dash}"></circle>
+      <circle class="fc-plan-gauge-target" cx="50" cy="50" r="${R}"
+        stroke-dasharray="${C}" stroke-dashoffset="${tOffset}"></circle>
+    </svg>
+    <div class="fc-plan-gauge-txt"><span class="v">${cgpaNow!=null?cgpaNow.toFixed(2):'—'}</span><span class="l">حاليًا</span></div>
+  </div>`;
+}
+/* خارطة طريق أفقية: نقطة لكل ترم قادم، بتوضّح الـGPA المطلوب فيه ولونها بيتغيّر حسب صعوبة
+   المعدل المطلوب (نفس منطق gpaDifficultyTag)، والـCGPA التراكمي المتوقع تحت كل نقطة. */
+function fcRoadmapHtml(prefix, plan){
+  const rows = goalTermsTable(plan);
+  const colorMap = {'gt-easy':'var(--teal)', 'gt-ok':'var(--navy)', 'gt-hard':'var(--gold)', 'gt-vhard':'var(--maroon)', 'gt-impossible':'var(--maroon)'};
+  return `<div class="fc-roadmap">
+    ${rows.map(r=>{
+      const tag = gpaDifficultyTag(r.gpa);
+      const color = colorMap[tag.cls] || 'var(--navy)';
+      return `<div class="fc-road-node">
+        <div class="fc-road-line"></div>
+        <div class="fc-road-dot" style="background:${color};">${r.term}</div>
+        <div class="fc-road-label">ترم ${r.term} · <input type="number" class="fc-plan-term-hours-inp" data-prefix="${prefix}" data-term="${r.term}" min="1" max="${GOAL_MAX_H_EXT}" step="1" value="${r.hours}" style="width:38px;padding:2px 4px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:10.5px;text-align:center;"> س</div>
+        <div class="fc-road-gpa" style="color:${color};">${r.gpa.toFixed(2)}</div>
+        <div class="fc-road-cum">CGPA متوقع: ${r.cum.toFixed(2)}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+/* الجسم الكامل لكارت الخطة، بمدخلات (عدد الترمات + متوسط الساعات) ونتيجة فورية تحتها. targetLabel
+   بيظهر في العنوان بس، وT هو أقل حد متوقع (أو null لو الطالب لسه ما دخّلش تنسيق متوقع خالص). */
+function renderFcPlanCardHtml(prefix, targetLabel, T, verdict){
+  if(T==null) return '';
+  if(verdict==='yes') return '';
+  const plan = fcPlanRef(prefix);
+  const overall = overallCgpaStats();
+
+  const bH = parseFloat(plan.baseHours), bC = parseFloat(plan.baseCgpa);
+  const baseHoursFilled = plan.baseHours!=='' && plan.baseHours!=null;
+  const baseCgpaFilled = plan.baseCgpa!=='' && plan.baseCgpa!=null;
+  let baseOverride = null, baseWarnHtml = '';
+  if(baseHoursFilled || baseCgpaFilled){
+    if(!baseHoursFilled || !baseCgpaFilled){
+      baseWarnHtml = `<p class="goal-warn">⚠️ عشان تجرّب سيناريو افتراضي، لازم تملأ الساعتين (الساعات المكتسبة والـCGPA) مع بعض — سيبهم فاضيين خالص لو عايز تستخدم بياناتك الحقيقية المسجّلة في حاسبة المعدل.</p>`;
+    } else if(isNaN(bH) || bH<0 || isNaN(bC) || bC<0 || bC>4){
+      baseWarnHtml = `<p class="goal-warn">⚠️ تأكد إن الساعات رقم موجب والـCGPA بين 0 و4.00.</p>`;
+    } else {
+      baseOverride = { hours:bH, cgpa:bC };
+    }
+  }
+  const cgpaNow = baseOverride ? baseOverride.cgpa : overall.cgpa;
+  const usingScenario = !!baseOverride;
+  const gapTxt = cgpaNow!=null ? Math.max(0, T-cgpaNow).toFixed(2) : T.toFixed(2);
+
+  let bodyHtml = baseWarnHtml;
+  const N = parseInt(plan.terms, 10);
+  const h = parseFloat(plan.hours);
+  if(!plan.terms || isNaN(N) || N<=0){
+    bodyHtml += `<p class="goal-empty">دخّل عدد الترمات القادمة اللي ناوي تحسّن فيها، وهنطلعلك خطة ترم بترم بالمعدل المطلوب عشان توصل «${escapeHtml(targetLabel)}» (بأقل حد متوقع ${T.toFixed(2)}).</p>`;
+  } else if(plan.hours && (isNaN(h) || h<GOAL_MIN_H || h>GOAL_MAX_H_EXT)){
+    bodyHtml += `<p class="goal-warn">⚠️ متوسط الساعات لازم يكون بين ${GOAL_MIN_H} و${GOAL_MAX_H_EXT} ساعة.</p>`;
+  } else {
+    const g = computeGoalPlan(T, N, (plan.hours && !isNaN(h)) ? h : null, plan.termHours, baseOverride);
+    if(g.status==='achieved'){
+      bodyHtml += `<div class="goal-verdict gt-easy">🎉 ${usingScenario?'حسب السيناريو اللي دخّلته، الـCGPA':'على فكرة، الـCGPA الحالي'} (${g.CGPA0.toFixed(4)}) وصل بالفعل للحد الأدنى (${T.toFixed(2)}) — النتيجة فوق محسوبة على أطراف النطاق بس، ومستوفي أهم شرط.</div>`;
+    } else {
+      const diff = gpaDifficultyTag(g.reqGpa);
+      let infeasibleHtml = '';
+      if(g.reqGpa > 4.0001){
+        infeasibleHtml = `<p class="goal-warn">🚫 حتى لو جبت 4.00 كامل في كل مادة في الـ${g.N} ترم دول بـ${g.chosenHours} ساعة، أقصى CGPA هتوصله هو <b>${g.bestCaseFinal.toFixed(2)}</b> — لسه أقل من ${T.toFixed(2)}. محتاج ترمات أكتر أو تبدأ التحسّن بدري.</p>`;
+        if(g.minTermsAtMax) infeasibleHtml += `<p class="goal-note">تقريبًا محتاج على الأقل <b>${g.minTermsAtMax}</b> ترم (بـ${GOAL_MAX_H_EXT} ساعة ومعدل شبه كامل) عشان تضمن الوصول.</p>`;
+      }
+      bodyHtml += `
+        <div class="goal-verdict ${diff.cls}">${g.reqGpa<=4.0001 ? `محتاج تجيب معدل <b>${g.reqGpa.toFixed(2)}</b> تقريبًا كل ترم — ${diff.label}` : `🚫 ${diff.label}`}</div>
+        ${infeasibleHtml}
+        ${g.reqGpa<=4.0001 ? fcRoadmapHtml(prefix, g) : ''}
+        ${g.startingFresh ? `<p class="fc-plan-note">ℹ️ لسه ملهاش أي ساعات مكتسبة (حقيقية أو افتراضية)، فالمعدل المطلوب بيبقى ثابت = ${T.toFixed(2)} بالظبط كل ترم أيًا كان عدد الساعات — لأنه مفيش رصيد سابق يتوزن بيه. لو عايز تشوف الـCGPA بيتحرك تدريجيًا ترم بترم، جرّب دخّل سيناريو افتراضي تحت (ساعات مكتسبة + CGPA) بدل ما تسيبهم فاضيين.</p>` : ''}
+        <p class="fc-plan-note">💡 عدّل ساعات أي ترم فوق (مش لازم تفضل ثابتة)، وهنعيد حساب المعدل المطلوب والـCGPA المتوقع أوتوماتيك. النتيجة دي تقريبية ومبنية على التنسيق المتوقع اللي دخّلته إنت — راجعها لو غيّرت رقم التنسيق فوق.</p>
+      `;
+    }
+  }
+
+  return `
+  <div class="fc-plan-card" id="fcPlanCard-${prefix}">
+    <span class="fc-plan-eyebrow">🗺️ توقعاتك — خطة الوصول لـ«${escapeHtml(targetLabel)}»</span>
+    <div class="fc-plan-head" id="fcPlanHead-${prefix}">
+      ${fcPlanGaugeHtml(cgpaNow, T)}
+      <div class="fc-plan-head-info">
+        <div class="fc-plan-headline">لسه محتاج تقفل فرق <b>${gapTxt}</b> نقطة عشان توصل الحد الأدنى المتوقع (<b>${T.toFixed(2)}</b>)</div>
+        <div class="fc-plan-sub">الدايرة الذهبية المنقّطة فوق هي مكان الهدف على مقياس من 0 لـ4.00، والدايرة الملوّنة هي مكانك ${usingScenario?'في السيناريو الافتراضي':'الحالي'}.</div>
+      </div>
+    </div>
+    <div class="fc-plan-inputs">
+      <div class="fc-plan-field">
+        <label>📚 الساعات المكتسبة (سيناريو افتراضي، اختياري)</label>
+        <input id="fcPlanBaseHours-${prefix}" type="number" min="0" step="1" value="${escapeHtml(plan.baseHours)}" placeholder="سيبها فاضية = بياناتك الحقيقية">
+      </div>
+      <div class="fc-plan-field">
+        <label>🎓 الـCGPA عندها (سيناريو افتراضي، اختياري)</label>
+        <input id="fcPlanBaseCgpa-${prefix}" type="number" min="0" max="4" step="0.01" value="${escapeHtml(plan.baseCgpa)}" placeholder="سيبها فاضية = بياناتك الحقيقية">
+      </div>
+      <div class="fc-plan-field">
+        <label>📅 عدد الترمات القادمة</label>
+        <input id="fcPlanTerms-${prefix}" type="number" min="1" step="1" value="${escapeHtml(plan.terms)}" placeholder="مثال: 3">
+      </div>
+      <div class="fc-plan-field">
+        <label>⏱️ متوسط الساعات/ترم (اختياري)</label>
+        <input id="fcPlanHours-${prefix}" type="number" min="${GOAL_MIN_H}" max="${GOAL_MAX_H_EXT}" step="1" value="${escapeHtml(plan.hours)}" placeholder="اقتراح تلقائي">
+      </div>
+    </div>
+    <div id="fcPlanBody-${prefix}">${bodyHtml}</div>
+  </div>`;
+}
+/* بيربط مدخلات كارت الخطة (عدد الترمات، الساعات، وساعات كل ترم في الخارطة) — بيعيد رسم جسم
+   الكارت بس (fcPlanBody) من غير ما يعيد الصفحة كلها، عشان التركيز (focus) في الحقول يفضل زي ما هو. */
+function wireFcPlanHandlers(prefix, targetLabel, T, verdict){
+  if(T==null || verdict==='yes') return;
+  const plan = fcPlanRef(prefix);
+  let saveTimer = null;
+  function refresh(preserveFocus){
+    const focusedTerm = preserveFocus && document.activeElement && document.activeElement.classList.contains('fc-plan-term-hours-inp') && document.activeElement.dataset.prefix===prefix
+      ? document.activeElement.dataset.term : null;
+    const body = document.getElementById(`fcPlanBody-${prefix}`);
+    const head = document.getElementById(`fcPlanHead-${prefix}`);
+    if(!body || !head) return;
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = renderFcPlanCardHtml(prefix, targetLabel, T, verdict);
+    const newBody = tempDiv.querySelector(`#fcPlanBody-${prefix}`);
+    const newHead = tempDiv.querySelector(`#fcPlanHead-${prefix}`);
+    body.innerHTML = newBody ? newBody.innerHTML : '';
+    if(newHead) head.innerHTML = newHead.innerHTML;
+    wireFcPlanBodyOnly(prefix, focusedTerm);
+  }
+  function wireFcPlanBodyOnly(prefix, focusedTerm){
+    document.querySelectorAll(`.fc-plan-term-hours-inp[data-prefix="${prefix}"]`).forEach(inp=>{
+      inp.addEventListener('input', ()=>{
+        const term = inp.dataset.term;
+        const p = fcPlanRef(prefix);
+        if(!p.termHours) p.termHours = {};
+        if(inp.value===''){ delete p.termHours[term]; } else { p.termHours[term] = inp.value; }
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveForecastData, 400);
+        refresh(true);
+      });
+    });
+    if(focusedTerm!=null){
+      const toFocus = document.querySelector(`.fc-plan-term-hours-inp[data-prefix="${prefix}"][data-term="${focusedTerm}"]`);
+      if(toFocus){ toFocus.focus(); const v=toFocus.value; toFocus.value=''; toFocus.value=v; }
+    }
+  }
+  const baseHoursInp = document.getElementById(`fcPlanBaseHours-${prefix}`);
+  if(baseHoursInp) baseHoursInp.addEventListener('input', ()=>{
+    fcPlanRef(prefix).baseHours = baseHoursInp.value;
+    clearTimeout(saveTimer); saveTimer = setTimeout(saveForecastData, 400);
+    refresh(false);
+  });
+  const baseCgpaInp = document.getElementById(`fcPlanBaseCgpa-${prefix}`);
+  if(baseCgpaInp) baseCgpaInp.addEventListener('input', ()=>{
+    fcPlanRef(prefix).baseCgpa = baseCgpaInp.value;
+    clearTimeout(saveTimer); saveTimer = setTimeout(saveForecastData, 400);
+    refresh(false);
+  });
+  const termsInp = document.getElementById(`fcPlanTerms-${prefix}`);
+  if(termsInp) termsInp.addEventListener('input', ()=>{
+    fcPlanRef(prefix).terms = termsInp.value;
+    clearTimeout(saveTimer); saveTimer = setTimeout(saveForecastData, 400);
+    refresh(false);
+  });
+  const hoursInp = document.getElementById(`fcPlanHours-${prefix}`);
+  if(hoursInp) hoursInp.addEventListener('input', ()=>{
+    fcPlanRef(prefix).hours = hoursInp.value;
+    clearTimeout(saveTimer); saveTimer = setTimeout(saveForecastData, 400);
+    refresh(false);
+  });
+  wireFcPlanBodyOnly(prefix, null);
+}
+
 /* ================= جزء التخصص (يظهر بس للطالب اللي لسه ما اتخصصش) ================= */
+function renderSpecDirectResultHtml(cgpa){
+  const targetId = forecastData.specTargetTrack;
+  if(!targetId) return `<p class="goal-empty">اختَر القسم فوق الأول.</p>`;
+  const targetTrack = TRACKS.find(t=>t.id===targetId);
+  const range = forecastData.spec[targetId];
+  const verdict = fcVerdict(cgpa, range);
+  const minN = fcNum(range.min), maxN = fcNum(range.max);
+  return `
+    <div class="goal-summary">
+      <div class="pstat"><div class="n">${cgpa.toFixed(4)}</div><div class="l">CGPA الحالي</div></div>
+      <div class="pstat"><div class="n">${minN!=null?minN.toFixed(2):'—'} – ${maxN!=null?maxN.toFixed(2):'—'}</div><div class="l">التنسيق المتوقع لـ«${escapeHtml(targetTrack.label)}»</div></div>
+    </div>
+    ${fcVerdictBadge(verdict)}
+    ${renderFcPlanCardHtml('spec', targetTrack.label, minN, verdict)}
+  `;
+}
 function renderSpecPartHtml(cgpa){
   const targetOptions = FORECAST_TRACKS;
   if(!targetOptions.some(t=>t.id===forecastData.specTargetTrack)){
@@ -5426,57 +5970,8 @@ function renderSpecPartHtml(cgpa){
   }
   const targetId = forecastData.specTargetTrack;
   const targetTrack = TRACKS.find(t=>t.id===targetId);
-  const app = forecastData.specApp;
-  const directVerdict = targetId ? fcVerdict(cgpa, forecastData.spec[targetId]) : null;
-
-  let appHtml;
-  if(!app.applied){
-    if(!targetId){
-      appHtml = `<p class="goal-empty">اختَر القسم اللي عايز تتخصص فيه فوق الأول.</p>`;
-    } else if(directVerdict==null){
-      appHtml = `<p class="goal-empty">دخّل التنسيق المتوقع للتخصص لـ«${escapeHtml(targetTrack.label)}» فوق عشان يبان لك زرار التسجيل.</p>`;
-    } else if(directVerdict!=='no'){
-      const hintTxt = directVerdict==='yes'
-        ? `الـCGPA بتاعك فوق أعلى حد للتنسيق المتوقع لـ«${escapeHtml(targetTrack.label)}»`
-        : `الـCGPA بتاعك جوّه النطاق المتوقع للتنسيق المتوقع لـ«${escapeHtml(targetTrack.label)}» (يعني في فرصة، مش أكيد)`;
-      appHtml = `<p class="graph-hint">${hintTxt} — لو قدّمت طلب التخصص فعليًا في الكلية، سجّل ده هنا عشان تتابع حالته.</p>
-        <button class="home-quicklink" id="specApplyBtn">📨 قدّمت طلب التقدّم للتخصص</button>`;
-    } else {
-      appHtml = `<p class="goal-warn">⚠️ الـCGPA بتاعك تحت أقل حد للتنسيق المتوقع لـ«${escapeHtml(targetTrack.label)}»، فمقدرش تقدّم بيه دلوقتي. راجع السيناريوهات البديلة تحت.</p>`;
-    }
-  } else if(app.decision==null){
-    appHtml = `<div class="goal-verdict gt-ok">⏳ طلبك للتخصص في «${escapeHtml(TRACKS.find(t=>t.id===app.targetId)?.label||'')}» اتقدّم وقيد المراجعة من الكلية. لما يوصلك رد رسمي، حدّث الحالة هنا:</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-        <button class="home-quicklink" id="specAcceptBtn" style="border-color:var(--teal);color:var(--teal);">✅ تم القبول من الكلية</button>
-        <button class="home-quicklink" id="specRejectBtn" style="border-color:var(--maroon);color:var(--maroon);">❌ تم الرفض</button>
-      </div>`;
-  } else if(app.decision==='accepted'){
-    const label = TRACKS.find(t=>t.id===app.targetId)?.label||'';
-    const alreadySwitched = profile.trackId===app.targetId;
-    appHtml = `<div class="goal-verdict gt-easy">🎉 مبروك! اتقبلت في «${escapeHtml(label)}».</div>
-      ${alreadySwitched
-        ? `<p class="goal-note">✅ تخصصك اتسجّل رسميًا خلاص.</p>`
-        : `<p class="goal-note">التخصص الرسمي لسه ماتنفّذش.</p><button class="home-quicklink" id="specForceSwitchBtn">🔁 نفّذ التخصص دلوقتي</button>`}`;
-  } else {
-    const label = TRACKS.find(t=>t.id===app.targetId)?.label||'';
-    appHtml = `<div class="goal-verdict gt-vhard">❌ للأسف اترفض طلبك للتخصص في «${escapeHtml(label)}» المرة دي.</div>
-      <button class="home-quicklink" id="specReapplyBtn">🔄 قدّم الطلب تاني</button>`;
-  }
 
   return `
-  <div class="goal-section" id="fcSpecInputSection">
-    <div class="track-head"><h2>📥 التنسيق المتوقع للتخصص (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لكل قسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
-    <table class="fc-table">
-      <thead><tr><th>القسم</th><th>التنسيق المتوقع</th></tr></thead>
-      <tbody>
-        ${FORECAST_TRACKS.map(t=>`<tr>
-          <td>${escapeHtml(t.label)}</td>
-          <td>${fcRangeInputsHtml('spec.'+t.id, forecastData.spec[t.id])}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
   <div class="goal-section" id="fcSpecGoalSection">
     <div class="track-head"><h2>🎯 القسم اللي عايز تتخصص فيه</h2></div>
     <div class="goal-inputs">
@@ -5493,15 +5988,14 @@ function renderSpecPartHtml(cgpa){
     </div>
   </div>
 
-  <div class="goal-section" id="fcSpecResultsSection">
-    <div class="track-head"><h2>📊 النتيجة واحتمالية القبول</h2></div>
-    <p class="graph-hint">لو النتيجة المباشرة تحت مش "نعم أكيد"، شوف السيناريوهات البديلة (تخصص في قسم تاني تنسيقه أقل، وبعدين تحويل مسار منه للقسم اللي عايزه) — وده بيحتاج منك كمان تدخّل تنسيق تحويل المسار المتوقع في قسم "🔁 تحويل المسار" تحت (هيبان لك بمجرد ما تتخصص فعليًا).</p>
-    <div id="fcSpecResultsBody">${renderForecastResultsHtml(cgpa, false, null)}</div>
+  <div class="goal-section" id="fcSpecInputSection">
+    <div class="track-head"><h2>📥 التنسيق المتوقع لـ«${escapeHtml(targetTrack?.label||'')}» (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لهذا القسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
+    ${fcRangeInputsHtml('spec.'+targetId, forecastData.spec[targetId])}
   </div>
 
-  <div class="goal-section" id="fcSpecAppSection">
-    <div class="track-head"><h2>📨 طلب التخصص</h2></div>
-    ${appHtml}
+  <div class="goal-section" id="fcSpecResultsSection">
+    <div class="track-head"><h2>📊 النتيجة واحتمالية القبول</h2></div>
+    <div id="fcSpecResultsBody">${renderSpecDirectResultHtml(cgpa)}</div>
   </div>
   `;
 }
@@ -5509,7 +6003,17 @@ function wireSpecPartHandlers(cgpa){
   let saveTimer = null;
   function refreshResults(){
     const body = document.getElementById('fcSpecResultsBody');
-    if(body) body.innerHTML = renderForecastResultsHtml(overallCgpaStats().cgpa, false, null);
+    if(body) body.innerHTML = renderSpecDirectResultHtml(overallCgpaStats().cgpa);
+    wirePlanForCurrentSpec();
+  }
+  function wirePlanForCurrentSpec(){
+    const targetId = forecastData.specTargetTrack;
+    if(!targetId) return;
+    const targetTrack = TRACKS.find(t=>t.id===targetId);
+    const range = forecastData.spec[targetId];
+    const verdict = fcVerdict(overallCgpaStats().cgpa, range);
+    const minN = fcNum(range.min);
+    wireFcPlanHandlers('spec', targetTrack.label, minN, verdict);
   }
   document.querySelectorAll('#fcSpecInputSection .fc-input').forEach(inp=>{
     inp.addEventListener('input', ()=>{
@@ -5535,19 +6039,36 @@ function wireSpecPartHandlers(cgpa){
       saveTimer = setTimeout(saveForecastData, 400);
     });
   }
-  const applyBtn = document.getElementById('specApplyBtn');
-  if(applyBtn) applyBtn.onclick = ()=> submitSpecApplication(forecastData.specTargetTrack);
-  const acceptBtn = document.getElementById('specAcceptBtn');
-  if(acceptBtn) acceptBtn.onclick = ()=> resolveSpecDecision('accepted');
-  const rejectBtn = document.getElementById('specRejectBtn');
-  if(rejectBtn) rejectBtn.onclick = ()=> resolveSpecDecision('rejected');
-  const forceBtn = document.getElementById('specForceSwitchBtn');
-  if(forceBtn) forceBtn.onclick = forceApplySpecSwitch;
-  const reapplyBtn = document.getElementById('specReapplyBtn');
-  if(reapplyBtn) reapplyBtn.onclick = reapplySpec;
+  wirePlanForCurrentSpec();
 }
 
 /* ================= جزء تحويل المسار (يظهر بس للطالب المتخصص بالفعل) ================= */
+/* أقل حد متوقع مناسب لخطة تحويل المسار: أسهل فرصة متاحة بين الترم الأول والتاني (أقل رقم من
+   الاتنين اللي الطالب دخّله)، لأن عبور واحدة منهم بس كافي — فمفيش داعي نخطط على الأصعب. */
+function fcTransferPlanTarget(targetId){
+  const tr = forecastData.transfer[targetId];
+  const m1 = fcNum(tr.t1.min), m2 = fcNum(tr.t2.min);
+  if(m1==null && m2==null) return null;
+  if(m1==null) return m2;
+  if(m2==null) return m1;
+  return Math.min(m1, m2);
+}
+function renderTransferDirectResultHtml(cgpa){
+  const targetId = forecastData.transferTargetTrack;
+  if(!targetId) return `<p class="goal-empty">اختَر القسم فوق الأول.</p>`;
+  const targetTrack = TRACKS.find(t=>t.id===targetId);
+  const edge = fcTransferEdge(cgpa, targetId);
+  const termTxt = edge.term==='t1' ? 'الأقرب اللي عندك فرصة فيه هو الترم الأول' : edge.term==='t2' ? 'الأقرب اللي عندك فرصة فيه هو الترم التاني' : '';
+  return `
+    <div class="goal-summary">
+      <div class="pstat"><div class="n">${cgpa.toFixed(4)}</div><div class="l">CGPA الحالي</div></div>
+      <div class="pstat"><div class="n">${escapeHtml(targetTrack.label)}</div><div class="l">القسم المستهدف</div></div>
+    </div>
+    ${termTxt ? `<p class="graph-hint">${termTxt}</p>` : ''}
+    ${fcVerdictBadge(edge.verdict)}
+    ${renderFcPlanCardHtml('transfer', targetTrack.label, fcTransferPlanTarget(targetId), edge.verdict)}
+  `;
+}
 function renderTransferPartHtml(cgpa){
   const app = forecastData.transferApp;
   if(app.usedTransfer){
@@ -5563,59 +6084,8 @@ function renderTransferPartHtml(cgpa){
   }
   const targetId = forecastData.transferTargetTrack;
   const targetTrack = TRACKS.find(t=>t.id===targetId);
-  const edge = targetId ? fcTransferEdge(cgpa, targetId) : {verdict:null, term:null};
-
-  let appHtml;
-  if(!app.applied){
-    if(!targetId){
-      appHtml = `<p class="goal-empty">اختَر القسم اللي عايز تحوّل له فوق الأول.</p>`;
-    } else if(edge.verdict==null){
-      appHtml = `<p class="goal-empty">دخّل التنسيق المتوقع (فرصة الترم الأول و/أو التاني) لـ«${escapeHtml(targetTrack.label)}» تحت عشان يبان لك زرار التسجيل.</p>`;
-    } else if(edge.verdict!=='no'){
-      const hintTxt = edge.verdict==='yes'
-        ? `الـCGPA بتاعك فوق أعلى حد لتنسيق تحويل المسار لـ«${escapeHtml(targetTrack.label)}»`
-        : `الـCGPA بتاعك جوّه النطاق المتوقع لتنسيق تحويل المسار لـ«${escapeHtml(targetTrack.label)}» (يعني في فرصة، مش أكيد)`;
-      appHtml = `<p class="graph-hint">${hintTxt} — لو قدّمت طلب تحويل المسار فعليًا في الكلية، سجّل ده هنا عشان تتابع حالته.</p>
-        <button class="home-quicklink" id="transferApplyBtn">📨 قدّمت طلب تحويل المسار</button>`;
-    } else {
-      appHtml = `<p class="goal-warn">⚠️ الـCGPA بتاعك تحت أقل حد لتنسيق تحويل المسار لـ«${escapeHtml(targetTrack.label)}»، فمقدرش تقدّم بيه دلوقتي. راجع السيناريوهات البديلة تحت.</p>`;
-    }
-  } else if(app.decision==null){
-    appHtml = `<div class="goal-verdict gt-ok">⏳ طلبك لتحويل المسار لـ«${escapeHtml(TRACKS.find(t=>t.id===app.targetId)?.label||'')}» اتقدّم وقيد المراجعة من الكلية. لما يوصلك رد رسمي، حدّث الحالة هنا:</div>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
-        <button class="home-quicklink" id="transferAcceptBtn" style="border-color:var(--teal);color:var(--teal);">✅ تمت الموافقة من الكلية</button>
-        <button class="home-quicklink" id="transferRejectBtn" style="border-color:var(--maroon);color:var(--maroon);">❌ تم الرفض</button>
-      </div>`;
-  } else if(app.decision==='accepted'){
-    const label = TRACKS.find(t=>t.id===app.targetId)?.label||'';
-    const alreadySwitched = profile.trackId===app.targetId;
-    appHtml = `<div class="goal-verdict gt-easy">🎉 مبروك! اتقبل تحويل مسارك لـ«${escapeHtml(label)}».</div>
-      ${alreadySwitched
-        ? `<p class="goal-note">✅ تخصصك اتحوّل رسميًا خلاص، وده تحويل المسار الوحيد المسموح بيه طول الدراسة.</p>`
-        : `<p class="goal-note">التحويل الرسمي لسه ماتنفّذش.</p><button class="home-quicklink" id="transferForceSwitchBtn">🔁 نفّذ التحويل دلوقتي</button>`}`;
-  } else {
-    const label = TRACKS.find(t=>t.id===app.targetId)?.label||'';
-    appHtml = `<div class="goal-verdict gt-vhard">❌ للأسف اترفض طلب تحويل مسارك لـ«${escapeHtml(label)}» المرة دي.</div>
-      <p class="goal-note">تقدر تقدّم تاني أي ترم جاي لحد ما يتقبل الطلب — حاول ترفع مستواك (الـCGPA بتاعك) لحد التنسيق المطلوب.</p>
-      <button class="home-quicklink" id="transferReapplyBtn">🔄 قدّم الطلب تاني</button>`;
-  }
 
   return `
-  <div class="goal-section" id="fcTransferInputSection">
-    <div class="track-head"><h2>📥 التنسيق المتوقع لتحويل المسار (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لكل قسم مستهدف، الترم الأول والتاني منفصلين (تنسيق الترم التاني المفروض يكون أعلى/أصعب من الأول). سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
-
-    <table class="fc-table">
-      <thead><tr><th>القسم المستهدف</th><th>تنسيق الترم الأول</th><th>تنسيق الترم التاني</th></tr></thead>
-      <tbody>
-        ${FORECAST_TRACKS.map(t=>`<tr>
-          <td>${escapeHtml(t.label)}</td>
-          <td>${fcRangeInputsHtml('transfer.'+t.id+'.t1', forecastData.transfer[t.id].t1)}</td>
-          <td>${fcRangeInputsHtml('transfer.'+t.id+'.t2', forecastData.transfer[t.id].t2)}</td>
-        </tr>`).join('')}
-      </tbody>
-    </table>
-  </div>
-
   <div class="goal-section" id="fcTransferGoalSection">
     <div class="track-head"><h2>🎯 القسم اللي عايز تحوّل له</h2></div>
     <div class="goal-inputs">
@@ -5632,14 +6102,20 @@ function renderTransferPartHtml(cgpa){
     </div>
   </div>
 
-  <div class="goal-section" id="fcTransferResultsSection">
-    <div class="track-head"><h2>📊 النتيجة واحتمالية القبول</h2></div>
-    <div id="fcTransferResultsBody">${renderForecastResultsHtml(cgpa, true, profile.trackId)}</div>
+  <div class="goal-section" id="fcTransferInputSection">
+    <div class="track-head"><h2>📥 التنسيق المتوقع لتحويل المسار لـ«${escapeHtml(targetTrack?.label||'')}» (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لكل من فرصة الترم الأول والتاني (تنسيق الترم التاني المفروض يكون أعلى/أصعب من الأول). سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
+    <table class="fc-table">
+      <thead><tr><th>تنسيق الترم الأول</th><th>تنسيق الترم التاني</th></tr></thead>
+      <tbody><tr>
+        <td>${fcRangeInputsHtml('transfer.'+targetId+'.t1', forecastData.transfer[targetId].t1)}</td>
+        <td>${fcRangeInputsHtml('transfer.'+targetId+'.t2', forecastData.transfer[targetId].t2)}</td>
+      </tr></tbody>
+    </table>
   </div>
 
-  <div class="goal-section" id="fcTransferAppSection">
-    <div class="track-head"><h2>📨 طلب تحويل المسار</h2></div>
-    ${appHtml}
+  <div class="goal-section" id="fcTransferResultsSection">
+    <div class="track-head"><h2>📊 النتيجة واحتمالية القبول</h2></div>
+    <div id="fcTransferResultsBody">${renderTransferDirectResultHtml(cgpa)}</div>
   </div>
   `;
 }
@@ -5648,7 +6124,15 @@ function wireTransferPartHandlers(cgpa){
   let saveTimer = null;
   function refreshResults(){
     const body = document.getElementById('fcTransferResultsBody');
-    if(body) body.innerHTML = renderForecastResultsHtml(overallCgpaStats().cgpa, true, profile.trackId);
+    if(body) body.innerHTML = renderTransferDirectResultHtml(overallCgpaStats().cgpa);
+    wirePlanForCurrentTransfer();
+  }
+  function wirePlanForCurrentTransfer(){
+    const targetId = forecastData.transferTargetTrack;
+    if(!targetId) return;
+    const targetTrack = TRACKS.find(t=>t.id===targetId);
+    const edge = fcTransferEdge(overallCgpaStats().cgpa, targetId);
+    wireFcPlanHandlers('transfer', targetTrack.label, fcTransferPlanTarget(targetId), edge.verdict);
   }
   document.querySelectorAll('#fcTransferInputSection .fc-input').forEach(inp=>{
     inp.addEventListener('input', ()=>{
@@ -5674,16 +6158,7 @@ function wireTransferPartHandlers(cgpa){
       saveTimer = setTimeout(saveForecastData, 400);
     });
   }
-  const applyBtn = document.getElementById('transferApplyBtn');
-  if(applyBtn) applyBtn.onclick = ()=> submitTransferApplication(forecastData.transferTargetTrack);
-  const acceptBtn = document.getElementById('transferAcceptBtn');
-  if(acceptBtn) acceptBtn.onclick = ()=> resolveTransferDecision('accepted');
-  const rejectBtn = document.getElementById('transferRejectBtn');
-  if(rejectBtn) rejectBtn.onclick = ()=> resolveTransferDecision('rejected');
-  const forceBtn = document.getElementById('transferForceSwitchBtn');
-  if(forceBtn) forceBtn.onclick = forceApplyTransferSwitch;
-  const reapplyBtn = document.getElementById('transferReapplyBtn');
-  if(reapplyBtn) reapplyBtn.onclick = reapplyTransfer;
+  wirePlanForCurrentTransfer();
 }
 
 /* ================= تنسيقات السنين السابقة (بيانات فعلية موثّقة من الكلية) ================= */
@@ -6220,10 +6695,16 @@ function termEvalTag(g){
    registration hours aren't necessarily the same every term (تخرج/صيفي/ظروف مختلفة), this lets
    each term use its own real hours instead of one flat average, which changes the required GPA
    and the projected cumulative CGPA per term. Terms without an override fall back to chosenHours. */
-function computeGoalPlan(T, N, hInput, termHoursOverride){
-  const overall = overallCgpaStats();
-  const H0 = overall.gpaHours||0;
-  const QP0 = overall.qualityPoints||0;
+function computeGoalPlan(T, N, hInput, termHoursOverride, baseOverride){
+  let H0, QP0;
+  if(baseOverride && baseOverride.hours>0){
+    H0 = baseOverride.hours;
+    QP0 = H0 * (baseOverride.cgpa||0);
+  } else {
+    const overall = overallCgpaStats();
+    H0 = overall.gpaHours||0;
+    QP0 = overall.qualityPoints||0;
+  }
   const CGPA0 = H0>0 ? (QP0/H0) : null;
 
   if(CGPA0!==null && CGPA0 >= T - 1e-9){
@@ -6379,6 +6860,9 @@ function renderGoalResultsHtml(){
   `;
 }
 const TIER_COLOR_VAR = {'gt-easy':'var(--teal)','gt-ok':'var(--navy)','gt-hard':'var(--gold)','gt-vhard':'var(--maroon)','gt-impossible':'var(--maroon)'};
+const TIER_SOFT_VAR = {'gt-easy':'var(--teal-soft)','gt-ok':'var(--navy-soft)','gt-hard':'var(--gold-soft)','gt-vhard':'var(--maroon-soft)','gt-impossible':'var(--maroon-soft)'};
+/* چارت "رحلة الأداء": منطقة متدرّجة تحت خط الـGPA + أعمدة شفافة للساعات + شرايط تقييم خلفية
+   (ضعيف/متوسط/جيد/ممتاز) عشان تبان حالة كل ترم من أول نظرة، وتوول-تيب تفاعلي بيتبع المؤشر. */
 function renderTermPerformanceChart(terms){
   const n = terms.length;
   const chartW = Math.max(560, n*92);
@@ -6391,6 +6875,21 @@ function renderTermPerformanceChart(terms){
   const barW = Math.min(40, slot*0.42);
   const gpaY = g => padT + plotH - (Math.max(0,Math.min(4,g))/4)*plotH;
   const hoursY = h => padT + plotH - (h/maxHours)*plotH;
+  const baseY = padT + plotH;
+
+  /* شرايط خلفية ملوّنة بحسب مستوى الـGPA (نفس عتبات termEvalTag) عشان تدّيك قراءة سريعة
+     من غير ما تحتاج تدقق في الأرقام: أحمر ضعيف تحت أخضر ممتاز فوق. */
+  const zoneBands = [
+    {from:0, to:2, cls:'gt-impossible'},
+    {from:2, to:2.5, cls:'gt-vhard'},
+    {from:2.5, to:3, cls:'gt-hard'},
+    {from:3, to:3.5, cls:'gt-ok'},
+    {from:3.5, to:4, cls:'gt-easy'},
+  ];
+  const zoneRects = zoneBands.map(z=>{
+    const y1 = gpaY(z.to), y2 = gpaY(z.from);
+    return `<rect x="${padL}" y="${y1}" width="${chartW-padL-padR}" height="${y2-y1}" fill="${TIER_COLOR_VAR[z.cls]}" opacity=".05"/>`;
+  }).join('');
 
   let gridLines = '';
   for(let g=0; g<=4; g++){
@@ -6399,36 +6898,120 @@ function renderTermPerformanceChart(terms){
       <text x="${chartW-padR+8}" y="${y+4}" font-size="11" fill="var(--ink-soft)" font-family="'IBM Plex Mono',monospace">${g.toFixed(0)}</text>`;
   }
 
-  let bars = '', xLabels = '';
+  let bars = '', xLabels = '', hits = '';
   const pts = [];
   terms.forEach((t,i)=>{
     const cx = padL + slot*i + slot/2;
     const h = t.s.totalHours;
     const by = hoursY(h);
-    const bh = Math.max(0, (padT+plotH) - by);
-    bars += `<rect x="${cx-barW/2}" y="${by}" width="${barW}" height="${bh}" rx="6" fill="var(--navy)" opacity=".22"/>
+    const bh = Math.max(0, baseY - by);
+    bars += `<rect class="tpc-bar" style="animation-delay:${i*55}ms" x="${cx-barW/2}" y="${by}" width="${barW}" height="${bh}" rx="6" fill="var(--navy)" opacity=".2"/>
       <text x="${cx}" y="${by-6}" font-size="10.5" text-anchor="middle" fill="var(--ink-soft)" font-family="'IBM Plex Mono',monospace">${h}س</text>`;
     const shortName = t.name.length>9 ? t.name.slice(0,8)+'…' : t.name;
     xLabels += `<text x="${cx}" y="${chartH-padB+22}" font-size="11.5" text-anchor="middle" fill="var(--ink)" font-weight="700">${escapeHtml(shortName)}</text>`;
     const ev = termEvalTag(t.s.gpa);
-    pts.push({cx, py: t.s.gpa!=null ? gpaY(t.s.gpa) : null, color: TIER_COLOR_VAR[ev.cls]||'var(--grey)', gpa:t.s.gpa});
+    pts.push({cx, py: t.s.gpa!=null ? gpaY(t.s.gpa) : null, color: TIER_COLOR_VAR[ev.cls]||'var(--grey)', gpa:t.s.gpa, isLast:i===terms.length-1});
+    const info = {name:t.name, hours:h, gpa:t.s.gpa, evalLabel:ev.label};
+    hits += `<rect class="tpc-hit" data-info='${escapeHtml(JSON.stringify(info))}' x="${padL+slot*i}" y="${padT}" width="${slot}" height="${plotH}"/>`;
   });
 
   let linePath = '';
   pts.forEach(p=>{ if(p.py!=null) linePath += (linePath?' L':'M') + p.cx + ' ' + p.py; });
-  const dots = pts.map(p=> p.py!=null ? `<circle cx="${p.cx}" cy="${p.py}" r="5.5" fill="${p.color}" stroke="var(--card)" stroke-width="2"/>` : '').join('');
+  /* منطقة متدرّجة تحت خط الـGPA (من الخط لحد قاع الرسم) بتدّي إحساس "موجة" بدل خط عادي مسطّح */
+  let areaPath = '';
+  const gpaPts = pts.filter(p=>p.py!=null);
+  if(gpaPts.length>=2){
+    areaPath = `M${gpaPts[0].cx} ${baseY} L` + gpaPts.map(p=>`${p.cx} ${p.py}`).join(' L') + ` L${gpaPts[gpaPts.length-1].cx} ${baseY} Z`;
+  }
+  const dots = pts.map(p=> p.py!=null ? `<circle class="tpc-dot${p.isLast?' tpc-dot-current':''}" cx="${p.cx}" cy="${p.py}" r="5.5" fill="${p.color}" stroke="var(--card)" stroke-width="2"/>` : '').join('');
 
   return `<div class="term-chart-wrap">
     <svg viewBox="0 0 ${chartW} ${chartH}" style="width:100%;height:auto;overflow:visible;">
-      ${gridLines}${bars}
-      ${linePath? `<path d="${linePath}" fill="none" stroke="var(--ink-soft)" stroke-width="2"/>`:''}
-      ${dots}${xLabels}
+      <defs>
+        <linearGradient id="tpcAreaGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--navy)" stop-opacity=".32"/>
+          <stop offset="100%" stop-color="var(--navy)" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      ${zoneRects}${gridLines}${bars}
+      ${areaPath? `<path class="tpc-area" d="${areaPath}" fill="url(#tpcAreaGrad)"/>`:''}
+      ${linePath? `<path class="tpc-line" d="${linePath}" fill="none" stroke="var(--ink-soft)" stroke-width="2.5"/>`:''}
+      ${dots}${xLabels}${hits}
     </svg>
+    <div class="tpc-tooltip"></div>
     <div class="term-chart-legend">
       <span><i style="background:var(--navy);opacity:.35"></i> عدد الساعات المسجّلة في الترم (الأعمدة)</span>
-      <span><i style="background:var(--ink-soft)"></i> معدل الترم GPA من 0 لـ4 (الخط والنقط)</span>
+      <span><i style="background:var(--ink-soft)"></i> معدل الترم GPA من 0 لـ4 (الخط والمنطقة المتدرّجة)</span>
+      <span><i style="background:var(--maroon);opacity:.3"></i> ضعيف</span>
+      <span><i style="background:var(--gold);opacity:.3"></i> متوسط</span>
+      <span><i style="background:var(--teal);opacity:.3"></i> ممتاز</span>
     </div>
   </div>`;
+}
+/* بعد ما الچارت بيتحط في الـDOM، بنحسب طول خط الـGPA الفعلي عشان أنيميشن "الرسم" يبقى مظبوط،
+   وبنوصّل تفاعل التوول-تيب اللي بيتبع الماوس/اللمس فوق كل ترم. */
+function initTermPerformanceChart(){
+  const wrap = document.querySelector('.term-chart-wrap');
+  if(!wrap) return;
+  const line = wrap.querySelector('.tpc-line');
+  if(line){
+    try{ const len = line.getTotalLength(); line.style.setProperty('--len', len); }catch(e){}
+  }
+  const tooltip = wrap.querySelector('.tpc-tooltip');
+  wrap.querySelectorAll('.tpc-hit').forEach(hit=>{
+    const show = ()=>{
+      if(!tooltip) return;
+      let data; try{ data = JSON.parse(hit.dataset.info); }catch(e){ return; }
+      tooltip.innerHTML = `
+        <div class="tt-name">${escapeHtml(data.name)}</div>
+        <div class="tt-row"><span>الساعات المسجّلة</span><b>${data.hours}</b></div>
+        <div class="tt-row"><span>GPA الترم</span><b>${data.gpa!=null?data.gpa.toFixed(2):'—'}</b></div>
+        <div class="tt-row"><span>التقييم</span><b>${escapeHtml(data.evalLabel)}</b></div>
+      `;
+      const hitRect = hit.getBoundingClientRect();
+      const wrapRect = wrap.getBoundingClientRect();
+      tooltip.style.left = Math.min(Math.max((hitRect.left-wrapRect.left)+hitRect.width/2, 70), wrapRect.width-70) + 'px';
+      tooltip.style.top = (hitRect.top-wrapRect.top) + 'px';
+      tooltip.classList.add('show');
+    };
+    hit.addEventListener('mouseenter', show);
+    hit.addEventListener('mousemove', show);
+    hit.addEventListener('mouseleave', ()=> tooltip && tooltip.classList.remove('show'));
+    hit.addEventListener('click', show);
+  });
+}
+/* كروت "حلقات الأداء": كل ترم بقى دائرة تقدّم ملوّنة (بدل صف نص تقليدي) بتاخد لون تقييمها،
+   بتدّي قراءة بصرية سريعة لكل ترم جنب بعضه، وبتتحرك (تتملي) لما الصفحة تفتح. */
+function renderTermRingCards(terms, overall){
+  const R = 34, C = +(2*Math.PI*R).toFixed(2);
+  return `<div class="term-ring-grid">${terms.map(({name,s})=>{
+    if(s.gpa==null){
+      return `<div class="term-ring-card">
+        <svg class="term-ring-svg" viewBox="0 0 84 84"><circle class="term-ring-track" cx="42" cy="42" r="${R}"/></svg>
+        <div class="term-ring-name">${escapeHtml(name)}</div>
+        <div class="term-ring-meta">من غير تقديرات لسه</div>
+      </div>`;
+    }
+    const ev = termEvalTag(s.gpa);
+    const color = TIER_COLOR_VAR[ev.cls]||'var(--navy)';
+    const soft = TIER_SOFT_VAR[ev.cls]||'var(--navy-soft)';
+    const pct = Math.max(0, Math.min(1, s.gpa/4));
+    const offset = +(C*(1-pct)).toFixed(2);
+    const diff = overall && overall.cgpa!=null ? s.gpa - overall.cgpa : null;
+    const diffHtml = diff==null ? '' :
+      `<div class="term-ring-meta" style="color:${diff>=0?'var(--teal)':'var(--maroon)'};font-weight:700;">${diff>=0?'▲':'▼'} ${Math.abs(diff).toFixed(2)} عن الـCGPA</div>`;
+    return `<div class="term-ring-card">
+      <svg class="term-ring-svg" viewBox="0 0 84 84">
+        <circle class="term-ring-track" cx="42" cy="42" r="${R}"/>
+        <circle class="term-ring-progress" style="--ring-c:${C}" cx="42" cy="42" r="${R}" stroke="${color}" stroke-dasharray="${C}" stroke-dashoffset="${offset}"/>
+        <text x="42" y="47" text-anchor="middle" class="term-ring-center" fill="var(--ink)">${s.gpa.toFixed(2)}</text>
+      </svg>
+      <div class="term-ring-name">${escapeHtml(name)}</div>
+      <span class="term-ring-tag" style="background:${soft};color:${color};">${ev.label}</span>
+      <div class="term-ring-meta">${s.gpaHours} ساعة</div>
+      ${diffHtml}
+    </div>`;
+  }).join('')}</div>`;
 }
 function renderTermAnalysisHtml(){
   if(!cgpaTerms.length){
@@ -6458,25 +7041,9 @@ function renderTermAnalysisHtml(){
     }
   }
 
-  const cmpRows = graded.map(({name,s})=>{
-    const diff = overall.cgpa!=null ? s.gpa - overall.cgpa : null;
-    const cls = diff==null?'gt-ok': diff>=0.1?'gt-easy': diff<=-0.1?'gt-vhard':'gt-ok';
-    const diffTxt = diff==null ? 'مفيش CGPA لسه' : (diff>=0? `أعلى من الـCGPA بـ ${diff.toFixed(2)}` : `أقل من الـCGPA بـ ${Math.abs(diff).toFixed(2)}`);
-    const ev = termEvalTag(s.gpa);
-    return `<div class="term-analysis-row">
-      <div>
-        <div class="tar-name">${escapeHtml(name)}</div>
-        <div class="tar-meta">${s.gpaHours} ساعة محسوبة</div>
-      </div>
-      <div class="tar-right">
-        <span class="tar-gpa">${s.gpa.toFixed(2)}</span>
-        <span class="tag ${cls}" title="مقارنة تقريبية بمعدلك التراكمي الحالي">${diffTxt}</span>
-        <span class="tag ${ev.cls}">${ev.label}</span>
-      </div>
-    </div>`;
-  }).join('');
+  const ringCardsHtml = renderTermRingCards(terms, overall);
 
-  return `${chartHtml}${bestWorstHtml}${trendHtml}<div class="term-analysis-list">${cmpRows}</div>`;
+  return `${chartHtml}${bestWorstHtml}${trendHtml}${ringCardsHtml}`;
 }
 
 /* ================= DISPATCH ================= */
@@ -6819,11 +7386,13 @@ function closeSearch(){
 /* ================= GRAPH VIEW (NEON TREE) ================= */
 function renderGraphView(){
   const track = TRACKS.find(t=>t.id===currentTrack);
-  const secs = filteredSections(track);
+  // الشجرة التفاعلية بتستبعد دايمًا مواد "متطلبات الجامعة" و"الاختيار الحر" لأنها مواد
+  // مالهاش علاقة حقيقية بمتطلبات التخصص السابق/اللاحق، ووجودها كان بيزوّد زحمة الشجرة من غير فايدة.
+  const secs = filteredSections(track).filter(sec => sec.scope!=="university" && sec.scope!=="freeElective");
   const visibleCodes = new Set();
   secs.forEach(sec=> sec.list.forEach(c=> visibleCodes.add(c)));
 
-  let html = `<div class="track-head"><div><h2>${track.label} — الشجرة التفاعلية ${infoTip('اضغط على أي مقرر لعرض تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div></div>
+  let html = `<div class="track-head"><div><h2>${track.label} — الشجرة التفاعلية ${infoTip('اضغط على أي مقرر (أو مرّر عليه بالماوس) عشان تتوضحلك بس الأسهم الداخلة والخارجة منه، والباقي يخفت شوية عشان تقدر تتابعها بسهولة، وكمان هيتفتحلك تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div></div>
     <div class="graph-wrap neon"><div id="cyGraph"></div>
     <div class="graph-legend neon-legend">
       <span><span class="leg-dot" style="background:${SUBJECT_NEON.math.c};box-shadow:0 0 8px ${SUBJECT_NEON.math.glow}"></span> رياضيات</span>
@@ -6847,7 +7416,9 @@ function renderGraphView(){
   const contextCodes = new Set();
   visibleCodes.forEach(code=>{
     const c = DB[code];
-    if(c && c.prereq) c.prereq.forEach(p=>{ if(!visibleCodes.has(p) && DB[p]) contextCodes.add(p); });
+    if(c && c.prereq) c.prereq.forEach(p=>{
+      if(!visibleCodes.has(p) && DB[p] && !UNIV_REQ_CODES_SET.has(p) && !GENERAL_FREE_ELECTIVES.includes(p)) contextCodes.add(p);
+    });
   });
 
   const elements = [];
@@ -6881,6 +7452,73 @@ function renderGraphView(){
     });
   });
 
+  // ===== ترتيب هرمي بيقلل تقاطع الأسهم من غير أي مكتبة خارجية =====
+  // 1) كل مادة بتاخد "مستوى" (صف) حسب أطول مسار متطلبات وصلها. 2) بعد كده بنعمل كذا "تمريرة" باريسنتر
+  // (بنرتب كل صف حسب متوسط مكان المتطلبات اللي فوقه / المواد اللي بعده) عشان الخطوط تتقاطع أقل ما يمكن.
+  function computeTreePositions(els){
+    const children = {}, parents = {}, nodeIds = [];
+    els.forEach(el=>{
+      if(el.data.source){
+        const s=el.data.source, t=el.data.target;
+        (children[s]=children[s]||[]).push(t);
+        (parents[t]=parents[t]||[]).push(s);
+      }
+    });
+    els.forEach(el=>{
+      if(!el.data.source){
+        nodeIds.push(el.data.id);
+        if(!children[el.data.id]) children[el.data.id]=[];
+        if(!parents[el.data.id]) parents[el.data.id]=[];
+      }
+    });
+    const level = {}; const visiting = new Set();
+    function levelOf(id){
+      if(level[id]!==undefined) return level[id];
+      if(visiting.has(id)) return 0; // حماية من أي دورة غير متوقعة في البيانات
+      visiting.add(id);
+      let lv = 0;
+      (parents[id]||[]).forEach(p=>{ lv = Math.max(lv, levelOf(p)+1); });
+      visiting.delete(id);
+      level[id]=lv;
+      return lv;
+    }
+    nodeIds.forEach(id=>levelOf(id));
+    const maxLevel = nodeIds.length ? Math.max(...nodeIds.map(id=>level[id])) : 0;
+    const layers = Array.from({length:maxLevel+1}, ()=>[]);
+    nodeIds.forEach(id=> layers[level[id]].push(id));
+    const orderIndex = {};
+    layers.forEach(layer=> layer.forEach((id,i)=>{ orderIndex[id]=i; }));
+    function sweepPass(direction){
+      const refMap = direction==='down' ? parents : children;
+      const layerIdxs = direction==='down'
+        ? layers.map((_,i)=>i).slice(1)
+        : layers.map((_,i)=>i).slice(0,-1).reverse();
+      layerIdxs.forEach(li=>{
+        const keyed = layers[li].map(id=>{
+          const neigh = refMap[id]||[];
+          const key = neigh.length
+            ? neigh.reduce((s,n)=> s+(orderIndex[n]||0),0)/neigh.length
+            : orderIndex[id];
+          return {id, key};
+        });
+        keyed.sort((a,b)=>a.key-b.key);
+        layers[li] = keyed.map(k=>k.id);
+        layers[li].forEach((id,i)=>{ orderIndex[id]=i; });
+      });
+    }
+    for(let pass=0; pass<3; pass++){ sweepPass('down'); sweepPass('up'); }
+    const xGap = 140, yGap = 130;
+    const maxWidth = Math.max(...layers.map(l=>l.length), 1);
+    const positions = {};
+    layers.forEach((layer, li)=>{
+      const levelWidth = (layer.length-1)*xGap;
+      const centerOffset = ((maxWidth-1)*xGap - levelWidth)/2;
+      layer.forEach((id, i)=>{ positions[id] = { x: centerOffset + i*xGap, y: li*yGap }; });
+    });
+    return positions;
+  }
+  const treePositions = computeTreePositions(elements);
+
   cy = cytoscape({
     container: document.getElementById('cyGraph'),
     elements,
@@ -6904,13 +7542,36 @@ function renderGraphView(){
       }},
       { selector:'node[?done]', style:{'border-width':4,'border-color':'#39ffb0'}},
       { selector:'edge', style:{
-        'width':1.8,'line-color':'#3a4560','target-arrow-color':'#5a6a8f','target-arrow-shape':'triangle',
-        'curve-style':'bezier','arrow-scale':1,'opacity':.85
-      }}
+        'width':1.5,'line-color':'#33394d','target-arrow-color':'#33394d','target-arrow-shape':'triangle',
+        'curve-style':'bezier','arrow-scale':1,'opacity':.35
+      }},
+      { selector:'edge[subject="math"]', style:{'line-color':SUBJECT_NEON.math.c,'target-arrow-color':SUBJECT_NEON.math.c}},
+      { selector:'edge[subject="stats"]', style:{'line-color':SUBJECT_NEON.stats.c,'target-arrow-color':SUBJECT_NEON.stats.c}},
+      { selector:'edge[subject="cs"]', style:{'line-color':SUBJECT_NEON.cs.c,'target-arrow-color':SUBJECT_NEON.cs.c}},
+      { selector:'node.faded', style:{'opacity':.2}},
+      { selector:'edge.faded', style:{'opacity':.06}},
+      { selector:'node.highlighted', style:{'border-width':5,'z-index':999}},
+      { selector:'edge.highlighted', style:{'width':3.5,'opacity':1,'arrow-scale':1.4,'z-index':999}}
     ],
-    layout:{ name:'breadthfirst', directed:true, spacingFactor:1.35, padding:30 }
+    layout:{
+      name:'preset',
+      positions: node => treePositions[node.id()] || {x:0,y:0},
+      fit:true, padding:30
+    }
   });
-  cy.on('tap','node', evt => openModal(evt.target.id()));
+
+  function highlightNode(node){
+    cy.elements().addClass('faded');
+    const neighborhood = node.closedNeighborhood();
+    neighborhood.removeClass('faded').addClass('highlighted');
+  }
+  function clearHighlight(){
+    cy.elements().removeClass('faded highlighted');
+  }
+  cy.on('tap','node', evt => { highlightNode(evt.target); openModal(evt.target.id()); });
+  cy.on('mouseover','node', evt => highlightNode(evt.target));
+  cy.on('mouseout','node', () => clearHighlight());
+  cy.on('tap', evt => { if(evt.target === cy) clearHighlight(); });
 }
 
 /* ================= PROGRESS VIEW ================= */
@@ -7985,6 +8646,7 @@ function renderCgpaView(){
   ${specializationEligibilityHtml()}
   `;
   document.getElementById('trackView').innerHTML = html;
+  initTermPerformanceChart();
 
   document.getElementById('addTermBtn').onclick = ()=> openNewTermModal();
   document.getElementById('openCourseBankBtn').onclick = ()=> openCourseBankModal();
