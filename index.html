@@ -8289,7 +8289,10 @@ function renderTransferPlanWizard(track, baseOpt, sectionOfInTrack, trackCodes){
   const sharedSectionOf = {};
   trackCodes.forEach(code=>{
     const sec = sectionOfInTrack[code];
-    if(sec && (sec.scope==='college' || sec.scope==='university')) sharedSectionOf[code] = sec;
+    // متطلبات الكلية والجامعة لازمة لأي طالب أياً كان تخصصه، ومواد الاختيار الحر العامة
+    // (اللي مش مرتبطة بتخصص معيّن، زي أخلاقيات مهنة/مهارات حياتية) برضو متاحة لأي طالب —
+    // لازم تفضل ظاهرة للطالب المحوّل/المتأخر برضو، مش بس للمتخصصين فعليًا.
+    if(sec && (sec.scope==='college' || sec.scope==='university' || sec.scope==='freeElective')) sharedSectionOf[code] = sec;
   });
 
   const combinedSectionOf = {...sharedSectionOf, ...targetSectionOf};
