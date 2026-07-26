@@ -3583,13 +3583,14 @@ const TRACKS = [
   },
   {
     id:"transfer",
-    label:"طالب مستوى أول / طالب متأخر",
+    label:"طالب مستوى أول / متأخر / غير متخصص",
     color:"gold",
     isTransferHub:true,
+    unspecialized:true,
     sections:[
       {key:"freeElective", title:"مقررات مرشّحة (اختيار حر — بحد أقصى 8 ساعات)", type:"elective", scope:"freeElective",
         list: [], credit:8,
-        note:"لسه ما اخترتش تخصصك النهائي؟ اختَر تحت التخصص اللي ناوي تتجه له، وهنقترح عليك مقرراته المرشحة عشان تسجلها دلوقتي كـ«اختيار حر» فمتتأخرش، وبعدين لما تتخصص فعلياً دوس زرار «تم التخصص في هذا التخصص؟» فتتحول ساعاتها تلقائي لساعات تخصص رئيسي/فرعي حقيقية. اللائحة بتسمح بـ8 ساعات اختيار حر بس، فمتسجّلش أكتر من كده من القائمة دي."}
+        note:"لسه ما اخترتش تخصصك النهائي؟ حدد تحت التخصص اللي ناوي تتجه له (اختياري) وهنقترح عليك مقرراته المرشحة عشان تسجلها دلوقتي كـ«اختيار حر» فمتتأخرش، وبعدين لما تتخصص فعلياً دوس زرار «تم التخصص في هذا التخصص؟» فتتحول ساعاتها تلقائي لساعات تخصص رئيسي/فرعي حقيقية. لو مش حدّدت هدف، هتفضل بس بتاخد ترشيحات عامة (كلية/جامعة/اختيار حر). اللائحة بتسمح بـ8 ساعات اختيار حر بس، فمتسجّلش أكتر من كده من القائمة دي."}
     ]
   },
   {
@@ -4038,7 +4039,7 @@ const VIEWS = [
   {id:"home", icon:"home", label:"الرئيسية"},
   {id:"myprofile", icon:"person", label:"البروفايل"},
   {id:"coursesreg", icon:"menu_book", label:"المقررات والتسجيل"},
-  {id:"list", icon:"checklist", label:"البحث عن مقرر"},
+  {id:"list", icon:"checklist", label:"قائمة المقررات"},
   {id:"register", icon:"school", label:"أسجل ايه دلوقتي؟"},
   {id:"cgpa", icon:"calculate", label:"تسجيل المواد"},
   {id:"pastcoord", icon:"history_edu", label:"تنسيقات السنين السابقة"},
@@ -5984,7 +5985,7 @@ function specializationEligibilityHtml(){
      محدد ليه لسه). أي طالب متخصص فعليًا في قسم حقيقي (رياضيات/إحصاء/حاسب...) خلاص عدى الشرط ده،
      فمفيش داعي نوريها ليه ونلخبطه. */
   const currentTrackObj = TRACKS.find(t=>t.id===profile.trackId);
-  const alreadySpecialized = !!(currentTrackObj && !currentTrackObj.isTransferHub);
+  const alreadySpecialized = !!(currentTrackObj && !currentTrackObj.unspecialized);
   if(alreadySpecialized) return '';
   const p = specializationProgress();
   let statusHtml;
@@ -7927,7 +7928,7 @@ function renderListView(){
     : `<span class="chip total">إجمالي التخصص: ${totalCredit} ساعة معتمدة</span>`;
   let html = `<div class="track-head">
     <div><h2>${track.label}</h2></div>
-    <div class="chips">${chip}<button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">park</span> شجرة المقررات</button></div>
+    <div class="chips">${chip}<button class="tree-toggle-btn" id="openCourseBankBtnList" type="button"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">menu_book</span> بنك المواد اليدوي</button><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">park</span> شجرة المقررات</button></div>
   </div>
   <p class="graph-hint">شارة "🗓️ الترم" جنب كل مقرر مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) بتظهر "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.</p>`;
 
@@ -7963,6 +7964,9 @@ function renderListView(){
 
   const treeToggleBtn = document.getElementById('listTreeToggleBtn');
   if(treeToggleBtn) treeToggleBtn.addEventListener('click', ()=>{ listTreeMode = true; renderListView(); });
+
+  const courseBankBtnList = document.getElementById('openCourseBankBtnList');
+  if(courseBankBtnList) courseBankBtnList.addEventListener('click', ()=> openCourseBankModal());
 
   document.querySelectorAll('.course').forEach(el=>{
     el.addEventListener('click', (e)=>{
@@ -8110,7 +8114,7 @@ function renderListTreeMode(track){
   secs.forEach(sec=> sec.list.forEach(c=> visibleCodes.add(c)));
 
   let html = `<div class="track-head"><div><h2>${track.label} — شجرة المقررات ${infoTip('اضغط على أي مقرر (أو مرّر عليه بالماوس) عشان تتوضحلك بس الأسهم الداخلة والخارجة منه، والباقي يخفت شوية عشان تقدر تتابعها بسهولة، وكمان هيتفتحلك تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div>
-    <div class="chips"><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">checklist</span> البحث عن مقرر</button></div></div>
+    <div class="chips"><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">checklist</span> قائمة المقررات</button></div></div>
     <div class="graph-wrap neon"><div id="cyGraph"></div>
     <div class="graph-legend neon-legend">
       <span><span class="leg-dot" style="background:${SUBJECT_NEON.math.c};box-shadow:0 0 8px ${SUBJECT_NEON.math.glow}"></span> رياضيات</span>
@@ -8362,7 +8366,7 @@ function renderRegisterWizard(track, sectionOfInTrack, trackCodes){
   if(track.isTransferHub){
     const baseOpt = TRANSFER_BASE_OPTIONS.find(o=>o.id===profile.transferBaseId);
     if(!baseOpt){
-      html += `<p class="suggest-empty-note">لسه محدّدش التخصص اللي ناوي تتحول/تتجه له. دوس "✏️ تعديل التخصص / المستوى" فوق، واختار تحت "طالب مستوى أول / طالب متأخر" التخصص المستهدف، وارجع هنا وهنعمللك خطة تسجيل مرتبة على أساسه.</p>`;
+      html += `<p class="suggest-empty-note">لسه محدّدش التخصص اللي ناوي تتحول/تتجه له (الحقل ده اختياري). دوس "✏️ تعديل التخصص / المستوى" فوق وحدد تحت "نفسك تتخصص إيه؟" التخصص المستهدف، وارجع هنا وهنعمللك خطة تسجيل مرتبة على أساسه.</p>`;
     } else {
       html += renderTransferPlanWizard(track, baseOpt, sectionOfInTrack, trackCodes);
     }
@@ -8747,9 +8751,10 @@ function renderRegistrationSuggestions(track, sectionOfInTrack, trackCodesArr){
     return `<div class="section">
       <div class="section-title"><span class="dot" style="background:var(--maroon)"></span><h3>🧭 ترشيح التسجيل بالأولوية</h3></div>
       <p class="suggest-empty-note">
-        لسه محدّدش نفسك ناوي تتخصص في إيه، فمش هينفع نرشّحلك مواد. دوس "✏️ تعديل التخصص / المستوى" فوق،
-        واختار "طالب مستوى أول / طالب متأخر"، وبعدها حدد التخصص اللي شايف نفسك فيه (حاسب/إحصاء، إحصاء/حاسب، أو رياضة/حاسب) —
+        لسه محدّدش نفسك ناوي تتخصص في إيه (تحديد الهدف اختياري، بس من غيره مش هينفع نرشّحلك مواد تخصص بعينه).
+        دوس "✏️ تعديل التخصص / المستوى" فوق، وحدد تحت "نفسك تتخصص إيه؟" التخصص اللي شايف نفسك فيه (حاسب/إحصاء، إحصاء/حاسب، أو رياضة/حاسب) —
         وهنبدأ نرشّحلك فوراً مواده (رئيسي وفرعي، إجباري واختياري) عشان تسجّلها كـ"اختيار حر" وتبدأ تتقرّب من التخصص ده من دلوقتي.
+        لحد ما تحدد، هتفضل بتاخد ترشيحات عامة (كلية/جامعة/اختيار حر) بس.
       </p>
     </div>`;
   }
@@ -8964,7 +8969,7 @@ function renderRegisterView(){
   html += `<div class="section">
     <div class="section-title"><span class="dot" style="background:var(--teal)"></span><h3>مقررات تمت دراستها</h3><span class="count">${completedCodes.length} مقرر</span></div>`;
   if(!completedCodes.length){
-    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 البحث عن مقرر".</p>`;
+    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 قائمة المقررات".</p>`;
   } else {
     html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th></tr></thead><tbody>
       ${completedCodes.map(code=>{
@@ -9415,7 +9420,6 @@ function renderCgpaView(){
     <div class="chips">
       <button class="chip chip-primary" id="addTermBtn" type="button" style="cursor:pointer;border:none;"><span class="chip-plus">+</span> تسجيل ترم جديد</button>
       <span class="chip total">${cgpaTerms.length} ترم مسجّل</span>
-      <button class="chip" id="openCourseBankBtn" type="button" style="cursor:pointer;border:none;">📚 بنك المواد اليدوي</button>
       <button class="chip" id="cgpaGotoRegisterBtn" type="button" style="cursor:pointer;border:none;">🧭 اقتراحات التسجيل</button>
     </div>
   </div>
@@ -9445,7 +9449,6 @@ function renderCgpaView(){
   initTermPerformanceChart();
 
   document.getElementById('addTermBtn').onclick = ()=> openNewTermModal();
-  document.getElementById('openCourseBankBtn').onclick = ()=> openCourseBankModal();
   document.getElementById('cgpaGotoRegisterBtn').onclick = ()=>{
     currentView = 'register';
     renderViewTabs();
@@ -10124,8 +10127,9 @@ function renderTranscriptView(){
    بـ saveProfile()، وبيانات غير قابلة للتعديل بتتجاب لايف من باقي أدوات البرنامج (المستوى
    والمعدل التراكمي والساعات المكتسبة بيتحسبوا من effectiveLevel/overallCgpaStats/effectiveHours). */
 /* خيارات "التخصص" المعروضة في صفحة البروفايل — نفس الـ trackId المستخدم في باقي البرنامج،
-   لكن بأسماء مختصرة زي ما الطالب متعوّد يقولها، وبدون خيارات "طالب مستوى أول/متأخر" أو
-   "لغير المتخصصين" لأنهم حالات انتقالية مش تخصص نهائي. */
+   لكن بأسماء مختصرة زي ما الطالب متعوّد يقولها، وبدون خيار "طالب مستوى أول/متأخر/غير متخصص"
+   لأنه محتاج فورم أوسع (تحديد هدف اختياري) مش متاح في القايمة المبسّطة دي — عدّل من مودال
+   "تعديل التخصص / المستوى" لو محتاج الخيار ده، ولا "لغير المتخصصين" لأنها حالة مرجعية مش تخصص فعلي. */
 const MY_PROFILE_TRACK_OPTIONS = [
   {id:"cs_stats", label:"حاسب / إحصاء"},
   {id:"stats_cs", label:"إحصاء / حاسب"},
@@ -10365,7 +10369,7 @@ function gradStatsHtml(track){
 
   // الطالب لسه ما اتخصصش (هَب التحويل/المستوى الأول) أو تابع لمسار "لغير المتخصصين"
   // مفهوش تخصص حقيقي له أصلاً، فمفيش داعي نوريه كارت "التخصص" ولا تحليل ساعاته بالتفصيل.
-  const noSpecYet = !!(track.isTransferHub || track.infoOnly);
+  const noSpecYet = !!(track.unspecialized || track.infoOnly);
 
   const specCard = noSpecYet ? '' : hasMinorSplit ? `
       ${gradstatCard('spec','التخصص الرئيسي', majorDone, majorTotal, 'var(--navy)',
@@ -10689,7 +10693,27 @@ function openOnboardingIntro(){
     muteBtn.onclick = ()=>{ muteBtn.textContent = obMusic.toggleMute() ? '🔇' : '🔊'; };
   }
   function setStage(html){ document.getElementById('obStage').innerHTML = html; }
-  function sceneTo(renderInnerFn){
+  /* سجل المشاهد اللي اتزارت عشان زرار "رجوع" (خيار عادي جوه كل شاشة) يقدر يرجع للمشهد اللي فات
+     بدل ما يقفل الافتتاحية كلها. backOptionHtml() بترجع HTML الزرار بس لو فيه خطوة سابقة نرجعلها،
+     وbindBackOption() بتربط الحدث لو الزرار ده اتحط في الشاشة الحالية. */
+  let sceneHistory = [];
+  let currentSceneFn = null;
+  function goBack(){
+    if(!sceneHistory.length) return;
+    const prev = sceneHistory.pop();
+    sceneTo(prev, true);
+  }
+  function backOptionHtml(siblingClass){
+    return sceneHistory.length ? `<button class="${siblingClass}" id="obBackOption" type="button">⬅️ رجوع</button>` : '';
+  }
+  function bindBackOption(){
+    const b = document.getElementById('obBackOption');
+    if(b) b.onclick = ()=> goBack();
+  }
+  /* isBack=true معناها إننا راجعين لمشهد سابق (زرار الرجوع)، فمنسجّلوش المشهد الحالي تاني في السجل. */
+  function sceneTo(renderInnerFn, isBack){
+    if(!isBack && currentSceneFn) sceneHistory.push(currentSceneFn);
+    currentSceneFn = renderInnerFn;
     const stage = document.getElementById('obStage'), vign = document.getElementById('obVignette');
     if(stage && stage.innerHTML.trim()){
       stage.classList.remove('ob-stage-in'); stage.classList.add('ob-stage-out');
@@ -10754,13 +10778,15 @@ function openOnboardingIntro(){
         <div class="ob-choice-row" id="obChoiceRow">
           <button class="ob-choice-btn" data-ans="yes">✅ نعم</button>
           <button class="ob-choice-btn" data-ans="no">❌ لسه لأ</button>
+          ${backOptionHtml('ob-choice-btn')}
         </div>
       </div>`);
     const q=document.getElementById('obQ1'), row=document.getElementById('obChoiceRow');
     obTypewriter(q, 'طيب قبل ما نبدأ… هل تم تخصصك؟ 🤔', 34, ()=>{ row.classList.add('ob-fade-in'); });
-    row.querySelectorAll('.ob-choice-btn').forEach(b=>{
+    row.querySelectorAll('.ob-choice-btn[data-ans]').forEach(b=>{
       b.onclick = ()=>{ ans1 = b.dataset.ans; sceneTo(ans1==='yes' ? renderPickCurrent : renderPickDesired); };
     });
+    bindBackOption();
   }
 
   function trackListScreen(question, options, onPick){
@@ -10769,13 +10795,15 @@ function openOnboardingIntro(){
         <p class="ob-typeline" id="obQ2"></p>
         <div class="ob-track-list" id="obTrackList">
           ${options.map((o,i)=>`<button class="ob-track-btn" style="animation-delay:${i*90}ms" data-id="${o.id}">${o.label}</button>`).join('')}
+          ${sceneHistory.length ? `<button class="ob-track-btn" id="obBackOption" type="button" style="animation-delay:${options.length*90}ms">⬅️ رجوع</button>` : ''}
         </div>
       </div>`);
     const q=document.getElementById('obQ2'), list=document.getElementById('obTrackList');
     obTypewriter(q, question, 34, ()=>{
       list.querySelectorAll('.ob-track-btn').forEach(b=>b.classList.add('ob-item-in'));
     });
-    list.querySelectorAll('.ob-track-btn').forEach(b=>{ b.onclick = ()=>onPick(b.dataset.id); });
+    list.querySelectorAll('.ob-track-btn[data-id]').forEach(b=>{ b.onclick = ()=>onPick(b.dataset.id); });
+    bindBackOption();
   }
 
   function yesNoScreen(question, onAns){
@@ -10785,15 +10813,24 @@ function openOnboardingIntro(){
         <div class="ob-choice-row" id="obChoiceRow3">
           <button class="ob-choice-btn" data-ans="yes">✅ نعم</button>
           <button class="ob-choice-btn" data-ans="no">❌ لأ</button>
+          ${backOptionHtml('ob-choice-btn')}
         </div>
       </div>`);
     const q=document.getElementById('obQ3'), row=document.getElementById('obChoiceRow3');
     obTypewriter(q, question, 34, ()=>{ row.classList.add('ob-fade-in'); });
-    row.querySelectorAll('.ob-choice-btn').forEach(b=>{ b.onclick = ()=>onAns(b.dataset.ans); });
+    row.querySelectorAll('.ob-choice-btn[data-ans]').forEach(b=>{ b.onclick = ()=>onAns(b.dataset.ans); });
+    bindBackOption();
   }
 
+  /* سؤال "تحويل المسار" منطقي بس للتخصصات التلاتة العادية (math_cs / stats_cs / cs_stats)،
+     لأن طالب الدرجة الخاصة (math_special / cs_special) أصلاً مش بيتحول لتخصص عادي تاني —
+     فلو اختار تخصصه الحالي واحد من الدرجة الخاصة، بنتخطى سؤال التحويل ونروح على طول للختام. */
   function renderPickCurrent(){
-    trackListScreen('تمام! طب إيه تخصصك الحالي؟ 🎯', CURRENT_TRACK_OPTIONS, (id)=>{ pickedTrackId = id; sceneTo(renderAskTransfer); });
+    trackListScreen('تمام! طب إيه تخصصك الحالي؟ 🎯', CURRENT_TRACK_OPTIONS, (id)=>{
+      pickedTrackId = id;
+      const isSpecialDegreeId = (id==='math_special' || id==='cs_special');
+      sceneTo(isSpecialDegreeId ? renderFinal : renderAskTransfer);
+    });
   }
   function renderPickDesired(){
     trackListScreen('ولا يهمك، إيه التخصص اللي نفسك فيه؟ 🚀', TRANSFER_BASE_OPTIONS, (id)=>{ pickedBaseId = id; sceneTo(renderFinal); });
@@ -10832,15 +10869,18 @@ function openOnboardingIntro(){
         <p class="ob-typeline" id="obF1"></p>
         <p class="ob-typeline" id="obF2"></p>
         <button class="profile-save-btn ob-next-btn" id="obFinalBtn">🚀 يلا نبدأ</button>
+        ${backOptionHtml('profile-save-btn ob-next-btn')}
       </div>`);
     obMusic.hit();
-    const f1=document.getElementById('obF1'), f2=document.getElementById('obF2'), btn=document.getElementById('obFinalBtn');
+    const f1=document.getElementById('obF1'), f2=document.getElementById('obF2'), btn=document.getElementById('obFinalBtn'), backBtn=document.getElementById('obBackOption');
     obTypewriter(f1, 'هذا البرنامج مصمم من أجلك 🎯', 34, ()=>{
       obTypewriter(f2, 'وهتقدر تسجّل ترماتك وتتابع معدلك في أي وقت يناسبك من حاسبة المعدل.', 20, ()=>{
         btn.classList.add('ob-fade-in');
+        if(backBtn) backBtn.classList.add('ob-fade-in');
       });
     });
     btn.onclick = finalizeOnboarding;
+    bindBackOption();
   }
 
   function finalizeOnboarding(){
@@ -10872,6 +10912,7 @@ function openOnboardingIntro(){
   }
 
   renderShellStatic();
+  currentSceneFn = renderGate;
   renderGate();
   document.getElementById('overlay').classList.add('show');
 }
@@ -10929,17 +10970,18 @@ function openProfileModal(forced){
 
         ${tempTrackId==='transfer' ? `
         <div class="transfer-base-pick">
-          <h4>نفسك تتخصص إيه؟</h4>
-          <p class="p-sub" style="margin-top:-6px;">هنقترح عليك مقررات التخصص ده كـ"اختيار حر" بس (لحد 8 ساعات)، لحد ما تتخصص فيه رسمياً.</p>
+          <h4>نفسك تتخصص إيه؟ <span style="font-weight:400;color:var(--ink-soft);">(اختياري)</span></h4>
+          <p class="p-sub" style="margin-top:-6px;">لو حددت هدف، هنقترح عليك مقرراته كـ"اختيار حر" بس (لحد 8 ساعات) لحد ما تتخصص فيه رسمياً. مش لازم تحدد — سيبها فاضية لو لسه مش عارف، وهتفضل بس بتاخد ترشيحات عامة (كلية/جامعة/اختيار حر).</p>
           <div class="track-pick-list" id="transferBasePickList">
             ${TRANSFER_BASE_OPTIONS.map(o=>`
               <div class="track-pick-item${tempTransferBase===o.id?' active':''}" data-base="${o.id}">
                 <span class="tp-name">${o.label}</span>
               </div>`).join('')}
           </div>
+          ${tempTransferBase ? `<button type="button" class="profile-save-btn secondary" id="clearTransferBaseBtn" style="margin-top:10px;">✕ إلغاء التحديد (رجوع لـ"لسه مش عارف")</button>` : ''}
         </div>` : ''}
 
-        <button class="profile-save-btn" id="profileSaveBtn" ${(!tempLevel||!tempTrackId||(tempTrackId==='transfer'&&!tempTransferBase))?'disabled':''}>حفظ والمتابعة</button>
+        <button class="profile-save-btn" id="profileSaveBtn" ${(!tempLevel||!tempTrackId)?'disabled':''}>حفظ والمتابعة</button>
       </div>
     `;
   }
@@ -10956,7 +10998,7 @@ function openProfileModal(forced){
         <button type="button" id="hoursGoToCgpaBtn">➕ ضيف موادي دلوقتي</button>
       </div>`;
       document.getElementById('hoursGoToCgpaBtn').onclick = ()=>{
-        if(!tempTrackId || !tempLevel || (tempTrackId==='transfer' && !tempTransferBase)){ alert('حدد التخصص الأول تحت (ولو محوّل/متأخر، حدد كمان نفسك تتخصص إيه)، وبعدين دوس تاني.'); return; }
+        if(!tempTrackId || !tempLevel){ alert('حدد التخصص الأول تحت، وبعدين دوس تاني.'); return; }
         profile.trackId = tempTrackId; currentTrack = tempTrackId;
         profile.transferBaseId = tempTrackId==='transfer' ? tempTransferBase : null;
         profile.level = tempLevel;
@@ -10989,7 +11031,7 @@ function openProfileModal(forced){
       tempLevel = levelFromHours(tempHours);
       const pickedTrack = TRACKS.find(t=>t.id===tempTrackId);
       let trackWasReset = false;
-      if(pickedTrack && !pickedTrack.isTransferHub && (Number(tempHours)||0) < SPECIALIZATION_MANDATORY_MIN){
+      if(pickedTrack && !pickedTrack.unspecialized && (Number(tempHours)||0) < SPECIALIZATION_MANDATORY_MIN){
         tempTrackId = null; tempTransferBase = null; trackWasReset = true;
       }
       if(trackWasReset){
@@ -10998,14 +11040,14 @@ function openProfileModal(forced){
         return;
       }
       document.getElementById('levelDerivedBadge').innerHTML = levelBadgeHtml();
-      saveBtn.disabled = !tempLevel || !tempTrackId || (tempTrackId==='transfer' && !tempTransferBase);
+      saveBtn.disabled = !tempLevel || !tempTrackId;
       refreshHoursLinkNote();
     });
     document.querySelectorAll('#trackPickList .track-pick-item').forEach(b=>{
       b.onclick = ()=>{
         const newId = b.dataset.track;
         const newTrack = TRACKS.find(t=>t.id===newId);
-        if(newTrack && !newTrack.isTransferHub && newId!==tempTrackId){
+        if(newTrack && !newTrack.unspecialized && newId!==tempTrackId){
           const hrsNow = Number(tempHours)||0;
           if(hrsNow < SPECIALIZATION_MANDATORY_MIN){
             alert(`مينفعش تختار "${newTrack.label}" وعدد الساعات اللي دخّلته ${hrsNow} — التخصص بيتطلب 30 ساعة على الأقل. اختَر "طالب مستوى أول / طالب متأخر" لحد ما توصل 30 ساعة.`);
@@ -11018,9 +11060,10 @@ function openProfileModal(forced){
     document.querySelectorAll('#transferBasePickList .track-pick-item').forEach(b=>{
       b.onclick = ()=>{ tempTransferBase = b.dataset.base; render(); };
     });
+    const clearBaseBtn = document.getElementById('clearTransferBaseBtn');
+    if(clearBaseBtn) clearBaseBtn.onclick = ()=>{ tempTransferBase = null; render(); };
     saveBtn.onclick = ()=>{
       if(!tempLevel || !tempTrackId) return;
-      if(tempTrackId==='transfer' && !tempTransferBase) return;
       profile.level = tempLevel;
       if(!gapClosed) profile.hours = tempHours;
       profile.trackId = tempTrackId;
@@ -11731,13 +11774,18 @@ function coursesRegHomeHtml(){
     <div class="study-grid">
       <div class="study-card" id="crOpenList">
         <div class="study-card-ic">🔎</div>
-        <div class="study-card-title">البحث عن مقرر</div>
+        <div class="study-card-title">قائمة المقررات</div>
         <div class="study-card-desc">كل مقررات تخصصك مقسّمة بالأقسام، وتقدر تدوّر وتفلتر وتشوف تفاصيل أي مادة.</div>
       </div>
       <div class="study-card" id="crOpenCgpa">
         <div class="study-card-ic">🧮</div>
-        <div class="study-card-title">تسجيل المواد</div>
+        <div class="study-card-title">تسجيل الترمات</div>
         <div class="study-card-desc">سجّل ترماتك ومواد كل ترم وتقديراتها، وهيتحسبلك الـ GPA والـ CGPA أوتوماتيك.</div>
+      </div>
+      <div class="study-card" id="crOpenRegister">
+        <div class="study-card-ic">🧭</div>
+        <div class="study-card-title">أسجل إيه دلوقتي؟</div>
+        <div class="study-card-desc">رشّحلك مواد التسجيل حسب الترم وعدد الساعات اللي عايز تسجّلها، مرتبة بالأولوية.</div>
       </div>
       <div class="study-card" id="crOpenTranscript">
         <div class="study-card-ic">🧾</div>
@@ -11752,6 +11800,8 @@ function bindCoursesRegHome(){
   if(l) l.onclick = ()=> goToView('list');
   const c = document.getElementById('crOpenCgpa');
   if(c) c.onclick = ()=> goToView('cgpa');
+  const r = document.getElementById('crOpenRegister');
+  if(r) r.onclick = ()=> goToView('register');
   const t = document.getElementById('crOpenTranscript');
   if(t) t.onclick = ()=> goToView('transcript');
 }
