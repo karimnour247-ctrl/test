@@ -1114,6 +1114,55 @@ button.chip.chip-primary:hover{box-shadow:0 8px 20px var(--glow-navy);transform:
 .progress-stats{display:flex;gap:26px;flex-wrap:wrap;}
 .pstat .n{font-family:'IBM Plex Mono',monospace;font-size:1.375rem;font-weight:700;color:var(--ink);}
 .pstat .l{font-size:0.75rem;color:var(--ink-soft);}
+/* ===== صفحة البروفايل ===== */
+.mp-card{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px 22px 24px;
+  box-shadow:var(--shadow-soft);display:flex;flex-direction:column;align-items:center;gap:16px;
+  max-width:480px;margin:0 auto 26px;
+}
+.mp-edit-fab{
+  position:absolute;top:14px;left:14px;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);
+  background:var(--paper-2);color:var(--ink);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .15s ease, background .15s ease;
+}
+.mp-edit-fab .material-symbols-outlined{font-size:18px;}
+.mp-edit-fab:hover{background:var(--navy);color:#fff;transform:translateY(-2px);}
+.mp-avatar-wrap{position:relative;}
+.mp-avatar{
+  width:112px;height:112px;border-radius:50%;background:var(--paper-2);border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+.mp-avatar img{width:100%;height:100%;object-fit:cover;display:block;}
+.mp-avatar .material-symbols-outlined{font-size:52px;color:var(--ink-soft);}
+.mp-avatar-edit{
+  position:absolute;bottom:0;left:0;width:34px;height:34px;border-radius:50%;background:var(--navy);
+  color:#fff;border:2px solid var(--card);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 4px 10px var(--glow-navy);transition:transform .15s ease;
+}
+.mp-avatar-edit .material-symbols-outlined{font-size:18px;}
+.mp-avatar-edit:hover{transform:translateY(-2px);}
+.mp-view-name{font-size:1.25rem;font-weight:800;color:var(--ink);text-align:center;}
+.mp-view-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;}
+.mp-view-chip{
+  display:flex;align-items:center;gap:6px;background:var(--paper-2);border:1px solid var(--line);
+  border-radius:999px;padding:7px 14px;font-size:0.8125rem;color:var(--ink-soft);font-weight:700;
+}
+.mp-view-chip .material-symbols-outlined{font-size:16px;color:var(--navy);}
+.mp-fields{width:100%;display:flex;flex-direction:column;gap:14px;}
+.mp-field{display:flex;flex-direction:column;gap:6px;font-size:0.8125rem;color:var(--ink-soft);font-weight:700;}
+.mp-field input, .mp-field select{
+  padding:10px 12px;border:1.5px solid var(--line);border-radius:9px;background:var(--paper);
+  color:var(--ink);font-family:'Tajawal',sans-serif;font-size:0.875rem;
+}
+.mp-field select{cursor:pointer;}
+.mp-field input:focus, .mp-field select:focus{outline:none;border-color:var(--navy);}
+.mp-edit-actions{width:100%;display:flex;gap:10px;}
+.mp-edit-actions .profile-save-btn{flex:1;margin-top:0;}
+.mp-saved-note{
+  font-size:0.8125rem;color:var(--teal);font-weight:700;opacity:0;height:0;overflow:hidden;
+  transition:opacity .25s ease;
+}
+.mp-saved-note.show{opacity:1;height:auto;}
 .mm-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:26px;}
 .mm-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;transition:transform .2s ease, box-shadow .2s ease;}
 .mm-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px var(--glow-teal);}
@@ -1483,6 +1532,170 @@ button.chip.chip-primary:hover{box-shadow:0 8px 20px var(--glow-navy);transform:
 /* شاشة تسجيل الساعات والتخصص (بروفايل البداية) بتحتوي قايمة تخصصات طويلة، فبتاخد عرض أوسع
    من مودال المقرر العادي عشان تتحول القايمة لعمودين بدل ما تفضل طويلة قوي بالطول. */
 .modal:has(.profile-modal){max-width:760px;}
+
+/* ===== Onboarding Story — الشاشة الترحيبية السينيمائية اللي بتظهر أول ما الطالب يدخل الموقع
+   (لوجو ضخم + كلام بيتكتب لوحده full-screen + fade/shadow بين كل مشهد + موسيقى درامية
+   + أسئلة تفاعلية عن التخصص) بدل مودال إدخال الساعات القديم. ===== */
+.overlay:has(.onboarding-story){padding:0;background:#000;backdrop-filter:none;}
+.modal:has(.onboarding-story){
+  max-width:none;width:100vw;height:100vh;height:100dvh;border-radius:0;padding:0;
+  margin:0;max-height:none;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 50% 15%, rgba(45,132,244,.16) 0%, transparent 55%),
+    radial-gradient(120% 90% at 50% 100%, rgba(77,217,234,.10) 0%, transparent 50%),
+    #03050c;
+  box-shadow:none;animation:none;
+}
+.onboarding-story{
+  position:relative;min-height:100vh;min-height:100dvh;width:100%;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  overflow:hidden;
+}
+/* شرايط سينمائية (letterbox) فوق وتحت عشان تحس إنها شاشة سينما مش فورم عادي */
+.onboarding-story::before,.onboarding-story::after{
+  content:'';position:absolute;inset-inline:0;height:clamp(14px,4vh,52px);background:#000;z-index:5;
+  opacity:0;animation:obLetterboxIn 1s ease .1s both;
+}
+.onboarding-story::before{top:0;}
+.onboarding-story::after{bottom:0;}
+.ob-stage{
+  width:100%;max-width:760px;padding:0 28px;position:relative;z-index:2;
+}
+/* ===== Fade + shadow transition بين كل فقرة/مشهد ===== */
+.ob-stage.ob-stage-out{animation:obStageOut .5s cubic-bezier(.4,0,.7,1) both;}
+.ob-stage.ob-stage-in{animation:obStageIn .8s cubic-bezier(.2,.8,.3,1) both;}
+@keyframes obStageOut{
+  0%{opacity:1;filter:blur(0) brightness(1);transform:scale(1);}
+  100%{opacity:0;filter:blur(14px) brightness(.4);transform:scale(.96);}
+}
+@keyframes obStageIn{
+  0%{opacity:0;filter:blur(14px) brightness(.3);transform:scale(1.04);}
+  100%{opacity:1;filter:blur(0) brightness(1);transform:scale(1);}
+}
+/* ظل درامي متحرك في وسط الشاشة بيلمع كل ما مشهد يدخل */
+.ob-vignette-shadow{
+  position:absolute;inset:0;pointer-events:none;z-index:1;
+  background:radial-gradient(60% 55% at 50% 50%, transparent 40%, rgba(0,0,0,.55) 100%);
+  opacity:0;animation:obVignettePulse 1.6s ease both;
+}
+@keyframes obVignettePulse{
+  0%{opacity:0;}
+  35%{opacity:1;}
+  100%{opacity:.65;}
+}
+
+/* ===== شاشة "اضغط للبدء" — بوابة الدخول اللي بتفعّل الصوت (لازم تفاعل من المستخدم) ===== */
+.ob-gate{display:flex;flex-direction:column;align-items:center;gap:26px;cursor:pointer;}
+.ob-gate-mark{font-size:clamp(3rem,9vw,5.5rem);filter:drop-shadow(0 0 26px var(--glow-navy));animation:obGatePulse 2.4s ease-in-out infinite;}
+.ob-gate-title{
+  font-family:'Tajawal',sans-serif;font-weight:900;font-size:clamp(1.6rem,4.5vw,2.75rem);color:var(--ink);
+  letter-spacing:.02em;
+}
+.ob-gate-hint{
+  font-family:'IBM Plex Mono',monospace;font-size:clamp(.75rem,1.6vw,.9375rem);letter-spacing:.35em;color:var(--ink-soft);
+  animation:obHintBlink 1.8s ease-in-out infinite;
+}
+@keyframes obGatePulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.08);}
+}
+@keyframes obHintBlink{
+  0%,100%{opacity:.4;}
+  50%{opacity:1;}
+}
+
+/* ===== شاشة اللوجو — full-screen، ضخمة، بإحساس سينمائي ===== */
+.ob-logo-screen{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:34px 0;}
+.ob-logo-ring{
+  position:absolute;width:clamp(180px,32vw,320px);height:clamp(180px,32vw,320px);border-radius:50%;
+  border:2px solid var(--navy);opacity:0;
+  animation:obRingPulse 1.8s ease-out infinite;
+}
+.ob-logo-ring.ob-ring-2{animation-delay:.6s;}
+.ob-logo-mark{font-size:clamp(4rem,11vw,7.5rem);animation:obMarkIn .8s cubic-bezier(.2,.8,.3,1.1) both;filter:drop-shadow(0 0 34px var(--glow-navy));}
+.ob-logo-text{display:flex;flex-direction:column;line-height:1.15;}
+.ob-logo-top{
+  font-family:'IBM Plex Mono',monospace;letter-spacing:.65em;font-size:clamp(.8125rem,1.8vw,1.125rem);font-weight:700;color:var(--ink-soft);
+  opacity:0;animation:obFadeInUp .6s ease .55s both;
+}
+.ob-logo-main{
+  font-family:'Tajawal',sans-serif;font-weight:900;font-size:clamp(2.5rem,7.5vw,4.75rem);
+  background:linear-gradient(90deg,var(--navy),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;transform:scale(.6);animation:obLogoMainIn 1s cubic-bezier(.2,.8,.3,1.1) .9s both;
+  filter:drop-shadow(0 0 40px var(--glow-navy));
+}
+
+.ob-type-screen, .ob-question-screen{padding:16px 4px;width:100%;}
+.ob-typeline{
+  font-family:'Tajawal',sans-serif;font-weight:800;font-size:clamp(1.5rem,4.2vw,2.5rem);line-height:1.55;color:var(--ink);
+  min-height:1.55em;margin:0 0 14px;text-shadow:0 0 30px rgba(0,0,0,.6);
+}
+.ob-typeline.ob-typing::after{content:'▍';margin-inline-start:4px;color:var(--navy);animation:obBlink .85s steps(1) infinite;}
+
+.ob-next-btn{max-width:300px;margin:34px auto 0;opacity:0;visibility:hidden;font-size:1.0625rem;padding-block:16px;}
+.ob-next-btn.ob-fade-in{visibility:visible;animation:obFadeInUp .5s ease both;}
+
+.ob-choice-row{display:flex;gap:16px;justify-content:center;margin-top:34px;opacity:0;}
+.ob-choice-row.ob-fade-in{animation:obFadeInUp .5s ease both;}
+.ob-choice-btn{
+  flex:1;max-width:220px;border:1.5px solid var(--line);background:var(--paper);color:var(--ink);
+  padding:18px 12px;border-radius:14px;font-family:'Tajawal',sans-serif;font-weight:800;font-size:1.125rem;cursor:pointer;
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.ob-choice-btn:hover{transform:translateY(-2px);border-color:var(--navy);background:var(--navy-soft);box-shadow:0 12px 26px var(--glow-navy);}
+
+.ob-track-list{display:flex;flex-direction:column;gap:12px;margin-top:28px;max-width:460px;margin-inline:auto;}
+.ob-track-btn{
+  border:1.5px solid var(--line);background:var(--paper);color:var(--ink);
+  padding:17px 18px;border-radius:14px;font-family:'Tajawal',sans-serif;font-weight:700;font-size:1.0625rem;cursor:pointer;
+  text-align:center;opacity:0;transform:translateY(10px);
+  transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.ob-track-btn.ob-item-in{animation:obItemPop .45s ease both;}
+.ob-track-btn:hover{border-color:var(--navy);background:var(--navy-soft);transform:translateY(-2px);box-shadow:0 12px 26px var(--glow-navy);}
+
+/* زرار كتم/تشغيل الموسيقى الدرامية — ثابت في ركن الشاشة طول رحلة الافتتاحية */
+.ob-mute-btn{
+  position:fixed;top:calc(env(safe-area-inset-top,0px) + 18px);left:18px;z-index:20;
+  width:44px;height:44px;border-radius:50%;border:1.5px solid var(--line);background:rgba(10,15,30,.55);
+  color:var(--ink);font-size:1.125rem;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  backdrop-filter:blur(6px);transition:transform .18s ease, border-color .18s ease;opacity:0;animation:obFadeInUp .5s ease .3s both;
+}
+.ob-mute-btn:hover{transform:scale(1.08);border-color:var(--navy);}
+
+@keyframes obLetterboxIn{
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+@keyframes obRingPulse{
+  0%{transform:scale(.6);opacity:.55;}
+  100%{transform:scale(1.5);opacity:0;}
+}
+@keyframes obMarkIn{
+  0%{opacity:0;transform:translateY(14px) scale(.7);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+@keyframes obFadeInUp{
+  0%{opacity:0;transform:translateY(10px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+@keyframes obLogoMainIn{
+  0%{opacity:0;transform:scale(.6);}
+  60%{opacity:1;transform:scale(1.08);}
+  100%{opacity:1;transform:scale(1);}
+}
+@keyframes obItemPop{
+  0%{opacity:0;transform:translateY(10px) scale(.96);}
+  100%{opacity:1;transform:translateY(0) scale(1);}
+}
+@keyframes obBlink{
+  0%,49%{opacity:1;}
+  50%,100%{opacity:0;}
+}
+@media (max-width:640px){
+  .ob-choice-row{flex-direction:column;align-items:stretch;}
+  .ob-choice-btn{max-width:none;}
+}
 .hours-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
 .hours-grid div{background:var(--paper-2);border-radius:8px;padding:8px 6px;text-align:center;}
 .hours-grid .n{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1rem;display:block;}
@@ -1497,6 +1710,8 @@ button.chip.chip-primary:hover{box-shadow:0 8px 20px var(--glow-navy);transform:
 }
 .pill:hover{border-color:var(--navy);transform:translateY(-1px) scale(1.05);box-shadow:0 4px 10px var(--glow-navy);}
 .pill.active{background:var(--navy);color:var(--on-accent);border-color:var(--navy);}
+.pill.pill-static{cursor:default;}
+.pill.pill-static:hover{border-color:transparent;transform:none;box-shadow:none;}
 .m-appears{font-size:0.8125rem;line-height:2;color:var(--ink-soft);}
 .m-appears b{color:var(--ink);}
 .m-done-toggle{
@@ -1994,8 +2209,7 @@ footer{
   .tab-group::-webkit-scrollbar{display:none;}
   .tab{flex:0 0 auto;}
 
-  /* بادچ التخصص فوق: بقى مضغوط الحجم، وبيعرض عدد الساعات والـCGPA الحالي بدل ما ياخد
-     زرار "تعديل التخصص" مساحة تانية جنبه — التعديل لسه متاح من كارت الرئيسية. */
+  /* بادچ التخصص فوق: بقى مضغوط الحجم، وبيعرض عدد الساعات والـCGPA الحالي. */
   .track-badge-wrap{width:100%;justify-content:space-between;gap:6px;}
   .track-badge{flex:1 1 auto;justify-content:space-between;gap:5px;padding:4px 5px 4px 9px;min-width:0;}
   .track-badge .lvl-pill-badge{font-size:0.65625rem;padding:2px 7px;}
@@ -2003,7 +2217,6 @@ footer{
     font-size:0.71875rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1 1 auto;
   }
   .track-badge .hours-pill-badge, .track-badge .cgpa-pill-badge{font-size:0.625rem;padding:2px 6px;}
-  #editProfileBtn{display:none;}
 
   .search-box{width:100%;}
   .search-box input{width:100%;box-sizing:border-box;padding:7px 34px 7px 12px;font-size:0.8125rem;}
@@ -2773,6 +2986,20 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
 .vid-del-btn{padding:8px 10px;border-radius:8px;border:1.5px solid var(--maroon);background:transparent;color:var(--maroon);font-size:0.75rem;cursor:pointer;font-family:'Tajawal',sans-serif;}
 .vid-del-btn:hover{background:var(--maroon-soft);}
 .vid-empty{padding:30px;text-align:center;color:var(--ink-soft);font-size:0.84375rem;background:var(--paper-2);border-radius:14px;border:1px solid var(--line);}
+.vid-duration-badge{position:absolute;bottom:6px;left:6px;background:rgba(16,19,31,.85);color:#fff;font-size:0.6875rem;font-weight:700;padding:2px 8px;border-radius:6px;font-family:'IBM Plex Mono',monospace;}
+.study-view.plat-view{max-width:1100px;}
+.plat-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
+.plat-search-input{flex:1;min-width:200px;max-width:360px;}
+.plat-refresh-btn{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
+.plat-subject-tag{font-size:0.6875rem;font-weight:700;color:var(--navy);background:var(--navy-soft);display:inline-block;padding:2px 9px;border-radius:999px;width:fit-content;}
+.plat-layout{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start;}
+@media (max-width:720px){ .plat-layout{grid-template-columns:1fr;} }
+.plat-sidebar{display:flex;flex-direction:column;gap:6px;position:sticky;top:12px;}
+.plat-side-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;font-size:0.8125rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:right;font-family:'Tajawal',sans-serif;transition:border-color .15s ease,color .15s ease;}
+.plat-side-item:hover{border-color:var(--navy);color:var(--navy);}
+.plat-side-item.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+.plat-side-count{font-size:0.71875rem;opacity:.8;font-family:'IBM Plex Mono',monospace;}
+.plat-content{min-width:0;}
 
 /* قائمة التشغيل (embed مباشر جوه الموقع) */
 .vid-player-wrap{display:flex;flex-direction:column;gap:14px;max-width:900px;}
@@ -3512,13 +3739,17 @@ function fcDefaultTransferApp(){ return { applied:false, decision:null, targetId
    معين" و"الدرجة الخاصة"، لكن هدفها هنا بيتحدد أوتوماتيك = أقل حد متوقع للتنسيق المستهدف. */
 function fcDefaultPlanState(){ return { terms:'', hours:'', termHours:{}, baseHours:'', baseCgpa:'' }; }
 function fcDefaultData(){
-  const spec = {}, transfer = {};
+  const spec = {}, transfer = {}, specTransferHint = {};
   FORECAST_TRACKS.forEach(t=>{
     spec[t.id] = fcEmptyRange();
     transfer[t.id] = { t1: fcEmptyRange(), t2: fcEmptyRange() };
+    /* تنسيق تحويل المسار التقريبي (المدخل يدويًا) في صفحة التخصص نفسها، كبديل مقترح
+       لمن لسه ما اتخصصش ومعدله مش كفاية للتنسيق المباشر — منفصل عن جدول تحويل المسار
+       الرسمي (بترمين) اللي بيظهر بس بعد التخصص الفعلي. */
+    specTransferHint[t.id] = fcEmptyRange();
   });
   return {
-    spec, transfer,
+    spec, transfer, specTransferHint,
     specTargetTrack:'', transferTargetTrack:'', remainingTerms:'',
     specApp: fcDefaultSpecApp(), transferApp: fcDefaultTransferApp(),
     specPlan: fcDefaultPlanState(), transferPlan: fcDefaultPlanState()
@@ -3805,7 +4036,9 @@ async function saveSpecialDegreeData(){
 
 const VIEWS = [
   {id:"home", icon:"home", label:"الرئيسية"},
-  {id:"list", icon:"checklist", label:"قائمة المقررات"},
+  {id:"myprofile", icon:"person", label:"البروفايل"},
+  {id:"coursesreg", icon:"menu_book", label:"المقررات والتسجيل"},
+  {id:"list", icon:"checklist", label:"البحث عن مقرر"},
   {id:"register", icon:"school", label:"أسجل ايه دلوقتي؟"},
   {id:"cgpa", icon:"calculate", label:"تسجيل المواد"},
   {id:"pastcoord", icon:"history_edu", label:"تنسيقات السنين السابقة"},
@@ -3817,13 +4050,14 @@ const VIEWS = [
   {id:"advising", icon:"support_agent", label:"الإرشاد"},
   {id:"tools", icon:"handyman", label:"الأدوات"},
   {id:"study", icon:"auto_stories", label:"أدوات المذاكرة"},
+  {id:"platform", icon:"video_library", label:"منصة المواد الدراسية"},
   {id:"organize", icon:"event_note", label:"أدوات التنظيم"},
   {id:"games", icon:"sports_esports", label:"الألعاب الترفيهية"},
   {id:"developers", icon:"groups", label:"مطوّرين النظام"}
 ];
 
 /* ================= STATE ================= */
-let profile = { level:null, trackId:null, cgpa:null, hours:null, transferBaseId:null };
+let profile = { level:null, trackId:null, cgpa:null, hours:null, transferBaseId:null, name:null, uniId:null, photo:null };
 let modalForced = false;
 let currentTrack = null;
 let currentView = "home";
@@ -3960,6 +4194,23 @@ let videoYtApiKey = ''; // مفتاح YouTube Data API الشخصي (اختيا�
 let videoPlayerQueue = []; // playlist مرتبة زمنيًا لمجموعة/مادة معينة
 let videoPlayerIndex = 0;
 let videoPlayerGroupLabel = '';
+/* --- منصة المواد الدراسية: كتالوج قوائم تشغيل يوتيوب جاهز مقسّم حسب المادة (بيانات ثابتة يضيفها
+   مطوّر النظام)، بيتجاب تفاصيله (عنوان/صورة/مدة كل فيديو) لحظيًا من YouTube Data API باستخدام
+   نفس مفتاح الـ API المستخدم في مكتبة الفيديوهات. ==== */
+const STUDY_PLATFORM_SUBJECTS = [
+  {id:'prog1',   name:'Programming 1',                         playlists:['PLMYH_uuw-cB0FQzbVNovTu9e_DmpUqtBx']},
+  {id:'hci',     name:'Human Computer Interaction (HCI)',       playlists:['PLMYH_uuw-cB39zLMlzul6g6jnD2iqpXyV']},
+  {id:'netinet', name:'Network & Internet Programming',         playlists:['PLMYH_uuw-cB21chNEXlR-23ft6v9auX0z']},
+  {id:'sysprog', name:'System Programming',                     playlists:['PLMYH_uuw-cB1BB0ALhQOeB9ywgYviBZxx','PLMYH_uuw-cB2MSM5KUIvzq7Zr30YrU7jG']},
+  {id:'ds',      name:'Data Structure',                         playlists:['PLMYH_uuw-cB3FQAHtHJCmQpVlnjIKW9jq']},
+  {id:'toc',     name:'Theory of Computation',                  playlists:['PLMYH_uuw-cB0iHuPwiUWvrkbQYdVPP4C7','PLMYH_uuw-cB0hz0LUB33_6ZjOgpWxwaQ1']}
+];
+let studyPlatformFilterSubject = 'all';
+let studyPlatformSearch = '';
+let studyPlatformLoading = false;
+let studyPlatformError = '';
+let studyPlatformCache = {}; // playlistId -> {title, thumb, videos:[{videoId,title,thumb,url,durationSec}], fetchedAt} (shared storage)
+let studyPlatformTaskLinks = {}; // 'video:<id>' -> taskId
 let cgpaGoal = { target:'', terms:'', hours:'', termHours:{} }; // goal planner state (termHours: term index -> manual hours override)
 /* بنك المواد اليدوي: مواد متطلب جامعة جديدة (بتتغيّر كل فترة) أو مواد اختيار حر مش موجودة أصلاً
    في قاعدة بيانات القسم (DB). الطالب بيضيفها هنا مرة واحدة (كود + اسم + ساعات + تصنيفها)، وبعدها
@@ -4061,6 +4312,7 @@ async function loadState(){
           if(loaded.transfer[t.id].t1) fresh.transfer[t.id].t1 = {...fresh.transfer[t.id].t1, ...loaded.transfer[t.id].t1};
           if(loaded.transfer[t.id].t2) fresh.transfer[t.id].t2 = {...fresh.transfer[t.id].t2, ...loaded.transfer[t.id].t2};
         }
+        if(loaded.specTransferHint && loaded.specTransferHint[t.id]) fresh.specTransferHint[t.id] = {...fresh.specTransferHint[t.id], ...loaded.specTransferHint[t.id]};
       });
       fresh.specTargetTrack = loaded.specTargetTrack || loaded.targetTrack || '';
       fresh.transferTargetTrack = loaded.transferTargetTrack || '';
@@ -4100,6 +4352,10 @@ async function loadState(){
     const r = await window.storage.get('video-yt-api-key', false);
     if(r && r.value) videoYtApiKey = JSON.parse(r.value) || '';
   }catch(e){ videoYtApiKey = ''; }
+  try{
+    const r = await window.storage.get('study-platform-task-links', false);
+    if(r && r.value) studyPlatformTaskLinks = JSON.parse(r.value) || {};
+  }catch(e){ studyPlatformTaskLinks = {}; }
   try{
     const r = await window.storage.get('games-2048-best', false);
     if(r && r.value) g2048Best = JSON.parse(r.value) || 0;
@@ -4176,6 +4432,10 @@ async function saveVideoLibrary(){
 }
 async function saveVideoYtApiKey(){
   try{ await window.storage.set('video-yt-api-key', JSON.stringify(videoYtApiKey), false); }
+  catch(e){ console.error('storage save failed', e); }
+}
+async function saveStudyPlatformTaskLinks(){
+  try{ await window.storage.set('study-platform-task-links', JSON.stringify(studyPlatformTaskLinks), false); }
   catch(e){ console.error('storage save failed', e); }
 }
 async function saveCustomCourses(){
@@ -4530,7 +4790,7 @@ function openWizardIntroModal(){
   document.getElementById('modalBody').innerHTML = `
     <div class="profile-modal">
       <h3>🧭 خطوة كمان وهنبقى خلصنا</h3>
-      <p class="p-sub">كتبت إن عندك <b>${profile.hours}</b> ساعة معتمدة. الموقع دلوقتي مش عارف تفاصيلها (مين المواد ولا تقديراتك فيها) — عشان كده هنسجلها سوا دلوقتي، ترم ترم، بالظبط زي ما هي في كشف درجاتك، عشان كل حسابات الموقع بعد كده (الساعات، الـCGPA، المتطلبات...) تبقى مظبوطة 100%.</p>
+      <p class="p-sub">${Number(profile.hours)>0 ? `كتبت إن عندك <b>${profile.hours}</b> ساعة معتمدة على الأقل. ` : ''}الموقع دلوقتي مش عارف تفاصيل مقرراتك (مين المواد ولا تقديراتك فيها) — عشان كده هنسجلها سوا دلوقتي، ترم ترم، بالظبط زي ما هي في كشف درجاتك، عشان كل حسابات الموقع بعد كده (الساعات، الـCGPA، المتطلبات...) تبقى مظبوطة 100%.</p>
       <ol style="margin:0 0 14px;padding-inline-start:20px;font-size:0.84375rem;line-height:1.9;color:var(--ink);">
         <li>افتح موقع الكلية الرسمي <b>scialex.org</b> وسجّل دخول، وهتلاقي فيه "السجل الأكاديمي" بكل ترماتك ومقرراتك وتقديراتك بالظبط.</li>
         <li>دوس "يلا نبدأ" تحت، هيتفتحلك فورم بسيط لأول ترم — انقل السنة والفصل زي ما هو مكتوب في السجل الأكاديمي واحفظه، وسمّي الترم بنفس الاسم اللي في السجل عشان ميتلخبطش بعدين.</li>
@@ -4753,9 +5013,9 @@ function openCourseBankModal(){
    صغير جوه المينيو نفسه. */
 const NAV_GROUPS = [
   {id:"home"},
-  {id:"list"},
-  {id:"cgpa", children:["register","transcript"]},
-  {id:"tools", children:["study","organize","games"]},
+  {id:"myprofile"},
+  {id:"coursesreg", children:["list","register","cgpa","transcript"]},
+  {id:"tools", children:["study","platform","organize","games"]},
   {id:"advising", children:["pastcoord","regs"]},
   {id:"specforecast"},
   {id:"trackforecast"},
@@ -4767,8 +5027,8 @@ const NAV_GROUPS = [
    بار كبسولات متطابقة الشكل. */
 const GROUP_ACCENT = {
   home:       {main:'var(--navy)',   soft:'var(--navy-soft)',   glow:'var(--glow-navy)'},
-  list:       {main:'var(--navy)',   soft:'var(--navy-soft)',   glow:'var(--glow-navy)'},
-  cgpa:       {main:'var(--teal)',   soft:'var(--teal-soft)',   glow:'var(--glow-teal)'},
+  myprofile:  {main:'var(--navy)',   soft:'var(--navy-soft)',   glow:'var(--glow-navy)'},
+  coursesreg: {main:'var(--teal)',   soft:'var(--teal-soft)',   glow:'var(--glow-teal)'},
   tools:      {main:'var(--maroon)', soft:'var(--maroon-soft)', glow:'var(--glow-maroon)'},
   advising:     {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
   specforecast: {main:'var(--gold)',   soft:'var(--gold-soft)',   glow:'var(--glow-gold)'},
@@ -4815,7 +5075,6 @@ function renderTrackBadge(){
         <span class="hours-pill-badge" title="الساعات المكتسبة">🎓 ${hrs} س</span>
         <span class="cgpa-pill-badge" title="المعدل التراكمي">📊 ${cgpaTxt}</span>
       </div>
-      <button class="edit-track-btn" id="editProfileBtn">✏️ تعديل التخصص / المستوى</button>
     </div>`;
   const chipBtn = document.getElementById('statusChipBtn');
   const mobileRow = document.getElementById('statusMobileRow');
@@ -4829,7 +5088,6 @@ function renderTrackBadge(){
   chipBtn.onclick = toggleStatusPanel;
   mobileRow.onclick = toggleStatusPanel;
   mobileRow.onkeydown = (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggleStatusPanel(e); } };
-  document.getElementById('editProfileBtn').onclick = ()=>{ closeStatusPanel(); openProfileModal(false); };
   updateSpecialTabVisibility();
 }
 if(!window.__statusPanelOutsideClickBound){
@@ -5135,7 +5393,7 @@ function applyViewAccent(el, viewId){
 /* أدوات المذاكرة/التنظيم/الألعاب بقوا متاحين بس من جوه صفحة "الأدوات" (كروت)، وتنسيقات
    السنين السابقة/مراجعة اللائحة بقوا متاحين بس من جوه صفحة "الإرشاد" (كروت) — مش كتبويبات
    مستقلة في أي مينيو (لا في شريط الموبايل ولا في شيت "المزيد")، عشان المينيو يفضل مختصر. */
-const HIDDEN_FROM_MENUS = new Set(["study","organize","games","pastcoord","regs"]);
+const HIDDEN_FROM_MENUS = new Set(["study","platform","organize","games","pastcoord","regs","list","register","transcript","cgpa"]);
 /* التبويب الديناميكي التالت في شريط الموبايل: "التخصص" لمين لسه مش متخصص، أو "تحويل المسار"
    لمين متخصص عادي، إلا لو تخصصه بيفتحله "الدرجة الخاصة" فبتاخد الأولوية هي (تفضل "تحويل
    المسار" برضو متاحة من جوه "المزيد" وقتها، مش مختفية خالص). */
@@ -5146,10 +5404,10 @@ function forecastBottomTabId(){
   return null;
 }
 function getBottomNavIds(){
-  const ids = ["home","cgpa"];
+  const ids = ["home","myprofile","coursesreg"];
   const dyn = forecastBottomTabId();
   if(dyn) ids.push(dyn);
-  ids.push("tools","transcript");
+  ids.push("tools");
   return ids;
 }
 const bottomNav = document.getElementById('bottomNav');
@@ -5434,17 +5692,28 @@ function courseClassificationLabel(track, code){
 function unlocks(code){
   return Object.keys(DB).filter(k=> DB[k].prereq && DB[k].prereq.includes(code));
 }
+/* بترجع قايمة مختصرة لمكان ظهور المقرر. متطلبات الكلية/الجامعة/الاختيار الحر العام مشتركة
+   وبتتكرر حرفيًا في كل تخصصات القسم (5 تخصصات)، فبتتحسب مرة واحدة بس بدل ما تتكرر 5 مرات
+   بنفس النص — وده اللي كان بيخلي قسم "يظهر في" في كارت المادة طويل جداً. الأقسام المرتبطة
+   بتخصص معين (رئيسي/فرعي/درجة خاصة) بتفضل موضحة لكل تخصص لوحده لأنها فعلاً بتختلف. */
 function whereAppears(code){
-  const out=[];
+  const SHARED_TITLE = {
+    collegeReq:'متطلب كلية', univRequired:'متطلب جامعة (إجباري)',
+    univElective:'متطلب جامعة (اختياري)', genFreeElective:'اختيار حر عام'
+  };
+  const shared = new Set();
+  const specific = [];
   TRACKS.forEach(t=>{
     t.sections.forEach(sec=>{
-      if(sec.list.includes(code)) out.push(`<b>${t.label}</b> — ${sec.title}`);
+      if(!sec.list.includes(code)) return;
+      if(SHARED_TITLE[sec.key]) shared.add(SHARED_TITLE[sec.key]);
+      else specific.push(`<b>${t.label}</b> — ${sec.title}`);
     });
   });
-  return out;
+  return [...shared, ...specific];
 }
 function sectionCompletedCredit(sec){
-  return sec.list.reduce((s,code)=> s + (completedSet.has(code) ? (DB[code]?.credit[0]||0) : 0), 0);
+  return sec.list.reduce((s,code)=> s + (isCourseAcquired(code) ? (DB[code]?.credit[0]||0) : 0), 0);
 }
 /* كانت الدالة دي بتمنع طالب "محوّل/متأخر" إنه يسجّل من قايمة المرشّحات (اختيار حر) أكتر من
    الـ8 ساعات اللي بتسمح بيها اللائحة رسمياً. دلوقتي التسجيل مفتوح بدون حد أقصى (Overload)،
@@ -5454,6 +5723,9 @@ function freeElectiveCapBlockMsg(code){
   return null;
 }
 function genId(){ return 'x'+Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function levelLabel(l){
+  return ({1:'الأول (Freshman)',2:'الثاني (Sophomore)',3:'الثالث (Junior)',4:'الرابع (Senior)'})[l] || 'غير محدد بعد';
+}
 function levelFromHours(h){
   if(h===null || h===undefined || h==='' || isNaN(h)) return null;
   h = Number(h);
@@ -5465,7 +5737,7 @@ function levelFromHours(h){
 }
 function totalCompletedCreditHours(){
   let sum = 0;
-  completedSet.forEach(code=>{ if(DB[code]) sum += (DB[code].credit[0]||0); });
+  completedSet.forEach(code=>{ if(DB[code] && isCourseAcquired(code)) sum += (DB[code].credit[0]||0); });
   return sum;
 }
 /* هنا "المسجّلة" = كل الساعات اللي اتضافت في حاسبة المعدل بغض النظر عن التقدير (حتى لو لسه من غير تقدير، أو راسب، أو منسحب).
@@ -5506,6 +5778,7 @@ function sumCgpaHours({onlyPrior=null, onlyAcquired=false}={}){
     if(onlyPrior===true && !prior) return;
     if(onlyPrior===false && prior) return;
     (term.items||[]).forEach((it, ii)=>{
+      if(isWithdrawnGrade(it.grade)) return; // منسحب منها = كأنها ما اتسجلتش أصلاً
       if(it.source==='db' && it.code){
         const last = latest.get(it.code);
         if(!(last.termIndex===ti && last.itemIndex===ii)) return;
@@ -5529,16 +5802,13 @@ function effectiveHours(){
 function effectiveLevel(){
   return levelFromHours(effectiveHours()) || profile.level || null;
 }
-/* الفجوة بين "عدد الساعات" اللي الطالب دخّله في بروفايله وبين مجموع ساعات المواد اللي فعليًا
-   مسجّلها في ترمات حاسبة المعدل (بغض النظر عن التقدير — المهم إنها مسجّلة). طول ما فيه فجوة، لازم
-   الطالب يسجّل ترماته السابقة الأول قبل ما يقدر يستخدم باقي الأدوات (تحليل، تخصص، تحويل مسار...). */
+/* تم إلغاء نظام "الفجوة" اللي كان بيجبر الطالب يسجّل ترماته السابقة قبل ما يقدر يستخدم باقي
+   الأدوات — دلوقتي الدالة دايمًا بترجّع صفر عشان محدّش يتمنع من حاجة ولا تظهر أي تنبيهات بخصوصها. */
 function hoursGapRemaining(){
-  const stated = Number(profile.hours)||0;
-  if(stated<=0) return 0;
-  return Math.max(0, stated - priorHoursEnteredTotal());
+  return 0;
 }
 /* الصفحات المسموح استخدامها لسه لو فيه فجوة ساعات — لازم الطالب يقفلها من "حاسبة المعدل" الأول. */
-const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','tools','study','games','advising','regs','developers']);
+const HOURS_GAP_ALLOWED_VIEWS = new Set(['cgpa','home','tools','study','platform','games','advising','regs','developers','myprofile']);
 function termStats(term){
   let qp=0, gpaHrs=0, totalHrs=0;
   (term.items||[]).forEach(it=>{
@@ -5577,6 +5847,7 @@ function overallCgpaStats(){
   let qp=0, gpaHrs=0, totalHrs=0;
   cgpaTerms.forEach((term, ti)=>{
     (term.items||[]).forEach((it, ii)=>{
+      if(isWithdrawnGrade(it.grade)) return; // منسحب منها = كأنها ما اتسجلتش أصلاً
       if(it.source==='db' && it.code){
         const last = latest.get(it.code);
         /* لو دي مش آخر محاولة لنفس كود المادة، اتجاهلها بالكامل (اتلغت بمحاولة أحدث) */
@@ -5646,6 +5917,7 @@ function freeElectiveCreditHours(){
   let hrs = 0;
   cgpaTerms.forEach((term, ti)=>{
     (term.items||[]).forEach((it, ii)=>{
+      if(isWithdrawnGrade(it.grade)) return; // منسحب منها = كأنها ما اتسجلتش أصلاً
       const hours = Number(it.hours)||0;
       if(it.source==='external'){
         hrs += hours;
@@ -6146,21 +6418,61 @@ function wireFcPlanHandlers(prefix, targetLabel, T, verdict){
 }
 
 /* ================= جزء التخصص (يظهر بس للطالب اللي لسه ما اتخصصش) ================= */
+/* هامش "أقل شوية" اللي بنعتبر فيه إن الطالب لسه عنده فرصة (محتمل) بدل ما نقول إنه مستبعد
+   خالص — لو الفرق بين معدله والحد المرجعي أكبر من الهامش ده، بنعتبره "بعيد" ونرشّحله بديل. */
+const FC_SLIGHT_MARGIN = 0.15;
 function renderSpecDirectResultHtml(cgpa){
   const targetId = forecastData.specTargetTrack;
   if(!targetId) return `<p class="goal-empty">اختَر القسم فوق الأول.</p>`;
   const targetTrack = TRACKS.find(t=>t.id===targetId);
   const range = forecastData.spec[targetId];
-  const verdict = fcVerdict(cgpa, range);
-  const minN = fcNum(range.min), maxN = fcNum(range.max);
+  const enteredMin = fcNum(range.min);
+  const hist = pastCoordStatsForTrack(targetId);
+  const referenceMin = enteredMin!=null ? enteredMin : (hist ? hist.avg : null);
+  const refSourceTxt = enteredMin!=null
+    ? 'التنسيق المتوقع اللي دخّلته فوق'
+    : 'متوسط تنسيقات السنين اللي فاتت لهذا القسم (لأنك لسه ما دخّلتش تنسيق متوقع بنفسك)';
+
+  if(referenceMin==null){
+    return `<p class="goal-empty">دخّل التنسيق المتوقع فوق (أو لازم يكون فيه بيانات سنين سابقة لهذا القسم) عشان نقدر نديك تقييم.</p>`;
+  }
+
+  const diff = cgpa - referenceMin;
+  let verdictHtml;
+  if(diff >= 0){
+    verdictHtml = `<div class="goal-verdict gt-easy">✅ الـCGPA بتاعك (${cgpa.toFixed(4)}) فوق أو يساوي ${refSourceTxt} (${referenceMin.toFixed(2)}) — في المضمون هتتقبل في «${escapeHtml(targetTrack.label)}» إن شاء الله.</div>`;
+  } else if(diff >= -FC_SLIGHT_MARGIN){
+    verdictHtml = `<div class="goal-verdict gt-hard">🤔 الـCGPA بتاعك (${cgpa.toFixed(4)}) أقل شوية من ${refSourceTxt} (${referenceMin.toFixed(2)}) — ممكن تتقبل لو تنسيق السنة دي نزل لحد ${cgpa.toFixed(2)} تقريبًا أو أقل.</div>`;
+  } else {
+    const nearest = nearestTrackForCgpa(cgpa, targetId);
+    const nearestTxt = nearest
+      ? ` أقرب تخصص ليك حسب متوسط تنسيقات السنين اللي فاتت هو «${escapeHtml(nearest.label)}» (متوسط تقريبي ${nearest.avg.toFixed(2)}).`
+      : '';
+    verdictHtml = `<div class="goal-verdict gt-vhard">⛔ الـCGPA بتاعك (${cgpa.toFixed(4)}) أقل بكتير من ${refSourceTxt} (${referenceMin.toFixed(2)}) — على الأرجح مش هتقدر تتخصص في «${escapeHtml(targetTrack.label)}» مباشرة السنة دي.${nearestTxt}</div>`;
+  }
+  return verdictHtml;
+}
+/* بديل التخصص التاني + تحويل المسار: نطاق تحويل مسار تقريبي بيدخله الطالب بنفسه، وبنقارنه
+   بمعدله بنفس منطق fcVerdict العادي (نفس البادچ المستخدم في صفحة تحويل المسار الرسمية). */
+function renderSpecTransferHintHtml(cgpa, targetId){
+  const targetTrack = TRACKS.find(t=>t.id===targetId);
+  const hint = forecastData.specTransferHint[targetId];
   return `
-    <div class="goal-summary">
-      <div class="pstat"><div class="n">${cgpa.toFixed(4)}</div><div class="l">CGPA الحالي</div></div>
-      <div class="pstat"><div class="n">${minN!=null?minN.toFixed(2):'—'} – ${maxN!=null?maxN.toFixed(2):'—'}</div><div class="l">التنسيق المتوقع لـ«${escapeHtml(targetTrack.label)}»</div></div>
+  <div class="goal-section" id="fcSpecTransferHintSection">
+    <div class="track-head"><h2>🔁 بديل: اتخصص في قسم تاني وبعدين حوّل مسارك ${infoTip(`لو تنسيق «${targetTrack.label}» المباشر صعب عليك، تقدر تتخصص في قسم تاني الأول وبعدين تعمل طلب "تحويل مسار" لـ«${targetTrack.label}» — تنسيق تحويل المسار بيبقى غالبًا أقل شوية من تنسيق التخصص المباشر لنفس القسم، بس مش مضمون. دخّل هنا تنسيق تحويل المسار المتوقع (تقريبي) عشان تشوف احتمالية القبول بيه.`)}</h2></div>
+    <div class="goal-inputs">
+      <div class="goal-field">
+        <label>التنسيق المتوقع لتحويل المسار لـ«${escapeHtml(targetTrack.label)}» (إدخال يدوي)</label>
+        ${fcRangeInputsHtml('specTransferHint.'+targetId, hint)}
+      </div>
     </div>
-    ${fcVerdictBadge(verdict)}
-    ${renderFcPlanCardHtml('spec', targetTrack.label, minN, verdict)}
-  `;
+    <div id="fcSpecTransferHintBadge">${fcVerdictBadge(fcVerdict(cgpa, hint))}</div>
+  </div>`;
+}
+function pastCoordAvgSummaryHtml(targetId){
+  const hist = pastCoordStatsForTrack(targetId);
+  if(!hist) return '';
+  return `<p class="graph-hint" style="margin-top:8px;">📚 متوسط تنسيقات السنين اللي فاتت لهذا القسم: من <b>${hist.min.toFixed(2)}</b> إلى <b>${hist.max.toFixed(2)}</b> (بمتوسط ${hist.avg.toFixed(2)} على ${hist.count} سنة) — استخدمها كمرجع تقريبي وانت بتدخّل التنسيق المتوقع فوق.</p>`;
 }
 function renderSpecPartHtml(cgpa){
   const targetOptions = FORECAST_TRACKS;
@@ -6180,22 +6492,23 @@ function renderSpecPartHtml(cgpa){
           ${targetOptions.map(t=>`<option value="${t.id}" ${forecastData.specTargetTrack===t.id?'selected':''}>${escapeHtml(t.label)}</option>`).join('')}
         </select>
       </div>
-      <div class="goal-field">
-        <label>الترمات المتبقية في سنتك الحالية (اختياري، للتوضيح بس)</label>
-        <input id="specRemainingTerms" type="number" min="0" step="1" value="${escapeHtml(forecastData.remainingTerms)}" placeholder="مثال: 1">
-      </div>
     </div>
   </div>
 
   <div class="goal-section" id="fcSpecInputSection">
-    <div class="track-head"><h2>📥 التنسيق المتوقع لـ«${escapeHtml(targetTrack?.label||'')}» (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لهذا القسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها.")}</h2></div>
+    <div class="track-head"><h2>📥 التنسيق المتوقع لـ«${escapeHtml(targetTrack?.label||'')}» (إدخال يدوي) ${infoTip("دخّل نطاق تقريبي (من – إلى) لتنسيق التخصص المتوقع لهذا القسم هذه السنة. سيب أي خانة فاضية لو مش متأكد منها — هنستخدم متوسط السنين اللي فاتت بدلها.")}</h2></div>
     ${fcRangeInputsHtml('spec.'+targetId, forecastData.spec[targetId])}
+    ${pastCoordAvgSummaryHtml(targetId)}
   </div>
 
   <div class="goal-section" id="fcSpecResultsSection">
-    <div class="track-head"><h2>📊 النتيجة واحتمالية القبول</h2></div>
+    <div class="track-head"><h2>📊 تقييم فرصتك</h2></div>
     <div id="fcSpecResultsBody">${renderSpecDirectResultHtml(cgpa)}</div>
   </div>
+
+  ${renderSpecTransferHintHtml(cgpa, targetId)}
+
+  ${pastCoordinationHtml()}
   `;
 }
 function wireSpecPartHandlers(cgpa){
@@ -6203,22 +6516,26 @@ function wireSpecPartHandlers(cgpa){
   function refreshResults(){
     const body = document.getElementById('fcSpecResultsBody');
     if(body) body.innerHTML = renderSpecDirectResultHtml(overallCgpaStats().cgpa);
-    wirePlanForCurrentSpec();
   }
-  function wirePlanForCurrentSpec(){
+  function refreshTransferHintBadge(){
+    const badge = document.getElementById('fcSpecTransferHintBadge');
     const targetId = forecastData.specTargetTrack;
-    if(!targetId) return;
-    const targetTrack = TRACKS.find(t=>t.id===targetId);
-    const range = forecastData.spec[targetId];
-    const verdict = fcVerdict(overallCgpaStats().cgpa, range);
-    const minN = fcNum(range.min);
-    wireFcPlanHandlers('spec', targetTrack.label, minN, verdict);
+    if(badge && targetId) badge.innerHTML = fcVerdictBadge(fcVerdict(overallCgpaStats().cgpa, forecastData.specTransferHint[targetId]));
   }
   document.querySelectorAll('#fcSpecInputSection .fc-input').forEach(inp=>{
     inp.addEventListener('input', ()=>{
       const path = inp.dataset.field.split('.');
       forecastData.spec[path[1]][path[2]] = inp.value;
       refreshResults();
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveForecastData, 400);
+    });
+  });
+  document.querySelectorAll('#fcSpecTransferHintSection .fc-input').forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      const path = inp.dataset.field.split('.');
+      forecastData.specTransferHint[path[1]][path[2]] = inp.value;
+      refreshTransferHintBadge();
       clearTimeout(saveTimer);
       saveTimer = setTimeout(saveForecastData, 400);
     });
@@ -6230,15 +6547,6 @@ function wireSpecPartHandlers(cgpa){
       renderCurrentView();
     });
   }
-  const remInp = document.getElementById('specRemainingTerms');
-  if(remInp){
-    remInp.addEventListener('input', ()=>{
-      forecastData.remainingTerms = remInp.value;
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(saveForecastData, 400);
-    });
-  }
-  wirePlanForCurrentSpec();
 }
 
 /* ================= جزء تحويل المسار (يظهر بس للطالب المتخصص بالفعل) ================= */
@@ -6504,6 +6812,55 @@ const PAST_COORDINATION_DATA = [
     {spec:"الجيولوجيا/الكيمياء", div:"العلوم الجيولوجية (ج)", cgpa:"2.03"}
   ]}
 ];
+/* ================= ربط تنسيقات السنين السابقة بمسارات التوقّع الثلاثة =================
+   بيانات PAST_COORDINATION_DATA بتسجّل كل توليفة "رئيسي/فرعي" بالاسم الكامل، فبنطابقها مع
+   مسارات FORECAST_TRACKS التلاتة (رياضة/حاسب، إحصاء/حاسب، حاسب/إحصاء) بمطابقة كلمة مميزة
+   في اسم القسم الرئيسي بس (كل قسم رئيسي عنده كلمة مفتاحية مختلفة عن التاني، فمفيش تعارض). */
+const PAST_TRACK_MATCH = {
+  math_cs:  major => major.includes('رياضيات'),
+  stats_cs: major => major.includes('حصاء'),
+  cs_stats: major => major.includes('حاسب')
+};
+function pastCoordStatsForTrack(trackId){
+  const matchFn = PAST_TRACK_MATCH[trackId];
+  if(!matchFn) return null;
+  const vals = [];
+  PAST_COORDINATION_DATA.forEach(y=>{
+    y.rows.forEach(r=>{
+      const major = (r.spec.split('/')[0]||'').trim();
+      if(matchFn(major)){
+        const n = parseFloat(r.cgpa);
+        if(!isNaN(n)) vals.push({year:y.year, cgpa:n});
+      }
+    });
+  });
+  if(!vals.length) return null;
+  const nums = vals.map(v=>v.cgpa);
+  return {
+    min: Math.min(...nums),
+    max: Math.max(...nums),
+    avg: nums.reduce((a,b)=>a+b,0)/nums.length,
+    count: nums.length,
+    values: vals
+  };
+}
+/* بتدور على أقرب تخصص (من التلاتة، غير المستهدف) لمعدل الطالب، بالأفضلية للتخصصات اللي
+   متوسط تنسيقها التاريخي تحت معدله (يعني عنده فرصة فيها فعلاً)، وبعدين الأقرب فرق. */
+function nearestTrackForCgpa(cgpa, excludeId){
+  let best = null;
+  FORECAST_TRACKS.forEach(t=>{
+    if(t.id===excludeId) return;
+    const st = pastCoordStatsForTrack(t.id);
+    if(!st) return;
+    const diff = cgpa - st.avg;
+    const cand = {id:t.id, label:t.label, avg:st.avg, diff};
+    if(!best){ best = cand; return; }
+    const bestQualifies = best.diff >= 0, candQualifies = diff >= 0;
+    if(candQualifies && !bestQualifies){ best = cand; return; }
+    if(candQualifies===bestQualifies && Math.abs(diff) < Math.abs(best.diff)) best = cand;
+  });
+  return best;
+}
 let pastCoordSelectedYear = null;
 function pastCoordinationHtml(){
   const yearsDesc = PAST_COORDINATION_DATA.slice().reverse();
@@ -7399,9 +7756,11 @@ function renderCurrentView(){
   document.getElementById('searchResults').classList.remove('show');
   document.body.classList.toggle('is-home', currentView==='home');
   if(cy){ try{ cy.destroy(); }catch(e){} cy=null; }
-  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs" && currentView!=="advising" && currentView!=="developers"){ currentView="home"; }
+  if((!profile.trackId || !profile.level) && currentView!=="home" && currentView!=="games" && currentView!=="regs" && currentView!=="advising" && currentView!=="developers" && currentView!=="myprofile"){ currentView="home"; }
   updatePageToolbar();
   if(currentView==="home") renderHomeView();
+  else if(currentView==="myprofile") renderMyProfileView();
+  else if(currentView==="coursesreg") renderCoursesRegView();
   else if(currentView==="list") renderListView();
   else if(currentView==="register") renderRegisterView();
   else if(currentView==="cgpa") renderCgpaView();
@@ -7414,6 +7773,7 @@ function renderCurrentView(){
   else if(currentView==="advising") renderAdvisingView();
   else if(currentView==="tools") renderToolsView();
   else if(currentView==="study") renderStudyToolsView();
+  else if(currentView==="platform") renderStudyPlatformView();
   else if(currentView==="organize") renderOrganizeView();
   else if(currentView==="games") renderGamesView();
   else if(currentView==="developers") renderDevelopersView();
@@ -7678,11 +8038,11 @@ function openModal(code){
     </div>
     <div class="m-section">
       <h4>يظهر في</h4>
-      <div class="m-appears">${appears.length ? appears.join('<br>') : 'غير مرتبط بتخصص محدد حالياً (مقرر من متطلبات المستوى الأول أو بيانات مرجعية)'}</div>
+      <div class="pill-list">${appears.length ? appears.map(a=>`<span class="pill pill-static">${a}</span>`).join('') : `<span style="color:var(--ink-soft);font-size:0.8125rem">غير مرتبط بتخصص محدد حالياً (مقرر من متطلبات المستوى الأول أو بيانات مرجعية)</span>`}</div>
     </div>
     <button class="m-done-toggle${isDone?' on':''}" id="modalDoneBtn">${isDone?'✓ تم إنهاء هذا المقرر':'حدد كمقرر مكتمل'}</button>
   `;
-  document.querySelectorAll('#modalBody .pill').forEach(p=>{
+  document.querySelectorAll('#modalBody .pill:not(.pill-static)').forEach(p=>{
     p.addEventListener('click', ()=>{ closeModal(); jumpTo(p.dataset.jump); });
   });
   document.getElementById('modalDoneBtn').addEventListener('click', ()=>{
@@ -7750,7 +8110,7 @@ function renderListTreeMode(track){
   secs.forEach(sec=> sec.list.forEach(c=> visibleCodes.add(c)));
 
   let html = `<div class="track-head"><div><h2>${track.label} — شجرة المقررات ${infoTip('اضغط على أي مقرر (أو مرّر عليه بالماوس) عشان تتوضحلك بس الأسهم الداخلة والخارجة منه، والباقي يخفت شوية عشان تقدر تتابعها بسهولة، وكمان هيتفتحلك تفاصيله. الأسهم تشير من المتطلب السابق إلى المقرر الذي يليه. لون العقدة يدل على مجال المادة — بنفسجي للرياضيات، تركواز للإحصاء، وردي لعلوم الحاسب. كود المقرر مكتوب أسفل اسمه، وجنبه "ت1" أو "ت2" كترشيح مش مؤكد للترم المتوقع، معمول بناءً على آخر رقم في كود المقرر (فردي = أول، زوجي = تاني) — ده مش قاعدة رسمية من الكلية، وممكن أي مادة تنزل في الترمين مع بعض، أو تنزل في ترم غير المتوقع، أو يختلف الوضع عادي حسب تنسيق الكلية الفعلي. العقد الرمادية المنقطة مقررات مرجعية من خارج القائمة الحالية.')}</h2></div>
-    <div class="chips"><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">checklist</span> قائمة المقررات</button></div></div>
+    <div class="chips"><button class="tree-toggle-btn" id="listTreeToggleBtn"><span class="material-symbols-outlined" style="font-size:1.05rem;vertical-align:-4px;">checklist</span> البحث عن مقرر</button></div></div>
     <div class="graph-wrap neon"><div id="cyGraph"></div>
     <div class="graph-legend neon-legend">
       <span><span class="leg-dot" style="background:${SUBJECT_NEON.math.c};box-shadow:0 0 8px ${SUBJECT_NEON.math.glow}"></span> رياضيات</span>
@@ -8484,42 +8844,11 @@ function renderRegistrationSuggestions(track, sectionOfInTrack, trackCodesArr){
   return html;
 }
 
-/* ================= URGENT COLLEGE/UNIVERSITY REQUIREMENTS NOTICE =================
-   متطلبات الكلية (شعبة العلوم الطبيعية) واللغة العربية/الإنجليزية: دي شرط تخرّج صارم بغض النظر عن
-   التخصص، فبتظهر كـ"ضروري" بتنبيه واضح. متطلبات الجامعة الاختيارية (اختَر 3 من 10) مش بنفس الإلحاح —
-   بتتعرض كترشيح عادي هادي، مش تنبيه ضروري. */
-function renderUrgentCollegeNotice(track){
-  const collegeSec = track.sections.find(s=>s.key==='collegeReq');
-  const univReqSec = track.sections.find(s=>s.key==='univRequired');
-  if(!collegeSec || !univReqSec) return '';
-
-  const missingCollege = collegeSec.list.filter(c=>DB[c] && !completedSet.has(c));
-  const missingUnivReq = univReqSec.list.filter(c=>DB[c] && !completedSet.has(c));
-
-  if(!missingCollege.length && !missingUnivReq.length) return '';
-
-  function chipRow(title, codes){
-    if(!codes.length) return '';
-    return `<div class="ub-row"><b>${title}</b>
-      <div class="urgent-chip-list">
-        ${codes.map(c=>`<span class="urgent-chip" data-code="${c}">${fullCode(c)} · ${DB[c].ar}</span>`).join('')}
-      </div>
-    </div>`;
-  }
-
-  return `<div class="urgent-banner">
-    <div class="urgent-banner-title">🚨 ضروري تخلّص متطلبات الكلية (شعبة العلوم الطبيعية) والعربي/الإنجليزي الأول</div>
-    <p>مواد شعبة العلوم الطبيعية (تفاضل وتكامل، ميكانيكا، فيزياء، كيمياء...) ومادتَي اللغة العربية والإنجليزية مش من ساعات تخصصك، لكنها <b>شرط أساسي للتخرج</b> بغض النظر عن أي حاجة تانية خلّصتها في تخصصك — يعني مستحيل تتخرج من غيرها. لو لسه فاضلك حاجة منها، دي أهم أولوية في تسجيلك الجاي.</p>
-    ${chipRow('متطلبات الكلية المتبقية (26 ساعة إجمالي — شعبة العلوم الطبيعية)', missingCollege)}
-    ${chipRow('اللغة العربية / الإنجليزية المتبقية (4 ساعات)', missingUnivReq)}
-  </div>`;
-}
-
 /* متطلبات الجامعة الاختيارية (اختَر 3 من 10): مش عاجلة زي متطلبات الكلية، فبتظهر كترشيح هادي عادي. */
 function renderUnivElectiveSuggestion(track){
   const univElecSec = track.sections.find(s=>s.key==='univElective');
   if(!univElecSec) return '';
-  const univElecDoneCount = univElecSec.list.filter(c=>completedSet.has(c)).length;
+  const univElecDoneCount = univElecSec.list.filter(c=>isCourseAcquired(c)).length;
   const univElecNeeded = Math.max(0, 3-univElecDoneCount);
   if(univElecNeeded<=0) return '';
   const candidates = univElecSec.list.filter(c=>DB[c] && !completedSet.has(c));
@@ -8602,7 +8931,7 @@ function renderRegisterView(){
 
   // Table 1: everything the person has marked as done, anywhere (spec or requirement)
   // فلتري "المستوى" و"النوع" العلويين بيتطبقوا هنا كمان، بنفس منطق باقي الصفحات.
-  const completedCodes = [...completedSet].filter(code=>DB[code])
+  const completedCodes = [...completedSet].filter(code=>DB[code] && isCourseAcquired(code))
     .filter(code=> codeMatchesLevelFilter(code))
     .filter(code=> codeMatchesTypeFilter(track, code))
     .sort((a,b)=> registerCategoryKey(a)-registerCategoryKey(b) || (DB[a].level-DB[b].level) || a.localeCompare(b));
@@ -8629,15 +8958,13 @@ function renderRegisterView(){
     </div>
   </div>`;
 
-  html += renderUrgentCollegeNotice(track);
-
   html += renderRegisterWizard(track, sectionOfInTrack, trackCodes);
   html += renderRegistrationSuggestions(track, sectionOfInTrack, trackCodes);
 
   html += `<div class="section">
     <div class="section-title"><span class="dot" style="background:var(--teal)"></span><h3>مقررات تمت دراستها</h3><span class="count">${completedCodes.length} مقرر</span></div>`;
   if(!completedCodes.length){
-    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 قائمة المقررات".</p>`;
+    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 البحث عن مقرر".</p>`;
   } else {
     html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th></tr></thead><tbody>
       ${completedCodes.map(code=>{
@@ -9792,6 +10119,164 @@ function renderTranscriptView(){
   if(printBtn) printBtn.onclick = ()=> window.print();
 }
 
+/* ================= صفحة البروفايل =================
+   بيانات قابلة للتعديل يدويًا (صورة/اسم/رقم جامعي/قسم) بتتخزن في نفس كائن profile وبتتحفظ
+   بـ saveProfile()، وبيانات غير قابلة للتعديل بتتجاب لايف من باقي أدوات البرنامج (المستوى
+   والمعدل التراكمي والساعات المكتسبة بيتحسبوا من effectiveLevel/overallCgpaStats/effectiveHours). */
+/* خيارات "التخصص" المعروضة في صفحة البروفايل — نفس الـ trackId المستخدم في باقي البرنامج،
+   لكن بأسماء مختصرة زي ما الطالب متعوّد يقولها، وبدون خيارات "طالب مستوى أول/متأخر" أو
+   "لغير المتخصصين" لأنهم حالات انتقالية مش تخصص نهائي. */
+const MY_PROFILE_TRACK_OPTIONS = [
+  {id:"cs_stats", label:"حاسب / إحصاء"},
+  {id:"stats_cs", label:"إحصاء / حاسب"},
+  {id:"math_cs", label:"رياضة / حاسب"},
+  {id:"cs_special", label:"حاسب سبيشيال"},
+  {id:"math_special", label:"رياضة سبيشيال"}
+];
+function mpTrackLabel(){
+  const opt = MY_PROFILE_TRACK_OPTIONS.find(o=>o.id===profile.trackId);
+  if(opt) return opt.label;
+  const t = TRACKS.find(x=>x.id===profile.trackId);
+  return t ? t.label : 'لسه ما اتحددش';
+}
+let mpEditing = false; // بيرجع false تلقائي كل ما الطالب يدخل الصفحة من تاني، وبيتفعّل بس لما يدوس زرار القلم
+function renderMyProfileView(){
+  mpEditing = false;
+  let pendingPhoto = null; // صورة اتقرأت من الجهاز لسه ما اتحفظتش، هتتحفظ فعليًا لما يدوس "حفظ"
+
+  const myLevel = effectiveLevel();
+  const myHours = effectiveHours();
+  const overall = overallCgpaStats();
+  const cgpaTxt = overall.cgpa!=null ? overall.cgpa.toFixed(4) : '—';
+
+  function avatarHtml(){
+    return `<div class="mp-avatar" id="mpAvatar">${profile.photo
+        ? `<img src="${profile.photo}" alt="صورة البروفايل">`
+        : `<span class="material-symbols-outlined">person</span>`}</div>
+      <button type="button" class="mp-avatar-edit" id="mpAvatarEditBtn" title="تغيير الصورة">
+        <span class="material-symbols-outlined">photo_camera</span>
+      </button>
+      <input type="file" id="mpPhotoInput" accept="image/*" style="display:none;">`;
+  }
+
+  function viewModeHtml(){
+    return `
+    <div class="mp-card">
+      <button type="button" class="mp-edit-fab" id="mpEditFab" title="تعديل البيانات">
+        <span class="material-symbols-outlined">edit</span>
+      </button>
+      <div class="mp-avatar-wrap">${avatarHtml()}</div>
+      <div class="mp-view-name">${profile.name ? escapeHtml(profile.name) : 'اسمك هنا'}</div>
+      <div class="mp-view-chips">
+        <span class="mp-view-chip"><span class="material-symbols-outlined">badge</span>${profile.uniId ? escapeHtml(profile.uniId) : '— بدون رقم جامعي —'}</span>
+        <span class="mp-view-chip"><span class="material-symbols-outlined">school</span>${escapeHtml(mpTrackLabel())}</span>
+      </div>
+    </div>`;
+  }
+
+  function editModeHtml(){
+    return `
+    <div class="mp-card">
+      <div class="mp-avatar-wrap">${avatarHtml()}</div>
+      <div class="mp-fields">
+        <label class="mp-field">
+          <span>الاسم</span>
+          <input type="text" id="mpNameInp" maxlength="80" placeholder="اكتب اسمك بالكامل" value="${escapeHtml(profile.name||'')}">
+        </label>
+        <label class="mp-field">
+          <span>الرقم الجامعي</span>
+          <input type="text" id="mpUniIdInp" maxlength="30" placeholder="مثال: 12345678" inputmode="numeric" value="${escapeHtml(profile.uniId||'')}">
+        </label>
+        <label class="mp-field">
+          <span>التخصص</span>
+          <select id="mpTrackInp">
+            <option value="">— اختَر تخصصك —</option>
+            ${MY_PROFILE_TRACK_OPTIONS.map(o=>`<option value="${o.id}"${profile.trackId===o.id?' selected':''}>${o.label}</option>`).join('')}
+          </select>
+        </label>
+      </div>
+      <div class="mp-edit-actions">
+        <button type="button" class="profile-save-btn" id="mpSaveBtn">💾 حفظ</button>
+        <button type="button" class="profile-save-btn secondary" id="mpCancelBtn">إلغاء</button>
+      </div>
+      <div class="mp-saved-note" id="mpSavedNote">✅ اتحفظت بياناتك.</div>
+    </div>`;
+  }
+
+  function render(){
+    const html = `
+    <div class="track-head">
+      <div><h2>👤 البروفايل</h2></div>
+    </div>
+    ${mpEditing ? editModeHtml() : viewModeHtml()}
+
+    <div class="section-title"><span class="dot" style="background:var(--navy)"></span><h3>بيانات أكاديمية</h3></div>
+    <div class="progress-stats">
+      <div class="pstat"><div class="n">${myLevel ? myLevel : '؟'}</div><div class="l">المستوى الدراسي — ${levelLabel(myLevel)}</div></div>
+      <div class="pstat"><div class="n">${cgpaTxt}</div><div class="l">المعدل التراكمي الحالي</div></div>
+      <div class="pstat"><div class="n">${myHours}</div><div class="l">الساعات المكتسبة</div></div>
+    </div>
+    `;
+    document.getElementById('trackView').innerHTML = html;
+
+    const photoInput = document.getElementById('mpPhotoInput');
+    const avatarBox = document.getElementById('mpAvatar');
+    document.getElementById('mpAvatarEditBtn').onclick = ()=> photoInput.click();
+    photoInput.onchange = ()=>{
+      const file = photoInput.files && photoInput.files[0];
+      if(!file) return;
+      const img = new Image();
+      const reader = new FileReader();
+      reader.onload = (e)=>{
+        img.onload = ()=>{
+          // تصغير الصورة لأقصى 320×320 قبل التخزين عشان تفضل خفيفة
+          const maxSide = 320;
+          let w = img.width, h = img.height;
+          if(w>h && w>maxSide){ h = Math.round(h*maxSide/w); w = maxSide; }
+          else if(h>=w && h>maxSide){ w = Math.round(w*maxSide/h); h = maxSide; }
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          pendingPhoto = canvas.toDataURL('image/jpeg', 0.85);
+          avatarBox.innerHTML = `<img src="${pendingPhoto}" alt="صورة البروفايل">`;
+          // في وضع العرض، لو غيّر الصورة، نحفظها على طول من غير ما يدخل وضع التعديل
+          if(!mpEditing){ profile.photo = pendingPhoto; pendingPhoto = null; saveProfile(); }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    };
+
+    if(!mpEditing){
+      document.getElementById('mpEditFab').onclick = ()=>{ mpEditing = true; render(); };
+      return;
+    }
+
+    document.getElementById('mpCancelBtn').onclick = ()=>{ mpEditing = false; render(); };
+    const savedNote = document.getElementById('mpSavedNote');
+    document.getElementById('mpSaveBtn').onclick = async ()=>{
+      profile.name = document.getElementById('mpNameInp').value.trim() || null;
+      profile.uniId = document.getElementById('mpUniIdInp').value.trim() || null;
+      if(pendingPhoto){ profile.photo = pendingPhoto; pendingPhoto = null; }
+      const newTrackId = document.getElementById('mpTrackInp').value;
+      if(newTrackId && newTrackId!==profile.trackId){
+        profile.trackId = newTrackId;
+        currentTrack = newTrackId;
+        profile.transferBaseId = null; // مفيش داعي لها بره الـ"طالب مستوى أول/متأخر"
+        if(typeof syncTransferTrack==='function') syncTransferTrack();
+        renderTrackBadge();
+        renderViewTabs();
+        if(typeof updateSpecialTabVisibility==='function') updateSpecialTabVisibility();
+      }
+      await saveProfile();
+      mpEditing = false;
+      render();
+    };
+  }
+
+  render();
+}
+
 function stackedBarHtml(segments){
   const total = segments.reduce((s,x)=>s+x.val,0);
   const bar = segments.map(s=>`<div class="stacked-seg" style="width:${(s.val/total*100).toFixed(2)}%;background:${s.color}"></div>`).join('');
@@ -9974,7 +10459,7 @@ function renderHomeView(){
   const track = TRACKS.find(t=>t.id===currentTrack);
   if(!track){
     document.getElementById('trackView').innerHTML = '';
-    openProfileModal(true);
+    openOnboardingIntro();
     return;
   }
 
@@ -9994,7 +10479,7 @@ function renderHomeView(){
   const minorDone = minorSections.reduce((s,sec)=> s+Math.min(sec.credit||0, sectionCompletedCredit(sec)),0);
 
   const trackCourses = allTrackCourses(track);
-  const doneCoursesCount = trackCourses.filter(c=>completedSet.has(c)).length;
+  const doneCoursesCount = trackCourses.filter(c=>isCourseAcquired(c)).length;
 
   const typeOfInTrack = {};
   track.sections.forEach(sec=> sec.list.forEach(c=>{ if(!(c in typeOfInTrack)) typeOfInTrack[c]=sec.type; }));
@@ -10013,7 +10498,6 @@ function renderHomeView(){
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap;">
       ${track.isTransferHub && profile.transferBaseId ? '<button class="edit-track-btn" id="finalizeTransferBtn">🎯 تم التخصص في هذا التخصص؟</button>' : ''}
-      <button class="edit-track-btn" id="homeEditBtn">✏️ تعديل التخصص / المستوى</button>
     </div>
   </div>
 
@@ -10049,7 +10533,7 @@ function renderHomeView(){
     </div>
     <div class="home-card">
       <div class="hc-label">إجمالي مقررات مكتملة</div>
-      <div class="hc-value">${completedSet.size}</div>
+      <div class="hc-value">${[...completedSet].filter(c=>isCourseAcquired(c)).length}</div>
       <div class="hc-note">شامل متطلبات الكلية والتخصص كله</div>
     </div>
   </div>
@@ -10060,11 +10544,11 @@ function renderHomeView(){
     <button class="home-quicklink" data-goto="register">🎓 أسجل ايه دلوقتي؟</button>
     <button class="home-quicklink" data-goto="list" data-tree="1">🌳 شجرة المقررات</button>
     <button class="home-quicklink" data-goto="study">📚 أدوات المذاكرة</button>
+    <button class="home-quicklink" data-goto="platform">🎓 منصة المواد الدراسية</button>
   </div>`;
 
   document.getElementById('trackView').innerHTML = html;
 
-  document.getElementById('homeEditBtn').onclick = ()=> openProfileModal(false);
   const finalizeBtn = document.getElementById('finalizeTransferBtn');
   if(finalizeBtn) finalizeBtn.onclick = finalizeTransferSpecialization;
   bindMinorReclassHandlers();
@@ -10087,6 +10571,311 @@ function renderHomeView(){
 }
 
 /* ================= PROFILE MODAL (onboarding / edit specialization) ================= */
+/* ================= ONBOARDING STORY (شاشة الترحيب الدرامية أول دخول) =================
+   بدل ما نسأل الطالب أول ما يدخل الموقع "كام ساعة عندك وإيه تخصصك؟" في فورم جاف، بنعرضله
+   قصة قصيرة: لوجو + ترحيب بيتكتب لوحده + سؤال "هل تم تخصصك؟" وبعدين قايمة تخصصات (5 لو
+   متخصص بالفعل، أو 3 لو لسه)، وفي الآخر بنوجّهه مباشرة لتسجيل ترماته السابقة (بدل ما ناخد
+   منه رقم ساعات يدوي) عشان الساعات والمستوى يتحسبوا تلقائي من مقرراته الفعلية بعد كده. */
+/* ===== موسيقى درامية سينمائية — متولّدة بالكامل بالـ Web Audio API (من غير أي ملف صوت خارجي)
+   drone + وتر بيتحرك ببطء + نبضة (impact) خفيفة عند لحظات مهمة زي ظهور اللوجو. ===== */
+const obMusic = (function(){
+  let ctx=null, master=null, nodes=[], muted=false, started=false;
+  function ensureCtx(){
+    if(!ctx){
+      ctx = new (window.AudioContext||window.webkitAudioContext)();
+      master = ctx.createGain();
+      master.gain.value = 0;
+      master.connect(ctx.destination);
+    }
+    return ctx;
+  }
+  function layer(freq, type, gainVal, filterFreq, lfoRate, lfoDepth){
+    const osc = ctx.createOscillator(); osc.type = type; osc.frequency.value = freq;
+    const filt = ctx.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value = filterFreq;
+    const g = ctx.createGain(); g.gain.value = gainVal;
+    const lfo = ctx.createOscillator(); lfo.frequency.value = lfoRate;
+    const lfoGain = ctx.createGain(); lfoGain.gain.value = lfoDepth;
+    lfo.connect(lfoGain); lfoGain.connect(filt.frequency);
+    osc.connect(filt); filt.connect(g); g.connect(master);
+    osc.start(); lfo.start();
+    nodes.push(osc, lfo);
+    return {osc, g};
+  }
+  function start(){
+    if(started) return; started = true;
+    ensureCtx();
+    if(ctx.state==='suspended') ctx.resume();
+    // درون منخفض درامي (أساس المشهد)
+    layer(55, 'sawtooth', .05, 220, .06, 60);
+    layer(82.5, 'sine', .06, 300, .045, 40);
+    // وتر علوي بارد بيتحرك ببطء زي موسيقى تشويق
+    layer(220, 'triangle', .03, 900, .1, 120);
+    layer(261.6, 'triangle', .022, 900, .08, 90);
+    if(!muted) master.gain.linearRampToValueAtTime(.5, ctx.currentTime + 3.5);
+  }
+  function stop(){
+    if(!ctx) return;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.linearRampToValueAtTime(0, ctx.currentTime + .8);
+    setTimeout(()=>{ nodes.forEach(n=>{ try{n.stop();}catch(e){} }); nodes=[]; started=false; }, 900);
+  }
+  function hit(){
+    // نبضة/طرقة درامية خفيفة (زي "boom" سينمائي) عند لحظات مهمة
+    if(!ctx || muted) return;
+    const o = ctx.createOscillator(); o.type='sine'; o.frequency.setValueAtTime(90, ctx.currentTime);
+    o.frequency.exponentialRampToValueAtTime(38, ctx.currentTime + .55);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0, ctx.currentTime);
+    g.gain.linearRampToValueAtTime(.4, ctx.currentTime + .04);
+    g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime + .9);
+    o.connect(g); g.connect(master);
+    o.start(); o.stop(ctx.currentTime + .95);
+  }
+  function toggleMute(){
+    if(!ctx) return muted;
+    muted = !muted;
+    master.gain.cancelScheduledValues(ctx.currentTime);
+    master.gain.linearRampToValueAtTime(muted?0:.5, ctx.currentTime + .4);
+    return muted;
+  }
+  return {start, stop, hit, toggleMute, isMuted:()=>muted};
+})();
+
+/* بيبدّل مشهد جوه شاشة الافتتاحية بتأثير fade + shadow (يعتم/يتمدد الظل، بعدين يفتح على المشهد الجديد) */
+function obTransitionTo(renderFn){
+  const old = document.querySelector('.ob-stage');
+  if(!old){ renderFn(); return; }
+  old.classList.add('ob-stage-out');
+  setTimeout(renderFn, 420);
+}
+
+function obTypewriter(el, text, speed, done){
+  if(!el) return;
+  el.textContent = '';
+  el.classList.add('ob-typing');
+  let i = 0;
+  const timer = setInterval(()=>{
+    el.textContent += text[i];
+    i++;
+    if(i>=text.length){
+      clearInterval(timer);
+      el.classList.remove('ob-typing');
+      if(done) done();
+    }
+  }, speed);
+}
+function openOnboardingIntro(){
+  modalForced = true;
+  let ans1 = null;          // 'yes' (متخصص بالفعل) أو 'no' (لسه)
+  let pickedTrackId = null; // لو 'yes': واحد من الخمس تخصصات
+  let pickedBaseId = null;  // لو 'no': واحد من التلات تخصصات (غير الخاصة)
+  let wantsTransfer = null;        // 'yes'/'no' — هل عايز يعمل تحويل مسار (بيتسأل بس لو اتخصص بالفعل)
+  let pickedTransferTargetId = null; // التخصص اللي عايز يتحول له (واحد من التلاتة، غير التخصص الحالي)
+  let wantsSpecial = null;         // 'yes'/'no' — هل عايز درجة خاصة (بيتسأل بس لو التخصص حاسب أو رياضة)
+
+  const CURRENT_TRACK_IDS = ['math_cs','stats_cs','cs_stats','math_special','cs_special'];
+  const CURRENT_TRACK_OPTIONS = TRACKS.filter(t=>CURRENT_TRACK_IDS.includes(t.id)).map(t=>({id:t.id,label:t.label}));
+
+  /* الهيكل الثابت لكل رحلة الافتتاحية: شرايط سينما (CSS) + زرار كتم الموسيقى + ظل مركزي + المسرح
+     اللي بيتغيّر محتواه مشهد بعد مشهد. المسرح نفسه بيتعمله fade-out (تعتيم + ضبابية + ظل) قبل
+     ما يتغيّر، وبعدين fade-in على المشهد الجديد — ده تأثير الـ"fade shadow" بين كل فقرة. */
+  function renderShellStatic(){
+    document.getElementById('modalBody').innerHTML = `
+      <div class="onboarding-story">
+        <button class="ob-mute-btn" id="obMuteBtn" title="كتم/تشغيل الموسيقى">🔊</button>
+        <div class="ob-vignette-shadow" id="obVignette"></div>
+        <div class="ob-stage ob-stage-in" id="obStage"></div>
+      </div>`;
+    const muteBtn = document.getElementById('obMuteBtn');
+    muteBtn.onclick = ()=>{ muteBtn.textContent = obMusic.toggleMute() ? '🔇' : '🔊'; };
+  }
+  function setStage(html){ document.getElementById('obStage').innerHTML = html; }
+  function sceneTo(renderInnerFn){
+    const stage = document.getElementById('obStage'), vign = document.getElementById('obVignette');
+    if(stage && stage.innerHTML.trim()){
+      stage.classList.remove('ob-stage-in'); stage.classList.add('ob-stage-out');
+      setTimeout(()=>{
+        renderInnerFn();
+        stage.classList.remove('ob-stage-out');
+        void stage.offsetWidth; // إعادة تشغيل الأنيميشن
+        stage.classList.add('ob-stage-in');
+        if(vign){ vign.style.animation='none'; void vign.offsetWidth; vign.style.animation=''; }
+      }, 420);
+    } else { renderInnerFn(); }
+  }
+
+  function renderGate(){
+    setStage(`
+      <div class="ob-gate" id="obGate">
+        <div class="ob-gate-mark">🎓</div>
+        <div class="ob-gate-title">رحلتك نحو التفوق تبدأ الآن</div>
+        <div class="ob-gate-hint">اضغط للبدء</div>
+      </div>`);
+    document.getElementById('obGate').onclick = ()=>{
+      obMusic.start();
+      sceneTo(renderLogo);
+    };
+  }
+
+  function renderLogo(){
+    setStage(`
+      <div class="ob-logo-screen">
+        <div class="ob-logo-ring"></div>
+        <div class="ob-logo-ring ob-ring-2"></div>
+        <div class="ob-logo-mark">🎓</div>
+        <div class="ob-logo-text">
+          <span class="ob-logo-top">TOP</span>
+          <span class="ob-logo-main">CS&nbsp;STUDENT</span>
+        </div>
+      </div>`);
+    setTimeout(()=>obMusic.hit(), 150);
+    setTimeout(()=>sceneTo(renderWelcome), 2600);
+  }
+
+  function renderWelcome(){
+    setStage(`
+      <div class="ob-type-screen">
+        <p class="ob-typeline" id="obLine1"></p>
+        <p class="ob-typeline" id="obLine2"></p>
+        <button class="profile-save-btn ob-next-btn" id="obWelcomeNext">متابعة ←</button>
+      </div>`);
+    const l1=document.getElementById('obLine1'), l2=document.getElementById('obLine2'), btn=document.getElementById('obWelcomeNext');
+    obTypewriter(l1, 'أهلاً بك في Top CS Student 👋', 38, ()=>{
+      obTypewriter(l2, 'لنبدأ معاً رحلة مليئة بالنجاح ✨', 38, ()=>{
+        btn.classList.add('ob-fade-in');
+      });
+    });
+    btn.onclick = ()=>sceneTo(renderAsk1);
+  }
+
+  function renderAsk1(){
+    setStage(`
+      <div class="ob-question-screen">
+        <p class="ob-typeline" id="obQ1"></p>
+        <div class="ob-choice-row" id="obChoiceRow">
+          <button class="ob-choice-btn" data-ans="yes">✅ نعم</button>
+          <button class="ob-choice-btn" data-ans="no">❌ لسه لأ</button>
+        </div>
+      </div>`);
+    const q=document.getElementById('obQ1'), row=document.getElementById('obChoiceRow');
+    obTypewriter(q, 'طيب قبل ما نبدأ… هل تم تخصصك؟ 🤔', 34, ()=>{ row.classList.add('ob-fade-in'); });
+    row.querySelectorAll('.ob-choice-btn').forEach(b=>{
+      b.onclick = ()=>{ ans1 = b.dataset.ans; sceneTo(ans1==='yes' ? renderPickCurrent : renderPickDesired); };
+    });
+  }
+
+  function trackListScreen(question, options, onPick){
+    setStage(`
+      <div class="ob-question-screen">
+        <p class="ob-typeline" id="obQ2"></p>
+        <div class="ob-track-list" id="obTrackList">
+          ${options.map((o,i)=>`<button class="ob-track-btn" style="animation-delay:${i*90}ms" data-id="${o.id}">${o.label}</button>`).join('')}
+        </div>
+      </div>`);
+    const q=document.getElementById('obQ2'), list=document.getElementById('obTrackList');
+    obTypewriter(q, question, 34, ()=>{
+      list.querySelectorAll('.ob-track-btn').forEach(b=>b.classList.add('ob-item-in'));
+    });
+    list.querySelectorAll('.ob-track-btn').forEach(b=>{ b.onclick = ()=>onPick(b.dataset.id); });
+  }
+
+  function yesNoScreen(question, onAns){
+    setStage(`
+      <div class="ob-question-screen">
+        <p class="ob-typeline" id="obQ3"></p>
+        <div class="ob-choice-row" id="obChoiceRow3">
+          <button class="ob-choice-btn" data-ans="yes">✅ نعم</button>
+          <button class="ob-choice-btn" data-ans="no">❌ لأ</button>
+        </div>
+      </div>`);
+    const q=document.getElementById('obQ3'), row=document.getElementById('obChoiceRow3');
+    obTypewriter(q, question, 34, ()=>{ row.classList.add('ob-fade-in'); });
+    row.querySelectorAll('.ob-choice-btn').forEach(b=>{ b.onclick = ()=>onAns(b.dataset.ans); });
+  }
+
+  function renderPickCurrent(){
+    trackListScreen('تمام! طب إيه تخصصك الحالي؟ 🎯', CURRENT_TRACK_OPTIONS, (id)=>{ pickedTrackId = id; sceneTo(renderAskTransfer); });
+  }
+  function renderPickDesired(){
+    trackListScreen('ولا يهمك، إيه التخصص اللي نفسك فيه؟ 🚀', TRANSFER_BASE_OPTIONS, (id)=>{ pickedBaseId = id; sceneTo(renderFinal); });
+  }
+
+  /* بعد ما يختار تخصصه الحالي: نسأله هل عايز يعمل تحويل مسار، ولو "أيوه" نديله التلات تخصصات
+     اللي ممكن يتحول لها ما عدا التخصص اللي هو فيه أصلاً. */
+  function renderAskTransfer(){
+    yesNoScreen('حابب تعمل تحويل مسار لتخصص تاني؟ 🔄', (ans)=>{
+      wantsTransfer = ans;
+      if(ans==='yes') sceneTo(renderPickTransferTarget);
+      else sceneTo(renderAskSpecialOrFinal);
+    });
+  }
+  function renderPickTransferTarget(){
+    const options = TRANSFER_BASE_OPTIONS.filter(o=>o.id!==pickedTrackId);
+    trackListScreen('تحب تتحول لإيه؟ 🎯', options, (id)=>{ pickedTransferTargetId = id; sceneTo(renderAskSpecialOrFinal); });
+  }
+
+  /* الدرجة الخاصة متاحة بس لو التخصص الحالي حاسب أو رياضة (مش إحصاء) — نفس شرط
+     SPECIAL_DEGREE_MAP المستخدم في باقي الموقع. لو مش مؤهل، نتخطى السؤال على طول. */
+  function renderAskSpecialOrFinal(){
+    if(SPECIAL_DEGREE_MAP[pickedTrackId]) sceneTo(renderAskSpecial);
+    else sceneTo(renderFinal);
+  }
+  function renderAskSpecial(){
+    yesNoScreen('حابب تاخد درجة خاصة؟ 🌟', (ans)=>{
+      wantsSpecial = ans;
+      sceneTo(renderFinal);
+    });
+  }
+
+  function renderFinal(){
+    setStage(`
+      <div class="ob-type-screen">
+        <p class="ob-typeline" id="obF1"></p>
+        <p class="ob-typeline" id="obF2"></p>
+        <button class="profile-save-btn ob-next-btn" id="obFinalBtn">🚀 يلا نبدأ</button>
+      </div>`);
+    obMusic.hit();
+    const f1=document.getElementById('obF1'), f2=document.getElementById('obF2'), btn=document.getElementById('obFinalBtn');
+    obTypewriter(f1, 'هذا البرنامج مصمم من أجلك 🎯', 34, ()=>{
+      obTypewriter(f2, 'وهتقدر تسجّل ترماتك وتتابع معدلك في أي وقت يناسبك من حاسبة المعدل.', 20, ()=>{
+        btn.classList.add('ob-fade-in');
+      });
+    });
+    btn.onclick = finalizeOnboarding;
+  }
+
+  function finalizeOnboarding(){
+    if(ans1==='yes'){
+      profile.trackId = (wantsSpecial==='yes' && SPECIAL_DEGREE_MAP[pickedTrackId]) ? SPECIAL_DEGREE_MAP[pickedTrackId] : pickedTrackId;
+      profile.transferBaseId = null;
+      profile.hours = 0;
+      if(wantsTransfer==='yes' && pickedTransferTargetId){
+        forecastData.transferTargetTrack = pickedTransferTargetId;
+        saveForecastData();
+      }
+    } else {
+      profile.trackId = 'transfer';
+      profile.transferBaseId = pickedBaseId;
+      profile.hours = 0;
+      syncTransferTrack();
+    }
+    profile.level = levelFromHours(profile.hours);
+    currentTrack = profile.trackId;
+    highlightCode = null;
+    modalForced = false;
+    obMusic.stop();
+    saveProfile();
+    renderTrackBadge();
+    currentView = 'home';
+    renderViewTabs();
+    renderCurrentView();
+    closeModal();
+  }
+
+  renderShellStatic();
+  renderGate();
+  document.getElementById('overlay').classList.add('show');
+}
+
 function openProfileModal(forced){
   modalForced = forced;
   let tempLevel = profile.level;
@@ -10094,6 +10883,16 @@ function openProfileModal(forced){
   let tempTrackId = profile.trackId;
   let tempTransferBase = profile.transferBaseId;
   const selectableTracks = TRACKS.filter(t=>!t.infoOnly);
+  /* لو الطالب خلّص فجوة الساعات بالفعل (يعني سجّل من قبل كل مواده اللي توصّل للرقم اللي كتبه
+     أول مرة)، بقى عدد ساعاته الحقيقي دلوقتي هو effectiveHours() — وده بيزيد تلقائي مع كل ترم
+     جديد يسجّله بعد كده. في الحالة دي بنعرض الرقم ده (المحسوب فعليًا من مقرراته)، مش الرقم
+     القديم اللي كتبه بإيده أول مرة، وبنقفل خانة الإدخال (لو سمحنا نعدّلها هنا هيتخزن كـ"بداية"
+     جديدة وهيتحسب فوق نفسه تاني مرة مع أي ترمات جديدة، فتتضاعف الساعات). */
+  const gapClosed = Number(profile.hours) > 0 && hoursGapRemaining()===0;
+  if(gapClosed){
+    tempHours = effectiveHours();
+    tempLevel = levelFromHours(tempHours) || profile.level;
+  }
 
   function levelBadgeHtml(){
     return tempLevel
@@ -10110,10 +10909,14 @@ function openProfileModal(forced){
 
         <h4>عدد الساعات المجتازة</h4>
         <div class="hours-input-row">
-          <input type="number" id="hoursInput" min="0" max="200" step="1" value="${tempHours!=null?tempHours:''}" placeholder="مثال: 45">
+          ${gapClosed
+            ? `<input type="number" id="hoursInput" value="${tempHours}" disabled style="opacity:.65;">`
+            : `<input type="number" id="hoursInput" min="0" max="200" step="1" value="${tempHours!=null?tempHours:''}" placeholder="مثال: 45">`}
           <span id="levelDerivedBadge">${levelBadgeHtml()}</span>
         </div>
-        <p class="hours-note">المستوى بيتحدد تلقائي من عدد الساعات: المستوى الأول 0–32 ساعة · التاني 33–66 · التالت 67–99 · الرابع 100 فأكتر. الرقم ده هو "الحد الأدنى" بس — الساعات الحقيقية بتتحسب أوتوماتيك من المواد اللي تضيفها في حاسبة المعدل.</p>
+        <p class="hours-note">${gapClosed
+          ? 'الرقم ده بقى بيتحسب تلقائي أول بأول من كل مقرراتك المسجلة في "حاسبة المعدل" (بما فيها أي ترمات جديدة تسجّلها بعد كده)، فمش قابل للتعديل اليدوي هنا دلوقتي.'
+          : 'المستوى بيتحدد تلقائي من عدد الساعات: المستوى الأول 0–32 ساعة · التاني 33–66 · التالت 67–99 · الرابع 100 فأكتر. الرقم ده هو "الحد الأدنى" بس — الساعات الحقيقية بتتحسب أوتوماتيك من المواد اللي تضيفها في حاسبة المعدل.'}</p>
         <div id="hoursLinkNote"></div>
 
         <h4>التخصص (رئيسي / فرعي)</h4>
@@ -10144,6 +10947,7 @@ function openProfileModal(forced){
   function refreshHoursLinkNote(){
     const note = document.getElementById('hoursLinkNote');
     if(!note) return;
+    if(gapClosed){ note.innerHTML = ''; return; }
     const cgpaHrs = priorHoursEnteredTotal();
     const gap = (tempHours!=null && tempHours>0) ? tempHours - cgpaHrs : 0;
     if(gap > 0){
@@ -10175,7 +10979,7 @@ function openProfileModal(forced){
     const hoursInp = document.getElementById('hoursInput');
     const saveBtn = document.getElementById('profileSaveBtn');
     refreshHoursLinkNote();
-    hoursInp.addEventListener('input', ()=>{
+    if(hoursInp && !hoursInp.disabled) hoursInp.addEventListener('input', ()=>{
       tempHours = hoursInp.value===''? null : Number(hoursInp.value);
       if(tempHours!=null && tempHours > 200){
         tempHours = 200;
@@ -10218,7 +11022,7 @@ function openProfileModal(forced){
       if(!tempLevel || !tempTrackId) return;
       if(tempTrackId==='transfer' && !tempTransferBase) return;
       profile.level = tempLevel;
-      profile.hours = tempHours;
+      if(!gapClosed) profile.hours = tempHours;
       profile.trackId = tempTrackId;
       profile.transferBaseId = tempTrackId==='transfer' ? tempTransferBase : null;
       currentTrack = tempTrackId;
@@ -10913,6 +11717,46 @@ function bindRegsCategory(){
 /* ================= TOOLS HUB (الأدوات) ================= */
 /* صفحة "الأدوات" مجرد هَب بسيط بيوجّه لتلات أقسام: أدوات المذاكرة، أدوات التنظيم، والألعاب
    الترفيهية — كل قسم صفحته الحقيقية زي ما هي، هنا بس واجهة اختيار موحّدة بينهم. */
+/* ================= المقررات والتسجيل (هَب لقائمة المقررات + تسجيل المواد + بيان الحالة) ================= */
+function renderCoursesRegView(){
+  document.getElementById('trackView').innerHTML = coursesRegHomeHtml();
+  bindCoursesRegHome();
+}
+function coursesRegHomeHtml(){
+  return `<div class="study-view">
+    <div class="study-head">
+      <h2>📚 المقررات والتسجيل</h2>
+      <p class="study-sub">كل حاجة متعلقة بمقرراتك وتسجيلك الدراسي في مكان واحد.</p>
+    </div>
+    <div class="study-grid">
+      <div class="study-card" id="crOpenList">
+        <div class="study-card-ic">🔎</div>
+        <div class="study-card-title">البحث عن مقرر</div>
+        <div class="study-card-desc">كل مقررات تخصصك مقسّمة بالأقسام، وتقدر تدوّر وتفلتر وتشوف تفاصيل أي مادة.</div>
+      </div>
+      <div class="study-card" id="crOpenCgpa">
+        <div class="study-card-ic">🧮</div>
+        <div class="study-card-title">تسجيل المواد</div>
+        <div class="study-card-desc">سجّل ترماتك ومواد كل ترم وتقديراتها، وهيتحسبلك الـ GPA والـ CGPA أوتوماتيك.</div>
+      </div>
+      <div class="study-card" id="crOpenTranscript">
+        <div class="study-card-ic">🧾</div>
+        <div class="study-card-title">بيان الحالة</div>
+        <div class="study-card-desc">بيان بكل المواد اللي اتسجلت وتقديرها، مرتبة بترتيب الترمات وتصنيفها ضمن تخصصك.</div>
+      </div>
+    </div>
+  </div>`;
+}
+function bindCoursesRegHome(){
+  const l = document.getElementById('crOpenList');
+  if(l) l.onclick = ()=> goToView('list');
+  const c = document.getElementById('crOpenCgpa');
+  if(c) c.onclick = ()=> goToView('cgpa');
+  const t = document.getElementById('crOpenTranscript');
+  if(t) t.onclick = ()=> goToView('transcript');
+}
+
+/* ================= أدوات (هَب لأدوات المذاكرة + التنظيم + الألعاب) ================= */
 function renderToolsView(){
   document.getElementById('trackView').innerHTML = toolsHomeHtml();
   bindToolsHome();
@@ -13749,6 +14593,248 @@ function bindVideoPlayer(){
   });
 }
 
+/* ================= منصة المواد الدراسية ================= */
+/* الكتالوج بيتخزن كـ "shared" بين كل مستخدمين الموقع — يعني أول ما حد (المطوّر) يدخل مفتاح
+   الـ API بتاعه مرة واحدة ويجيب البيانات، أي زائر تاني للموقع هيلاقي الفيديوهات ظاهرة عنده
+   على طول من غير ما يحتاج يدخل أي مفتاح هو نفسه. */
+function studyPlatformSubjectOfPlaylist(pid){
+  return STUDY_PLATFORM_SUBJECTS.find(s=>s.playlists.includes(pid)) || null;
+}
+function studyPlatformAllPlaylistIds(){
+  return STUDY_PLATFORM_SUBJECTS.flatMap(s=>s.playlists);
+}
+function studyPlatformParseISODuration(iso){
+  if(!iso) return 0;
+  const m = iso.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if(!m) return 0;
+  const h = parseInt(m[1]||'0',10), mi = parseInt(m[2]||'0',10), s = parseInt(m[3]||'0',10);
+  return h*3600 + mi*60 + s;
+}
+function studyPlatformFormatDuration(sec){
+  if(!sec) return '—';
+  const h = Math.floor(sec/3600), mi = Math.floor((sec%3600)/60), s = Math.floor(sec%60);
+  if(h>0) return `${h}:${String(mi).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  return `${mi}:${String(s).padStart(2,'0')}`;
+}
+async function studyPlatformFetchPlaylistsMeta(ids, apiKey){
+  const map = {};
+  for(let i=0;i<ids.length;i+=50){
+    const chunk = ids.slice(i,i+50);
+    const url = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&id=${encodeURIComponent(chunk.join(','))}&maxResults=50&key=${encodeURIComponent(apiKey)}`;
+    const res = await fetch(url);
+    const data = await res.json().catch(()=>null);
+    if(!res.ok){
+      const msg = (data && data.error && data.error.message) ? data.error.message : `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+    (data && data.items || []).forEach(it=>{
+      const sn = it.snippet || {};
+      const th = sn.thumbnails || {};
+      const thumb = (th.medium||th.high||th.default||{}).url || '';
+      map[it.id] = { title: sn.title || it.id, thumb };
+    });
+  }
+  return map;
+}
+async function studyPlatformFetchDurations(videoIds, apiKey){
+  const map = {};
+  const uniq = [...new Set(videoIds)];
+  for(let i=0;i<uniq.length;i+=50){
+    const chunk = uniq.slice(i,i+50);
+    if(!chunk.length) continue;
+    const url = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${encodeURIComponent(chunk.join(','))}&maxResults=50&key=${encodeURIComponent(apiKey)}`;
+    const res = await fetch(url);
+    const data = await res.json().catch(()=>null);
+    if(!res.ok){
+      const msg = (data && data.error && data.error.message) ? data.error.message : `HTTP ${res.status}`;
+      throw new Error(msg);
+    }
+    (data && data.items || []).forEach(it=>{
+      map[it.id] = studyPlatformParseISODuration(it.contentDetails && it.contentDetails.duration);
+    });
+  }
+  return map;
+}
+/* بتحاول تحمّل كتالوج جاهز من التخزين المشترك الأول (من غير أي مفتاح API)، ولو فيه قوائم لسه
+   ناقصة منه وعند اليوزر الحالي مفتاح API شخصي، بتجيبها وتضيفها للكتالوج المشترك عشان أي زائر
+   تاني يلاقيها جاهزة بعد كده من غير ما يحتاج مفتاح هو كمان. */
+async function studyPlatformLoad(force){
+  studyPlatformLoading = true; studyPlatformError = ''; renderCurrentView();
+  if(!force){
+    try{
+      const r = await window.storage.get('study-platform-cache', true);
+      if(r && r.value) studyPlatformCache = JSON.parse(r.value) || {};
+    }catch(e){ /* لسه مفيش كتالوج مشترك محفوظ */ }
+  }
+  const ids = studyPlatformAllPlaylistIds();
+  const missing = force ? ids : ids.filter(id=>!studyPlatformCache[id]);
+  if(!missing.length){ studyPlatformLoading = false; renderCurrentView(); return; }
+  if(!videoYtApiKey){
+    studyPlatformLoading = false;
+    studyPlatformError = Object.keys(studyPlatformCache).length ? '' : 'NEED_KEY';
+    renderCurrentView();
+    return;
+  }
+  try{
+    const metaMap = await studyPlatformFetchPlaylistsMeta(missing, videoYtApiKey);
+    for(const pid of missing){
+      const items = await fetchYouTubePlaylistItems(pid, videoYtApiKey);
+      const durations = await studyPlatformFetchDurations(items.map(i=>i.videoId), videoYtApiKey);
+      const videos = items.map(i=>({...i, durationSec: durations[i.videoId]||0}));
+      const meta = metaMap[pid] || {};
+      studyPlatformCache[pid] = {
+        title: meta.title || pid,
+        thumb: meta.thumb || (videos[0] && videos[0].thumb) || '',
+        videos,
+        fetchedAt: Date.now()
+      };
+    }
+    await window.storage.set('study-platform-cache', JSON.stringify(studyPlatformCache), true);
+  }catch(e){
+    studyPlatformError = e.message || 'حصل خطأ في جلب بيانات المنصة';
+  }
+  studyPlatformLoading = false;
+  renderCurrentView();
+}
+function studyPlatformAllVideosFlat(){
+  const out = [];
+  STUDY_PLATFORM_SUBJECTS.forEach(subj=>{
+    subj.playlists.forEach(pid=>{
+      const pl = studyPlatformCache[pid];
+      if(!pl || !pl.videos) return;
+      pl.videos.forEach(v=> out.push({...v, playlistId:pid, subjectId:subj.id, subjectName:subj.name}));
+    });
+  });
+  return out;
+}
+function studyPlatformTaskLinkStatusHtml(key){
+  const taskId = studyPlatformTaskLinks[key];
+  if(!taskId) return '';
+  const tk = pomodoroTasks.find(x=>x.id===taskId);
+  if(!tk) return '';
+  return `<div class="vid-task-link-status${tk.completed?' vid-task-link-done':''}">🗂️ تاسك: ${escapeHtml(tk.title)} — ${tk.completed?'✅ خلصان':'⏳ لسه في البومودورو'}</div>`;
+}
+function studyPlatformAddVideoTask(videoId){
+  const v = studyPlatformAllVideosFlat().find(x=>x.videoId===videoId);
+  if(!v) return;
+  const key = 'video:'+v.videoId;
+  if(studyPlatformTaskLinks[key] && pomodoroTasks.find(t=>t.id===studyPlatformTaskLinks[key])) return;
+  const sessions = Math.max(1, Math.ceil((v.durationSec||900)/1500));
+  const tk = pomodoroAddTask(v.subjectName, v.title, sessions);
+  if(tk){
+    studyPlatformTaskLinks[key] = tk.id;
+    saveStudyPlatformTaskLinks();
+    pomodoroShowToast(`🗂️ اتضاف تاسك "${tk.title}"`);
+  }
+  renderCurrentView();
+}
+function studyPlatformVideoCardHtml(v){
+  const key = 'video:'+v.videoId;
+  const linked = studyPlatformTaskLinks[key] && pomodoroTasks.find(t=>t.id===studyPlatformTaskLinks[key]);
+  return `<div class="vid-card">
+    <div class="vid-thumb-wrap">
+      <img src="${escapeHtml(v.thumb)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="videoThumbFallback(this,'${v.videoId}')">
+      <div class="vid-duration-badge">${studyPlatformFormatDuration(v.durationSec)}</div>
+    </div>
+    <div class="vid-body">
+      <div class="vid-title">${escapeHtml(v.title)}</div>
+      <div class="plat-subject-tag">${escapeHtml(v.subjectName||'')}</div>
+      ${studyPlatformTaskLinkStatusHtml(key)}
+      <div class="vid-actions">
+        <button class="vid-add-btn plat-add-task-btn" data-video="${escapeHtml(v.videoId)}" type="button" ${linked?'disabled':''}>${linked?'✅ مضاف كتاسك':'➕ أضف كتاسك'}</button>
+        <a class="vid-ext-btn" href="${escapeHtml(v.url)}" target="_blank" rel="noopener noreferrer" title="افتح على يوتيوب">↗️</a>
+      </div>
+    </div>
+  </div>`;
+}
+function studyPlatformSidebarHtml(){
+  const all = studyPlatformAllVideosFlat();
+  const counts = {};
+  all.forEach(v=>{ counts[v.subjectId] = (counts[v.subjectId]||0)+1; });
+  const subjectsWithVideos = STUDY_PLATFORM_SUBJECTS.filter(s=>counts[s.id]);
+  return `<div class="plat-sidebar">
+    <button class="plat-side-item${studyPlatformFilterSubject==='all'?' active':''}" data-subject="all" type="button">
+      <span>الكل</span><span class="plat-side-count">${all.length}</span>
+    </button>
+    ${subjectsWithVideos.map(s=>`<button class="plat-side-item${studyPlatformFilterSubject===s.id?' active':''}" data-subject="${escapeHtml(s.id)}" type="button">
+      <span>${escapeHtml(s.name)}</span><span class="plat-side-count">${counts[s.id]||0}</span>
+    </button>`).join('')}
+  </div>`;
+}
+function studyPlatformBodyHtml(){
+  const all = studyPlatformAllVideosFlat();
+  if(!all.length) return `<div class="vid-empty">لسه معملناش أي فيديو جاهز هنا. جرّب "🔄 حدّث الكتالوج".</div>`;
+  const q = studyPlatformSearch.trim().toLowerCase();
+  let filtered = studyPlatformFilterSubject==='all' ? all : all.filter(v=>v.subjectId===studyPlatformFilterSubject);
+  if(q) filtered = filtered.filter(v=>(v.title||'').toLowerCase().includes(q));
+  if(!filtered.length) return `<div class="vid-empty">مفيش فيديوهات مطابقة.</div>`;
+  return `<div class="vid-grid">${filtered.map(studyPlatformVideoCardHtml).join('')}</div>`;
+}
+function studyPlatformHtml(){
+  let content;
+  if(studyPlatformLoading){
+    content = `<div class="study-loading">⏳ بنجيب بيانات الفيديوهات من يوتيوب...</div>`;
+  } else if(studyPlatformError==='NEED_KEY'){
+    content = `<div class="vid-playlist-key-wrap">
+      <label>مفتاح YouTube Data API</label>
+      <input type="text" id="platYtApiKeyInput" class="code" placeholder="الصق مفتاح الـ API بتاعك هنا..." autocomplete="off" value="${escapeHtml(videoYtApiKey||'')}">
+      <div class="vid-playlist-key-hint">الكتالوج ده بيتحفظ مشترك لكل زوّار الموقع — يعني لو دلوقتي محتاج مفتاح، ده بس علشان أول مرة يتجاب فيها المحتوى؛ أي زائر بعد كده مش هيحتاج مفتاح خالص. اعمل واحد مجاني من <a href="https://console.cloud.google.com/apis/library/youtube.googleapis.com" target="_blank" rel="noopener noreferrer">Google Cloud Console</a> (فعّل "YouTube Data API v3" وأنشئ API Key).</div>
+      <div class="vid-add-actions"><button class="vid-add-btn" id="platSaveKeyBtn" type="button">➕ احفظ وجيب البيانات</button></div>
+    </div>`;
+  } else if(studyPlatformError){
+    content = `<div class="study-error">حصل خطأ: ${escapeHtml(studyPlatformError)}</div>
+    <div class="vid-add-actions"><button class="vid-add-btn" id="platRetryBtn" type="button">🔄 حاول تاني</button></div>`;
+  } else {
+    content = `<div class="plat-toolbar">
+      <input type="text" class="vid-select plat-search-input" id="platSearchInput" placeholder="ابحث باسم الفيديو..." value="${escapeHtml(studyPlatformSearch)}">
+      <button class="vid-add-btn plat-refresh-btn" id="platRefreshBtn" type="button" title="جيب أحدث نسخة من يوتيوب">🔄 حدّث الكتالوج</button>
+    </div>
+    <div class="plat-layout">
+      ${studyPlatformSidebarHtml()}
+      <div class="plat-content">${studyPlatformBodyHtml()}</div>
+    </div>`;
+  }
+  return `<div class="study-view plat-view">
+    <div class="study-head">
+      <h2>🎓 منصة المواد الدراسية</h2>
+      <p class="study-sub">فيديوهات محاضرات جاهزة لمواد القسم — فلتر بالمادة من على الجنب أو ابحث بالاسم، ودوس "➕ أضف كتاسك" على أي فيديو عشان يتحط في تاسكاتك جوه البومودورو.</p>
+    </div>
+    ${content}
+  </div>`;
+}
+function renderStudyPlatformView(){
+  const el = document.getElementById('trackView');
+  el.innerHTML = studyPlatformHtml();
+  bindStudyPlatformView();
+  if(!studyPlatformLoading && !studyPlatformError && !Object.keys(studyPlatformCache).length){
+    studyPlatformLoad(false);
+  }
+}
+function bindStudyPlatformView(){
+  const keyInput = document.getElementById('platYtApiKeyInput');
+  const saveKeyBtn = document.getElementById('platSaveKeyBtn');
+  if(saveKeyBtn) saveKeyBtn.onclick = async ()=>{
+    videoYtApiKey = (keyInput && keyInput.value || '').trim();
+    await saveVideoYtApiKey();
+    studyPlatformError = '';
+    studyPlatformLoad(false);
+  };
+  const retryBtn = document.getElementById('platRetryBtn');
+  if(retryBtn) retryBtn.onclick = ()=>{ studyPlatformError=''; studyPlatformLoad(false); };
+  const refreshBtn = document.getElementById('platRefreshBtn');
+  if(refreshBtn) refreshBtn.onclick = ()=> studyPlatformLoad(true);
+  const searchInput = document.getElementById('platSearchInput');
+  if(searchInput){
+    searchInput.oninput = ()=>{ studyPlatformSearch = searchInput.value; renderCurrentView(); };
+  }
+  document.querySelectorAll('.plat-side-item').forEach(btn=>{
+    btn.onclick = ()=>{ studyPlatformFilterSubject = btn.dataset.subject; renderCurrentView(); };
+  });
+  document.querySelectorAll('.plat-add-task-btn[data-video]').forEach(btn=>{
+    btn.onclick = ()=> studyPlatformAddVideoTask(btn.dataset.video);
+  });
+}
+
 /* ================= الألعاب الترفيهية — DISPATCH ================= */
 /* ================= مطوّرين النظام ================= */
 /* أسماء فريق الدعم (اقتراحات واكتشاف أخطاء وحلول) — هتتحط هنا أول ما تتوفر، من غير تقسيم بالجهة. */
@@ -15345,7 +16431,7 @@ function bindBilliards(){
   renderCurrentView();
   applyAvatarTheme(pomodoroActiveAvatar().id, {sound:false, pulse:false});
   if(!profile.trackId || !profile.level){
-    openProfileModal(true);
+    openOnboardingIntro();
   }
 })();
 </script>
