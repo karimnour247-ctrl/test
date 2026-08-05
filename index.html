@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.28.1/cytoscape.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lucide-static/0.469.0/umd/lucide.min.js"></script>
 <style>
 :root{
   /* نظام الألوان: بنفسجي = رياضيات · سيان-زمردي = إحصاء · وردي = علوم الحاسب · ذهبي = عام/اختياري */
@@ -1642,6 +1643,16 @@ button.chip.chip-primary:hover{box-shadow:0 8px 20px var(--glow-navy);transform:
 
 .ob-next-btn{max-width:300px;margin:34px auto 0;opacity:0;visibility:hidden;font-size:1.0625rem;padding-block:16px;}
 .ob-next-btn.ob-fade-in{visibility:visible;animation:obFadeInUp .5s ease both;}
+
+/* ===== شاشة "تسجيل الترمات السابقة" جوه الافتتاحية — فورم عادي (مش سينمائي) عشان فيه شيك بوكسات
+   وسيلكت كتير، فبيحتاج سكرول جوه المسرح بدل ما ياخد شكل التايبورايتر زي باقي المشاهد. ===== */
+.ob-stage:has(.terms-wizard-screen){max-height:94vh;max-height:94dvh;overflow-y:auto;overflow-x:hidden;padding-inline:20px;}
+.terms-wizard-screen{text-align:right;width:100%;}
+.terms-wizard-screen h3{margin:0 0 10px;}
+.wz-remaining-badge{
+  display:inline-block;background:var(--gold-soft);color:var(--gold);border:1.5px solid var(--gold);
+  border-radius:999px;padding:6px 16px;font-weight:800;font-size:0.8125rem;margin-bottom:14px;
+}
 
 .ob-choice-row{display:flex;gap:16px;justify-content:center;margin-top:34px;opacity:0;}
 .ob-choice-row.ob-fade-in{animation:obFadeInUp .5s ease both;}
@@ -3386,6 +3397,375 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
   .mn-hidden{display:none !important;}
   .mn-note{margin-inline-start:0;}
 }
+
+/* ======================================================================
+   ============ إعادة تصميم أداة البومودورو — 2026 Productivity Dashboard
+   تصميم مستقل تمامًا داخل نطاق .pmd-view (لا يمس أي صفحة تانية في الموقع).
+   المنطق والـ IDs والـ Classes زي ما هي 100%، الملف ده بيعيد تعريف
+   المظهر بس (ألوان تزيينية إضافية + مسافات + حدود + حركة) فوق نفس السلكتورز،
+   وبيفضل بيستخدم var(--navy)/var(--gold)/var(--teal)/var(--maroon) عشان
+   يفضل متجاوب مع نظام الثيمات/الأفاتار الموجود أصلاً.
+   ====================================================================== */
+
+.pmd-view{
+  --pmd-violet:#8b6cf7;
+  --pmd-violet-soft:rgba(139,108,247,.16);
+  --pmd-accent-a:var(--navy);
+  --pmd-accent-b:color-mix(in srgb, var(--navy) 55%, var(--pmd-violet) 45%);
+  --pmd-grad-brand:linear-gradient(135deg, var(--pmd-accent-a), var(--pmd-accent-b));
+  --pmd-glass-bg:color-mix(in srgb, var(--card) 66%, transparent);
+  --pmd-glass-bg-strong:color-mix(in srgb, var(--card) 84%, transparent);
+  --pmd-glass-border:color-mix(in srgb, var(--ink) 10%, transparent);
+  --pmd-glass-border-hover:color-mix(in srgb, var(--pmd-accent-a) 45%, transparent);
+  --pmd-r-xl:24px;
+  --pmd-r-lg:18px;
+  --pmd-r-md:13px;
+  --pmd-r-sm:10px;
+  --pmd-ease:cubic-bezier(.22,.9,.32,1);
+  --pmd-shadow-lg:0 24px 60px -24px rgba(2,6,20,.55), 0 2px 8px rgba(2,6,20,.25);
+  --pmd-shadow-md:0 10px 26px -14px rgba(2,6,20,.4);
+  position:relative;
+  isolation:isolate;
+}
+
+/* ---------- الخلفية الجوية: توهّج أزرق-بنفسجي خفيف خلف الداشبورد فقط ---------- */
+.pmd-view::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  opacity:.55;
+  background:
+    radial-gradient(560px 420px at 8% -6%, color-mix(in srgb, var(--pmd-accent-a) 30%, transparent), transparent 65%),
+    radial-gradient(620px 480px at 100% 12%, color-mix(in srgb, var(--pmd-violet) 26%, transparent), transparent 62%),
+    radial-gradient(700px 520px at 50% 115%, color-mix(in srgb, var(--pmd-accent-a) 14%, transparent), transparent 60%);
+  filter:blur(6px);
+  transition:opacity .5s ease;
+}
+@media (prefers-color-scheme: light){ .pmd-view::before{ opacity:.32; } }
+:root:not([data-theme="dark"]) .pmd-view::before{ opacity:.22; }
+
+/* ---------- رأس الصفحة ---------- */
+.study-view.pmd-view{max-width:1120px; gap:20px; margin-inline:auto;}
+.pmd-view .study-back{
+  display:inline-flex; align-items:center; gap:6px;
+  font-weight:700; font-size:0.8125rem; color:var(--ink-soft);
+  padding:7px 4px; transition:color .15s var(--pmd-ease), transform .15s var(--pmd-ease);
+}
+.pmd-view .study-back:hover{color:var(--pmd-accent-a); transform:translateX(2px);}
+:root[dir="rtl"] .pmd-view .study-back:hover{transform:translateX(-2px);}
+.pmd-view .study-head{display:flex; flex-direction:column; gap:3px; margin-bottom:2px;}
+.pmd-view .study-head h2{
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:1.5rem; font-weight:800; letter-spacing:-.01em;
+  background:var(--pmd-grad-brand);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  width:fit-content;
+}
+.pmd-view .study-head h2 .pmd-ico{color:var(--pmd-accent-a); -webkit-text-fill-color:initial;}
+.pmd-view .study-sub{color:var(--ink-soft); font-size:0.85rem;}
+
+/* ---------- أيقونات Lucide ---------- */
+.pmd-ico{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:1em; height:1em; vertical-align:-0.14em;
+  stroke-width:2.1;
+}
+.pmd-ico svg{width:100%; height:100%;}
+h2 .pmd-ico, h3 .pmd-ico{width:1.05em; height:1.05em;}
+
+/* ---------- شريط الاستخدام / الإحصائيات السريعة كبطاقات ---------- */
+.pmd-view .study-usage-bar{
+  background:var(--pmd-glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--pmd-glass-border);
+  border-radius:999px;
+  padding:10px 18px;
+  gap:8px 22px;
+  box-shadow:var(--pmd-shadow-md);
+  font-family:'IBM Plex Mono',monospace;
+}
+.pmd-view .study-usage-bar span{display:inline-flex; align-items:center; gap:6px;}
+.pmd-view .study-usage-bar .pmd-ico{color:var(--pmd-accent-a);}
+.pmd-view .study-usage-bar b{font-weight:800;}
+
+/* ---------- التبويبات: Segmented control حديث ---------- */
+.pmd-view .pmd-tabs-bar{
+  background:var(--pmd-glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--pmd-glass-border);
+  border-radius:var(--pmd-r-lg);
+  padding:6px;
+  box-shadow:var(--pmd-shadow-md);
+}
+.pmd-view .pmd-tab-btn{
+  border-radius:calc(var(--pmd-r-lg) - 5px);
+  padding:9px 15px;
+  transition:background .18s var(--pmd-ease), color .18s var(--pmd-ease), transform .12s var(--pmd-ease);
+}
+.pmd-view .pmd-tab-btn:hover{background:color-mix(in srgb, var(--pmd-accent-a) 12%, transparent); color:var(--ink);}
+.pmd-view .pmd-tab-btn:active{transform:scale(.96);}
+.pmd-view .pmd-tab-btn.active{
+  background:var(--pmd-grad-brand);
+  color:#fff;
+  box-shadow:0 8px 20px -8px color-mix(in srgb, var(--pmd-accent-a) 65%, transparent);
+}
+.pmd-view .pmd-tab-ic{display:inline-flex;}
+.pmd-view .pmd-tab-content{margin-top:2px;}
+
+/* ---------- بطاقة المؤقت الرئيسية: زجاجية فاخرة ---------- */
+.pmd-view .pmd-timer-card{
+  position:relative;
+  border-radius:var(--pmd-r-xl);
+  padding:34px 28px 28px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--pmd-accent-a) 6%, transparent), transparent 40%),
+    var(--pmd-glass-bg);
+  backdrop-filter:blur(22px) saturate(170%);
+  -webkit-backdrop-filter:blur(22px) saturate(170%);
+  border:1px solid var(--pmd-glass-border);
+  border-top:1px solid color-mix(in srgb, var(--pmd-phase-color, var(--pmd-accent-a)) 55%, transparent);
+  box-shadow:var(--pmd-shadow-lg), inset 0 1px 0 color-mix(in srgb, #fff 6%, transparent);
+  transition:border-color .5s ease, box-shadow .5s ease;
+  overflow:hidden;
+}
+.pmd-view .pmd-timer-card::after{
+  content:"";
+  position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(420px 260px at 50% -10%, color-mix(in srgb, var(--pmd-phase-color, var(--pmd-accent-a)) 16%, transparent), transparent 70%);
+  opacity:.9;
+}
+
+/* ---------- حلقة المؤقت ---------- */
+.pmd-view .pmd-ring-wrap{width:296px; height:296px;}
+.pmd-view .pmd-ring-track{stroke-width:9; opacity:.5;}
+.pmd-view .pmd-ring-progress{
+  stroke-width:9;
+  filter:drop-shadow(0 0 10px color-mix(in srgb, var(--pmd-phase-color, var(--pmd-accent-a)) 55%, transparent));
+}
+.pmd-view .pmd-ring-wrap.is-running{animation:pmdRingBreathe2026 3.4s ease-in-out infinite;}
+@keyframes pmdRingBreathe2026{
+  0%,100%{filter:drop-shadow(0 0 0 transparent);}
+  50%{filter:drop-shadow(0 0 20px color-mix(in srgb, var(--pmd-phase-color, var(--pmd-accent-a)) 60%, transparent));}
+}
+@media (prefers-reduced-motion: reduce){ .pmd-view .pmd-ring-wrap.is-running{animation:none;} }
+.pmd-view .pmd-time-label{
+  font-size:3.1rem; font-weight:700; letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;
+  color:var(--ink);
+}
+.pmd-view .pmd-phase-label{
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:0.8rem; font-weight:800; letter-spacing:.3px;
+  color:var(--pmd-phase-color, var(--ink-soft));
+  text-transform:uppercase;
+}
+.pmd-view .pmd-dots{gap:8px; margin-top:2px;}
+.pmd-view .pmd-dot{width:7px; height:7px; transition:background .3s ease, transform .3s var(--pmd-ease);}
+.pmd-view .pmd-dot.filled{background:var(--pmd-grad-brand); transform:scale(1.2); box-shadow:0 0 8px color-mix(in srgb, var(--pmd-accent-a) 60%, transparent);}
+.pmd-view .pmd-ring-current-task{margin-top:2px;}
+.pmd-view .pmd-ring-current-subject{display:inline-flex; align-items:center; gap:6px;}
+.pmd-view .pmd-ring-current-taskname{display:inline-flex; align-items:center; gap:6px;}
+.pmd-view .pmd-ring-expand-btn{
+  display:inline-flex; align-items:center; gap:5px;
+  border-radius:999px; backdrop-filter:blur(10px);
+  background:var(--pmd-glass-bg-strong); border-color:var(--pmd-glass-border);
+}
+.pmd-view .pmd-ring-expand-btn:hover{border-color:var(--pmd-accent-a); box-shadow:0 4px 14px -6px color-mix(in srgb, var(--pmd-accent-a) 55%, transparent);}
+.pmd-ring-box.pmd-ring-expanded{
+  background:radial-gradient(1200px 800px at 50% 20%, color-mix(in srgb, var(--pmd-phase-color,var(--navy)) 10%, transparent), var(--paper));
+}
+
+/* ---------- المادة / اختيارات ---------- */
+.pmd-view .pmd-subject-row label,
+.pmd-view .pmd-picker-col label{
+  display:inline-flex; align-items:center; gap:6px;
+  color:var(--ink-soft); text-transform:uppercase; letter-spacing:.3px; font-size:0.72rem;
+}
+.pmd-view .pmd-select{
+  border-radius:var(--pmd-r-md);
+  padding:10px 14px;
+  background:color-mix(in srgb, var(--paper) 70%, transparent);
+  border:1px solid var(--pmd-glass-border);
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+.pmd-view .pmd-select:hover{border-color:color-mix(in srgb, var(--pmd-accent-a) 40%, var(--line));}
+.pmd-view .pmd-select:focus{box-shadow:0 0 0 3px color-mix(in srgb, var(--pmd-accent-a) 22%, transparent);}
+
+/* ---------- الأزرار: نظام موحّد وحديث ---------- */
+.pmd-view .pmd-btn{
+  display:inline-flex; align-items:center; gap:7px;
+  border-radius:var(--pmd-r-md);
+  padding:11px 22px;
+  font-size:0.86rem; letter-spacing:.1px;
+  transition:transform .16s var(--pmd-ease), box-shadow .2s var(--pmd-ease), background .2s ease, filter .2s ease;
+  position:relative;
+}
+.pmd-view .pmd-btn:hover{transform:translateY(-2px);}
+.pmd-view .pmd-btn:active:not(:disabled){transform:translateY(0) scale(.97);}
+.pmd-view .pmd-btn-primary{
+  background:var(--pmd-grad-brand); color:#fff; border:none;
+  box-shadow:0 10px 24px -10px color-mix(in srgb, var(--pmd-accent-a) 70%, transparent);
+}
+.pmd-view .pmd-btn-primary:hover{filter:brightness(1.08); box-shadow:0 14px 30px -10px color-mix(in srgb, var(--pmd-accent-a) 80%, transparent);}
+.pmd-view .pmd-btn-secondary{
+  background:var(--pmd-glass-bg-strong); color:var(--ink); border:1px solid var(--pmd-glass-border);
+}
+.pmd-view .pmd-btn-secondary:hover{border-color:var(--pmd-glass-border-hover);}
+.pmd-view .pmd-btn-danger{background:color-mix(in srgb, var(--maroon) 14%, transparent); border:1px solid color-mix(in srgb, var(--maroon) 45%, transparent); color:var(--maroon);}
+.pmd-view .pmd-btn-ghost{background:color-mix(in srgb, var(--teal) 12%, transparent); border:1px solid color-mix(in srgb, var(--teal) 40%, transparent); color:var(--teal);}
+.pmd-view .pmd-btn:disabled{transform:none;}
+.pmd-view .pmd-tick-toggle{
+  border-radius:var(--pmd-r-md); background:var(--pmd-glass-bg-strong); border:1px solid var(--pmd-glass-border);
+  transition:all .18s ease;
+}
+.pmd-view .pmd-tick-toggle:hover{border-color:var(--pmd-glass-border-hover);}
+.pmd-view .pmd-tick-toggle.active{background:color-mix(in srgb, var(--teal) 16%, transparent); border-color:color-mix(in srgb, var(--teal) 45%, transparent); color:var(--teal);}
+
+/* ---------- عمود المهام الجانبي ---------- */
+.pmd-view .pmd-side-col{gap:16px;}
+.pmd-view .pmd-side-tasks-box,
+.pmd-view .pmd-inline-tasks-box,
+.pmd-view .pmd-active-video-box{
+  border-radius:var(--pmd-r-lg);
+  background:var(--pmd-glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--pmd-glass-border);
+  box-shadow:var(--pmd-shadow-md);
+  padding:16px 16px;
+}
+.pmd-view .pmd-side-tasks-head{color:var(--ink); display:flex; align-items:center; gap:6px;}
+.pmd-view .pmd-side-tasks-head span:first-child{display:inline-flex; align-items:center; gap:6px;}
+.pmd-view .pmd-side-task-row{
+  border-radius:var(--pmd-r-sm); padding:7px 8px;
+  transition:background .15s ease;
+}
+.pmd-view .pmd-side-task-row:hover{background:color-mix(in srgb, var(--pmd-accent-a) 8%, transparent);}
+.pmd-view .pmd-inline-task-row{border-radius:var(--pmd-r-md); background:var(--pmd-glass-bg-strong); transition:transform .15s var(--pmd-ease), border-color .15s ease, box-shadow .15s ease;}
+.pmd-view .pmd-inline-task-row:hover{transform:translateY(-1px); border-color:var(--pmd-glass-border-hover);}
+.pmd-view .pmd-inline-task-row.active{box-shadow:0 0 0 2px color-mix(in srgb, var(--pmd-accent-a) 45%, transparent);}
+.pmd-view .pmd-inline-task-start{border-radius:var(--pmd-r-sm);}
+.pmd-view .pmd-manage-link{color:var(--pmd-accent-a); text-decoration:none; font-weight:600;}
+.pmd-view .pmd-manage-link:hover{text-decoration:underline;}
+.pmd-view .pmd-focus-toggle{
+  display:inline-flex; align-items:center; gap:8px;
+  border-radius:999px; padding:11px 22px;
+  background:var(--pmd-glass-bg-strong); color:var(--ink); border:1px solid var(--pmd-glass-border);
+  font-weight:700; box-shadow:var(--pmd-shadow-md);
+  transition:all .2s var(--pmd-ease);
+}
+.pmd-view .pmd-focus-toggle:hover{transform:translateY(-2px); border-color:var(--pmd-glass-border-hover); opacity:1;}
+.pmd-view .pmd-focus-toggle.active{background:var(--pmd-grad-brand); color:#fff; border-color:transparent;}
+
+/* ---------- بطاقات لوحة التبويبات (إحصائيات/تحليلات/إنجازات/إعدادات...) ---------- */
+.pmd-view .pmd-panel{
+  border-radius:var(--pmd-r-lg);
+  background:var(--pmd-glass-bg);
+  backdrop-filter:blur(18px) saturate(160%);
+  -webkit-backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid var(--pmd-glass-border);
+  box-shadow:var(--pmd-shadow-md);
+  padding:20px 20px;
+}
+.pmd-view .pmd-panel h3{
+  display:flex; align-items:center; gap:8px;
+  font-size:0.95rem; font-weight:800;
+}
+.pmd-view .pmd-stat-box,
+.pmd-view .pmd-analytics-card{
+  border-radius:var(--pmd-r-md);
+  background:var(--pmd-glass-bg-strong);
+  border:1px solid var(--pmd-glass-border);
+  transition:transform .18s var(--pmd-ease), border-color .18s ease;
+}
+.pmd-view .pmd-stat-box:hover,
+.pmd-view .pmd-analytics-card:hover{transform:translateY(-3px); border-color:var(--pmd-glass-border-hover);}
+.pmd-view .pmd-stat-num{
+  background:var(--pmd-grad-brand); -webkit-background-clip:text; background-clip:text; color:transparent;
+  font-size:1.5rem;
+}
+.pmd-view .pmd-badge{border-radius:var(--pmd-r-md); background:var(--pmd-glass-bg-strong); border:1px solid var(--pmd-glass-border); transition:transform .18s var(--pmd-ease);}
+.pmd-view .pmd-badge:hover{transform:translateY(-2px);}
+.pmd-view .pmd-badge.unlocked{border-color:color-mix(in srgb, var(--gold) 55%, transparent); box-shadow:0 8px 18px -10px color-mix(in srgb, var(--gold) 55%, transparent);}
+.pmd-view .pmd-badge-ic{font-size:1.375rem; display:flex; align-items:center; justify-content:center;}
+
+/* ---------- شرائح (chips) ---------- */
+.pmd-view .pmd-chip{border-radius:999px; transition:all .16s var(--pmd-ease); background:var(--pmd-glass-bg-strong);}
+.pmd-view .pmd-chip:hover{transform:translateY(-1px); border-color:var(--pmd-glass-border-hover);}
+.pmd-view .pmd-chip.active{background:var(--pmd-grad-brand); border-color:transparent; box-shadow:0 6px 16px -8px color-mix(in srgb, var(--pmd-accent-a) 70%, transparent);}
+
+/* ---------- المتجر / الأصوات / الغرفة: شبكة بطاقات ---------- */
+.pmd-view .pmd-shop-card,
+.pmd-view .pmd-sound-chip{
+  border-radius:var(--pmd-r-md);
+  background:var(--pmd-glass-bg-strong);
+  transition:transform .16s var(--pmd-ease), border-color .16s ease;
+}
+.pmd-view .pmd-shop-card:hover,
+.pmd-view .pmd-sound-chip:hover{transform:translateY(-2px);}
+.pmd-view .pmd-shop-card.active,
+.pmd-view .pmd-sound-chip.active{border-color:color-mix(in srgb, var(--teal) 55%, transparent); box-shadow:0 8px 18px -10px color-mix(in srgb, var(--teal) 50%, transparent);}
+.pmd-view .pmd-room-box{border-radius:var(--pmd-r-lg); background:var(--pmd-glass-bg-strong); border:1px solid var(--pmd-glass-border);}
+
+/* ---------- شجرة التركيز ---------- */
+.pmd-view .pmd-tree-box{border-radius:var(--pmd-r-lg); background:var(--pmd-glass-bg-strong); border:1px solid var(--pmd-glass-border); box-shadow:var(--pmd-shadow-md);}
+.pmd-view .pmd-tree-progress-fill{background:var(--pmd-grad-brand);}
+
+/* ---------- التقويم / السجل ---------- */
+.pmd-view .pmd-cal-cell,
+.pmd-view .pmd-log-item{border-radius:var(--pmd-r-sm); background:var(--pmd-glass-bg-strong);}
+.pmd-view .pmd-cal-cell[data-level]{background:var(--pmd-accent-a);}
+.pmd-view .pmd-cal-nav{border-radius:var(--pmd-r-sm); background:var(--pmd-glass-bg-strong); transition:all .15s ease;}
+.pmd-view .pmd-cal-nav:hover:not(:disabled){border-color:var(--pmd-accent-a); color:var(--pmd-accent-a);}
+.pmd-view .pmd-heat-cell{border-radius:3px;}
+
+/* ---------- ملاحظة نهاية الجلسة ---------- */
+.pmd-view .pmd-note-box{
+  border-radius:var(--pmd-r-lg);
+  background:linear-gradient(160deg, color-mix(in srgb, var(--gold) 12%, transparent), var(--pmd-glass-bg));
+  border:1px solid color-mix(in srgb, var(--gold) 40%, transparent);
+  backdrop-filter:blur(18px);
+}
+.pmd-view .pmd-note-box h3{display:flex; align-items:center; gap:6px;}
+.pmd-view .pmd-note-box textarea{border-radius:var(--pmd-r-md); background:color-mix(in srgb, var(--paper) 70%, transparent);}
+.pmd-view .pmd-unlock-item{border-radius:var(--pmd-r-md); background:var(--pmd-glass-bg-strong);}
+
+/* ---------- تمرير مخصص للقوائم ---------- */
+.pmd-view .pmd-inline-tasks-list::-webkit-scrollbar,
+.pmd-view .pmd-side-tasks-list::-webkit-scrollbar,
+.pmd-view .pmd-log-list::-webkit-scrollbar{width:6px;}
+.pmd-view .pmd-inline-tasks-list::-webkit-scrollbar-thumb,
+.pmd-view .pmd-side-tasks-list::-webkit-scrollbar-thumb,
+.pmd-view .pmd-log-list::-webkit-scrollbar-thumb{background:color-mix(in srgb, var(--pmd-accent-a) 35%, transparent); border-radius:999px;}
+
+/* ---------- تفاعل دقيق عام على العناصر القابلة للنقر ---------- */
+.pmd-view button, .pmd-view [role="button"]{outline-offset:2px;}
+.pmd-view button:focus-visible{outline:2px solid color-mix(in srgb, var(--pmd-accent-a) 65%, transparent);}
+
+/* ---------- توزيع لوحة القيادة ---------- */
+.pmd-view .pmd-dashboard{gap:24px; align-items:stretch;}
+.pmd-view .pmd-side-col{max-width:290px;}
+@media (min-width:1020px){
+  .pmd-view .pmd-main-col{flex:1 1 560px;}
+}
+
+/* ---------- استجابة إضافية (تابلت + موبايل) ---------- */
+@media (max-width:900px){
+  .pmd-view .pmd-timer-card{padding:26px 18px 22px;}
+  .pmd-view .pmd-ring-wrap{width:250px; height:250px;}
+}
+@media (max-width:640px){
+  .pmd-view .study-head h2{font-size:1.25rem;}
+  .pmd-view .study-usage-bar{border-radius:16px; justify-content:center;}
+  .pmd-view .pmd-tabs-bar{border-radius:var(--pmd-r-md);}
+  .pmd-view .pmd-timer-card{border-radius:var(--pmd-r-lg);}
+  .pmd-view .pmd-focus-toggle{width:100%; justify-content:center;}
+}
+
 </style>
 <!-- =========================== نهاية أنماط صفحة مطوّرين النظام =========================== -->
 
@@ -4236,6 +4616,7 @@ const VIEWS = [
   {id:"coursesreg", icon:"menu_book", label:"المقررات والتسجيل"},
   {id:"list", icon:"checklist", label:"قائمة المقررات"},
   {id:"register", icon:"school", label:"أسجل ايه دلوقتي؟"},
+  {id:"availcourses", icon:"fact_check", label:"مقررات متاحة للدراسة"},
   {id:"cgpa", icon:"calculate", label:"تسجيل المواد"},
   {id:"pastcoord", icon:"history_edu", label:"تنسيقات السنين السابقة"},
   {id:"goals", icon:"track_changes", label:"متابعة أهدافي"},
@@ -5201,7 +5582,7 @@ function openCourseBankModal(){
 const NAV_GROUPS = [
   {id:"home"},
   {id:"myprofile", children:["goals","transcript"]},
-  {id:"coursesreg", children:["list","register","cgpa"]},
+  {id:"coursesreg", children:["list","register","availcourses","cgpa"]},
   {id:"tools", children:["study","organize","games"]},
   {id:"platformhub", children:["platform"]},
   {id:"advising", children:["pastcoord","regs"]},
@@ -5319,7 +5700,7 @@ function updateSpecialTabVisibility(){
 
 /* فلتر المستوى/النوع وخانة البحث بقوا جوه محتوى الصفحة نفسه (page-toolbar) مش في المينيو،
    وبيظهروا بس في الصفحات المناسبة. */
-const FILTER_VIEWS = new Set(["list","register","transcript"]);
+const FILTER_VIEWS = new Set(["list","register","transcript","availcourses"]);
 const SEARCH_VIEWS = new Set(["list"]);
 function updatePageToolbar(){
   const toolbar = document.getElementById('pageToolbar');
@@ -5573,7 +5954,7 @@ function applyViewAccent(el, viewId){
 /* أدوات المذاكرة/التنظيم/الألعاب بقوا متاحين بس من جوه صفحة "الأدوات" (كروت)، وتنسيقات
    السنين السابقة/مراجعة اللائحة بقوا متاحين بس من جوه صفحة "الإرشاد" (كروت) — مش كتبويبات
    مستقلة في أي مينيو (لا في شريط الموبايل ولا في شيت "المزيد")، عشان المينيو يفضل مختصر. */
-const HIDDEN_FROM_MENUS = new Set(["study","platform","organize","games","pastcoord","regs","list","register","transcript","cgpa"]);
+const HIDDEN_FROM_MENUS = new Set(["study","platform","organize","games","pastcoord","regs","list","register","transcript","cgpa","availcourses"]);
 /* التبويب الديناميكي التالت في شريط الموبايل: "التخصص" لمين لسه مش متخصص، أو "تحويل المسار"
    لمين متخصص عادي، إلا لو تخصصه بيفتحله "الدرجة الخاصة" فبتاخد الأولوية هي (تفضل "تحويل
    المسار" برضو متاحة من جوه "المزيد" وقتها، مش مختفية خالص). */
@@ -7056,6 +7437,7 @@ function renderCurrentView(){
   else if(currentView==="coursesreg") renderCoursesRegView();
   else if(currentView==="list") renderListView();
   else if(currentView==="register") renderRegisterView();
+  else if(currentView==="availcourses") renderAvailableCoursesView();
   else if(currentView==="cgpa") renderCgpaView();
   else if(currentView==="pastcoord") renderPastCoordView();
   else if(currentView==="goals") renderGoalsView();
@@ -7346,6 +7728,7 @@ function openModal(code){
       openModal(code);
       if(currentView==="list") renderListView();
       if(currentView==="register") renderRegisterView();
+      if(currentView==="availcourses") renderAvailableCoursesView();
     } else {
       openTermPickerModal(code); // بيستبدل محتوى المودال بمنتقي الترم، وبيحدّث الصفحة بنفسه بعد التأكيد
     }
@@ -8247,7 +8630,7 @@ function renderRegisterView(){
     .sort((a,b)=> registerCategoryKey(a)-registerCategoryKey(b) || (DB[a].level-DB[b].level) || a.localeCompare(b));
 
   let html = `<div class="track-head">
-    <div><h2>${track.label} — أسجل ايه دلوقتي؟ ${infoTip('دي صفحة عرض بس، مش اختيار تخصص. تلاقي تحت الأول ترشيح جاهز لأولوية التسجيل، وبعده جدول بكل مقرر حددته "مكتمل"، وأخيراً جدول بكل مقررات التخصص اللي اتفتحت لك دلوقتي ولسه ما سجلتهاش. عمود/شارة "الترم المتوقع" اللي هتلاقيها مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو تنزل في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) هتظهرلك "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.')}</h2></div>
+    <div><h2>${track.label} — أسجل ايه دلوقتي؟ ${infoTip('دي صفحة عرض بس، مش اختيار تخصص. تلاقي تحت أداة ترشيح المواد حسب الترم والساعات اللي عايز تسجلها. لو عايز تشوف كل مقررات تخصصك بالتفصيل (اللي خلّصتها واللي متاحة تسجلها دلوقتي)، دوس على زرار "جدول بجميع المقررات المتاحة" تحت.')}</h2></div>
     <div class="chips">
       <span class="chip total">${completedCodes.length} مقرر تمت دراسته</span>
       <span class="chip done">${availableCodes.length} مقرر متاح للتسجيل</span>
@@ -8255,51 +8638,10 @@ function renderRegisterView(){
   </div>`;
 
   html += renderRegisterWizard(track, sectionOfInTrack, trackCodes);
-  html += renderRegistrationSuggestions(track, sectionOfInTrack, trackCodes);
 
   html += `<div class="section">
-    <div class="section-title"><span class="dot" style="background:var(--teal)"></span><h3>مقررات تمت دراستها</h3><span class="count">${completedCodes.length} مقرر</span></div>`;
-  if(!completedCodes.length){
-    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 قائمة المقررات".</p>`;
-  } else {
-    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th></tr></thead><tbody>
-      ${completedCodes.map(code=>{
-        const c = DB[code];
-        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td></tr>`;
-      }).join('')}
-    </tbody></table>`;
-  }
-  html += `</div>`;
-
-  html += `<div class="section">
-    <div class="section-title"><span class="dot" style="background:var(--gold)"></span><h3>مقررات متاحة للدراسة</h3><span class="count">${availableCodes.length} مقرر</span></div>
-    <div class="reg-table-filters">
-      <span class="filter-label">النوع:</span>
-      <div class="chip-group" id="regTypeChips">
-        <button class="lvl-chip${registerTypeFilter==='all'?' active':''}" data-v="all">الكل</button>
-        <button class="lvl-chip${registerTypeFilter==='required'?' active':''}" data-v="required">إجباري</button>
-        <button class="lvl-chip${registerTypeFilter==='elective'?' active':''}" data-v="elective">اختياري</button>
-      </div>
-      <span class="filter-label">المتطلب:</span>
-      <div class="chip-group" id="regScopeChips">
-        <button class="lvl-chip${registerScopeFilter==='all'?' active':''}" data-v="all">الكل</button>
-        <button class="lvl-chip${registerScopeFilter==='major'?' active':''}" data-v="major">رئيسي</button>
-        <button class="lvl-chip${registerScopeFilter==='minor'?' active':''}" data-v="minor">فرعي</button>
-      </div>
-    </div>`;
-  if(!availableCodesAll.length){
-    html += `<p style="color:var(--ink-soft);padding:14px 0;">مفيش مقررات جديدة اتفتحت للتسجيل دلوقتي حسب المقررات اللي حددتها مكتملة.</p>`;
-  } else if(!availableCodes.length){
-    html += `<p style="color:var(--ink-soft);padding:14px 0;">مفيش مقررات متاحة مطابقة للفلتر الحالي. جرّب تغيّر فلتر النوع/المتطلب فوق.</p>`;
-  } else {
-    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th><th>مفتوحة من</th></tr></thead><tbody>
-      ${availableCodes.map(code=>{
-        const c = DB[code];
-        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td><td data-label="مفتوحة من">${unlockedByHtml(code)}</td></tr>`;
-      }).join('')}
-    </tbody></table>`;
-  }
-  html += `</div>`;
+    <button class="home-quicklink" id="goAvailCoursesBtn">📋 جدول بجميع المقررات المتاحة</button>
+  </div>`;
 
   document.getElementById('trackView').innerHTML = html;
   document.querySelectorAll('.reg-row').forEach(el=>{
@@ -8309,18 +8651,8 @@ function renderRegisterView(){
       openModal(el.dataset.code);
     });
   });
-  document.querySelectorAll('.suggest-card').forEach(el=>{
-    el.addEventListener('click', ()=> openModal(el.dataset.code));
-  });
-  document.querySelectorAll('.urgent-chip').forEach(el=>{
-    el.addEventListener('click', ()=> openModal(el.dataset.code));
-  });
-  document.querySelectorAll('#regTypeChips button').forEach(b=>{
-    b.addEventListener('click', ()=>{ registerTypeFilter = b.dataset.v; renderCurrentView(); });
-  });
-  document.querySelectorAll('#regScopeChips button').forEach(b=>{
-    b.addEventListener('click', ()=>{ registerScopeFilter = b.dataset.v; renderCurrentView(); });
-  });
+  const goAvailCoursesBtn = document.getElementById('goAvailCoursesBtn');
+  if(goAvailCoursesBtn) goAvailCoursesBtn.addEventListener('click', ()=> goToView('availcourses'));
   document.querySelectorAll('#regTermChips button').forEach(b=>{
     b.addEventListener('click', ()=>{ registerTargetTerm = b.dataset.v; saveRegisterPlan(); renderCurrentView(); });
   });
@@ -8451,6 +8783,158 @@ function renderRegisterView(){
   }
 }
 
+/* ================= AVAILABLE COURSES VIEW ("مقررات متاحة للدراسة") =================
+   دي كانت جوه صفحة "أسجل ايه دلوقتي؟" وبقت صفحة مستقلة بزرار من هناك، عشان صفحة "أسجل ايه"
+   تفضل مركّزة بس على أداة الترشيح وتخف المساحة اللي كانت الجداول دي واخداها. */
+function renderAvailableCoursesView(){
+  const track = TRACKS.find(t=>t.id===currentTrack);
+  const allowedCodes = filteredTrackCodeSet(track); // بيطبّق فلتري "المستوى" و"النوع" العلويين
+
+  const sectionOfInTrack = {};
+  track.sections.forEach(sec=> sec.list.forEach(c=>{
+    if(!(c in sectionOfInTrack)) sectionOfInTrack[c] = sec;
+  }));
+  const trackCodes = Object.keys(sectionOfInTrack);
+
+  function scopeMajorMinor(sec){
+    if(!sec) return null;
+    if(sec.scope==='freeElective') return null;
+    if(sec.key==='reqMajor' || sec.key==='elecMajor') return 'major';
+    if(sec.key==='reqMinor' || sec.key==='elecMinor') return 'minor';
+    return null;
+  }
+
+  function typeLabel(code){
+    const sec = sectionOfInTrack[code];
+    if(!sec) return '<span style="color:var(--ink-soft)">مقرر عام</span>';
+    if(sec.scope==='college') return '<span style="color:var(--ink-soft)">متطلب كلية</span>';
+    if(sec.scope==='university') return '<span style="color:var(--ink-soft)">متطلب جامعة</span>';
+    if(sec.scope==='freeElective') return '<span style="color:var(--gold);font-weight:700;">اختيار حر (مرشّح)</span>';
+    const typeTxt = sec.type==='required' ? 'إجباري' : 'اختياري';
+    const mm = scopeMajorMinor(sec);
+    const mmTxt = mm==='major' ? ' رئيسي' : (mm==='minor' ? ' فرعي' : '');
+    const color = sec.type==='required' ? 'var(--navy)' : 'var(--gold)';
+    return `<span style="color:${color};font-weight:700;">${typeTxt}${mmTxt}</span>`;
+  }
+
+  function unlockedByHtml(code){
+    const c = DB[code];
+    if(!c.prereq || !c.prereq.length){
+      return '<span style="color:var(--ink-soft)">بدون متطلب سابق</span>';
+    }
+    const satisfied = c.prereq.filter(p=>isCourseAcquired(p));
+    return satisfied.map(p=> `<span class="prereq-tag" data-jump="${p}">${p} · ${DB[p]?.ar||''}</span>`).join(' ');
+  }
+
+  function registerCategoryKey(code){
+    const sec = sectionOfInTrack[code];
+    if(!sec) return 7;
+    if(sec.scope==='college') return 0;
+    if(sec.scope==='university') return 5;
+    if(sec.scope==='freeElective') return 6;
+    const isMinor = (sec.key==='reqMinor' || sec.key==='elecMinor');
+    const isRequired = sec.type==='required';
+    if(!isMinor && isRequired) return 1;  // إجباري رئيسي
+    if(isMinor && isRequired) return 2;   // إجباري فرعي
+    if(!isMinor && !isRequired) return 3; // اختياري رئيسي
+    return 4;                             // اختياري فرعي
+  }
+  function levelCellText(code){
+    return UNIV_REQ_CODES_SET.has(code) ? '—' : DB[code].level;
+  }
+
+  const completedCodes = [...completedSet].filter(code=>DB[code] && isCourseAcquired(code))
+    .filter(code=> codeMatchesLevelFilter(code))
+    .filter(code=> codeMatchesTypeFilter(track, code))
+    .sort((a,b)=> registerCategoryKey(a)-registerCategoryKey(b) || (DB[a].level-DB[b].level) || a.localeCompare(b));
+
+  function matchesRegisterLocalFilters(code){
+    const sec = sectionOfInTrack[code];
+    if(registerTypeFilter!=='all' && (!sec || sec.type!==registerTypeFilter)) return false;
+    if(registerScopeFilter!=='all' && scopeMajorMinor(sec)!==registerScopeFilter) return false;
+    return true;
+  }
+  const availableCodesAll = trackCodes.filter(code=> allowedCodes.has(code) && !completedSet.has(code) && prereqMet(code));
+  const availableCodes = availableCodesAll
+    .filter(matchesRegisterLocalFilters)
+    .sort((a,b)=> registerCategoryKey(a)-registerCategoryKey(b) || (DB[a].level-DB[b].level) || a.localeCompare(b));
+
+  let html = `<div class="track-head">
+    <div><h2>${track.label} — مقررات متاحة للدراسة ${infoTip('دي صفحة عرض بس، مش اختيار تخصص. تلاقي تحت الأول ترشيح جاهز لأولوية التسجيل، وبعده جدول بكل مقرر حددته "مكتمل"، وأخيراً جدول بكل مقررات التخصص اللي اتفتحت لك دلوقتي ولسه ما سجلتهاش. عمود/شارة "الترم المتوقع" اللي هتلاقيها مش مؤكدة — ترشيح بس بناءً على آخر رقم في كود المقرر (فردي=أول، زوجي=تاني)، وممكن أي مادة تنزل في الترمين مع بعض أو تنزل في ترم غير المتوقع حسب تنسيق الكلية الفعلي. متطلبات الجامعة (090xxx) هتظهرلك "حسب تنسيق الكلية" لأنه مش معروف بتنزل انهي ترم أصلاً.')}</h2></div>
+    <div class="chips">
+      <span class="chip total">${completedCodes.length} مقرر تمت دراسته</span>
+      <span class="chip done">${availableCodes.length} مقرر متاح للتسجيل</span>
+    </div>
+  </div>`;
+
+  html += renderRegistrationSuggestions(track, sectionOfInTrack, trackCodes);
+
+  html += `<div class="section">
+    <div class="section-title"><span class="dot" style="background:var(--teal)"></span><h3>مقررات تمت دراستها</h3><span class="count">${completedCodes.length} مقرر</span></div>`;
+  if(!completedCodes.length){
+    html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 قائمة المقررات".</p>`;
+  } else {
+    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th></tr></thead><tbody>
+      ${completedCodes.map(code=>{
+        const c = DB[code];
+        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td></tr>`;
+      }).join('')}
+    </tbody></table>`;
+  }
+  html += `</div>`;
+
+  html += `<div class="section">
+    <div class="section-title"><span class="dot" style="background:var(--gold)"></span><h3>مقررات متاحة للدراسة</h3><span class="count">${availableCodes.length} مقرر</span></div>
+    <div class="reg-table-filters">
+      <span class="filter-label">النوع:</span>
+      <div class="chip-group" id="regTypeChips">
+        <button class="lvl-chip${registerTypeFilter==='all'?' active':''}" data-v="all">الكل</button>
+        <button class="lvl-chip${registerTypeFilter==='required'?' active':''}" data-v="required">إجباري</button>
+        <button class="lvl-chip${registerTypeFilter==='elective'?' active':''}" data-v="elective">اختياري</button>
+      </div>
+      <span class="filter-label">المتطلب:</span>
+      <div class="chip-group" id="regScopeChips">
+        <button class="lvl-chip${registerScopeFilter==='all'?' active':''}" data-v="all">الكل</button>
+        <button class="lvl-chip${registerScopeFilter==='major'?' active':''}" data-v="major">رئيسي</button>
+        <button class="lvl-chip${registerScopeFilter==='minor'?' active':''}" data-v="minor">فرعي</button>
+      </div>
+    </div>`;
+  if(!availableCodesAll.length){
+    html += `<p style="color:var(--ink-soft);padding:14px 0;">مفيش مقررات جديدة اتفتحت للتسجيل دلوقتي حسب المقررات اللي حددتها مكتملة.</p>`;
+  } else if(!availableCodes.length){
+    html += `<p style="color:var(--ink-soft);padding:14px 0;">مفيش مقررات متاحة مطابقة للفلتر الحالي. جرّب تغيّر فلتر النوع/المتطلب فوق.</p>`;
+  } else {
+    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th><th>مفتوحة من</th></tr></thead><tbody>
+      ${availableCodes.map(code=>{
+        const c = DB[code];
+        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td><td data-label="مفتوحة من">${unlockedByHtml(code)}</td></tr>`;
+      }).join('')}
+    </tbody></table>`;
+  }
+  html += `</div>`;
+
+  document.getElementById('trackView').innerHTML = html;
+  document.querySelectorAll('.reg-row').forEach(el=>{
+    el.style.cursor = 'pointer';
+    el.addEventListener('click', (e)=>{
+      if(e.target.dataset.jump){ e.stopPropagation(); jumpTo(e.target.dataset.jump); return; }
+      openModal(el.dataset.code);
+    });
+  });
+  document.querySelectorAll('.suggest-card').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(el.dataset.code));
+  });
+  document.querySelectorAll('.urgent-chip').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(el.dataset.code));
+  });
+  document.querySelectorAll('#regTypeChips button').forEach(b=>{
+    b.addEventListener('click', ()=>{ registerTypeFilter = b.dataset.v; renderCurrentView(); });
+  });
+  document.querySelectorAll('#regScopeChips button').forEach(b=>{
+    b.addEventListener('click', ()=>{ registerScopeFilter = b.dataset.v; renderCurrentView(); });
+  });
+}
+
 /* ================= HOME DASHBOARD ================= */
 /* ================= CGPA CALCULATOR VIEW ================= */
 function itemQualityPoints(it){
@@ -8530,6 +9014,32 @@ function cgpaCourseListHtml(termId){
     html += `<div class="cgpa-course-group-title">📚 بنك المواد اليدوي</div>`;
     html += customCodes.map(code=> cgpaCourseRowHtml(code, true, pickedSet.has(code))).join('');
   }
+  return html;
+}
+/* نسخة من cgpaCourseListHtml بس بتاخد "سلة اختيار" وفلتر بحث محليين (بيستخدموا في شاشة تسجيل
+   الترمات السابقة جوه الافتتاحية)، بدل ما تعتمد على cgpaMultiPick/الفلتر العالمي بتاع صفحة
+   حاسبة المعدل. بتفضل تستخدم نفس شروط "مادة مفتوحة" (مش متسجلة قبل كده + المتطلب السابق اتحقق). */
+function wizardCourseListHtml(termIdx, pickedMap, filterQuery){
+  let dbCodes = Object.keys(DB).filter(code=> !codeBlockedForAdd(code) && prereqSatisfiedByIndex(code, termIdx));
+  const q = (filterQuery||'').trim();
+  if(q){
+    const ql = q.toLowerCase();
+    dbCodes = dbCodes.filter(code=>{
+      const c = DB[code];
+      return code.includes(ql) || fullCode(code).includes(ql) || c.ar.includes(q) || (c.en||'').toLowerCase().includes(ql);
+    });
+  }
+  if(!dbCodes.length){
+    return `<div class="cp-empty">مفيش مقررات متاحة للتسجيل دلوقتي (يا إما مسجلة قبل كده، يا إما لسه محتاجة متطلب سابق ما اتحققش).</div>`;
+  }
+  dbCodes.sort((a,b)=> (DB[a].level-DB[b].level) || a.localeCompare(b));
+  const byLevel = {};
+  dbCodes.forEach(code=>{ const lv = DB[code].level||0; (byLevel[lv]=byLevel[lv]||[]).push(code); });
+  let html = '';
+  Object.keys(byLevel).sort((a,b)=>a-b).forEach(lv=>{
+    html += `<div class="cgpa-course-group-title">مستوى ${escapeHtml(lv)}</div>`;
+    html += byLevel[lv].map(code=> cgpaCourseRowHtml(code, false, !!pickedMap[code])).join('');
+  });
   return html;
 }
 function updateCgpaPickBar(termId){
@@ -10218,11 +10728,15 @@ function openOnboardingIntro(){
         if(backBtn) backBtn.classList.add('ob-fade-in');
       });
     });
-    btn.onclick = finalizeOnboarding;
+    btn.onclick = ()=>{ commitProfileChoices(); sceneTo(renderTermsCountAsk); };
     bindBackOption();
   }
 
-  function finalizeOnboarding(){
+  /* بتحفظ اختيارات التخصص/تحويل المسار/الدرجة الخاصة في البروفايل — بتتنادى قبل ما ندخل على
+     مرحلة "تسجيل الترمات السابقة" الجديدة، عشان لو الطالب سجّل مواد فيها هتتحسب على أساس
+     تخصصه صح من الأول. الخطوة اللي فضلت (تحديث المستوى/الساعات الفعلية وقفل الافتتاحية) اتنقلت
+     لـ finalizeOnboarding تحت، واللي بقت بتتنادى في الآخر بعد ما يخلّص تسجيل ترماته. */
+  function commitProfileChoices(){
     if(ans1==='yes'){
       /* مهم: "حابب تحول مسار" و"حابب تاخد درجة خاصة" أسئلة عن هدف/أمنية مستقبلية، مش عن حالة
          حالية بالفعل — فمينفعش نغيّر تخصصه الفعلي (trackId) بناءً عليها. تخصصه الحالي الحقيقي
@@ -10247,14 +10761,230 @@ function openOnboardingIntro(){
       profile.hours = 0;
       syncTransferTrack();
     }
+    currentTrack = profile.trackId;
+    saveProfile();
+  }
+
+  /* ================= تسجيل الترمات السابقة (جوه نفس الافتتاحية) =================
+     بعد ما الطالب يحدد تخصصه، بنسأله كام ترم خلّصه ونجح فيه لحد دلوقتي، وبعدين بنعمله شاشة لكل
+     ترم: يحدد السنة والفصل (زي نسخة مختصرة من صفحة تسجيل الترم)، يختار من نفس الترم كل المواد
+     "المتاحة" اللي فعلاً أخدها (بنفس شرط المتطلب السابق المستخدم في باقي الموقع)، ولازم يحدد
+     تقدير كل مادة اختارها قبل ما يقدر يكمل للترم اللي بعده. كل ترم بيتسجّل فورًا في cgpaTerms
+     الحقيقية أول ما يخلص (مش في الآخر بس) عشان الترم اللي بعده يشوف المتطلبات السابقة صح. */
+  let termsCount = null;
+  let curTermIndex = 0;
+
+  function renderTermsCountAsk(){
+    setStage(`
+      <div class="ob-question-screen">
+        <p class="ob-typeline" id="obTQ"></p>
+        <input type="number" min="0" max="30" inputmode="numeric" id="obTermsCountInput" required class="term-pick-input" placeholder="اكتب الرقم هنا (مثلاً: 3)" style="max-width:240px;margin:14px auto 0;display:block;text-align:center;font-size:1.25rem;">
+        <p class="hours-note" id="obTermsCountHint" style="text-align:center;">لازم تدخّل رقم عشان تكمل (اكتب 0 لو لسه في أول ترم ليك).</p>
+        <div class="ob-choice-row" id="obTermsCountRow" style="margin-top:10px;">
+          <button class="ob-choice-btn" id="obTermsCountNext" disabled>متابعة ←</button>
+          ${backOptionHtml('ob-choice-btn')}
+        </div>
+      </div>`);
+    const q = document.getElementById('obTQ');
+    obTypewriter(q, 'كام ترم خلّصته ونجحت فيه في الكلية لحد دلوقتي؟ 📚', 30, ()=>{
+      document.getElementById('obTermsCountRow').classList.add('ob-fade-in');
+    });
+    const inp = document.getElementById('obTermsCountInput');
+    const nextBtn = document.getElementById('obTermsCountNext');
+    setTimeout(()=>inp.focus(), 50);
+    function hasValidValue(){
+      const raw = inp.value.trim();
+      if(raw==='') return false;
+      const n = Number(raw);
+      return !isNaN(n) && n>=0;
+    }
+    function refreshBtn(){ nextBtn.disabled = !hasValidValue(); }
+    inp.addEventListener('input', refreshBtn);
+    const goNext = ()=>{
+      if(!hasValidValue()) { inp.focus(); return; }
+      const v = Math.max(0, Math.min(30, Math.round(Number(inp.value))));
+      termsCount = v;
+      curTermIndex = 0;
+      sceneTo(termsCount>0 ? renderTermEntry : renderTermsWizardDone);
+    };
+    nextBtn.onclick = goNext;
+    inp.addEventListener('keydown', (e)=>{ if(e.key==='Enter'){ e.preventDefault(); goNext(); } });
+    bindBackOption();
+  }
+
+  function renderTermEntry(){
+    const termIdx = cgpaTerms.length; // فهرس الترم الجديد ده لو اتضاف دلوقتي — بنفس منطق باقي الموقع
+    const thisYear = new Date().getFullYear();
+    let draftType = null;      // 'fall'|'spring'|'summer'
+    let draftYear = null;
+    let draftPicked = {};      // code -> {hours, grade}
+    let draftFilter = '';
+
+    function selectedCodes(){ return Object.keys(draftPicked); }
+    function allGradesChosen(){ return selectedCodes().every(c=> !!draftPicked[c].grade); }
+    function canGoNext(){ return !!draftType && !!draftYear && selectedCodes().length>0 && allGradesChosen(); }
+    // بيوضّح للطالب بالظبط أي خطوة ناقصة لو الزرار لسه مقفول (disabled) — عشان ميحسّش إن
+    // الزرار "معلّق" من غير سبب واضح، خصوصاً في آخر ترم لما بيبقى مركّز على التقديرات بس
+    // وممكن يكون ناسي يحدد الفصل أو السنة، أو ضايف مادة جديدة من غير ما يحدد تقديرها.
+    function nextBtnHintHtml(){
+      if(canGoNext()) return '';
+      const missing = [];
+      if(!draftType) missing.push('حدد الفصل (ترم أول/تاني/صيفي) فوق');
+      if(!draftYear) missing.push('اكتب السنة الدراسية');
+      if(selectedCodes().length===0) missing.push('اختَر مادة واحدة على الأقل من قائمة المواد');
+      else if(!allGradesChosen()) missing.push('لسه فيه مادة أو أكتر من اللي اخترتها من غير تقدير محدد — راجع قائمة "حدد تقدير كل مادة" فوق');
+      return `<p class="hours-note" id="wzNextHint" style="color:var(--maroon);">⚠️ الزرار مقفول لحد ما: ${missing.join(' · ')}</p>`;
+    }
+
+    function gradesHtml(){
+      const codes = selectedCodes();
+      if(!codes.length) return '<p class="hours-note">اختَر مادة أو أكتر من القايمة فوق الأول عشان تظهر هنا وتحدد تقديرها.</p>';
+      return `<div class="cgpa-items" id="wzGradesList">
+        ${codes.map(code=>{
+          const c = DB[code];
+          const grade = draftPicked[code].grade;
+          const options = `<option value="">—</option>` + GRADE_ORDER.map(g=>`<option value="${g}" ${grade===g?'selected':''}>${g}</option>`).join('');
+          return `<div class="cgpa-item">
+            <div class="ci-name"><span class="code">${fullCode(code)}</span> ${escapeHtml(c.ar)}</div>
+            <div class="ci-hours">${draftPicked[code].hours} <span>ساعة</span></div>
+            <select class="ci-grade wz-grade-sel" data-code="${escapeHtml(code)}" style="color:var(${gradeColorVar(grade)})">${options}</select>
+          </div>`;
+        }).join('')}
+      </div>`;
+    }
+
+    function bodyHtml(){
+      const remaining = termsCount - curTermIndex;
+      return `
+      <div class="profile-modal terms-wizard-screen">
+        <div class="wz-remaining-badge">⏳ متبقي <b>${remaining}</b> ${remaining===1?'ترم':'ترمات'} علشان تخلّص تسجيل ترماتك السابقة</div>
+        <h3>📋 ترم رقم ${curTermIndex+1} من ${termsCount}</h3>
+        <p class="p-sub">حدد سنة وفصل الترم ده (زي تسجيل الترم بس مختصر)، وبعدين اختَر منه كل المواد المتاحة اللي فعلاً أخدتها، وحدد تقدير كل مادة قبل ما تكمل للترم اللي بعده.</p>
+        <h4>الفصل</h4>
+        <div class="track-pick-list" id="wzTypeList">
+          ${['fall','spring','summer'].map(ty=>`<div class="track-pick-item${draftType===ty?' active':''}" data-ty="${ty}"><span class="tp-name">${TERM_TYPE_LABEL[ty]}</span></div>`).join('')}
+        </div>
+        <h4>السنة الدراسية</h4>
+        <input id="wzYearInput" class="term-pick-input" type="number" inputmode="numeric" placeholder="مثال: ${thisYear}" value="${draftYear||''}">
+        <h4 style="margin-top:18px;">المواد المفتوحة اللي أخدتها في الترم ده</h4>
+        <input class="cgpa-course-filter" id="wzCourseFilter" placeholder="🔍 دوّر لو حابب تضيّق القائمة (مش لازم)" autocomplete="off" value="${escapeHtml(draftFilter)}">
+        <div class="cgpa-course-list" id="wzCourseList">${wizardCourseListHtml(termIdx, draftPicked, draftFilter)}</div>
+        <h4 style="margin-top:18px;">حدد تقدير كل مادة اخترتها 🎯</h4>
+        <div id="wzGradesWrap">${gradesHtml()}</div>
+        <button class="profile-save-btn" id="wzNextBtn" ${canGoNext()?'':'disabled'}>${(curTermIndex+1<termsCount) ? '➡️ الترم اللي بعده' : '✅ خلّص تسجيل الترمات'}</button>
+        <div id="wzNextHintWrap">${nextBtnHintHtml()}</div>
+        ${sceneHistory.length ? `<button class="profile-save-btn secondary" id="obBackOption" type="button">⬅️ رجوع</button>` : ''}
+      </div>`;
+    }
+
+    function bindCourseListEvents(){
+      const list = document.getElementById('wzCourseList');
+      list.querySelectorAll('.cgpa-course-row').forEach(row=>{
+        const cb = row.querySelector('.cgpa-course-check');
+        cb.onchange = ()=>{
+          const code = row.dataset.code;
+          if(cb.checked){
+            const c = DB[code];
+            draftPicked[code] = {hours:(Number(c.credit[0])||0), grade:null};
+            row.classList.add('picked');
+          } else {
+            delete draftPicked[code];
+            row.classList.remove('picked');
+          }
+          document.getElementById('wzGradesWrap').innerHTML = gradesHtml();
+          bindGradeSelects();
+          refreshNextBtn();
+        };
+      });
+    }
+    function bindGradeSelects(){
+      document.querySelectorAll('.wz-grade-sel').forEach(sel=>{
+        sel.onchange = ()=>{
+          const code = sel.dataset.code;
+          if(draftPicked[code]) draftPicked[code].grade = sel.value || null;
+          sel.style.color = `var(${gradeColorVar(sel.value)})`;
+          refreshNextBtn();
+        };
+      });
+    }
+    function refreshNextBtn(){
+      const btn = document.getElementById('wzNextBtn');
+      if(btn) btn.disabled = !canGoNext();
+      const hintWrap = document.getElementById('wzNextHintWrap');
+      if(hintWrap) hintWrap.innerHTML = nextBtnHintHtml();
+    }
+    function render(){
+      setStage(bodyHtml());
+      document.querySelectorAll('#wzTypeList .track-pick-item').forEach(b=>{
+        b.onclick = ()=>{ draftType = b.dataset.ty; render(); };
+      });
+      const yearInp = document.getElementById('wzYearInput');
+      yearInp.addEventListener('input', ()=>{
+        draftYear = yearInp.value===''? null : Number(yearInp.value);
+        refreshNextBtn();
+      });
+      const filterInp = document.getElementById('wzCourseFilter');
+      filterInp.addEventListener('input', ()=>{
+        draftFilter = filterInp.value;
+        document.getElementById('wzCourseList').innerHTML = wizardCourseListHtml(termIdx, draftPicked, draftFilter);
+        bindCourseListEvents();
+      });
+      bindCourseListEvents();
+      bindGradeSelects();
+      const backBtn = document.getElementById('obBackOption');
+      if(backBtn) backBtn.onclick = ()=> goBack();
+      document.getElementById('wzNextBtn').onclick = ()=>{
+        if(!canGoNext()) return;
+        const items = selectedCodes().map(code=>({id:genId(), source:'db', code, hours:draftPicked[code].hours, grade:draftPicked[code].grade}));
+        const isSummer = draftType==='summer';
+        const newTerm = {
+          id: genId(),
+          name: termLabelFor(draftYear, draftType, false),
+          year: draftYear,
+          termType: draftType,
+          isSummer,
+          isEquivalency: false,
+          isPriorTerm: true,
+          items
+        };
+        cgpaTerms.push(newTerm);
+        cgpaAddMode[newTerm.id] = 'db';
+        saveCgpaTerms();
+        curTermIndex++;
+        sceneTo(curTermIndex < termsCount ? renderTermEntry : renderTermsWizardDone);
+      };
+    }
+    render();
+  }
+
+  function renderTermsWizardDone(){
+    recomputeCompletedFromCgpa();
+    setStage(`
+      <div class="ob-type-screen">
+        <p class="ob-typeline" id="obDone1"></p>
+        <p class="ob-typeline" id="obDone2"></p>
+        <button class="profile-save-btn ob-next-btn" id="obDoneBtn">🚀 يلا نبدأ</button>
+      </div>`);
+    obMusic.hit();
+    const f1=document.getElementById('obDone1'), f2=document.getElementById('obDone2'), btn=document.getElementById('obDoneBtn');
+    obTypewriter(f1, (termsCount>0) ? `تمام! سجّلنا ${termsCount} ${termsCount===1?'ترم':'ترمات'} بكل مواده وتقديراته 🎉` : 'ولا يهمك، هتقدر تسجّل ترماتك أول بأول من حاسبة المعدل.', 30, ()=>{
+      obTypewriter(f2, 'هتلاقي كل حاجة جاهزة وهتقدر تعدّل أو تضيف أي وقت من "حاسبة المعدل".', 20, ()=>{
+        btn.classList.add('ob-fade-in');
+      });
+    });
+    btn.onclick = finalizeOnboarding;
+  }
+
+  function finalizeOnboarding(){
     profile.level = levelFromHours(profile.hours);
     currentTrack = profile.trackId;
     highlightCode = null;
     modalForced = false;
     obMusic.stop();
     saveProfile();
+    recomputeCompletedFromCgpa();
     renderTrackBadge();
-    currentView = 'home';
+    currentView = cgpaTerms.length ? 'cgpa' : 'home';
     renderViewTabs();
     renderCurrentView();
     closeModal();
@@ -11136,6 +11866,11 @@ function coursesRegHomeHtml(){
         <div class="study-card-title">أسجل إيه دلوقتي؟</div>
         <div class="study-card-desc">رشّحلك مواد التسجيل حسب الترم وعدد الساعات اللي عايز تسجّلها، مرتبة بالأولوية.</div>
       </div>
+      <div class="study-card" id="crOpenAvailCourses">
+        <div class="study-card-ic">📋</div>
+        <div class="study-card-title">مقررات متاحة للدراسة</div>
+        <div class="study-card-desc">جدول بكل مقررات تخصصك اللي خلّصتها واللي متاحة تسجّلها دلوقتي، مع ترشيح بالأولوية.</div>
+      </div>
       <div class="study-card" id="crOpenTranscript">
         <div class="study-card-ic">🧾</div>
         <div class="study-card-title">بيان الحالة</div>
@@ -11151,6 +11886,8 @@ function bindCoursesRegHome(){
   if(c) c.onclick = ()=> goToView('cgpa');
   const r = document.getElementById('crOpenRegister');
   if(r) r.onclick = ()=> goToView('register');
+  const ac = document.getElementById('crOpenAvailCourses');
+  if(ac) ac.onclick = ()=> goToView('availcourses');
   const t = document.getElementById('crOpenTranscript');
   if(t) t.onclick = ()=> goToView('transcript');
 }
@@ -11292,6 +12029,7 @@ function renderStudyToolsView(){
   if(studyToolActive==='pomodoro'){
     el.innerHTML = pomodoroViewHtml();
     bindPomodoroView();
+    if(window.lucide && typeof lucide.createIcons==='function') lucide.createIcons();
     return;
   }
   el.innerHTML = videoPlayerHtml();
@@ -12704,18 +13442,20 @@ function pomodoroRoomPanelHtml(){
     <div class="pmd-shop-grid">${roomCards}</div>
   </div>`;
 }
+/* أيقونات Lucide بدل الإيموجي — دالة عرض بصري فقط، مش بتلمس أي منطق أو حالة */
+function pmdIco(name, cls){ return `<i data-lucide="${name}" class="pmd-ico${cls?(' '+cls):''}"></i>`; }
 const PMD_TABS = [
-  { id:'room',      icon:'🏞️', label:'الغرفة' },
-  { id:'sounds',    icon:'🎵', label:'الأصوات' },
-  { id:'tasks',     icon:'🗂️', label:'المهام' },
-  { id:'tree',      icon:'🌳', label:'الشجرة' },
-  { id:'stats',     icon:'📊', label:'الإحصائيات' },
-  { id:'analytics', icon:'🧠', label:'التحليلات' },
-  { id:'shop',      icon:'🎨', label:'المتجر' },
-  { id:'card',      icon:'📷', label:'كارت الإنجاز' },
-  { id:'spotify',   icon:'🎧', label:'Spotify' },
-  { id:'history',   icon:'🗓️', label:'السجل' },
-  { id:'settings',  icon:'⚙',  label:'الإعدادات' },
+  { id:'room',      icon:'trees',          label:'الغرفة' },
+  { id:'sounds',    icon:'music-2',        label:'الأصوات' },
+  { id:'tasks',     icon:'list-checks',    label:'المهام' },
+  { id:'tree',      icon:'sprout',         label:'الشجرة' },
+  { id:'stats',     icon:'bar-chart-3',    label:'الإحصائيات' },
+  { id:'analytics', icon:'brain',          label:'التحليلات' },
+  { id:'shop',      icon:'palette',        label:'المتجر' },
+  { id:'card',      icon:'image',          label:'كارت الإنجاز' },
+  { id:'spotify',   icon:'headphones',     label:'Spotify' },
+  { id:'history',   icon:'calendar-days',  label:'السجل' },
+  { id:'settings',  icon:'settings-2',     label:'الإعدادات' },
 ];
 function pomodoroTasksPanelHtml(){
   const t = pomodoroTimer;
@@ -12827,7 +13567,7 @@ function pomodoroTabPanelHtml(tabId){
   if(tabId==='room') return pomodoroRoomPanelHtml();
   if(tabId==='sounds') return pomodoroSoundsPanelHtml();
   if(tabId==='tree') return `<div class="pmd-panel pmd-tree-panel">
-      <h3>🌳 شجرتك</h3>
+      <h3>${pmdIco('sprout')} شجرتك</h3>
       <p class="study-sub">بتكبر تدريجيًا مع كل جلسة مذاكرة تخلّصها.</p>
       ${pomodoroTreeBoxHtml()}
     </div>`;
@@ -12841,33 +13581,33 @@ function pomodoroTabPanelHtml(tabId){
     const achievementsGridHtml = POMODORO_ACHIEVEMENTS.map(a=>{
       const unlocked = pomodoroStats.achievements.includes(a.id);
       return `<div class="pmd-badge${unlocked?' unlocked':''}" title="${escapeHtml(a.desc)}">
-        <div class="pmd-badge-ic">${unlocked?a.icon:'🔒'}</div>
+        <div class="pmd-badge-ic">${unlocked?a.icon:pmdIco('lock')}</div>
         <div class="pmd-badge-title">${a.title}</div>
       </div>`;
     }).join('');
     return `<div class="pmd-panel">
-      <h3>📊 إحصائياتك</h3>
+      <h3>${pmdIco('bar-chart-3')} إحصائياتك</h3>
       <div class="pmd-stats-grid">
         <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(7)}</div><div class="pmd-stat-lbl">جلسات آخر 7 أيام</div></div>
         <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroStatsRangeCount(30)}</div><div class="pmd-stat-lbl">جلسات آخر 30 يوم</div></div>
         <div class="pmd-stat-box"><div class="pmd-stat-num">${Math.round(pomodoroTotalStudyMinutes()/60*10)/10}</div><div class="pmd-stat-lbl">إجمالي ساعات المذاكرة</div></div>
         <div class="pmd-stat-box"><div class="pmd-stat-num">${pomodoroTotalStudySessions()}</div><div class="pmd-stat-lbl">إجمالي الجلسات</div></div>
-        <div class="pmd-stat-box"><div class="pmd-stat-num">🎮 ${lvl.level}</div><div class="pmd-stat-lbl">المستوى (${lvl.xpIntoLevel}/${lvl.xpForNext} XP)</div></div>
+        <div class="pmd-stat-box"><div class="pmd-stat-num">${pmdIco('gamepad-2')} ${lvl.level}</div><div class="pmd-stat-lbl">المستوى (${lvl.xpIntoLevel}/${lvl.xpForNext} XP)</div></div>
       </div>
-      <h3>🏅 الإنجازات</h3>
+      <h3>${pmdIco('award')} الإنجازات</h3>
       <div class="pmd-badges-grid">${achievementsGridHtml}</div>
     </div>`;
   }
   if(tabId==='history') return `<div class="pmd-panel">
-      <h3>🗓️ خريطة المذاكرة (آخر 13 أسبوع)</h3>
+      <h3>${pmdIco('calendar-days')} خريطة المذاكرة (آخر 13 أسبوع)</h3>
       ${pomodoroHeatmapHtml()}
-      <h3>📆 التقويم الشهري</h3>
+      <h3>${pmdIco('calendar-range')} التقويم الشهري</h3>
       ${pomodoroCalendarHtml(t.calendarMonthOffset)}
-      <h3>📋 سجل الجلسات</h3>
+      <h3>${pmdIco('list-ordered')} سجل الجلسات</h3>
       ${pomodoroSessionLogHtml(t.logVisibleCount)}
     </div>`;
   if(tabId==='settings') return `<div class="pmd-panel">
-      <h3>⚙ إعدادات المؤقت</h3>
+      <h3>${pmdIco('settings-2')} إعدادات المؤقت</h3>
       <div class="pmd-settings-grid">
         <div class="pmd-picker-col"><label>مدة المذاكرة (دقيقة)</label>
           <div class="pmd-chip-row">${[15,20,25,30,45,60].map(m=>`<button type="button" class="pmd-chip${pomodoroSettings.studyMin===m?' active':''}" data-pmd-study="${m}">${m}</button>`).join('')}</div>
@@ -12883,16 +13623,16 @@ function pomodoroTabPanelHtml(tabId){
         </div>
       </div>
       <div class="pmd-picker-col">
-        <label>🔔 تنبيه حي كل 5 دقايق أثناء المذاكرة</label>
+        <label>${pmdIco('bell')} تنبيه حي كل 5 دقايق أثناء المذاكرة</label>
         <div class="pmd-chip-row">
           <button type="button" class="pmd-chip${pomodoroSettings.liveNotifications?' active':''}" id="pmdToggleLiveNotif">${pomodoroSettings.liveNotifications?'شغّال ✓':'مقفول'}</button>
         </div>
         <div style="font-size:0.6875rem;color:var(--ink-soft);">هيشتغل بس والتاب فاتح، مش هيوصلك زي تطبيق موبايل حقيقي في الخلفية.</div>
       </div>
       <div class="pmd-picker-col">
-        <label>⏱ صوت دقات الساعة أثناء العد التنازلي</label>
+        <label>${pmdIco('clock')} صوت دقات الساعة أثناء العد التنازلي</label>
         <div class="pmd-chip-row">
-          <button type="button" class="pmd-chip${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTickSettings">${pomodoroSettings.tickSound?'شغّال 🔊':'صامت 🔇'}</button>
+          <button type="button" class="pmd-chip${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTickSettings">${pomodoroSettings.tickSound?'شغّال '+pmdIco('volume-2'):'صامت '+pmdIco('volume-x')}</button>
         </div>
       </div>
     </div>`;
@@ -12939,7 +13679,7 @@ function pomodoroViewHtml(){
   const dashoffset = circumference*(1-ratio);
   const ringTheme = pomodoroActiveRingTheme();
   const phaseColor = t.phase==='study' ? ringTheme.study : (t.phase==='shortBreak' ? ringTheme.shortBreak : ringTheme.longBreak);
-  const phaseLabel = t.phase==='study' ? '🍅 جلسة مذاكرة' : (t.phase==='shortBreak' ? '☕ راحة قصيرة' : '🌿 راحة طويلة');
+  const phaseLabel = t.phase==='study' ? `${pmdIco('timer')} جلسة مذاكرة` : (t.phase==='shortBreak' ? `${pmdIco('coffee')} راحة قصيرة` : `${pmdIco('leaf')} راحة طويلة`);
   const dotsTotal = pomodoroSettings.sessionsBeforeLong;
   const dotsFilled = t.cycleCount % dotsTotal;
   const dotsHtml = Array.from({length:dotsTotal}).map((_,i)=>`<span class="pmd-dot${i<dotsFilled?' filled':''}"></span>`).join('');
@@ -12955,7 +13695,7 @@ function pomodoroViewHtml(){
     </div>` : '';
 
   const noteBox = `<div class="pmd-note-box">
-      <h3>✅ خلصت جلسة مذاكرة! (+10 💰 · +50 🎮 XP) ماذا أنجزت؟</h3>
+      <h3>${pmdIco('check-circle-2')} خلصت جلسة مذاكرة! (+10 ${pmdIco('coins')} · +50 ${pmdIco('gamepad-2')} XP) ماذا أنجزت؟</h3>
       ${unlockedBannerHtml}
       <textarea id="pmdNoteInput" placeholder="مثلاً: راجعت الفصل الأول وحليت 5 مسائل..."></textarea>
       <div class="pmd-note-actions">
@@ -12975,37 +13715,37 @@ function pomodoroViewHtml(){
         <span class="pmd-task-title">${escapeHtml(tk.title)}</span>
         <div class="pmd-task-meta-row"><div class="vid-progress-bar"><div class="vid-progress-fill" style="width:${pct}%"></div></div><span class="pmd-task-count">${tk.sessionsDone}/${tk.sessionsRequired} جلسة</span></div>
       </div>
-      <button type="button" class="pmd-btn pmd-btn-primary pmd-inline-task-start" data-pmd-inline-task-start="${tk.id}" ${pickDisabled}>▶ ابدأ</button>
+      <button type="button" class="pmd-btn pmd-btn-primary pmd-inline-task-start" data-pmd-inline-task-start="${tk.id}" ${pickDisabled}>${pmdIco('play')} ابدأ</button>
     </div>`;
   }).join('');
   const activeTaskVideoHtml = activeTaskVideo ? `
       <div class="pmd-active-video-box">
-        <div class="pmd-side-tasks-head"><span>🎬 فيديو التاسك الحالي: ${escapeHtml(activeTaskObj.title)}</span></div>
+        <div class="pmd-side-tasks-head"><span>${pmdIco('clapperboard')} فيديو التاسك الحالي: ${escapeHtml(activeTaskObj.title)}</span></div>
         <div class="vid-player-frame pmd-active-video-frame">
           <iframe src="https://www.youtube-nocookie.com/embed/${activeTaskVideo.videoId}?rel=0" title="${escapeHtml(activeTaskVideo.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
         <div class="vid-player-controls">
-          <button class="vid-player-btn${activeTaskVideo.done?' done':''}" id="pmdActiveVideoDoneBtn" type="button">${activeTaskVideo.done?'✓ خلصتها':'حدد الفيديو كمخلّص'}</button>
-          <a class="vid-player-btn" href="${escapeHtml(activeTaskVideo.url)}" target="_blank" rel="noopener noreferrer">↗️ فتح على يوتيوب</a>
+          <button class="vid-player-btn${activeTaskVideo.done?' done':''}" id="pmdActiveVideoDoneBtn" type="button">${activeTaskVideo.done?pmdIco('check')+' خلصتها':'حدد الفيديو كمخلّص'}</button>
+          <a class="vid-player-btn" href="${escapeHtml(activeTaskVideo.url)}" target="_blank" rel="noopener noreferrer">${pmdIco('external-link')} فتح على يوتيوب</a>
         </div>
       </div>` : '';
 
   const taskPickHtml = currentSubjectTrimmed ? `
       <div class="pmd-inline-tasks-box">
-        <div class="pmd-side-tasks-head"><span>🗂️ تاسكات ${escapeHtml(currentSubjectTrimmed)}</span><span>${currentSubjectAllTasks.filter(tk=>tk.completed).length}/${currentSubjectAllTasks.length}</span></div>
+        <div class="pmd-side-tasks-head"><span>${pmdIco('folder-kanban')} تاسكات ${escapeHtml(currentSubjectTrimmed)}</span><span>${currentSubjectAllTasks.filter(tk=>tk.completed).length}/${currentSubjectAllTasks.length}</span></div>
         <div class="pmd-inline-tasks-list">
           ${inlineTaskRowsHtml || `<div class="pmd-inline-tasks-empty">لسه مفيش تاسكات مفتوحة للمادة دي — ضيف أول تاسك تحت وابدأ عليه على طول.</div>`}
         </div>
         <div class="pmd-inline-add-row">
           <input type="text" class="pmd-select" id="pmdInlineNewTaskTitle" placeholder="اسم تاسك جديد (مثلاً: الفصل الثاني)..." ${pickDisabled}>
-          <button type="button" class="pmd-btn pmd-btn-secondary" id="pmdInlineAddTaskBtn" ${pickDisabled}>➕ إضافة</button>
+          <button type="button" class="pmd-btn pmd-btn-secondary" id="pmdInlineAddTaskBtn" ${pickDisabled}>${pmdIco('plus')} إضافة</button>
         </div>
-        <button type="button" class="pmd-manage-link" id="pmdGoManageTasks">🗂️ إدارة كل التاسكات (حذف / تعديل الجلسات المطلوبة)</button>
+        <button type="button" class="pmd-manage-link" id="pmdGoManageTasks">${pmdIco('folder-kanban')} إدارة كل التاسكات (حذف / تعديل الجلسات المطلوبة)</button>
       </div>` : '';
 
   const subjectAndControlsHtml = `
       <div class="pmd-subject-row">
-        <label>📘 المادة</label>
+        <label>${pmdIco('book-open')} المادة</label>
         <select class="pmd-select" id="pmdSubjectInput" ${pickDisabled}>
           <option value="">-- اختار مادة --</option>
           ${subjectOptionsHtml}
@@ -13015,14 +13755,14 @@ function pomodoroViewHtml(){
       ${activeTaskVideoHtml}
       ${taskPickHtml}
       <div class="pmd-controls">
-        ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">▶ Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">⏸ Pause</button>`}
-        <button class="pmd-btn pmd-btn-danger" id="pmdStopBtn">⏹ Stop</button>
-        ${t.phase!=='study' ? `<button class="pmd-btn pmd-btn-ghost" id="pmdSkipBtn">⏭ Skip Break</button>` : ''}
-        <button class="pmd-tick-toggle${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTick" type="button" title="صوت دقات الساعة">${pomodoroSettings.tickSound?'🔊':'🔇'}</button>
+        ${!t.running ? `<button class="pmd-btn pmd-btn-primary" id="pmdStartBtn">${pmdIco('play')} Start</button>` : `<button class="pmd-btn pmd-btn-secondary" id="pmdPauseBtn">${pmdIco('pause')} Pause</button>`}
+        <button class="pmd-btn pmd-btn-danger" id="pmdStopBtn">${pmdIco('square')} Stop</button>
+        ${t.phase!=='study' ? `<button class="pmd-btn pmd-btn-ghost" id="pmdSkipBtn">${pmdIco('skip-forward')} Skip Break</button>` : ''}
+        <button class="pmd-tick-toggle${pomodoroSettings.tickSound?' active':''}" id="pmdToggleTick" type="button" title="صوت دقات الساعة">${pomodoroSettings.tickSound?pmdIco('volume-2'):pmdIco('volume-x')}</button>
       </div>`;
 
   const tabsBarHtml = `<div class="pmd-tabs-bar">
-    ${PMD_TABS.map(tb=>`<button type="button" class="pmd-tab-btn${t.activeTab===tb.id?' active':''}" data-pmd-tab="${tb.id}"><span class="pmd-tab-ic">${tb.icon}</span><span class="pmd-tab-lbl">${tb.label}</span></button>`).join('')}
+    ${PMD_TABS.map(tb=>`<button type="button" class="pmd-tab-btn${t.activeTab===tb.id?' active':''}" data-pmd-tab="${tb.id}"><span class="pmd-tab-ic">${pmdIco(tb.icon)}</span><span class="pmd-tab-lbl">${tb.label}</span></button>`).join('')}
   </div>`;
   const tabContentHtml = t.activeTab ? `<div class="pmd-tab-content">${pomodoroTabPanelHtml(t.activeTab)}</div>` : '';
   const ringExpandedTabsHtml = t.ringExpanded ? `<div class="pmd-ring-tabs-wrap">${tabsBarHtml}${tabContentHtml}</div>` : '';
@@ -13034,7 +13774,7 @@ function pomodoroViewHtml(){
       <div class="pmd-main-col">
         <div class="pmd-timer-card">
           <div class="pmd-ring-box${t.ringExpanded?' pmd-ring-expanded':''}">
-            <button type="button" class="pmd-ring-expand-btn" id="pmdRingExpandToggle" title="${t.ringExpanded?'تصغير الساعة':'توسيع الساعة لملء الشاشة'}">${t.ringExpanded?'⤡ Collapse':'⤢ Expand'}</button>
+            <button type="button" class="pmd-ring-expand-btn" id="pmdRingExpandToggle" title="${t.ringExpanded?'تصغير الساعة':'توسيع الساعة لملء الشاشة'}">${t.ringExpanded?pmdIco('minimize-2')+' Collapse':pmdIco('maximize-2')+' Expand'}</button>
             <div class="pmd-ring-wrap${t.running?' is-running':''}">
               <svg class="pmd-ring-svg" viewBox="0 0 ${(ringR+15)*2} ${(ringR+15)*2}">
                 <circle class="pmd-ring-track" cx="${ringR+15}" cy="${ringR+15}" r="${ringR}"></circle>
@@ -13048,8 +13788,8 @@ function pomodoroViewHtml(){
             </div>
             <div class="pmd-dots">${dotsHtml}</div>
             ${(t.subjectName||'').trim() ? `<div class="pmd-ring-current-task">
-              <span class="pmd-ring-current-subject">📘 ${escapeHtml(t.subjectName.trim())}</span>
-              ${activeTaskObj ? `<span class="pmd-ring-current-taskname">🗂️ ${escapeHtml(activeTaskObj.title)}</span>` : `<span class="pmd-ring-current-taskname pmd-ring-current-taskname-empty">من غير تاسك محدد</span>`}
+              <span class="pmd-ring-current-subject">${pmdIco('book-open')} ${escapeHtml(t.subjectName.trim())}</span>
+              ${activeTaskObj ? `<span class="pmd-ring-current-taskname">${pmdIco('folder-kanban')} ${escapeHtml(activeTaskObj.title)}</span>` : `<span class="pmd-ring-current-taskname pmd-ring-current-taskname-empty">من غير تاسك محدد</span>`}
             </div>` : ''}
             ${ringExpandedTabsHtml}
           </div>
@@ -13058,22 +13798,22 @@ function pomodoroViewHtml(){
       </div>
       <div class="pmd-side-col">
         ${pomodoroSideTaskChecklistHtml()}
-        <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?'✕ الخروج من وضع التركيز':'🚫 وضع تركيز'}</button>
+        <button class="pmd-focus-toggle${t.focusMode?' active':''}" id="pmdToggleFocus" type="button">${t.focusMode?pmdIco('x')+' الخروج من وضع التركيز':pmdIco('scan-eye')+' وضع تركيز'}</button>
       </div>
     </div>`;
 
   return `<div class="study-view pmd-view">
     <button class="study-back" id="pomodoroBackHome">→ رجوع لأدوات المذاكرة</button>
     <div class="study-head">
-      <h2>🍅 بومودورو للمذاكرة</h2>
+      <h2>${pmdIco('timer')} بومودورو للمذاكرة</h2>
       <p class="study-sub">اكتب مادتك وابدأ، والمؤقت هيتكفل بالباقي.</p>
     </div>
     <div class="study-usage-bar">
       ${pomodoroActiveAvatar().icon ? `<span class="pmd-avatar-badge" title="اسمع صوت ${pomodoroActiveAvatar().name}" onclick="applyAvatarTheme('${pomodoroActiveAvatar().id}',{pulse:true,sound:true})">${pomodoroActiveAvatar().icon}</span>` : ''}
-      <span>جلسات النهاردة: <b>${todayCount}</b></span>
-      <span>🔥 Streak: <b>${pomodoroStats.streak}</b> يوم</span>
-      <span>💰 Coins: <b>${pomodoroStats.coins.toLocaleString('en-US')}</b></span>
-      <span>🎮 المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
+      <span>${pmdIco('calendar-check-2')} جلسات النهاردة: <b>${todayCount}</b></span>
+      <span>${pmdIco('flame')} Streak: <b>${pomodoroStats.streak}</b> يوم</span>
+      <span>${pmdIco('coins')} Coins: <b>${pomodoroStats.coins.toLocaleString('en-US')}</b></span>
+      <span>${pmdIco('gamepad-2')} المستوى: <b>${pomodoroLevelInfo(pomodoroStats.xp).level}</b></span>
     </div>
 
     ${!t.ringExpanded ? tabsBarHtml : ''}
