@@ -3006,42 +3006,139 @@ body.pmd-focus-active .pmd-tabs-bar{top:8px;}
 .vid-del-btn:hover{background:var(--maroon-soft);}
 .vid-empty{padding:30px;text-align:center;color:var(--ink-soft);font-size:0.84375rem;background:var(--paper-2);border-radius:14px;border:1px solid var(--line);}
 .vid-duration-badge{position:absolute;bottom:6px;left:6px;background:rgba(16,19,31,.85);color:#fff;font-size:0.6875rem;font-weight:700;padding:2px 8px;border-radius:6px;font-family:'IBM Plex Mono',monospace;}
-.study-view.plat-view{max-width:1100px;}
+.study-view.plat-view{max-width:1120px;}
+
+/* ===== منصة المواد الدراسية: هيدر Hero احترافي ===== */
+.plat-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--teal) 100%);border-radius:22px;padding:24px 26px;color:#fff;display:flex;flex-direction:column;gap:16px;position:relative;overflow:hidden;box-shadow:var(--shadow-soft);}
+.plat-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.16) 1.5px,transparent 1.5px);background-size:20px 20px;opacity:.5;pointer-events:none;}
+.plat-hero::after{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.12);top:-130px;left:-70px;pointer-events:none;}
+.plat-hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;position:relative;z-index:1;}
+.plat-hero-title{display:flex;align-items:center;gap:8px;font-size:1.25rem;font-weight:800;margin:0;}
+.plat-hero-title .material-symbols-outlined{font-size:1.5rem;}
+.plat-hero-sub{margin:6px 0 0;font-size:0.8125rem;opacity:.92;max-width:440px;line-height:1.65;}
+.plat-hero-links{display:flex;gap:8px;flex-wrap:wrap;}
+.plat-hero-link{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.4);color:#fff;padding:8px 14px;border-radius:999px;font-size:0.78125rem;font-weight:700;font-family:'Tajawal',sans-serif;text-decoration:none;cursor:pointer;transition:background .15s ease,transform .15s ease;}
+.plat-hero-link:hover{background:rgba(255,255,255,.3);transform:translateY(-2px);}
+.plat-hero-link svg{width:18px;height:18px;flex:none;}
+.plat-hero-stats{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;}
+.plat-hero-stat{background:rgba(255,255,255,.14);border-radius:12px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:84px;}
+.plat-hero-stat b{font-size:1.125rem;font-weight:800;}
+.plat-hero-stat span{font-size:0.6875rem;opacity:.92;}
+
 .plat-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;}
 .plat-search-input{flex:1;min-width:200px;max-width:360px;}
 .plat-refresh-btn{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
-.plat-subject-tag{font-size:0.6875rem;font-weight:700;color:var(--navy);background:var(--navy-soft);display:inline-block;padding:2px 9px;border-radius:999px;width:fit-content;}
-.plat-layout{display:grid;grid-template-columns:200px 1fr;gap:18px;align-items:start;}
-.plat-sidebar{display:flex;flex-direction:column;gap:6px;position:sticky;top:12px;}
-.plat-side-item{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--card);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;font-size:0.8125rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:right;font-family:'Tajawal',sans-serif;transition:border-color .15s ease,color .15s ease;}
-.plat-side-item:hover{border-color:var(--navy);color:var(--navy);}
-.plat-side-item.active{background:var(--navy);border-color:var(--navy);color:#fff;}
-.plat-side-count{font-size:0.71875rem;opacity:.8;font-family:'IBM Plex Mono',monospace;}
+
+.plat-layout{display:grid;grid-template-columns:230px 1fr;gap:20px;align-items:start;}
+.plat-sidebar{display:flex;flex-direction:column;gap:14px;position:sticky;top:12px;}
 .plat-content{min-width:0;}
-@media (max-width:720px){
+
+/* فلتر سريع: مواد مسجلها الطالب دلوقتي (متسجلة ولسه من غير تقدير) */
+.plat-enrolled-toggle{display:flex;align-items:center;gap:10px;width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 13px;cursor:pointer;text-align:right;font-family:'Tajawal',sans-serif;transition:border-color .15s ease,background .15s ease;}
+.plat-enrolled-toggle:hover{border-color:var(--navy);}
+.plat-enrolled-toggle.active{background:var(--navy);border-color:var(--navy);}
+.plat-enrolled-toggle.active .plat-enrolled-title,.plat-enrolled-toggle.active .plat-enrolled-sub{color:#fff;}
+.plat-enrolled-toggle.active .plat-enrolled-count{background:rgba(255,255,255,.25);color:#fff;}
+.plat-enrolled-toggle.active .plat-enrolled-ic{background:rgba(255,255,255,.22);color:#fff;}
+.plat-enrolled-ic{width:36px;height:36px;border-radius:10px;background:var(--navy-soft);color:var(--navy);display:flex;align-items:center;justify-content:center;flex:none;transition:background .15s ease,color .15s ease;}
+.plat-enrolled-text{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0;}
+.plat-enrolled-title{font-size:0.8125rem;font-weight:800;color:var(--ink);}
+.plat-enrolled-sub{font-size:0.65625rem;color:var(--ink-soft);line-height:1.4;}
+.plat-enrolled-count{background:var(--paper-2);color:var(--ink-soft);border-radius:999px;font-size:0.71875rem;font-weight:800;padding:2px 9px;font-family:'IBM Plex Mono',monospace;flex:none;}
+
+/* مجموعات الفلتر الجانبي: المستوى / النوع */
+.plat-filter-group{display:flex;flex-direction:column;gap:7px;}
+.plat-filter-title{font-size:0.71875rem;font-weight:800;color:var(--ink-soft);padding:0 3px;}
+.plat-filter-list{display:flex;flex-direction:column;gap:5px;}
+.plat-filter-opt{display:flex;align-items:center;gap:7px;background:var(--card);border:1.5px solid var(--line);border-radius:9px;padding:8px 12px;font-size:0.78125rem;font-weight:600;color:var(--ink);cursor:pointer;text-align:right;font-family:'Tajawal',sans-serif;transition:border-color .15s ease,color .15s ease,background .15s ease;}
+.plat-filter-opt svg{width:14px;height:14px;flex:none;}
+.plat-filter-opt .material-symbols-outlined{font-size:1rem;}
+.plat-filter-opt:hover{border-color:var(--navy);color:var(--navy);}
+.plat-filter-opt.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+
+@media (max-width:760px){
   .plat-layout{grid-template-columns:1fr;}
-  .plat-sidebar{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;position:static;gap:8px;padding-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
-  .plat-sidebar::-webkit-scrollbar{display:none;}
-  .plat-side-item{flex:0 0 auto;padding:8px 13px;white-space:nowrap;}
-  .plat-side-count{display:none;}
+  .plat-hero{padding:18px;border-radius:18px;}
+  .plat-hero-top{gap:12px;}
+  .plat-hero-sub{max-width:none;}
+  .plat-hero-links{width:100%;}
+  .plat-hero-link{flex:1 1 auto;justify-content:center;}
+  .plat-hero-stats{width:100%;}
+  .plat-hero-stat{flex:1 1 0;min-width:0;padding:8px 6px;}
 }
-.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:2px;}
-.subj-card{position:relative;overflow:hidden;background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:12px;animation:subjCardIn .35s ease both;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;}
+/* زرار "فلاتر" اللي بيفتح/يقفل لوحة الفلاتر على الموبايل — مخفي على الديسكتوب لأن السايدبار ظاهر أصلاً */
+.plat-filters-toggle{display:none;}
+@media (max-width:640px){
+  .plat-toolbar{flex-wrap:nowrap;}
+  .plat-search-input{max-width:none;}
+  .plat-filters-toggle{display:inline-flex;align-items:center;gap:6px;flex:none;background:var(--card);border:1.5px solid var(--line);color:var(--ink);padding:9px 13px;border-radius:11px;font-weight:700;font-size:0.78125rem;cursor:pointer;font-family:'Tajawal',sans-serif;}
+  .plat-filters-toggle .material-symbols-outlined{font-size:1.125rem;}
+  .plat-filters-toggle.active{background:var(--navy);border-color:var(--navy);color:#fff;}
+  .plat-filters-badge{background:var(--navy);color:#fff;border-radius:999px;font-size:0.625rem;font-weight:800;min-width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;font-family:'IBM Plex Mono',monospace;}
+  .plat-filters-toggle.active .plat-filters-badge{background:#fff;color:var(--navy);}
+
+  /* لوحة الفلاتر: مخفية جوه لوحة قابلة للفتح بدل ما تفضل ظاهرة وتاخد مساحة على طول */
+  .plat-sidebar{display:none;position:static;width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px;margin-bottom:2px;gap:14px;}
+  .plat-sidebar.open{display:flex;}
+  .plat-filter-list{flex-direction:column;}
+
+  /* كارتات المواد: مادتين في الصف بدل كارت واحد كبير ياخد الشاشة لوحده */
+  .subj-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .subj-cover{height:64px;}
+  .subj-cover-icon-bg{font-size:2.25rem;right:-8px;bottom:-10px;}
+  .subj-cover-chip{width:26px;height:26px;font-size:0.875rem;top:6px;right:6px;border-radius:8px;}
+  .subj-cover-badge{display:none;}
+  .subj-card-body{padding:9px 10px;gap:6px;}
+  .subj-card-title{font-size:0.71875rem;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .subj-card-en{display:none;}
+  .subj-card-meta{gap:4px;}
+  .subj-card-code,.subj-card-lvl{font-size:0.5625rem;padding:1px 6px;}
+  .subj-card-actions-wrap{gap:5px;}
+  .subj-card-actions{gap:5px;}
+  .subj-play-btn{width:100%;min-width:0;padding:6px 6px;font-size:0.59375rem;gap:3px;}
+  .subj-play-btn svg{width:12px;height:12px;}
+  .subj-card-actions.multi{flex-direction:column;}
+  .subj-card-actions.multi .subj-play-btn.part{min-width:0;font-size:0.59375rem;}
+}
+
+/* ===== كارت المادة: صورة غلاف + محتوى ===== */
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:16px;margin-top:2px;}
+.subj-card{position:relative;overflow:hidden;background:var(--card);border:1.5px solid var(--line);border-radius:18px;display:flex;flex-direction:column;animation:subjCardIn .35s ease both;transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;}
 @keyframes subjCardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
-.subj-card::before{content:'';position:absolute;inset:0;background:radial-gradient(120px 90px at 85% -10%, var(--subj-accent-soft), transparent 70%);opacity:0;transition:opacity .2s ease;pointer-events:none;}
 .subj-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-soft);border-color:var(--subj-accent);}
-.subj-card:hover::before{opacity:1;}
-.subj-card-icon{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;background:var(--subj-accent-soft);color:var(--subj-accent);box-shadow:0 6px 16px var(--subj-accent-glow);transition:transform .18s ease;}
-.subj-card:hover .subj-card-icon{transform:scale(1.08) rotate(-4deg);}
-.subj-card-icon .material-symbols-outlined{font-size:1.75rem;}
-.subj-card-title{font-weight:800;font-size:1.03125rem;line-height:1.4;position:relative;z-index:1;}
-.subj-card-badge{font-size:0.71875rem;font-weight:700;color:var(--subj-accent);background:var(--subj-accent-soft);display:inline-flex;align-items:center;gap:4px;padding:4px 11px;border-radius:999px;width:fit-content;position:relative;z-index:1;}
-.subj-card-badge .material-symbols-outlined{font-size:0.9375rem;}
-.subj-card-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:auto;position:relative;z-index:1;}
-.subj-play-btn{flex:1;min-width:110px;text-align:center;padding:10px 12px;border-radius:11px;border:none;background:var(--subj-accent);color:var(--on-accent);font-weight:700;font-size:0.8125rem;cursor:pointer;font-family:'Tajawal',sans-serif;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:5px;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;}
-.subj-play-btn .material-symbols-outlined{font-size:1.0625rem;}
+
+.subj-cover{position:relative;height:104px;overflow:hidden;background:var(--subj-accent);}
+.subj-cover::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 0%,rgba(0,0,0,.32) 100%);}
+.subj-cover::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.4) 1.5px,transparent 1.5px);background-size:16px 16px;opacity:.35;}
+.subj-cover-icon-bg{position:absolute;font-size:5.5rem;right:-14px;bottom:-24px;color:rgba(255,255,255,.24);transform:rotate(-10deg);z-index:0;transition:transform .25s ease;}
+.subj-card:hover .subj-cover-icon-bg{transform:rotate(-4deg) scale(1.06);}
+.subj-cover-chip{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:11px;background:rgba(255,255,255,.94);color:var(--subj-accent);display:flex;align-items:center;justify-content:center;font-size:1.25rem;box-shadow:0 4px 10px rgba(0,0,0,.2);z-index:1;}
+.subj-cover-badge{position:absolute;bottom:9px;right:12px;background:rgba(0,0,0,.42);color:#fff;font-size:0.65625rem;font-weight:700;padding:3px 10px;border-radius:999px;z-index:1;}
+
+.subj-card-body{padding:16px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.subj-card-title{font-weight:800;font-size:1rem;line-height:1.4;}
+.subj-card-en{font-size:0.6875rem;color:var(--ink-soft);margin-top:-6px;}
+.subj-card-meta{display:flex;gap:6px;flex-wrap:wrap;}
+.subj-card-code{font-size:0.6875rem;font-weight:700;color:var(--ink-soft);background:var(--paper-2);border:1px solid var(--line);padding:2px 9px;border-radius:999px;font-family:'IBM Plex Mono',monospace;}
+.subj-card-lvl{font-size:0.6875rem;font-weight:700;color:var(--subj-accent);background:var(--subj-accent-soft);padding:2px 9px;border-radius:999px;}
+.subj-card-actions-wrap{display:flex;flex-direction:column;gap:7px;margin-top:auto;}
+.subj-card-actions{display:flex;gap:7px;flex-wrap:wrap;}
+.subj-play-btn{flex:1;min-width:110px;text-align:center;padding:9px 12px;border-radius:11px;border:none;background:var(--subj-accent);color:var(--on-accent);font-weight:700;font-size:0.78125rem;cursor:pointer;font-family:'Tajawal',sans-serif;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:transform .15s ease,box-shadow .15s ease,filter .15s ease;}
+.subj-play-btn svg{width:15px;height:15px;flex:none;}
 .subj-play-btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px var(--subj-accent-glow);filter:brightness(1.05);}
-.subj-card-actions.multi .subj-play-btn.part{min-width:90px;font-size:0.75rem;}
+.subj-card-actions.multi .subj-play-btn.part{min-width:82px;font-size:0.71875rem;}
+.subj-materials-btn{background:#229ED9;color:#fff;}
+
+/* شارات "متاح فيديوهات/متاح ماتريالز/غير متاح" اللي بتظهر جوه أي كارت/صف مقرر في أي مكان بالمنصة */
+.study-badges-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px;}
+.study-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.6875rem;font-weight:700;padding:4px 10px;border-radius:999px;border:1.5px solid transparent;font-family:'Tajawal',sans-serif;text-decoration:none;cursor:pointer;line-height:1.5;}
+.study-badge .material-symbols-outlined{font-size:0.9375rem;}
+.study-badge svg{width:14px;height:14px;flex:none;}
+.study-badge-video{background:var(--navy-soft);color:var(--navy);border-color:var(--navy);}
+.study-badge-video:hover{background:var(--navy);color:#fff;}
+.study-badge-material{background:#229ED91a;color:#229ED9;border-color:#229ED9;}
+.study-badge-material:hover{background:#229ED9;color:#fff;}
+.study-badge-off{background:var(--paper-2);color:var(--ink-soft);border-color:var(--line);cursor:default;}
 
 /* قائمة التشغيل (embed مباشر جوه الموقع) */
 .vid-player-wrap{display:flex;flex-direction:column;gap:14px;max-width:900px;}
@@ -4772,17 +4869,93 @@ let videoPlayerIndex = 0;
 let videoPlayerGroupLabel = '';
 /* --- منصة المواد الدراسية: كتالوج قوائم تشغيل يوتيوب جاهز مقسّم حسب المادة (بيانات ثابتة يضيفها
    مطوّر النظام)، بيتجاب تفاصيله (عنوان/صورة/مدة كل فيديو) لحظيًا من YouTube Data API باستخدام
-   نفس مفتاح الـ API المستخدم في مكتبة الفيديوهات. ==== */
+   نفس مفتاح الـ API المستخدم في مكتبة الفيديوهات. ====
+   كل مادة هنا مربوطة بكود المقرر الحقيقي بتاعها في قاعدة بيانات القسم (DB) عن طريق حقل code، عشان
+   أي كارت/صف لمقرر في أي مكان تاني في المنصة (📋 قائمة المقررات، مقررات متاحة للدراسة...) يعرف
+   يعرض شارة "متاح فيديوهات"/"متاح ماتريالز" له لو موجود هنا. hasVideos/hasMaterials منفصلين عن
+   بعض لأن بعض المواد ممكن يبقى متاح ليها فيديوهات بس، أو ماتريالز بس. */
+const STUDY_PLATFORM_TELEGRAM_URL = 'https://t.me/+6t5lDf75-S5kODZk';
 const STUDY_PLATFORM_SUBJECTS = [
-  {id:'prog1',   name:'Programming 1',                         icon:'code',         accent:'navy',   playlists:['PLMYH_uuw-cB0FQzbVNovTu9e_DmpUqtBx']},
-  {id:'hci',     name:'Human Computer Interaction (HCI)',       icon:'touch_app',    accent:'teal',   playlists:['PLMYH_uuw-cB39zLMlzul6g6jnD2iqpXyV']},
-  {id:'netinet', name:'Network & Internet Programming',         icon:'lan',          accent:'gold',   playlists:['PLMYH_uuw-cB21chNEXlR-23ft6v9auX0z']},
-  {id:'sysprog', name:'System Programming',                     icon:'terminal',     accent:'maroon', playlists:['PLMYH_uuw-cB1BB0ALhQOeB9ywgYviBZxx','PLMYH_uuw-cB2MSM5KUIvzq7Zr30YrU7jG']},
-  {id:'ds',      name:'Data Structure',                         icon:'account_tree', accent:'navy',   playlists:['PLMYH_uuw-cB3FQAHtHJCmQpVlnjIKW9jq']},
-  {id:'toc',     name:'Theory of Computation',                  icon:'psychology',   accent:'teal',   playlists:['PLMYH_uuw-cB0iHuPwiUWvrkbQYdVPP4C7','PLMYH_uuw-cB0hz0LUB33_6ZjOgpWxwaQ1']}
+  {id:'prog1',   code:'103102', name:'برمجة وتطبيقات الحاسب الآلى',   nameEn:'Programming 1',                     icon:'code',         accent:'navy',   hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB0FQzbVNovTu9e_DmpUqtBx']},
+  {id:'hci',     code:'103211', name:'تفاعل الانسان والحاسب',          nameEn:'Human Computer Interaction (HCI)',  icon:'touch_app',    accent:'teal',   hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB39zLMlzul6g6jnD2iqpXyV']},
+  {id:'netinet', code:'103205', name:'برمجة الشبكات والانترنت',        nameEn:'Network & Internet Programming',    icon:'lan',          accent:'gold',   hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB21chNEXlR-23ft6v9auX0z']},
+  {id:'sysprog', code:'103306', name:'برمجة نظم',                      nameEn:'System Programming',                icon:'terminal',     accent:'maroon', hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB1BB0ALhQOeB9ywgYviBZxx','PLMYH_uuw-cB2MSM5KUIvzq7Zr30YrU7jG']},
+  {id:'ds',      code:'103202', name:'تراكيب بيانات ومعالجة الملفات',  nameEn:'Data Structure',                    icon:'account_tree', accent:'navy',   hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB3FQAHtHJCmQpVlnjIKW9jq']},
+  {id:'toc',     code:'103204', name:'نظرية الحسابات',                 nameEn:'Theory of Computation',             icon:'psychology',   accent:'teal',   hasVideos:true, hasMaterials:true, playlists:['PLMYH_uuw-cB0iHuPwiUWvrkbQYdVPP4C7','PLMYH_uuw-cB0hz0LUB33_6ZjOgpWxwaQ1']},
+  {id:'ai',      code:'103303', name:'ذكاء اصطناعي',                   nameEn:'Artificial Intelligence',           icon:'smart_toy',    accent:'gold',   hasVideos:true, hasMaterials:true, playlists:['PLfgUlBfixrsg']},
+  {id:'advprog', code:'103206', name:'برمجة متقدمة',                   nameEn:'Advanced Programming',              icon:'integration_instructions', accent:'gold', hasVideos:false, hasMaterials:true, playlists:[]},
+  {id:'oop',     code:'103201', name:'برمجة شيئية',                    nameEn:'Object Oriented Programming',       icon:'data_object',  accent:'maroon', hasVideos:false, hasMaterials:true, playlists:[]},
+  {id:'discrete',code:'103203', name:'تراكيب متقطعة',                  nameEn:'Discrete Structures',               icon:'hub',          accent:'navy',   hasVideos:false, hasMaterials:true, playlists:[]},
+  {id:'media',   code:'103308', name:'وسائط متعددة',                   nameEn:'Online Multimedia',                 icon:'perm_media',   accent:'teal',   hasVideos:false, hasMaterials:true, playlists:[]}
 ];
-let studyPlatformFilterSubject = 'all';
+/* خريطة سريعة code -> subject عشان أي مكان في المنصة يقدر يسأل "المقرر ده متاح فيديوهات/ماتريالز؟" */
+const STUDY_PLATFORM_BY_CODE = {};
+STUDY_PLATFORM_SUBJECTS.forEach(s=>{ if(s.code) STUDY_PLATFORM_BY_CODE[s.code] = s; });
+function studyPlatformLevelOf(s){
+  return (s.code && DB[s.code]) ? DB[s.code].level : null;
+}
+let studyPlatformFilterLevel = 'all'; // all | 1 | 2 | 3 | 4
+let studyPlatformFilterType = 'all';  // all | videos | materials
+let studyPlatformFilterEnrolled = false; // true = يعرض بس المواد المتسجلة دلوقتي (من غير تقدير لسه)
+let studyPlatformFiltersOpen = false; // فتح/قفل لوحة الفلاتر على الموبايل
 let studyPlatformSearch = '';
+/* أكواد المواد اللي الطالب مسجلها دلوقتي في أي ترم ولسه ماخدش تقدير ليها (grade:null) —
+   بتتحسب من نفس بيانات حاسبة المعدل (cgpaTerms) عشان منحتاجش نخزن حاجة تانية. */
+function studyPlatformEnrolledCodes(){
+  const set = new Set();
+  cgpaTerms.forEach(t=>(t.items||[]).forEach(it=>{
+    if(it.code && !it.grade) set.add(it.code);
+  }));
+  return set;
+}
+/* أيقونات براند حقيقية (يوتيوب/تلجرام) بدل الأيقونات العامة، تُستخدم في كارتات وأزرار المنصة */
+function studyPlatformYoutubeIconSvg(size){
+  size = size || 16;
+  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><rect width="24" height="24" rx="6" fill="#FF0000"/><path d="M10 8.3l6.2 3.7-6.2 3.7V8.3Z" fill="#fff"/></svg>`;
+}
+function studyPlatformTelegramIconSvg(size){
+  size = size || 16;
+  return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="12" fill="#229ED9"/><path d="M17.75 7.02c.2-.72-.51-1.32-1.19-1.05L5.9 10.13c-.66.26-.66 1.21.01 1.46l2.79 1.05 1.07 3.47c.15.5.77.65 1.14.28l1.6-1.6 2.65 2c.5.38 1.22.11 1.36-.5l1.23-8.27Z" fill="#fff"/></svg>`;
+}
+/* شارة "متاح فيديوهات/ماتريالز" لأي كارت/صف مقرر في أي مكان في المنصة. بتودّي لصفحة منصة المواد
+   الدراسية (لو فيديوهات) أو لجروب التلجرام مباشرة (لو ماتريالز). لو المادة مش مضافة في المنصة
+   أصلاً، بتظهر شارة رمادية "غير متاح فيديوهات" بس (زي ما طلب المستخدم بالظبط). */
+function courseStudyBadgesHtml(code){
+  const s = STUDY_PLATFORM_BY_CODE[code];
+  if(!s){
+    return `<span class="study-badge study-badge-off"><span class="material-symbols-outlined">videocam_off</span>غير متاح فيديوهات</span>`;
+  }
+  let html = '';
+  if(s.hasVideos){
+    html += `<button type="button" class="study-badge study-badge-video" data-study-videos="${s.id}">${studyPlatformYoutubeIconSvg(14)}متاح فيديوهات</button>`;
+  } else {
+    html += `<span class="study-badge study-badge-off"><span class="material-symbols-outlined">videocam_off</span>غير متاح فيديوهات</span>`;
+  }
+  if(s.hasMaterials){
+    html += `<a class="study-badge study-badge-material" href="${escapeHtml(STUDY_PLATFORM_TELEGRAM_URL)}" target="_blank" rel="noopener noreferrer">${studyPlatformTelegramIconSvg(14)}متاح ماتريالز</a>`;
+  }
+  return html;
+}
+/* بيودّي المستخدم لصفحة منصة المواد الدراسية مفلترة على المادة دي بالظبط */
+function goToStudyPlatformSubject(subjectId){
+  const s = STUDY_PLATFORM_SUBJECTS.find(x=>x.id===subjectId);
+  studyPlatformFilterLevel = 'all';
+  studyPlatformFilterType = 'all';
+  studyPlatformFilterEnrolled = false;
+  studyPlatformSearch = s ? s.name : '';
+  goToView('platform');
+}
+/* تفويض عام (event delegation) لأي زرار "متاح فيديوهات" في أي كارت/صف في أي صفحة، عشان منحتاجش
+   نربط الحدث ده يدويًا في كل دالة render لوحدها. */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest ? e.target.closest('[data-study-videos]') : null;
+  if(btn){
+    e.preventDefault();
+    e.stopPropagation();
+    if(typeof closeModal==='function') closeModal();
+    goToStudyPlatformSubject(btn.dataset.studyVideos);
+  }
+});
 let cgpaGoal = { target:'', terms:'', hours:'', termHours:{} }; // goal planner state (termHours: term index -> manual hours override)
 /* بنك المواد اليدوي: مواد متطلب جامعة جديدة (بتتغيّر كل فترة) أو مواد اختيار حر مش موجودة أصلاً
    في قاعدة بيانات القسم (DB). الطالب بيضيفها هنا مرة واحدة (كود + اسم + ساعات + تصنيفها)، وبعدها
@@ -7588,6 +7761,7 @@ function courseCard(code, sectionType){
     <div class="name-en">${c.en}</div>
     <div class="meta"><span class="credit">${c.credit[0]} ساعة</span><span>سابق: ${prereqHtml}</span></div>
     <div style="margin-top:6px;">${termGuessBadge(code)}</div>
+    <div class="study-badges-row">${courseStudyBadgesHtml(code)}</div>
   </div>`;
 }
 
@@ -7643,6 +7817,7 @@ function renderListView(){
 
   document.querySelectorAll('.course').forEach(el=>{
     el.addEventListener('click', (e)=>{
+      if(e.target.closest('.study-badge')) return;
       if(e.target.dataset.jump){ jumpTo(e.target.dataset.jump); return; }
       if(e.target.dataset.toggle){ return; }
       openModal(el.dataset.code);
@@ -7716,6 +7891,10 @@ function openModal(code){
     <div class="m-section">
       <h4>يظهر في</h4>
       <div class="pill-list">${appears.length ? appears.map(a=>`<span class="pill pill-static">${a}</span>`).join('') : `<span style="color:var(--ink-soft);font-size:0.8125rem">غير مرتبط بتخصص محدد حالياً (مقرر من متطلبات المستوى الأول أو بيانات مرجعية)</span>`}</div>
+    </div>
+    <div class="m-section">
+      <h4>منصة المواد الدراسية</h4>
+      <div class="study-badges-row">${courseStudyBadgesHtml(code)}</div>
     </div>
     <button class="m-done-toggle${isDone?' on':''}" id="modalDoneBtn">${isDone?'✓ تم إنهاء هذا المقرر':'حدد كمقرر مكتمل'}</button>
   `;
@@ -8647,6 +8826,7 @@ function renderRegisterView(){
   document.querySelectorAll('.reg-row').forEach(el=>{
     el.style.cursor = 'pointer';
     el.addEventListener('click', (e)=>{
+      if(e.target.closest('.study-badge')) return;
       if(e.target.dataset.jump){ e.stopPropagation(); jumpTo(e.target.dataset.jump); return; }
       openModal(el.dataset.code);
     });
@@ -8874,10 +9054,10 @@ function renderAvailableCoursesView(){
   if(!completedCodes.length){
     html += `<p style="color:var(--ink-soft);padding:14px 0;">لسه ما حددتش أي مقرر "مكتمل" من "📋 قائمة المقررات".</p>`;
   } else {
-    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th></tr></thead><tbody>
+    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th><th>المنصة</th></tr></thead><tbody>
       ${completedCodes.map(code=>{
         const c = DB[code];
-        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td></tr>`;
+        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td><td data-label="المنصة"><div class="study-badges-row">${courseStudyBadgesHtml(code)}</div></td></tr>`;
       }).join('')}
     </tbody></table>`;
   }
@@ -8904,10 +9084,10 @@ function renderAvailableCoursesView(){
   } else if(!availableCodes.length){
     html += `<p style="color:var(--ink-soft);padding:14px 0;">مفيش مقررات متاحة مطابقة للفلتر الحالي. جرّب تغيّر فلتر النوع/المتطلب فوق.</p>`;
   } else {
-    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th><th>مفتوحة من</th></tr></thead><tbody>
+    html += `<table class="planner-table"><thead><tr><th>الكود</th><th>المقرر</th><th>المستوى</th><th>النوع ليّا</th><th>الترم المتوقع</th><th>مفتوحة من</th><th>المنصة</th></tr></thead><tbody>
       ${availableCodes.map(code=>{
         const c = DB[code];
-        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td><td data-label="مفتوحة من">${unlockedByHtml(code)}</td></tr>`;
+        return `<tr class="reg-row" data-code="${code}"><td class="code" data-label="الكود">${fullCode(code)}</td><td data-label="المقرر">${c.ar}</td><td data-label="المستوى">${levelCellText(code)}</td><td data-label="النوع ليّا">${typeLabel(code)}</td><td data-label="الترم المتوقع">${termGuessBadge(code, true)}</td><td data-label="مفتوحة من">${unlockedByHtml(code)}</td><td data-label="المنصة"><div class="study-badges-row">${courseStudyBadgesHtml(code)}</div></td></tr>`;
       }).join('')}
     </tbody></table>`;
   }
@@ -8917,6 +9097,7 @@ function renderAvailableCoursesView(){
   document.querySelectorAll('.reg-row').forEach(el=>{
     el.style.cursor = 'pointer';
     el.addEventListener('click', (e)=>{
+      if(e.target.closest('.study-badge')) return;
       if(e.target.dataset.jump){ e.stopPropagation(); jumpTo(e.target.dataset.jump); return; }
       openModal(el.dataset.code);
     });
@@ -14766,49 +14947,125 @@ function bindVideoPlayer(){
 function studyPlatformPlaylistUrl(pid){
   return `https://www.youtube.com/playlist?list=${encodeURIComponent(pid)}`;
 }
+/* الفلتر الجانبي بقى 3 حاجات بس: "مسجلها دلوقتي" (سريع) + المستوى + النوع — فلتر كل مادة
+   لوحدها اتشال لأنه مالوش لازمة؛ الوصول لمادة بعينها بقى عن طريق مربع البحث. */
 function studyPlatformSidebarHtml(){
-  return `<div class="plat-sidebar">
-    <button class="plat-side-item${studyPlatformFilterSubject==='all'?' active':''}" data-subject="all" type="button">
-      <span>كل المواد</span><span class="plat-side-count">${STUDY_PLATFORM_SUBJECTS.length}</span>
+  const LEVEL_LABELS = {1:'الأول',2:'التاني',3:'التالت',4:'الرابع'};
+  const levels = [...new Set(STUDY_PLATFORM_SUBJECTS.map(studyPlatformLevelOf).filter(l=>l!=null))].sort();
+  const enrolledCodes = studyPlatformEnrolledCodes();
+  const enrolledCount = STUDY_PLATFORM_SUBJECTS.filter(s=>s.code && enrolledCodes.has(s.code)).length;
+  return `<aside class="plat-sidebar${studyPlatformFiltersOpen?' open':''}" id="platSidebar">
+    <button type="button" class="plat-enrolled-toggle${studyPlatformFilterEnrolled?' active':''}" id="platEnrolledToggle">
+      <span class="plat-enrolled-ic material-symbols-outlined">event_available</span>
+      <span class="plat-enrolled-text">
+        <span class="plat-enrolled-title">مسجلها دلوقتي</span>
+        <span class="plat-enrolled-sub">متسجلة ولسه من غير تقدير</span>
+      </span>
+      <span class="plat-enrolled-count">${enrolledCount}</span>
     </button>
-    ${STUDY_PLATFORM_SUBJECTS.map(s=>`<button class="plat-side-item${studyPlatformFilterSubject===s.id?' active':''}" data-subject="${escapeHtml(s.id)}" type="button">
-      <span>${escapeHtml(s.name)}</span><span class="plat-side-count">${s.playlists.length}</span>
-    </button>`).join('')}
-  </div>`;
+
+    <div class="plat-filter-group">
+      <div class="plat-filter-title">المستوى الدراسي</div>
+      <div class="plat-filter-list" id="platLevelList">
+        <button type="button" class="plat-filter-opt${studyPlatformFilterLevel==='all'?' active':''}" data-v="all"><span class="material-symbols-outlined">apps</span>الكل</button>
+        ${levels.map(l=>`<button type="button" class="plat-filter-opt${studyPlatformFilterLevel===String(l)?' active':''}" data-v="${l}"><span class="material-symbols-outlined">signpost</span>مستوى ${LEVEL_LABELS[l]||l}</button>`).join('')}
+      </div>
+    </div>
+
+    <div class="plat-filter-group">
+      <div class="plat-filter-title">نوع المحتوى</div>
+      <div class="plat-filter-list" id="platTypeList">
+        <button type="button" class="plat-filter-opt${studyPlatformFilterType==='all'?' active':''}" data-v="all"><span class="material-symbols-outlined">apps</span>الكل</button>
+        <button type="button" class="plat-filter-opt${studyPlatformFilterType==='videos'?' active':''}" data-v="videos">${studyPlatformYoutubeIconSvg(15)}فيديوهات</button>
+        <button type="button" class="plat-filter-opt${studyPlatformFilterType==='materials'?' active':''}" data-v="materials">${studyPlatformTelegramIconSvg(15)}ماتريالز</button>
+      </div>
+    </div>
+  </aside>`;
 }
+/* كارت المادة الجديد: غلاف/صورة معبّرة عن المادة بلون مميز، وتحته العنوان والأزرار */
 function studyPlatformSubjectCardHtml(s){
   const accentVars = `--subj-accent:var(--${s.accent});--subj-accent-soft:var(--${s.accent}-soft);--subj-accent-glow:var(--glow-${s.accent})`;
   const multi = s.playlists.length > 1;
-  const badge = multi ? `${s.playlists.length} أجزاء (قوائم تشغيل)` : 'قائمة تشغيل واحدة';
-  const actions = multi
-    ? s.playlists.map((pid,i)=>`<a class="subj-play-btn part" href="${escapeHtml(studyPlatformPlaylistUrl(pid))}" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined">play_circle</span>الجزء ${i+1}</a>`).join('')
-    : `<a class="subj-play-btn" href="${escapeHtml(studyPlatformPlaylistUrl(s.playlists[0]))}" target="_blank" rel="noopener noreferrer"><span class="material-symbols-outlined">play_circle</span>شاهد على يوتيوب</a>`;
+  const lvl = studyPlatformLevelOf(s);
+  const LEVEL_LABELS = {1:'مستوى أول',2:'مستوى تاني',3:'مستوى تالت',4:'مستوى رابع'};
+  let videoActionsHtml = '';
+  if(s.hasVideos){
+    const actions = multi
+      ? s.playlists.map((pid,i)=>`<a class="subj-play-btn part" href="${escapeHtml(studyPlatformPlaylistUrl(pid))}" target="_blank" rel="noopener noreferrer">${studyPlatformYoutubeIconSvg(15)}الجزء ${i+1}</a>`).join('')
+      : `<a class="subj-play-btn" href="${escapeHtml(studyPlatformPlaylistUrl(s.playlists[0]))}" target="_blank" rel="noopener noreferrer">${studyPlatformYoutubeIconSvg(15)}شاهد على يوتيوب</a>`;
+    videoActionsHtml = `<div class="subj-card-actions${multi?' multi':''}">${actions}</div>`;
+  }
+  const materialsHtml = s.hasMaterials
+    ? `<a class="subj-play-btn subj-materials-btn" href="${escapeHtml(STUDY_PLATFORM_TELEGRAM_URL)}" target="_blank" rel="noopener noreferrer">${studyPlatformTelegramIconSvg(15)}ماتريالز على تلجرام</a>`
+    : '';
+  const coverBadge = multi ? `<span class="subj-cover-badge">${s.playlists.length} أجزاء</span>` : '';
   return `<div class="subj-card" style="${accentVars}">
-    <div class="subj-card-icon"><span class="material-symbols-outlined">${escapeHtml(s.icon)}</span></div>
-    <div class="subj-card-title">${escapeHtml(s.name)}</div>
-    <div class="subj-card-badge"><span class="material-symbols-outlined">playlist_play</span>${badge}</div>
-    <div class="subj-card-actions${multi?' multi':''}">${actions}</div>
+    <div class="subj-cover">
+      <span class="subj-cover-icon-bg material-symbols-outlined">${escapeHtml(s.icon)}</span>
+      <span class="subj-cover-chip material-symbols-outlined">${escapeHtml(s.icon)}</span>
+      ${coverBadge}
+    </div>
+    <div class="subj-card-body">
+      <div class="subj-card-title">${escapeHtml(s.name)}</div>
+      ${s.nameEn?`<div class="subj-card-en">${escapeHtml(s.nameEn)}</div>`:''}
+      <div class="subj-card-meta">${s.code?`<span class="subj-card-code">${escapeHtml(fullCode(s.code))}</span>`:''}${lvl?`<span class="subj-card-lvl">${LEVEL_LABELS[lvl]||lvl}</span>`:''}</div>
+      <div class="subj-card-actions-wrap">
+        ${videoActionsHtml}
+        ${materialsHtml}
+      </div>
+    </div>
   </div>`;
 }
 function studyPlatformBodyHtml(){
   const q = studyPlatformSearch.trim().toLowerCase();
-  let filtered = studyPlatformFilterSubject==='all' ? STUDY_PLATFORM_SUBJECTS : STUDY_PLATFORM_SUBJECTS.filter(s=>s.id===studyPlatformFilterSubject);
-  if(q) filtered = filtered.filter(s=>s.name.toLowerCase().includes(q));
-  if(!filtered.length) return `<div class="vid-empty">مفيش مواد مطابقة للبحث.</div>`;
+  let filtered = STUDY_PLATFORM_SUBJECTS.slice();
+  if(studyPlatformFilterEnrolled){
+    const enrolledCodes = studyPlatformEnrolledCodes();
+    filtered = filtered.filter(s=>s.code && enrolledCodes.has(s.code));
+  }
+  if(studyPlatformFilterLevel!=='all') filtered = filtered.filter(s=> String(studyPlatformLevelOf(s))===String(studyPlatformFilterLevel));
+  if(studyPlatformFilterType==='videos') filtered = filtered.filter(s=>s.hasVideos);
+  if(studyPlatformFilterType==='materials') filtered = filtered.filter(s=>s.hasMaterials);
+  if(q) filtered = filtered.filter(s=>s.name.toLowerCase().includes(q) || (s.nameEn||'').toLowerCase().includes(q) || (s.code||'').includes(q));
+  if(!filtered.length){
+    const msg = studyPlatformFilterEnrolled
+      ? 'مفيش مواد متسجلة دلوقتي مطابقة للفلاتر الحالية — سجّل موادك في حاسبة المعدل الأول.'
+      : 'مفيش مواد مطابقة للفلاتر/البحث الحالي.';
+    return `<div class="vid-empty">${msg}</div>`;
+  }
   return `<div class="subj-grid">${filtered.map(studyPlatformSubjectCardHtml).join('')}</div>`;
 }
 function studyPlatformHtml(){
+  const totalPlaylists = STUDY_PLATFORM_SUBJECTS.reduce((a,s)=>a+(s.playlists?s.playlists.length:0),0);
+  const materialsCount = STUDY_PLATFORM_SUBJECTS.filter(s=>s.hasMaterials).length;
+  const activeFilterCount = (studyPlatformFilterLevel!=='all'?1:0) + (studyPlatformFilterType!=='all'?1:0) + (studyPlatformFilterEnrolled?1:0);
   const content = `<div class="plat-toolbar">
-      <input type="text" class="vid-select plat-search-input" id="platSearchInput" placeholder="🔍 ابحث عن مادة..." value="${escapeHtml(studyPlatformSearch)}">
+      <input type="text" class="vid-select plat-search-input" id="platSearchInput" placeholder="🔍 ابحث عن مادة بالاسم أو الكود..." value="${escapeHtml(studyPlatformSearch)}">
+      <button type="button" class="plat-filters-toggle${studyPlatformFiltersOpen?' active':''}" id="platFiltersToggle">
+        <span class="material-symbols-outlined">tune</span>فلاتر${activeFilterCount?`<span class="plat-filters-badge">${activeFilterCount}</span>`:''}
+      </button>
     </div>
     <div class="plat-layout">
       ${studyPlatformSidebarHtml()}
       <div class="plat-content">${studyPlatformBodyHtml()}</div>
     </div>`;
   return `<div class="study-view plat-view">
-    <div class="study-head">
-      <h2>🎓 منصة المواد الدراسية</h2>
-      <p class="study-sub">اختار المادة اللي محتاجها وهتفتح لك قائمة تشغيل محاضراتها على يوتيوب على طول. فلتر بالمادة من على الجنب، أو ابحث بالاسم.</p>
+    <div class="plat-hero">
+      <div class="plat-hero-top">
+        <div>
+          <h2 class="plat-hero-title"><span class="material-symbols-outlined">video_library</span>منصة المواد الدراسية</h2>
+          <p class="plat-hero-sub">فيديوهات المحاضرات والماتريالز في مكان واحد. فلتر بالمستوى/النوع من الشريط الجانبي، أو ابحث بالاسم أو الكود.</p>
+        </div>
+        <div class="plat-hero-links">
+          <a class="plat-hero-link" href="${escapeHtml(STUDY_PLATFORM_TELEGRAM_URL)}" target="_blank" rel="noopener noreferrer">${studyPlatformTelegramIconSvg(18)}<span>جروب التلجرام</span></a>
+          <a class="plat-hero-link" href="https://www.youtube.com/@elnonacademy?sub_confirmation=1" target="_blank" rel="noopener noreferrer">${studyPlatformYoutubeIconSvg(18)}<span>قناة اليوتيوب</span></a>
+        </div>
+      </div>
+      <div class="plat-hero-stats">
+        <div class="plat-hero-stat"><b>${STUDY_PLATFORM_SUBJECTS.length}</b><span>مادة متاحة</span></div>
+        <div class="plat-hero-stat"><b>${totalPlaylists}</b><span>قائمة تشغيل</span></div>
+        <div class="plat-hero-stat"><b>${materialsCount}</b><span>مادة فيها ماتريالز</span></div>
+      </div>
     </div>
     ${content}
   </div>`;
@@ -14828,8 +15085,15 @@ function bindStudyPlatformView(){
       if(el2){ el2.focus(); const v=el2.value; el2.setSelectionRange(v.length, v.length); }
     };
   }
-  document.querySelectorAll('.plat-side-item').forEach(btn=>{
-    btn.onclick = ()=>{ studyPlatformFilterSubject = btn.dataset.subject; renderCurrentView(); };
+  const enrolledBtn = document.getElementById('platEnrolledToggle');
+  if(enrolledBtn) enrolledBtn.onclick = ()=>{ studyPlatformFilterEnrolled = !studyPlatformFilterEnrolled; renderCurrentView(); };
+  const filtersToggle = document.getElementById('platFiltersToggle');
+  if(filtersToggle) filtersToggle.onclick = ()=>{ studyPlatformFiltersOpen = !studyPlatformFiltersOpen; renderCurrentView(); };
+  document.querySelectorAll('#platLevelList .plat-filter-opt').forEach(btn=>{
+    btn.onclick = ()=>{ studyPlatformFilterLevel = btn.dataset.v; renderCurrentView(); };
+  });
+  document.querySelectorAll('#platTypeList .plat-filter-opt').forEach(btn=>{
+    btn.onclick = ()=>{ studyPlatformFilterType = btn.dataset.v; renderCurrentView(); };
   });
 }
 
